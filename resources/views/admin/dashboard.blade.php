@@ -233,188 +233,171 @@
 </head>
 <body>
 
-<!-- NAVIGATION -->
-<nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-        <h5 class="mb-0 fw-semibold">
-            <i class="fas fa-chart-line me-2"></i>
-            1st KALRO Conference & Exhibition – Executive Dashboard
-        </h5>
-        <div class="d-flex align-items-center">
-            <span class="welcome-text me-3">
-                <i class="fas fa-user-circle me-2"></i>
-                Welcome, <?= htmlspecialchars($_SESSION['name'] ?? 'Administrator') ?>
-            </span>
-            <button class="btn btn-logout" onclick="confirmLogout()">
-                <i class="fas fa-sign-out-alt me-2"></i> Logout
-            </button>
-        </div>
-    </div>
-</nav>
-
-<!-- SIDEBAR -->
-<aside class="sidebar">
-    <a href="#" class="active">
-        <i class="fas fa-chart-line"></i>
-        <span>Dashboard Overview</span>
-    </a>
-    <a href="#">
-        <i class="fas fa-file-alt"></i>
-        <span>Abstracts (<?= number_format($metrics['totalSubmissions']) ?>)</span>
-    </a>
-    <a href="#">
-        <i class="fas fa-users"></i>
-        <span>Authors (<?= number_format($metrics['totalAuthors']) ?>)</span>
-    </a>
-    <a href="#">
-        <i class="fas fa-building"></i>
-        <span>Institutions</span>
-    </a>
-    <a href="#">
-        <i class="fas fa-tasks"></i>
-        <span>Review Queue (<?= number_format($metrics['pendingCount'] + $metrics['reviewCount'] + $metrics['revisionCount']) ?>)</span>
-    </a>
-    <a href="#">
-        <i class="fas fa-cog"></i>
-        <span>Settings</span>
-    </a>
-</aside>
-
-<!-- MAIN CONTENT -->
-<main class="main">
-    <h1 class="page-title">Conference Intelligence Overview</h1>
-    
-    <!-- METRICS SECTION -->
-    <div class="row g-4 mb-5">
-        @php
-            $cards = [
-                ["Total Submissions", $metrics['totalSubmissions'], "fa-file-alt", "total"],
-                ["Total Authors", $metrics['totalAuthors'], "fa-users", "total"],
-                ["Approved Abstracts", $metrics['approvedCount'], "fa-check-circle", "approved"],
-                ["Disapproved Abstracts", $metrics['disapprovedCount'], "fa-times-circle", "disapproved"],
-                ["Pending Review", $metrics['pendingCount'], "fa-clock", "pending"],
-                ["Under Review", $metrics['reviewCount'], "fa-search", "review"],
-                ["Revision Requested", $metrics['revisionCount'], "fa-redo", "revision"],
-                ["Oral Presentations", $metrics['oralCount'], "fa-microphone", "total"],
-                ["Poster Presentations", $metrics['posterCount'], "fa-image", "total"]
-            ];
-        @endphp
-
-        @foreach($cards as $card)
-            <div class="col-xl-3 col-lg-4 col-md-6">
-                <div class="metric-card">
-                    <div class="card-body text-center">
-                        <div class="metric-icon {{ $card[3] }}">
-                            <i class="fas {{ $card[2] }} fa-2x text-white"></i>
-                        </div>
-                        <h6 class="text-muted mb-2 fw-semibold">{{ $card[0] }}</h6>
-                        <h2 class="fw-bold mb-0" style="color: var(--kalro-{{ $card[3] }})">
-                            {{ number_format($card[1]) }}
-                        </h2>
-                    </div>
-                </div>
-            </div>
-        @endforeach
-    </div>
-
-    
-    <!-- CHARTS ROW 1 -->
-    <div class="row g-4 mb-4">
-        <div class="col-xl-6 col-lg-6">
-            <div class="chart-container">
-                <h5 class="chart-title">Submission Status Distribution</h5>
-                <canvas id="statusChart" height="300"></canvas>
+    <!-- NAVIGATION -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <h5 class="mb-0 fw-semibold">
+                <i class="fas fa-chart-line me-2"></i>
+                1st KALRO Conference & Exhibition – Executive Dashboard
+            </h5>
+            <div class="d-flex align-items-center">
+                <span class="welcome-text me-3">
+                    <i class="fas fa-user-circle me-2"></i>
+                    Welcome, {{ auth()->user()->name ?? 'Administrator' }}
+                </span>
+                <button class="btn btn-logout" onclick="confirmLogout()">
+                    <i class="fas fa-sign-out-alt me-2"></i> Logout
+                </button>
             </div>
         </div>
+    </nav>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <a href="/dashboard" class="active">
+            <i class="fas fa-chart-line"></i>
+            <span>Dashboard Overview</span>
+        </a>
+        <a href="/abstracts">
+            <i class="fas fa-file-alt"></i>
+            <span>Abstracts ({{ $totalSubmissions }})</span>
+        </a>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+        <h1 class="page-title">Conference Intelligence Overview</h1>
         
-        <div class="col-xl-3 col-lg-3">
-            <div class="chart-container">
-                <h5 class="chart-title">Presentation Type</h5>
-                <canvas id="presentationChart" height="300"></canvas>
-            </div>
-        </div>
-        
-        <div class="col-xl-3 col-lg-3">
-            <div class="chart-container">
-                <h5 class="chart-title">Attendance Mode</h5>
-                <canvas id="attendanceChart" height="300"></canvas>
-            </div>
-        </div>
-    </div>
-    
-    <!-- CHARTS ROW 2 -->
-    <div class="row g-4 mb-4">
-        <div class="col-xl-6 col-lg-6">
-            <div class="chart-container">
-                <h5 class="chart-title">Submissions by Sub-Theme</h5>
-                <canvas id="subThemeChart" height="300"></canvas>
-            </div>
-        </div>
-        
-        <div class="col-xl-6 col-lg-6">
-            <div class="row">
-                <div class="col-12 mb-4">
-                    <div class="chart-container">
-                        <h5 class="chart-title">Submissions Timeline</h5>
-                        <canvas id="timelineChart" height="200"></canvas>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="chart-container">
-                        <h5 class="chart-title">Submission Types</h5>
-                        <canvas id="submissionTypeChart" height="200"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- RECENT SUBMISSIONS & TOP INSTITUTIONS -->
-    <div class="row g-4">
-        <div class="col-xl-6 col-lg-6">
-            <div class="recent-submissions">
-                <h5 class="chart-title">Recent Submissions</h5>
-                <div class="list-group">
-                    @foreach($recentSubmissionsData as $submission)
-                        @php
-                            $statusClass = strtolower(str_replace(' ', '-', $submission['status']));
-                        @endphp
-                        <div class="list-group-item {{ $statusClass }}">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="mb-1">{{ $submission['paper_title'] }}</h6>
-                                    <small class="text-muted">
-                                        {{ $submission['submission_code'] }} • {{ \Carbon\Carbon::parse($submission['created_at'])->format('M d, Y') }}
-                                    </small>
-                                </div>
-                                <span class="status-badge status-{{ $statusClass }}">
-                                    {{ $submission['status'] }}
-                                </span>
+        <!-- METRICS SECTION -->
+        <div class="row g-4 mb-5">
+            @php
+                $cards = [
+                    ["Total Submissions", $metrics['totalSubmissions'], "fa-file-alt", "total"],
+                    ["Approved Abstracts", $metrics['approvedCount'], "fa-check-circle", "approved"],
+                    ["Disapproved Abstracts", $metrics['disapprovedCount'], "fa-times-circle", "disapproved"],
+                    ["Unassigned Abstracts", $metrics['pendingCount'], "fa-clock", "pending"],
+                    ["Under Review", $metrics['reviewCount'], "fa-search", "review"],
+                    ["Sub Themes", $metrics['subThemeCount'], "fa-redo", "revision"],
+                    ["Oral Presentations", $metrics['oralCount'], "fa-microphone", "total"],
+                    ["Poster Presentations", $metrics['posterCount'], "fa-image", "total"]
+                ];
+            @endphp
+
+            @foreach($cards as $card)
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="metric-card">
+                        <div class="card-body text-center">
+                            <div class="metric-icon {{ $card[3] }}">
+                                <i class="fas {{ $card[2] }} fa-2x text-white"></i>
                             </div>
+                            <h6 class="text-muted mb-2 fw-semibold">{{ $card[0] }}</h6>
+                            <h2 class="fw-bold mb-0" style="color: var(--kalro-{{ $card[3] }})">
+                                {{ number_format($card[1]) }}
+                            </h2>
                         </div>
-                    @endforeach
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+        
+        <!-- CHARTS ROW 1 -->
+        <div class="row g-4 mb-4">
+            <div class="col-xl-6 col-lg-6">
+                <div class="chart-container">
+                    <h5 class="chart-title">Submission Status Distribution</h5>
+                    <canvas id="statusChart" height="300"></canvas>
+                </div>
+            </div>
+            
+            <div class="col-xl-3 col-lg-3">
+                <div class="chart-container">
+                    <h5 class="chart-title">Presentation Type</h5>
+                    <canvas id="presentationChart" height="300"></canvas>
+                </div>
+            </div>
+            
+            <div class="col-xl-3 col-lg-3">
+                <div class="chart-container">
+                    <h5 class="chart-title">Attendance Mode</h5>
+                    <canvas id="attendanceChart" height="300"></canvas>
                 </div>
             </div>
         </div>
+        
+        <!-- CHARTS ROW 2 -->
+        <div class="row g-4 mb-4">
+            <div class="col-xl-6 col-lg-6">
+                <div class="chart-container">
+                    <h5 class="chart-title">Submissions by Sub-Theme</h5>
+                    <canvas id="subThemeChart" height="300"></canvas>
+                </div>
+            </div>
+            
+            <div class="col-xl-6 col-lg-6">
+                <div class="row">
+                    <div class="col-12 mb-4">
+                        <div class="chart-container">
+                            <h5 class="chart-title">Submissions Timeline</h5>
+                            <canvas id="timelineChart" height="200"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="chart-container">
+                            <h5 class="chart-title">Submission Types</h5>
+                            <canvas id="submissionTypeChart" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- RECENT SUBMISSIONS & TOP INSTITUTIONS -->
+        <div class="row g-4">
+            <div class="col-xl-6 col-lg-6">
+                <div class="recent-submissions">
+                    <h5 class="chart-title">Recent Submissions</h5>
+                    <div class="list-group">
+                        @foreach($recentSubmissionsData as $submission)
+                            @php
+                                $statusClass = strtolower(str_replace(' ', '-', $submission['status']));
+                            @endphp
+                            <div class="list-group-item {{ $statusClass }}">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">{{ $submission['paper_title'] }}</h6>
+                                        <small class="text-muted">
+                                            {{ $submission['submission_code'] }} • {{ \Carbon\Carbon::parse($submission['created_at'])->format('M d, Y') }}
+                                        </small>
+                                    </div>
+                                    <span class="status-badge status-{{ $statusClass }}">
+                                        {{ $submission['status'] }}
+                                    </span>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
 
-        <div class="col-xl-6 col-lg-6">
-            <div class="chart-container">
-                <h5 class="chart-title">Top Institutions</h5>
-                <canvas id="institutionsChart" height="300"></canvas>
+            <div class="col-xl-6 col-lg-6">
+                <div class="chart-container">
+                    <h5 class="chart-title">Top Institutions</h5>
+                    <canvas id="institutionsChart" height="300"></canvas>
+                </div>
             </div>
         </div>
-    </div>
- 
-    <!-- BOTTOM CHART -->
-    <div class="row g-4 mt-4">
-        <div class="col-12">
-            <div class="chart-container">
-                <h5 class="chart-title">Top Submissions by Author Count</h5>
-                <canvas id="authorsChart" height="300"></canvas>
+    
+        <!-- BOTTOM CHART -->
+        <div class="row g-4 mt-4">
+            <div class="col-12">
+                <div class="chart-container">
+                    <h5 class="chart-title">Top Submissions by Author Count</h5>
+                    <canvas id="authorsChart" height="300"></canvas>
+                </div>
             </div>
         </div>
-    </div>
-</main>
+    </main>
 
 <script>
 const metrics = @json($metrics);
@@ -422,11 +405,10 @@ const chartData = @json($chartData);
 
 // Status-based colors
 const statusColors = {
-    'Approved': '#28a745',
-    'Disapproved': '#dc3545',
-    'Submitted': '#ffc107',
-    'Under Review': '#17a2b8',
-    'Revision Requested': '#fd7e14'
+    'APPROVED': '#28a745',
+    'REJECTED': '#dc3545',
+    'PENDING': '#ffc107',
+    'UNDER_REVIEW': '#17a2b8'
 };
 
 const chartColors = [

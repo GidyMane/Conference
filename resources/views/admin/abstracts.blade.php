@@ -349,70 +349,82 @@
 
 <!-- SIDEBAR -->
 <aside class="sidebar">
-    <a href="dashboard.php"><i class="fas fa-chart-line"></i> Dashboard</a>
-    <a href="abstracts.php" class="active"><i class="fas fa-file-alt"></i> Abstracts</a>
+    <a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard</a>
+    <a href="/abstracts" class="active"><i class="fas fa-file-alt"></i> Abstracts</a>
 </aside>
 
 <!-- MAIN -->
 <main class="main">
 <h1 class="page-title">Submitted Abstracts</h1>
 
-<!-- Filter Card -->
-<div class="filter-card">
-    <div class="filter-header">
-        <h2 class="filter-title"><i class="fas fa-filter me-2"></i>Filter Abstracts</h2>
-        <div class="filter-stats">
-            Showing ### abstracts
-        </div>
-    </div>
-    
-    <form method="GET" action="">
-        <div class="filter-row">
-            <div class="form-group">
-                <label for="sub_theme"><i class="fas fa-tag me-1"></i> Sub-Theme</label>
-                <select name="sub_theme" id="sub_theme" class="form-control">
-                    <option value="">All Sub-Themes</option>
-
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="status"><i class="fas fa-circle me-1"></i> Status</label>
-                <select name="status" id="status" class="form-control">
-                    <option value="">All Statuses</option>
-
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="date_from"><i class="fas fa-calendar-alt me-1"></i> Date Range</label>
-                <div class="date-range-group">
-                    <input type="text" name="date_from" id="date_from" 
-                           class="form-control date-picker" 
-                           placeholder="From Date" 
-                           value="">
-                    <span class="date-range-separator">to</span>
-                    <input type="text" name="date_to" id="date_to" 
-                           class="form-control date-picker" 
-                           placeholder="To Date" 
-                           value="">
-                </div>
+    <!-- Filter Card -->
+    <div class="filter-card">
+        <div class="filter-header">
+            <h2 class="filter-title"><i class="fas fa-filter me-2"></i>Filter Abstracts</h2>
+            <div class="filter-stats">
+                Showing {{ $totalSubmissions }} abstracts
             </div>
         </div>
         
-        <div class="filter-actions">
-            <button type="submit" class="btn btn-filter">
-                <i class="fas fa-search me-1"></i> Apply Filters
-            </button>
-            <a href="abstracts.php" class="btn btn-reset">
-                <i class="fas fa-times me-1"></i> Clear All
-            </a>
-        </div>
-    </form>
-</div>
+        <form method="GET" action="/abstracts">
+            <div class="filter-row">
+                <!-- Sub-Theme -->
+                <div class="form-group">
+                    <label for="sub_theme"><i class="fas fa-tag me-1"></i> Sub-Theme</label>
+                    <select name="sub_theme" id="sub_theme" class="form-control">
+                        <option value="">All Sub-Themes</option>
+                        @foreach ($sub_themes as $theme)
+                            <option value="{{ $theme->id }}" {{ request('sub_theme') == $theme->id ? 'selected' : '' }}>
+                                {{ $theme->full_name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                
+                <!-- Status -->
+                <div class="form-group">
+                    <label for="status"><i class="fas fa-circle me-1"></i> Status</label>
+                    <select name="status" id="status" class="form-control">
+                        <option value="">All Statuses</option>
+                        @foreach ($statuses as $key => $label)
+                            <option value="{{ $key }}" {{ request('status') == $key ? 'selected' : '' }}>
+                                {{ $label }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                
+                <!-- Date Range -->
+                <div class="form-group">
+                    <label for="date_from"><i class="fas fa-calendar-alt me-1"></i> Date Range</label>
+                    <div class="date-range-group">
+                        <input type="text" name="date_from" id="date_from" 
+                            class="form-control date-picker" 
+                            placeholder="From Date" 
+                            value="{{ request('date_from') }}">
+                        <span class="date-range-separator">to</span>
+                        <input type="text" name="date_to" id="date_to" 
+                            class="form-control date-picker" 
+                            placeholder="To Date" 
+                            value="{{ request('date_to') }}">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="filter-actions">
+                <button type="submit" class="btn btn-filter">
+                    <i class="fas fa-search me-1"></i> Apply Filters
+                </button>
+                <a href="/abstracts" class="btn btn-reset">
+                    <i class="fas fa-times me-1"></i> Clear All
+                </a>
+            </div>
+        </form>
+    </div>
+
 
     <div class="table-card table-responsive">
-        {{--@if($abstracts->count() > 0)--}}
+        @if($abstracts->count() > 0)
             <table class="table table-hover align-middle">
                 <thead class="table-success">
                     <tr>
@@ -428,58 +440,59 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{--@foreach($abstracts as $i => $r)
+                    @foreach($abstracts as $i => $r)
                         @php
-                            $cls = strtolower(str_replace(' ', '-', $r->status));
-                            $last_reviewed = $r->reviewed_at ? $r->reviewed_at->format('d M Y') : 'Not reviewed';
-                        @endphp--}}
+                            $cls = strtolower(str_replace('_', '-', $r->status));
+                            $last_reviewed = $r->updated_at ? $r->updated_at->format('d M Y') : 'Not reviewed';
+                        @endphp
                         <tr>
-                            <td>123</td>
-                            <td>123</td>
-                            <td>123</td>
-                            <td>123</td>
-                            <td>123</td>
-                            <td>123</td>
-                            <td><span class="status">123</span></td>
-                            <td>123</td>
+                            <td>{{ $i + 1 }}</td>
+                            <td>{{ $r->submission_code }}</td>
+                            <td>{{ $r->paper_title }}</td>
+                            <td>{{ $r->author_name }}</td>
+                            <td>{{ $r->organisation }}</td>
+                            <td>{{ $r->subTheme->full_name ?? 'N/A' }}</td>
+                            <td><span class="status {{ $cls }}">{{ $r->status }}</span></td>
+                            <td>{{ $r->created_at->format('d M Y') }}</td>
                             <td>
-                                <button class="btn btn-view btn-sm view-abstract" 
+                                <button class="btn btn-view btn-sm view-abstract"
                                         data-bs-toggle="modal" 
                                         data-bs-target="#abstractModal"
-                                        data-id="123"
-                                        data-code="123"
-                                        data-title="123"
-                                        data-author="123"
-                                        data-email="123"
-                                        data-phone="123"
-                                        data-org="123"
-                                        data-dept="123"
-                                        data-position="123"
-                                        data-theme="123"
-                                        data-status="123"
-                                        data-created="123"
-                                        data-reviewed-by="123"
-                                        data-reviewed-at="123"
-                                        data-abstract="123"
-                                        data-keywords="123"
-                                        data-presentation="123"
-                                        data-attendance="123"
-                                        data-notes="123">
+                                        data-id="{{ $r->id }}"
+                                        data-code="{{ $r->submission_code }}"
+                                        data-title="{{ $r->paper_title }}"
+                                        data-author="{{ $r->author_name }}"
+                                        data-email="{{ $r->author_email }}"
+                                        data-phone="{{ $r->author_phone }}"
+                                        data-org="{{ $r->organisation }}"
+                                        data-dept="{{ $r->department }}"
+                                        data-position="{{ $r->position }}"
+                                        data-theme="{{ $r->subTheme->full_name ?? '' }}"
+                                        data-status="{{ $r->status }}"
+                                        data-created="{{ $r->created_at->format('d M Y H:i') }}"
+                                        data-reviewed-by="N/A"
+                                        data-reviewed-at="{{ $last_reviewed }}"
+                                        data-abstract="{{ $r->abstract_text }}"
+                                        data-keywords="{{ $r->keywords }}"
+                                        data-presentation="{{ $r->presentation_preference }}"
+                                        data-attendance="{{ $r->attendance_mode }}"
+                                        data-notes="{{ $r->special_requirements }}">
                                     <i class="fas fa-eye me-1"></i> View
                                 </button>
                             </td>
                         </tr>
-                    {{--@endforeach--}}
+                    @endforeach
                 </tbody>
             </table>
-        {{--@else--}}
+        @else
             <div class="empty-state">
                 <i class="fas fa-inbox"></i>
                 <h3>No abstracts found</h3>
                 <p>Try adjusting your filters or clear them to see all abstracts.</p>
             </div>
-        {{--@endif--}}
+        @endif
     </div>
+
 
 </main>
 

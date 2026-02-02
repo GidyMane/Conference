@@ -14,24 +14,22 @@ class AdminController extends Controller
     {
         $metrics = [
             'totalSubmissions'   => SubmittedAbstract::count(),
-            'totalAuthors'       => AbstractAssignment::count(),
             'approvedCount'      => SubmittedAbstract::where('status', 'approved')->count(),
             'disapprovedCount'   => SubmittedAbstract::where('status', 'disapproved')->count(),
             'pendingCount'       => SubmittedAbstract::where('status', 'pending')->count(),
             'reviewCount'        => SubmittedAbstract::where('status', 'under_review')->count(),
-            'revisionCount'      => SubmittedAbstract::where('status', 'revision_requested')->count(),
-            'oralCount'          => AbstractReview::where('decision', 'oral')->count(),
-            'posterCount'        => AbstractReview::where('decision', 'poster')->count(),
+            'subThemeCount'      => SubTheme::count(),
+            'oralCount'          => SubmittedAbstract::where('presentation_preference', 'oral')->count(),
+            'posterCount'        => SubmittedAbstract::where('presentation_preference', 'poster')->count(),
         ];
 
         $cards = [
             ["Total Submissions", $metrics['totalSubmissions'], "fa-file-alt", "total"],
-            ["Total Authors", $metrics['totalAuthors'], "fa-users", "total"],
             ["Approved Abstracts", $metrics['approvedCount'], "fa-check-circle", "approved"],
             ["Disapproved Abstracts", $metrics['disapprovedCount'], "fa-times-circle", "disapproved"],
             ["Pending Review", $metrics['pendingCount'], "fa-clock", "pending"],
             ["Under Review", $metrics['reviewCount'], "fa-search", "review"],
-            ["Revision Requested", $metrics['revisionCount'], "fa-redo", "revision"],
+            ["Sub Themes", $metrics['subThemeCount'], "fa-redo", "revision"],
             ["Oral Presentations", $metrics['oralCount'], "fa-microphone", "total"],
             ["Poster Presentations", $metrics['posterCount'], "fa-image", "total"]
         ];
@@ -52,14 +50,53 @@ class AdminController extends Controller
             ->get(['paper_title', 'submission_code', 'status', 'created_at'])
             ->toArray(); 
 
-        return view('admin.dashboard', compact('metrics', 'cards', 'recentSubmissionsData', 'chartData'));
+       $totalSubmissions = SubmittedAbstract::count();
+
+        return view('admin.dashboard', compact('metrics', 'cards', 'recentSubmissionsData', 'chartData', 'totalSubmissions'));
     }
 
-    public function abstracts()
+    public function abstracts(Request $request)
     {
+        // Get all sub-themes for dropdown
+        $sub_themes = SubTheme::all();
 
-        $sub_themes = SubTheme::pluck('full_name');
+        // Statuses enum
+        $statuses = [
+            'PENDING' => 'Pending',
+            'UNDER_REVIEW' => 'Under Review',
+            'APPROVED' => 'Approved',
+            'DISAPPROVED' => 'Disapproved',
+        ];
 
-        return view('admin.abstracts', compact('sub_themes'));
+        // Start query
+        $query = SubmittedAbstract::query();
+
+        // Apply sub-theme filter
+        if ($request->filled('sub_theme')) {
+            $query->where('sub_theme_id', $request->sub_theme);
+        }
+
+        // Apply status filter
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Apply date range filter
+        if ($request->filled('date_from')) {
+            $query->whereDate('created_at', '>=', $request->date_from);
+        }
+        if ($request->filled('date_to')) {
+            $query->whereDate('created_at', '<=', $request->date_to);
+        }
+
+        // Get results
+        $abstracts = $query->get();
+
+        // Metrics
+        $totalSubmissions = SubmittedAbstract::count();
+
+        $allAbstracts = SubmittedAbstract::all();
+
+        return view('admin.abstracts', compact('sub_themes', 'statuses', 'abstracts', 'totalSubmissions', 'allAbstracts'));
     }
 }
