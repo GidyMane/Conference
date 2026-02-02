@@ -200,7 +200,7 @@
 
             <div class="d-flex justify-content-center gap-3 flex-wrap">
                 <a href="pages/submit_abstract.php" class="btn btn-warning btn-lg">Submit Abstract</a>
-                <a href="pages/contact.php" class="btn btn-outline-light btn-lg">Contact Us</a>
+                <a href="/contact" class="btn btn-outline-light btn-lg">Contact Us</a>
             </div>
         </section>
 @endsection

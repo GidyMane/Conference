@@ -329,7 +329,7 @@
                     <a href="pages/submit_abstract.php" class="btn btn-light btn-lg px-5">
                         <i class="fas fa-user-plus me-2"></i>Submit Abstract Now
                     </a>
-                    <a href="pages/contact.php" class="btn btn-outline-light btn-lg px-5">
+                    <a href="/contact" class="btn btn-outline-light btn-lg px-5">
                         <i class="fas fa-question-circle me-2"></i>Contact Us
                     </a>
                 </div>
