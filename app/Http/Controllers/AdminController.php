@@ -99,4 +99,12 @@ class AdminController extends Controller
 
         return view('admin.abstracts', compact('sub_themes', 'statuses', 'abstracts', 'totalSubmissions', 'allAbstracts'));
     }
+    public function dashboard2()
+    {
+        return view('admin.dashboard2');
+    }
+    public function abstracts2()
+    {
+        return view('admin.abstracts.index');
+    }
 }
