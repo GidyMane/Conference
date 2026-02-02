@@ -15,3 +15,4 @@ Route::get('/submit-abstract', [MainController::class, 'submitAbstract'])->name(
 /* ContactController Routes */
 
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');

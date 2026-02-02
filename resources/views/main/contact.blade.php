@@ -43,16 +43,14 @@
             <div class="col-lg-7">
                 <div class="card shadow border-0">
                     <div class="card-body p-4">
+                        @if(session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
 
-                        {{-- 
-                            @if($success)
-                                <div class="alert alert-success">{{ $success }}</div>
-                            @elseif($error)
-                                <div class="alert alert-danger">{{ $error }}</div>
-                            @endif 
-                        --}}
-
-                        <form method="POST" action="">
+                        <form method="POST" action="{{ route('contact.send') }}">
+                            @csrf
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <label class="form-label">Full Name</label>
