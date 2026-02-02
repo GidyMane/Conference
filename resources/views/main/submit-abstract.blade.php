@@ -88,8 +88,18 @@
                             </h2>
                             <p class="text-muted">Submit your research abstract for the KALRO SEPD Conference 2024</p>
                         </div>
+                        @if (session('success'))
+                            <div class="container mt-4">
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    <strong>Success!</strong> {{ session('success') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            </div>
+                        @endif
 
-                        <form id="abstractForm" method="POST" action="" novalidate>
+                        <form id="abstractForm" method="POST" action="{{ route('abstracts.store') }}" novalidate>
+                            @csrf
                             <input type="hidden" name="submission_id" value="">
                             
                             <!-- Section 1: Corresponding Author Information -->
@@ -105,27 +115,27 @@
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="corresponding_name" name="corresponding_name" 
+                                            <input type="text" class="form-control" id="author_name" name="author_name" 
                                                 placeholder="Full Name" required>
-                                            <label for="corresponding_name">Full Name <span class="text-danger">*</span></label>
+                                            <label for="author_name">Full Name <span class="text-danger">*</span></label>
                                             <div class="invalid-feedback">Please enter the corresponding author's full name.</div>
                                         </div>
                                     </div>
                                     
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <input type="email" class="form-control" id="corresponding_email" name="corresponding_email" 
+                                            <input type="email" class="form-control" id="author_email" name="author_email" 
                                                 placeholder="Email Address" required>
-                                            <label for="corresponding_email">Email Address <span class="text-danger">*</span></label>
+                                            <label for="author_email">Email Address <span class="text-danger">*</span></label>
                                             <div class="invalid-feedback">Please enter a valid email address.</div>
                                         </div>
                                     </div>
                                     
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <input type="tel" class="form-control" id="corresponding_phone" name="corresponding_phone" 
+                                            <input type="tel" class="form-control" id="author_phone" name="author_phone" 
                                                 placeholder="Phone Number" required>
-                                            <label for="corresponding_phone">Phone Number <span class="text-danger">*</span></label>
+                                            <label for="author_phone">Phone Number <span class="text-danger">*</span></label>
                                             <div class="form-text">Format: +254728463410 or 0728463410</div>
                                             <div class="invalid-feedback">Please enter a valid Kenyan phone number (e.g., +254728463410 or 0728463410).</div>
                                         </div>
@@ -133,9 +143,9 @@
                                     
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="organization" name="organization" 
+                                            <input type="text" class="form-control" id="organisation" name="organisation" 
                                                 placeholder="Organization/Institution" required>
-                                            <label for="organization">Organization/Institution <span class="text-danger">*</span></label>
+                                            <label for="organisation">Organization/Institution <span class="text-danger">*</span></label>
                                             <div class="invalid-feedback">Please enter your organization name.</div>
                                         </div>
                                     </div>
@@ -173,7 +183,7 @@
                                         <div class="form-floating">
                                             <select class="form-select" id="submission_type" name="submission_type" required>
                                                 <option value="" selected disabled>Select Submission Type</option>
-                                                <option value="abstract">Abstract Submission</option>
+                                                <option value="abstract_text">Abstract Submission</option>
                                                 <option value="full_paper" disabled>Full Paper Submission</option>
                                                 <option value="final_paper" disabled>Final Version of Accepted Paper</option>
                                                 <option value="presentation" disabled>Pre-recorded Presentation</option>
@@ -188,24 +198,14 @@
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <select class="form-select" id="sub_theme" name="sub_theme" required>
-                                                <option value="" selected disabled>Select Sub-theme</option>
-                                                <option value="cropVarieties">Crop Varieties and Integrated Production Management</option>
-                                                <option value="seedSystems">Sustainable Seed Systems and Quality Assurance</option>
-                                                <option value="cropProtection">Diagnostics, Surveillance and Phytosanitary Measures</option>
-                                                <option value="soilHealth">Plant Nutrition, Soil Health and Conservation Agriculture</option>
-                                                <option value="waterSystems">Water Harvesting, Conservation and Irrigation Systems</option>
-                                                <option value="organicCircular">Ecological Organic Farming, Renewable Energy and Circular Economy</option>
-                                                <option value="climateLand">Climate Change, Land Degradation and Reclamation</option>
-                                                <option value="agrodiversity">Agrodiversity and Genetic Resources</option>
-                                                <option value="animalFeeds">Animal Feed Resources, Nutrition and Husbandry Practices</option>
-                                                <option value="livestockBreeding">Livestock Breeds, Breeding Practices and Emerging Species</option>
-                                                <option value="animalHealth">Animal Health, Sanitary Systems and Emerging Diseases</option>
-                                                <option value="apiculture">Apiculture, Beneficial Insects and Ecosystem Services</option>
-                                                <option value="biotechnology">Biotechnological Solutions for Agriculture and Natural Resources</option>
-                                                <option value="foodSafety">Food Safety, Value Addition and Cottage Industries</option>
-                                                <option value="mechanization">Mechanization in Agricultural Systems</option>
-                                                <option value="techTransfer">Technology Transfer, ICT and Precision Agriculture Systems</option>
-                                                <option value="agribusiness">Agribusiness Models, Financing, Policy and Entrepreneurship</option>
+                                                <option value="" disabled selected>Select Sub-theme</option>
+
+                                                @foreach ($subThemes as $subTheme)
+                                                    <option value="{{ $subTheme->id }}"
+                                                        {{ old('sub_theme') == $subTheme->id ? 'selected' : '' }}>
+                                                        {{ $subTheme->full_name }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                             <label for="sub_theme">Conference Sub-theme <span class="text-danger">*</span></label>
                                             <div class="invalid-feedback">Please select a sub-theme.</div>
@@ -234,11 +234,11 @@
                                 </div>
                                 
                                 <div class="mb-4">
-                                    <label for="abstract" class="form-label fw-semibold">
+                                    <label for="abstract_text" class="form-label fw-semibold">
                                         Abstract <span class="text-danger">*</span>
                                         <span class="text-muted fw-normal">(Maximum 300 words)</span>
                                     </label>
-                                    <textarea class="form-control" id="abstract" name="abstract" rows="6" 
+                                    <textarea class="form-control" id="abstract_text" name="abstract_text" rows="6" 
                                             placeholder="Enter your abstract here..." required></textarea>
                                     <div class="d-flex justify-content-between align-items-center mt-2">
                                         <div>
@@ -364,8 +364,9 @@
                                         <div class="form-floating">
                                             <select class="form-select" id="attendance_mode" name="attendance_mode">
                                                 <option value="" selected>Not specified</option>
-                                                <option value="in_person">In-person Attendance</option>
-                                                <option value="virtual">Virtual Attendance</option>
+                                                <option value="PHYSICAL">In-person Attendance</option>
+                                                <option value="VIRTUAL">Virtual Attendance</option>
+                                                <option value="BOTH">Both</option>
                                             </select>
                                             <label for="attendance_mode">Preferred Attendance Mode</label>
                                         </div>
@@ -478,14 +479,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const addAuthorBtn = document.getElementById('addAuthorBtn');
     const authorsContainer = document.getElementById('authorsContainer');
     const authorTemplate = document.getElementById('authorTemplate').innerHTML;
-    const abstractTextarea = document.getElementById('abstract');
+    const abstractTextarea = document.getElementById('abstract_text');
     const wordCountElement = document.getElementById('wordCount');
     const abstractStatus = document.getElementById('abstractStatus');
     const progressBar = document.getElementById('formProgress');
     const progressText = document.getElementById('progressText');
-    const phoneInput = document.getElementById('corresponding_phone');
-    const correspondingNameInput = document.getElementById('corresponding_name');
-    const organizationInput = document.getElementById('organization');
+    const phoneInput = document.getElementById('author_phone');
+    const correspondingNameInput = document.getElementById('author_name');
+    const organizationInput = document.getElementById('organisation');
     const resetBtn = document.getElementById('resetBtn');
     const author1NameInput = document.getElementById('author1_name');
     const author1InstitutionInput = document.getElementById('author1_institution');
@@ -642,14 +643,14 @@ document.addEventListener('DOMContentLoaded', function() {
     function calculateFormProgress() {
         // Get only the original required fields (not dynamically added author fields)
         const originalRequiredFields = form.querySelectorAll(
-            '#corresponding_name[required], ' +
-            '#corresponding_email[required], ' +
-            '#corresponding_phone[required], ' +
-            '#organization[required], ' +
+            '#author_name[required], ' +
+            '#author_email[required], ' +
+            '#author_phone[required], ' +
+            '#organisation[required], ' +
             '#submission_type[required], ' +
             '#sub_theme[required], ' +
             '#paper_title[required], ' +
-            '#abstract[required], ' +
+            '#abstract_text[required], ' +
             '#terms[required]'
         );
         
@@ -691,7 +692,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Check original required fields
         const requiredFields = [
             correspondingNameInput,
-            document.getElementById('corresponding_email'),
+            document.getElementById('author_email'),
             phoneInput,
             organizationInput,
             document.getElementById('submission_type'),
