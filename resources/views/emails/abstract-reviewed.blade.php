@@ -141,6 +141,26 @@
         {{ $comment }}
     </div>
 
+    @if($abstract->status === 'APPROVED' && $uploadUrl)
+        <p style="margin-top: 20px;">
+            <strong>Next Step:</strong><br>
+            Please submit your full paper using the link below:
+        </p>
+
+        <p>
+            <a href="{{ $uploadUrl }}"
+            style="display:inline-block;padding:12px 20px;
+            background:#158532;color:#fff;border-radius:6px;">
+                Submit Full Paper
+            </a>
+        </p>
+
+        <p style="font-size:12px;color:#666;">
+            This link will expire in 14 days.
+        </p>
+    @endif
+
+
     {{-- CONDITIONAL MESSAGE --}}
     @if($abstract->status === 'APPROVED')
         <p style="margin-top: 20px;">

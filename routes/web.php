@@ -6,6 +6,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AbstractSubmissionController;
 use App\Http\Controllers\AbstractsController;
+use App\Http\Controllers\FullPaperController;
 
 /* MainController Routes */
 
@@ -36,3 +37,10 @@ Route::post('/abstracts/submit', [AbstractSubmissionController::class, 'store'])
 
 Route::post('/abstracts/review', [AbstractsController::class, 'review'])->name('abstracts.review');
    // ->middleware('auth');
+
+/* FullPaperController Routes */
+
+Route::get('/full-papers/{abstract}',[FullPaperController::class, 'create'])->name('full-papers.create');
+
+Route::post('/full-papers/{abstract}',[FullPaperController::class, 'store'])->name('full-papers.store');
+

@@ -7,6 +7,7 @@ use App\Models\SubmittedAbstract;
 use App\Models\AbstractReview;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AbstractReviewedMail;
+use Illuminate\Support\Facades\URL;
 
 class AbstractsController extends Controller
 {
@@ -41,10 +42,23 @@ class AbstractsController extends Controller
             'status' => $request->decision,
         ]);
 
+        // Generate upload link ONLY if approved
+        if ($request->decision === 'APPROVED') {
+            $uploadUrl = URL::temporarySignedRoute(
+                'full-papers.create',
+                now()->addDays(14),
+                ['abstract' => $abstract->id]
+            );
+        } else {
+            $uploadUrl = null;
+        }
+
         // Email author
         Mail::to($abstract->author_email)
-            ->send(new AbstractReviewedMail($abstract, $request->comment));
-
-        return response()->json(['success' => true]);
+            ->send(new AbstractReviewedMail(
+                $abstract,
+                $request->comment,
+                $uploadUrl
+            ));
     }
 }
