@@ -7,6 +7,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
 <style>
         :root {
@@ -174,10 +175,10 @@
             font-weight:600;
             text-transform:uppercase;
         }
-        .submitted{background:rgba(255,193,7,.1);color:var(--kalro-pending);}
+        .pending{background:rgba(255,193,7,.1);color:var(--kalro-pending);}
         .under-review{background:rgba(23,162,184,.1);color:var(--kalro-review);}
         .approved{background:rgba(40,167,69,.1);color:var(--kalro-approved);}
-        .disapproved{background:rgba(220,53,69,.1);color:var(--kalro-disapproved);}
+        .rejected{background:rgba(220,53,69,.1);color:var(--kalro-disapproved);}
         .revision-requested{background:rgba(253,126,20,.1);color:var(--kalro-revision);}
 
         .empty-state {
@@ -310,6 +311,22 @@
         .submission-meta p {
             margin-bottom: 0.5rem;
         }
+
+        .review-approved {
+            border-left-color: var(--kalro-approved);
+            background: rgba(40,167,69,.08);
+        }
+
+        .review-rejected {
+            border-left-color: var(--kalro-disapproved);
+            background: rgba(220,53,69,.08);
+        }
+
+        .review-revision {
+            border-left-color: var(--kalro-revision);
+            background: rgba(253,126,20,.08);
+        }
+
 
         @media (max-width: 768px) {
             .main {
@@ -476,7 +493,11 @@
                                         data-keywords="{{ $r->keywords }}"
                                         data-presentation="{{ $r->presentation_preference }}"
                                         data-attendance="{{ $r->attendance_mode }}"
-                                        data-notes="{{ $r->special_requirements }}">
+                                        data-notes="{{ $r->special_requirements }}"
+                                        data-review-comment="{{ $r->latestReview?->comment ?? '' }}"
+                                        data-review-decision="{{ $r->latestReview?->decision ?? '' }}"
+
+                                        >
                                     <i class="fas fa-eye me-1"></i> View
                                 </button>
                             </td>
@@ -591,60 +612,72 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- Comments Section -->
-                <div class="comment-section" id="commentsSection">
-                    <h6 class="text-primary mb-3">
-                        <i class="fas fa-comments me-2"></i>Review Comments & Internal Notes
-                    </h6>
-                    
-                    <div class="comments-list" id="commentsList">
-                        <!-- Comments will be loaded here -->
-                        <div class="text-center text-muted py-3" id="noComments">
-                            <i class="fas fa-comment-slash fa-2x mb-2"></i>
-                            <p>No comments yet</p>
+
+                <!-- Existing Reviewer Feedback (Read-only) -->
+                    <div id="existingReviewWrapper" class="mb-4 d-none">
+                        <label class="form-label fw-semibold">
+                            <i class="fas fa-comment-dots me-1"></i> Reviewer Feedback
+                        </label>
+
+                        <div id="existingReview"
+                            class="p-3 rounded border-start border-4"
+                            style="white-space: pre-wrap; background:#f8f9fa;">
                         </div>
                     </div>
-                    
-                    <!-- Add Comment Form -->
-                    <form id="commentForm" method="POST">
-                        <input type="hidden" name="submission_id" id="commentSubmissionId">
-                        <input type="hidden" name="add_comment" value="1">
-                        
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="statusSelect" class="form-label">
-                                    <i class="fas fa-flag me-1"></i>Update Status
-                                </label>
-                                <select class="form-select status-select" id="statusSelect" name="status" required>
-                                    <option value="">Select new status...</option>
-                                    
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="commentText" class="form-label">
-                                <i class="fas fa-edit me-1"></i>Add Comment / Note
+
+                
+                <!-- Comments Section -->
+                {{-- Review Comment --}}
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            <i class="fas fa-edit me-1"></i> Reviewer Comment
+                        </label>
+                        <textarea class="form-control" id="reviewComment" rows="4"
+                                placeholder="Write feedback before approving or rejecting..."
+                                required></textarea>
+                    </div>
+
+                    <input type="hidden" id="reviewDecision">
+                    <input type="hidden" id="reviewAbstractId">
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            <i class="fas fa-check-circle me-1"></i> Review Decision
+                        </label>
+
+                        <div class="form-check">
+                            <input class="form-check-input decision-checkbox"
+                                type="checkbox"
+                                id="approveCheckbox"
+                                value="APPROVED">
+                            <label class="form-check-label text-success fw-semibold"
+                                for="approveCheckbox">
+                                <i class="fas fa-check me-1"></i> Approve
                             </label>
-                            <textarea class="form-control" id="commentText" name="comment" rows="4" 
-                                      placeholder="Enter your review comments or internal notes here..." required></textarea>
-                            <div class="form-text reviewer-info">
-                                Commenting as: <?= htmlspecialchars($_SESSION['name'] ?? 'Reviewer') ?> 
-                                (<?= htmlspecialchars($_SESSION['email'] ?? '') ?>)
-                            </div>
                         </div>
-                        
-                        <div class="d-flex justify-content-between">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                <i class="fas fa-times me-1"></i> Close
-                            </button>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-paper-plane me-1"></i> Submit Comment & Update Status
-                            </button>
+
+                        <div class="form-check mt-1">
+                            <input class="form-check-input decision-checkbox"
+                                type="checkbox"
+                                id="rejectCheckbox"
+                                value="REJECTED">
+                            <label class="form-check-label text-danger fw-semibold"
+                                for="rejectCheckbox">
+                                <i class="fas fa-times me-1"></i> Reject
+                            </label>
                         </div>
-                    </form>
-                </div>
+
+                        <small id="reviewLockedMsg" class="text-muted d-none">
+                            <i class="fas fa-lock me-1"></i>
+                            This abstract has already been reviewed.
+                        </small>
+</div>
+
+
+                    <button type="button" class="btn btn-primary w-100" id="sendFeedbackBtn" data-url="{{ route('abstracts.review') }}">
+                        <i class="fas fa-paper-plane me-1"></i> Send Feedback
+                    </button>
+
             </div>
         </div>
     </div>
@@ -653,175 +686,238 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize date pickers
-    flatpickr('.date-picker', {
-        dateFormat: 'Y-m-d',
-        allowInput: true,
-        maxDate: 'today'
-    });
-    
-    // Set max date for "from" date when "to" date is selected
-    document.getElementById('date_from').addEventListener('change', function(e) {
-        const toDate = document.getElementById('date_to');
-        if (toDate._flatpickr && e.target.value) {
-            toDate._flatpickr.set('minDate', e.target.value);
+    document.addEventListener('DOMContentLoaded', () => {
+        /* -------------------------------------------------
+        * GLOBAL STATE
+        * ------------------------------------------------- */
+        let decision = null;
+
+        /* -------------------------------------------------
+        * DATE PICKERS
+        * ------------------------------------------------- */
+        if (window.flatpickr) {
+            flatpickr('.date-picker', {
+                dateFormat: 'Y-m-d',
+                allowInput: true,
+                maxDate: 'today'
+            });
         }
-    });
-    
-    // Set min date for "to" date when "from" date is selected
-    document.getElementById('date_to').addEventListener('change', function(e) {
-        const fromDate = document.getElementById('date_from');
-        if (fromDate._flatpickr && e.target.value) {
-            fromDate._flatpickr.set('maxDate', e.target.value);
-        }
-    });
-    
-    // Handle view abstract button clicks
-    const viewButtons = document.querySelectorAll('.view-abstract');
-    const abstractModal = new bootstrap.Modal(document.getElementById('abstractModal'));
-    
-    viewButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Get all data attributes
-            const id = this.getAttribute('data-id');
-            const code = this.getAttribute('data-code');
-            const title = this.getAttribute('data-title');
-            const author = this.getAttribute('data-author');
-            const email = this.getAttribute('data-email');
-            const phone = this.getAttribute('data-phone');
-            const org = this.getAttribute('data-org');
-            const dept = this.getAttribute('data-dept');
-            const position = this.getAttribute('data-position');
-            const theme = this.getAttribute('data-theme');
-            const status = this.getAttribute('data-status');
-            const created = this.getAttribute('data-created');
-            const reviewedBy = this.getAttribute('data-reviewed-by');
-            const reviewedAt = this.getAttribute('data-reviewed-at');
-            const abstract = this.getAttribute('data-abstract');
-            const keywords = this.getAttribute('data-keywords');
-            const presentation = this.getAttribute('data-presentation');
-            const attendance = this.getAttribute('data-attendance');
-            const notes = this.getAttribute('data-notes');
-            
-            // Update modal content
-            document.getElementById('modalCode').textContent = code;
-            document.getElementById('modalTitle').textContent = title;
-            document.getElementById('modalAuthor').textContent = author;
-            document.getElementById('modalEmail').textContent = email;
-            document.getElementById('modalPhone').textContent = phone;
-            document.getElementById('modalOrg').textContent = org;
-            document.getElementById('modalTheme').textContent = theme;
-            document.getElementById('modalCreated').textContent = created;
-            document.getElementById('modalReviewedBy').textContent = reviewedBy;
-            document.getElementById('modalReviewedAt').textContent = reviewedAt;
-            document.getElementById('modalAbstract').textContent = abstract;
-            document.getElementById('commentSubmissionId').value = id;
-            
-            // Update status badge
-            const statusElement = document.getElementById('modalStatus');
-            statusElement.textContent = status;
-            statusElement.className = 'status ' + status.toLowerCase().replace(' ', '-');
-            
-            // Set current status in dropdown
-            document.getElementById('statusSelect').value = status;
-            
-            // Update keywords
-            const keywordsContainer = document.getElementById('modalKeywords');
-            keywordsContainer.innerHTML = '';
-            if (keywords) {
-                const keywordList = keywords.split(',').map(k => k.trim()).filter(k => k);
-                keywordList.forEach(keyword => {
-                    const badge = document.createElement('span');
-                    badge.className = 'keywords-badge';
-                    badge.textContent = keyword;
-                    keywordsContainer.appendChild(badge);
-                });
-            }
-            
-            // Update presentation details
-            document.getElementById('modalPresentation').textContent = presentation || 'Not specified';
-            document.getElementById('modalAttendance').textContent = attendance || 'Not specified';
-            
-            // Display existing notes/comments
-            displayComments(notes);
+
+        /* -------------------------------------------------
+        * VIEW ABSTRACT MODAL
+        * ------------------------------------------------- */
+        document.querySelectorAll('.view-abstract').forEach(btn => {
+            btn.addEventListener('click', () => {
+                populateModal(btn);
+                resetReviewForm(btn.dataset.id);
+            });
         });
-    });
-    
-    // Function to display existing comments/notes
-    function displayComments(notes) {
-        const commentsList = document.getElementById('commentsList');
-        const noComments = document.getElementById('noComments');
-        
-        if (notes && notes.trim()) {
-            // Parse the notes (format: [timestamp] reviewer (email): comment)
-            const commentEntries = notes.split('\n\n').filter(entry => entry.trim());
-            
-            let commentsHTML = '';
-            commentEntries.forEach(entry => {
-                // Split into header and comment
-                const lines = entry.split('\n');
-                if (lines.length >= 2) {
-                    const header = lines[0];
-                    const commentText = lines.slice(1).join('\n');
-                    
-                    // Parse header for timestamp and reviewer
-                    const headerMatch = header.match(/^\[(.*?)\] (.*?) \((.*?)\):/);
-                    if (headerMatch) {
-                        const [, timestamp, reviewer, email] = headerMatch;
-                        commentsHTML += `
-                            <div class="comment-item">
-                                <div class="comment-header">
-                                    <span class="comment-author">${reviewer}</span>
-                                    <span class="comment-date">${formatDate(timestamp)}</span>
-                                </div>
-                                <div class="comment-text">${escapeHtml(commentText)}</div>
-                                <div class="reviewer-info">${email}</div>
-                            </div>
-                        `;
-                    } else {
-                        // Fallback for older format
-                        commentsHTML += `
-                            <div class="comment-item">
-                                <div class="comment-text">${escapeHtml(entry)}</div>
-                            </div>
-                        `;
-                    }
+
+        function populateModal(btn) {
+            const data = btn.dataset;
+
+            setText('modalCode', data.code);
+            setText('modalTitle', data.title);
+            setText('modalAuthor', data.author);
+            setText('modalEmail', data.email);
+            setText('modalPhone', data.phone);
+            setText('modalOrg', data.org);
+            setText('modalTheme', data.theme);
+            setText('modalCreated', data.created);
+            setText('modalReviewedBy', data.reviewedBy || 'N/A');
+            setText('modalReviewedAt', data.reviewedAt || 'N/A');
+            setText('modalAbstract', data.abstract);
+
+            renderStatus(data.status);
+            renderKeywords(data.keywords);
+            renderPresentation(data.presentation, data.attendance);
+
+            // ✅ ADD THIS
+            renderExistingReview(
+                data.reviewComment,
+                data.reviewDecision
+            );
+        }
+
+
+        /* -------------------------------------------------
+        * STATUS
+        * ------------------------------------------------- */
+        function renderStatus(status) {
+            const el = document.getElementById('modalStatus');
+            if (!el || !status) return;
+
+            const cls = status.toLowerCase().replaceAll('_', '-');
+            el.textContent = status.replaceAll('_', ' ');
+            el.className = `status ${cls}`;
+        }
+
+        /* -------------------------------------------------
+        * KEYWORDS
+        * ------------------------------------------------- */
+        function renderKeywords(keywords) {
+            const container = document.getElementById('modalKeywords');
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            if (!keywords || !keywords.trim()) {
+                container.innerHTML =
+                    '<span class="text-muted">No keywords provided</span>';
+                return;
+            }
+
+            keywords
+                .split(',')
+                .map(k => k.trim())
+                .filter(Boolean)
+                .forEach(k => {
+                    const span = document.createElement('span');
+                    span.className = 'keywords-badge';
+                    span.textContent = k;
+                    container.appendChild(span);
+                });
+        }
+
+        /* -------------------------------------------------
+        * PRESENTATION / ATTENDANCE
+        * ------------------------------------------------- */
+        function renderPresentation(presentation, attendance) {
+            setText(
+                'modalPresentation',
+                presentation || 'Not specified'
+            );
+            setText(
+                'modalAttendance',
+                attendance || 'Not specified'
+            );
+        }
+
+        /* -------------------------------------------------
+        * REVIEW FORM
+        * ------------------------------------------------- */
+        function resetReviewForm(abstractId) {
+            decision = null;
+
+            const idField = document.getElementById('reviewAbstractId');
+            const commentField = document.getElementById('reviewComment');
+
+            if (idField) idField.value = abstractId || '';
+            if (commentField) commentField.value = '';
+
+            document
+                .querySelectorAll('.decision-checkbox')
+                .forEach(cb => {
+                    cb.checked = false;
+                    cb.disabled = false;
+                });
+        }
+
+        document.querySelectorAll('.decision-checkbox').forEach(cb => {
+            cb.addEventListener('change', () => {
+                document.querySelectorAll('.decision-checkbox').forEach(other => {
+                    if (other !== cb) other.checked = false;
+                });
+
+                decision = cb.checked ? cb.value : null;
+            });
+        });
+
+        /* -------------------------------------------------
+        * SEND FEEDBACK
+        * ------------------------------------------------- */
+        const sendBtn = document.getElementById('sendFeedbackBtn');
+        if (sendBtn) {
+            sendBtn.addEventListener('click', async () => {
+                const comment = document
+                    .getElementById('reviewComment')
+                    ?.value.trim();
+
+                const abstractId =
+                    document.getElementById('reviewAbstractId')?.value;
+
+                if (!comment || !decision) {
+                    alert('Please add a comment and choose approve or reject.');
+                    return;
+                }
+
+                try {
+                    await fetch(sendBtn.dataset.url, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document
+                                .querySelector('meta[name="csrf-token"]')
+                                .content,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            abstract_id: abstractId,
+                            decision,
+                            comment
+                        })
+                    });
+
+                    location.reload();
+                } catch (e) {
+                    alert('Failed to send review. Please try again.');
                 }
             });
-            
-            commentsList.innerHTML = commentsHTML;
-            noComments.style.display = 'none';
-        } else {
-            noComments.style.display = 'block';
         }
-    }
-    
-    // Helper function to format date
-    function formatDate(dateString) {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-GB', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
-    }
-    
-    // Helper function to escape HTML
-    function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
-    
-    // Auto-resize textarea
-    document.getElementById('commentText').addEventListener('input', function() {
-        this.style.height = 'auto';
-        this.style.height = (this.scrollHeight) + 'px';
+
+        /* -------------------------------------------------
+        * HELPERS
+        * ------------------------------------------------- */
+        function setText(id, value) {
+            const el = document.getElementById(id);
+            if (el) el.textContent = value || '';
+        }
     });
-});
+
+    function renderExistingReview(comment, decision) {
+        const wrapper = document.getElementById('existingReviewWrapper');
+        const box = document.getElementById('existingReview');
+
+        const approve = document.getElementById('approveCheckbox');
+        const reject  = document.getElementById('rejectCheckbox');
+        const commentBox = document.getElementById('reviewComment');
+        const sendBtn = document.getElementById('sendFeedbackBtn');
+        const lockedMsg = document.getElementById('reviewLockedMsg');
+
+        // RESET
+        if (approve) approve.disabled = false;
+        if (reject) reject.disabled = false;
+        if (commentBox) commentBox.disabled = false;
+        if (sendBtn) sendBtn.disabled = false;
+        if (lockedMsg) lockedMsg.classList.add('d-none');
+
+        if (!wrapper || !box || !comment || !comment.trim()) {
+            if (wrapper) wrapper.classList.add('d-none');
+            return;
+        }
+
+        // SHOW EXISTING REVIEW
+        wrapper.classList.remove('d-none');
+        box.textContent = comment;
+
+        box.classList.remove('review-approved','review-rejected','review-revision');
+
+        if (decision === 'APPROVED') {
+            box.classList.add('review-approved');
+            approve.checked = true;
+        } else if (decision === 'REJECTED') {
+            box.classList.add('review-rejected');
+            reject.checked = true;
+        }
+
+        // 🔒 LOCK EVERYTHING
+        approve.disabled = true;
+        reject.disabled = true;
+        commentBox.disabled = true;
+        sendBtn.disabled = true;
+
+        // 👇 SHOW LOCK MESSAGE
+        if (lockedMsg) lockedMsg.classList.remove('d-none');
+    }
 </script>
 </body>
 </html>

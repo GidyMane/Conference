@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+
 class SubmittedAbstract extends Model
 {
     use HasFactory;
@@ -64,4 +65,14 @@ class SubmittedAbstract extends Model
     {
         return $this->hasMany(AbstractReview::class, 'abstract_id');
     }
+
+    public function latestReview()
+    {
+        return $this->hasOne(
+            AbstractReview::class,
+            'abstract_id', // 👈 FK in abstract_reviews
+            'id'           // 👈 PK in submitted_abstracts
+        )->latestOfMany();
+    }
+
 }

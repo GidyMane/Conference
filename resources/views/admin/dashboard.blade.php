@@ -20,7 +20,7 @@
             --kalro-approved: #28a745;
             --kalro-disapproved: #dc3545;
             --kalro-pending: #ffc107;
-            --kalro-review: #17a2b8;
+            --kalro-under_review: #17a2b8;
             --kalro-revision: #fd7e14;
         }
         
@@ -126,9 +126,9 @@
         
         .metric-icon.total { background: linear-gradient(135deg, var(--kalro-primary), var(--kalro-accent)); }
         .metric-icon.approved { background: linear-gradient(135deg, var(--kalro-approved), #4caf50); }
-        .metric-icon.disapproved { background: linear-gradient(135deg, var(--kalro-disapproved), #f44336); }
+        .metric-icon.rejected { background: linear-gradient(135deg, var(--kalro-disapproved), #f44336); }
         .metric-icon.pending { background: linear-gradient(135deg, var(--kalro-pending), #ff9800); }
-        .metric-icon.review { background: linear-gradient(135deg, var(--kalro-review), #00bcd4); }
+        .metric-icon.under_review { background: linear-gradient(135deg, var(--kalro-under_review), #00bcd4); }
         .metric-icon.revision { background: linear-gradient(135deg, var(--kalro-revision), #ff5722); }
         
         .chart-container {
@@ -210,9 +210,9 @@
         }
         
         .recent-submissions .list-group-item.approved { border-left-color: var(--kalro-approved); }
-        .recent-submissions .list-group-item.disapproved { border-left-color: var(--kalro-disapproved); }
-        .recent-submissions .list-group-item.submitted { border-left-color: var(--kalro-pending); }
-        .recent-submissions .list-group-item.under-review { border-left-color: var(--kalro-review); }
+        .recent-submissions .list-group-item.rejected { border-left-color: var(--kalro-disapproved); }
+        .recent-submissions .list-group-item.pending { border-left-color: var(--kalro-pending); }
+        .recent-submissions .list-group-item.under_review { border-left-color: var(--kalro-under_review); }
         .recent-submissions .list-group-item.revision-requested { border-left-color: var(--kalro-revision); }
         
         .status-badge {
@@ -225,9 +225,9 @@
         }
         
         .status-approved { background: rgba(40, 167, 69, 0.1); color: var(--kalro-approved); }
-        .status-disapproved { background: rgba(220, 53, 69, 0.1); color: var(--kalro-disapproved); }
+        .status-rejected { background: rgba(220, 53, 69, 0.1); color: var(--kalro-disapproved); }
         .status-pending { background: rgba(255, 193, 7, 0.1); color: var(--kalro-pending); }
-        .status-review { background: rgba(23, 162, 184, 0.1); color: var(--kalro-review); }
+        .status-under_review { background: rgba(23, 162, 184, 0.1); color: var(--kalro-under_review); }
         .status-revision { background: rgba(253, 126, 20, 0.1); color: var(--kalro-revision); }
     </style>
 </head>
@@ -274,9 +274,9 @@
                 $cards = [
                     ["Total Submissions", $metrics['totalSubmissions'], "fa-file-alt", "total"],
                     ["Approved Abstracts", $metrics['approvedCount'], "fa-check-circle", "approved"],
-                    ["Disapproved Abstracts", $metrics['disapprovedCount'], "fa-times-circle", "disapproved"],
+                    ["Disapproved Abstracts", $metrics['disapprovedCount'], "fa-times-circle", "rejected"],
                     ["Unassigned Abstracts", $metrics['pendingCount'], "fa-clock", "pending"],
-                    ["Under Review", $metrics['reviewCount'], "fa-search", "review"],
+                    ["Under Review", $metrics['reviewCount'], "fa-search", "under_review"],
                     ["Sub Themes", $metrics['subThemeCount'], "fa-redo", "revision"],
                     ["Oral Presentations", $metrics['oralCount'], "fa-microphone", "total"],
                     ["Poster Presentations", $metrics['posterCount'], "fa-image", "total"]
