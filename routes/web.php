@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\AdminController;
 
 /* MainController Routes */
 
@@ -16,3 +17,8 @@ Route::get('/submit-abstract', [MainController::class, 'submitAbstract'])->name(
 
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
+
+/* AdminController Routes */
+
+Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+Route::get('/abstracts', [AdminController::class, 'abstracts'])->name('abstracts');
