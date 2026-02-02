@@ -219,7 +219,7 @@
                         <p class="lead mb-4">Join us in making the KALRO SEPD Conference a success.</p>
 
                         <div class="d-flex justify-content-center flex-wrap gap-3">
-                            <a href="pages/submit_abstract.php" class="btn btn-light btn-lg">
+                            <a href="/submit-abstract" class="btn btn-light btn-lg">
                                 <i class="fas fa-paper-plane me-1"></i>Submit Abstract
                             </a>
                         

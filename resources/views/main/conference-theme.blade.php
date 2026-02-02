@@ -591,7 +591,7 @@
                                 <h4 class="alert-heading">Ready to Submit Your Abstract?</h4>
                                 <p class="mb-3">Select the most relevant sub-theme for your research when submitting your abstract.</p>
                                 <div class="d-flex flex-wrap gap-3">
-                                    <a href="pages/submit_abstract.php" class="btn btn-success btn-lg">
+                                    <a href="/submit-abstract" class="btn btn-success btn-lg">
                                         <i class="fas fa-paper-plane me-2"></i>Submit Abstract
                                     </a>
                                     <a href="/about" class="btn btn-outline-info btn-lg">

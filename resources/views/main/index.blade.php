@@ -23,7 +23,7 @@
                         <div class="carousel-caption">
                             <h2 class="display-5 fw-bold">2nd KALRO Scientific Conference and Exhibition</h2>
                             <p class="lead">Innovating for Resilience, Scaling for Impact</p>
-                            <a href="pages/submit_abstract.php" class="btn btn-success btn-lg mt-3">
+                            <a href="/submit-abstract" class="btn btn-success btn-lg mt-3">
                                 Submit Abstract Now <i class="fas fa-arrow-right ms-2"></i>
                             </a>
                         </div>
@@ -33,7 +33,7 @@
                         <div class="carousel-caption">
                             <h2 class="display-5 fw-bold">Call for Papers</h2>
                             <p class="lead">Submit your research by 2nd February, 2026</p>
-                            <a href="pages/submit_abstract.php" class="btn btn-warning btn-lg mt-3">
+                            <a href="/submit-abstract" class="btn btn-warning btn-lg mt-3">
                                 Submit Abstract <i class="fas fa-paper-plane ms-2"></i>
                             </a>
                         </div>
@@ -139,7 +139,7 @@
                                 <a href="/about" class="btn btn-outline-success btn-lg">
                                     Learn More <i class="fas fa-arrow-right ms-2"></i>
                                 </a>
-                                <a href="pages/submit_abstract.php" class="btn btn-success btn-lg">
+                                <a href="/submit-abstract" class="btn btn-success btn-lg">
                                     Submit Abstract Now <i class="fas fa-user-plus ms-2"></i>
                                 </a>
                             </div>
@@ -199,7 +199,7 @@
             </p>
 
             <div class="d-flex justify-content-center gap-3 flex-wrap">
-                <a href="pages/submit_abstract.php" class="btn btn-warning btn-lg">Submit Abstract</a>
+                <a href="/submit-abstract" class="btn btn-warning btn-lg">Submit Abstract</a>
                 <a href="/contact" class="btn btn-outline-light btn-lg">Contact Us</a>
             </div>
         </section>

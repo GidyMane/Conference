@@ -42,7 +42,7 @@
                     and shaping the future of agriculture in Kenya and the wider East African region.
                 </p>
                 <div class="d-flex gap-3 flex-wrap">
-                    <a href="pages/submit_abstract.php" class="btn btn-outline-success btn-lg">
+                    <a href="/submit-abstract" class="btn btn-outline-success btn-lg">
                         <i class="fas fa-paper-plane me-2"></i>Submit Abstract
                     </a>
                 </div>
@@ -326,7 +326,7 @@
                     Network with experts, share your research, and contribute to shaping the future of agriculture.
                 </p>
                 <div class="d-flex justify-content-center gap-3 flex-wrap">
-                    <a href="pages/submit_abstract.php" class="btn btn-light btn-lg px-5">
+                    <a href="/submit-abstract" class="btn btn-light btn-lg px-5">
                         <i class="fas fa-user-plus me-2"></i>Submit Abstract Now
                     </a>
                     <a href="/contact" class="btn btn-outline-light btn-lg px-5">
