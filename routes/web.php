@@ -5,6 +5,7 @@ use App\Http\Controllers\MainController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AbstractSubmissionController;
+use App\Http\Controllers\AbstractsController;
 
 /* MainController Routes */
 
@@ -30,3 +31,8 @@ Route::get('/abstracts', [AdminController::class, 'abstracts'])->name('abstracts
 /* AbstractSubmissionController Routes */
 
 Route::post('/abstracts/submit', [AbstractSubmissionController::class, 'store'])->name('abstracts.store');
+
+/* AbstractsController Routes */
+
+Route::post('/abstracts/review', [AbstractsController::class, 'review'])->name('abstracts.review');
+   // ->middleware('auth');

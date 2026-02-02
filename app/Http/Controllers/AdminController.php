@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\SubmittedAbstract;
 use App\Models\AbstractAssignment;
 use App\Models\AbstractReview;
+use App\Models\AbstractCoAuthor;
 use App\Models\SubTheme;
 
 class AdminController extends Controller
@@ -14,8 +15,9 @@ class AdminController extends Controller
     {
         $metrics = [
             'totalSubmissions'   => SubmittedAbstract::count(),
+            'totalAuthors'       => AbstractCoAuthor::count(),
             'approvedCount'      => SubmittedAbstract::where('status', 'approved')->count(),
-            'disapprovedCount'   => SubmittedAbstract::where('status', 'disapproved')->count(),
+            'disapprovedCount'   => SubmittedAbstract::where('status', 'rejected')->count(),
             'pendingCount'       => SubmittedAbstract::where('status', 'pending')->count(),
             'reviewCount'        => SubmittedAbstract::where('status', 'under_review')->count(),
             'subThemeCount'      => SubTheme::count(),
@@ -25,6 +27,7 @@ class AdminController extends Controller
 
         $cards = [
             ["Total Submissions", $metrics['totalSubmissions'], "fa-file-alt", "total"],
+            ["Total Authors", $metrics['totalAuthors'], "fa-users", "total"],
             ["Approved Abstracts", $metrics['approvedCount'], "fa-check-circle", "approved"],
             ["Disapproved Abstracts", $metrics['disapprovedCount'], "fa-times-circle", "disapproved"],
             ["Pending Review", $metrics['pendingCount'], "fa-clock", "pending"],
@@ -57,48 +60,42 @@ class AdminController extends Controller
 
     public function abstracts(Request $request)
     {
-        // Get all sub-themes for dropdown
         $sub_themes = SubTheme::all();
 
-        // Statuses enum
         $statuses = [
             'PENDING' => 'Pending',
             'UNDER_REVIEW' => 'Under Review',
             'APPROVED' => 'Approved',
-            'DISAPPROVED' => 'Disapproved',
+            'REJECTED' => 'Rejected',
         ];
 
-        // Start query
-        $query = SubmittedAbstract::query();
+        $query = SubmittedAbstract::with(['subTheme', 'latestReview']);
 
-        // Apply sub-theme filter
         if ($request->filled('sub_theme')) {
             $query->where('sub_theme_id', $request->sub_theme);
         }
 
-        // Apply status filter
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
 
-        // Apply date range filter
         if ($request->filled('date_from')) {
             $query->whereDate('created_at', '>=', $request->date_from);
         }
+
         if ($request->filled('date_to')) {
             $query->whereDate('created_at', '<=', $request->date_to);
         }
 
-        // Get results
         $abstracts = $query->get();
-
-        // Metrics
         $totalSubmissions = SubmittedAbstract::count();
 
-        $allAbstracts = SubmittedAbstract::all();
-
-        return view('admin.abstracts', compact('sub_themes', 'statuses', 'abstracts', 'totalSubmissions', 'allAbstracts'));
+        return view(
+            'admin.abstracts',
+            compact('sub_themes', 'statuses', 'abstracts', 'totalSubmissions')
+        );
     }
+
     public function dashboard2()
     {
         return view('admin.dashboard2');
