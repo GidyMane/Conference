@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\SubTheme;
 
 class MainController extends Controller
 {
@@ -28,7 +29,9 @@ class MainController extends Controller
 
     public function submitAbstract()
     {
-        return view('main.submit-abstract');
+        $subThemes = SubTheme::orderBy('full_name')->get();
+
+        return view('main.submit-abstract', compact('subThemes'));
     }
 
 }
