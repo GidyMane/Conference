@@ -1,23 +1,29 @@
-@extends('admin.layout')
+@extends('reviewer.layout')
 
-@section('title', 'Manage Abstracts')
-@section('page-title', 'Manage Abstracts')
+@section('title', 'My Abstracts')
+@section('page-title', 'My Assigned Abstracts')
 
 @section('content')
 <div class="page-header">
     <div class="d-flex justify-content-between align-items-center">
         <div>
-            <h1>Manage Abstracts</h1>
+            <h1>My Assigned Abstracts</h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Abstracts</li>
+                    <li class="breadcrumb-item"><a href="{{ route('reviewer.dashboard') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">My Abstracts</li>
                 </ol>
             </nav>
+            <!-- Display Reviewer's Sub-theme -->
+            @if(Auth::user()->subtheme)
+            <div class="reviewer-badge">
+                <i class="fas fa-tag"></i> Your Sub-theme: <strong>{{ Auth::user()->subtheme->name }}</strong>
+            </div>
+            @endif
         </div>
         <div>
-            <button class="btn btn-kalro-primary" data-bs-toggle="modal" data-bs-target="#bulkActionModal">
-                <i class="fas fa-tasks me-2"></i>Bulk Actions
+            <button class="btn btn-outline-success" onclick="exportData()">
+                <i class="fas fa-file-excel me-2"></i>Export My Reviews
             </button>
         </div>
     </div>
@@ -29,64 +35,46 @@
         <h5 class="mb-0"><i class="fas fa-filter me-2"></i>Filters</h5>
     </div>
     <div class="card-body">
-        <form method="GET" action="#">
+        <form method="GET" action="{{ route('reviewer.abstracts.index') }}">
             <div class="row g-3">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label class="form-label">Status</label>
                     <select name="status" class="form-select">
                         <option value="">All Statuses</option>
-                        <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                        <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending My Review</option>
                         <option value="under_review" {{ request('status') == 'under_review' ? 'selected' : '' }}>Under Review</option>
+                        <option value="reviewed" {{ request('status') == 'reviewed' ? 'selected' : '' }}>Reviewed</option>
                         <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Approved</option>
                         <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Rejected</option>
                     </select>
                 </div>
                 
-                <div class="col-md-3">
-                    <label class="form-label">Sub-theme</label>
-                    <select name="subtheme" class="form-select">
-                        <option value="">All Sub-themes</option>
-                        @foreach($subthemes ?? [] as $subtheme)
-                        <option value="{{ $subtheme->id }}" {{ request('subtheme') == $subtheme->id ? 'selected' : '' }}>
-                            {{ $subtheme->name }}
-                        </option>
-                        @endforeach
-                    </select>
-                </div>
-                
-                <div class="col-md-3">
-                    <label class="form-label">Reviewer</label>
-                    <select name="reviewer" class="form-select">
-                        <option value="">All Reviewers</option>
-                        <option value="unassigned" {{ request('reviewer') == 'unassigned' ? 'selected' : '' }}>Unassigned</option>
-                        @foreach($reviewers ?? [] as $reviewer)
-                        <option value="{{ $reviewer->id }}" {{ request('reviewer') == $reviewer->id ? 'selected' : '' }}>
-                            {{ $reviewer->name }}
-                        </option>
-                        @endforeach
-                    </select>
-                </div>
-                
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label class="form-label">Date Range</label>
                     <select name="date_range" class="form-select">
                         <option value="">All Time</option>
-                        <option value="today" {{ request('date_range') == 'today' ? 'selected' : '' }}>Today</option>
+                        <option value="today" {{ request('date_range') == 'today' ? 'selected' : '' }}>Assigned Today</option>
                         <option value="week" {{ request('date_range') == 'week' ? 'selected' : '' }}>This Week</option>
                         <option value="month" {{ request('date_range') == 'month' ? 'selected' : '' }}>This Month</option>
                     </select>
                 </div>
                 
+                <div class="col-md-4">
+                    <label class="form-label">Sort By</label>
+                    <select name="sort" class="form-select">
+                        <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest First</option>
+                        <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Oldest First</option>
+                        <option value="deadline" {{ request('sort') == 'deadline' ? 'selected' : '' }}>Deadline Soon</option>
+                    </select>
+                </div>
+                
                 <div class="col-12">
-                    <button type="submit" class="btn btn-kalro-primary">
+                    <button type="submit" class="btn btn-reviewer-primary">
                         <i class="fas fa-search me-2"></i>Apply Filters
                     </button>
-                    <a href="{{ route('admin.abstracts.index') }}" class="btn btn-outline-secondary">
+                    <a href="{{ route('reviewer.abstracts.index') }}" class="btn btn-outline-secondary">
                         <i class="fas fa-redo me-2"></i>Reset
                     </a>
-                    <button type="button" class="btn btn-outline-success" onclick="exportData()">
-                        <i class="fas fa-file-excel me-2"></i>Export
-                    </button>
                 </div>
             </div>
         </form>
@@ -100,7 +88,7 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <h6 class="text-muted mb-1">Pending</h6>
+                        <h6 class="text-muted mb-1">Pending Review</h6>
                         <h3 class="mb-0">{{ $statusCounts['pending'] ?? 0 }}</h3>
                     </div>
                     <i class="fas fa-clock fa-2x text-warning"></i>
@@ -128,8 +116,8 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <h6 class="text-muted mb-1">Approved</h6>
-                        <h3 class="mb-0">{{ $statusCounts['approved'] ?? 0 }}</h3>
+                        <h6 class="text-muted mb-1">Completed</h6>
+                        <h3 class="mb-0">{{ $statusCounts['reviewed'] ?? 0 }}</h3>
                     </div>
                     <i class="fas fa-check-circle fa-2x text-success"></i>
                 </div>
@@ -138,98 +126,132 @@
     </div>
     
     <div class="col-md-3 mb-3">
-        <div class="card border-start border-danger border-4">
+        <div class="card border-start border-primary border-4">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <h6 class="text-muted mb-1">Rejected</h6>
-                        <h3 class="mb-0">{{ $statusCounts['rejected'] ?? 0 }}</h3>
+                        <h6 class="text-muted mb-1">Total Assigned</h6>
+                        <h3 class="mb-0">{{ $statusCounts['total'] ?? 0 }}</h3>
                     </div>
-                    <i class="fas fa-times-circle fa-2x text-danger"></i>
+                    <i class="fas fa-file-alt fa-2x text-primary"></i>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Urgent Deadlines Alert -->
+@if(isset($upcomingDeadlines) && $upcomingDeadlines > 0)
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <i class="fas fa-exclamation-triangle me-2"></i>
+    <strong>Attention!</strong> You have {{ $upcomingDeadlines }} abstract(s) with review deadlines in the next 3 days.
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+@endif
+
 <!-- Abstracts Table -->
 <div class="card">
     <div class="card-header">
-        <h5 class="mb-0"><i class="fas fa-list me-2"></i>All Abstracts</h5>
+        <h5 class="mb-0"><i class="fas fa-list me-2"></i>My Assigned Abstracts</h5>
     </div>
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-hover data-table">
                 <thead>
                     <tr>
-                        <th>
-                            <input type="checkbox" id="selectAll">
-                        </th>
                         <th>Submission ID</th>
                         <th>Title</th>
                         <th>Author</th>
-                        <th>Sub-theme</th>
                         <th>Status</th>
-                        <th>Reviewer</th>
-                        <th>Submitted</th>
+                        <th>Assigned Date</th>
+                        <th>Review Deadline</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($abstracts ?? [] as $abstract)
-                    <tr>
+                    <tr class="{{ $abstract->isUrgent ?? false ? 'table-warning' : '' }}">
+                        <td><strong class="text-primary">{{ $abstract->submission_id }}</strong></td>
                         <td>
-                            <input type="checkbox" class="select-item" value="{{ $abstract->id }}">
-                        </td>
-                        <td><strong class="text-kalro-primary">{{ $abstract->submission_id }}</strong></td>
-                        <td>
-                            <a href="{{ route('admin.abstracts.show', $abstract->id) }}" class="text-decoration-none">
-                                {{ Str::limit($abstract->title, 50) }}
+                            <a href="{{ route('reviewer.abstracts.show', $abstract->id) }}" class="text-decoration-none">
+                                {{ Str::limit($abstract->title, 60) }}
                             </a>
+                            @if($abstract->isUrgent ?? false)
+                            <span class="badge bg-danger ms-1">Urgent</span>
+                            @endif
                         </td>
                         <td>{{ $abstract->author_name }}</td>
                         <td>
-                            <span class="badge bg-secondary">{{ $abstract->subtheme->name ?? 'N/A' }}</span>
-                        </td>
-                        <td>
-                            <span class="badge badge-{{ strtolower(str_replace('_', '-', $abstract->status)) }}">
-                                {{ ucfirst(str_replace('_', ' ', $abstract->status)) }}
-                            </span>
-                        </td>
-                        <td>
-                            @if($abstract->reviewer)
-                                {{ $abstract->reviewer->name }}
+                            @if($abstract->review_status == 'pending')
+                                <span class="badge badge-pending">
+                                    <i class="fas fa-clock me-1"></i>Pending Review
+                                </span>
+                            @elseif($abstract->review_status == 'under_review')
+                                <span class="badge badge-under-review">
+                                    <i class="fas fa-search me-1"></i>Under Review
+                                </span>
+                            @elseif($abstract->review_status == 'reviewed')
+                                <span class="badge badge-reviewed">
+                                    <i class="fas fa-check me-1"></i>Reviewed
+                                </span>
+                            @elseif($abstract->review_status == 'approved')
+                                <span class="badge badge-approved">
+                                    <i class="fas fa-check-circle me-1"></i>Approved
+                                </span>
                             @else
-                                <span class="text-muted">Unassigned</span>
+                                <span class="badge badge-rejected">
+                                    <i class="fas fa-times-circle me-1"></i>Rejected
+                                </span>
                             @endif
                         </td>
-                        <td>{{ $abstract->created_at->format('M d, Y') }}</td>
+                        <td>{{ $abstract->assigned_at ? $abstract->assigned_at->format('M d, Y') : 'N/A' }}</td>
+                        <td>
+                            @if($abstract->review_deadline)
+                                @php
+                                    $deadline = \Carbon\Carbon::parse($abstract->review_deadline);
+                                    $daysLeft = now()->diffInDays($deadline, false);
+                                @endphp
+                                <span class="{{ $daysLeft <= 3 && $daysLeft >= 0 ? 'text-danger fw-bold' : '' }}">
+                                    {{ $deadline->format('M d, Y') }}
+                                    @if($daysLeft >= 0)
+                                        <small class="text-muted">({{ $daysLeft }} days left)</small>
+                                    @else
+                                        <small class="text-danger">(Overdue)</small>
+                                    @endif
+                                </span>
+                            @else
+                                <span class="text-muted">No deadline set</span>
+                            @endif
+                        </td>
                         <td>
                             <div class="btn-group btn-group-sm">
-                                <a href="{{ route('admin.abstracts.show', $abstract->id) }}" class="btn btn-info" title="View">
+                                <a href="{{ route('reviewer.abstracts.show', $abstract->id) }}" class="btn btn-info" title="View & Review">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <button class="btn btn-primary" onclick="assignReviewer({{ $abstract->id }})" title="Assign Reviewer">
-                                    <i class="fas fa-user-plus"></i>
+                                
+                                @if($abstract->review_status != 'reviewed')
+                                <a href="{{ route('reviewer.abstracts.review', $abstract->id) }}" class="btn btn-primary" title="Start Review">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                @else
+                                <a href="{{ route('reviewer.abstracts.review', $abstract->id) }}" class="btn btn-secondary" title="Edit Review">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
+                                @endif
+                                
+                                <button class="btn btn-success" onclick="downloadAbstract({{ $abstract->id }})" title="Download PDF">
+                                    <i class="fas fa-download"></i>
                                 </button>
-                                <div class="btn-group btn-group-sm" role="group">
-                                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-end">
-                                        <li><a class="dropdown-item" href="#" onclick="changeStatus({{ $abstract->id }}, 'under_review')">Mark Under Review</a></li>
-                                        <li><a class="dropdown-item" href="#" onclick="changeStatus({{ $abstract->id }}, 'approved')">Approve</a></li>
-                                        <li><a class="dropdown-item" href="#" onclick="changeStatus({{ $abstract->id }}, 'rejected')">Reject</a></li>
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item text-danger" href="#" onclick="deleteAbstract({{ $abstract->id }})">Delete</a></li>
-                                    </ul>
-                                </div>
                             </div>
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="9" class="text-center text-muted py-4">No abstracts found</td>
+                        <td colspan="7" class="text-center text-muted py-5">
+                            <i class="fas fa-inbox fa-3x mb-3 d-block"></i>
+                            <p class="mb-0">No abstracts have been assigned to you yet.</p>
+                            <small>Please check back later or contact the administrator.</small>
+                        </td>
                     </tr>
                     @endforelse
                 </tbody>
@@ -238,69 +260,74 @@
     </div>
 </div>
 
-<!-- Assign Reviewer Modal -->
-<div class="modal fade" id="assignReviewerModal" tabindex="-1">
-    <div class="modal-dialog">
+<!-- Review Guidelines Modal -->
+<div class="modal fade" id="guidelinesModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Assign Reviewer</h5>
+                <h5 class="modal-title"><i class="fas fa-book me-2"></i>Review Guidelines</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form id="assignReviewerForm">
-                <div class="modal-body">
-                    <input type="hidden" id="abstract_id" name="abstract_id">
-                    <div class="mb-3">
-                        <label class="form-label">Select Reviewer</label>
-                        <select class="form-select" name="reviewer_id" required>
-                            <option value="">Choose a reviewer...</option>
-                            @foreach($reviewers ?? [] as $reviewer)
-                            <option value="{{ $reviewer->id }}">
-                                {{ $reviewer->name }} - {{ $reviewer->subtheme->name ?? 'No theme' }}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle me-2"></i>
-                        Reviewers can only be assigned abstracts from their sub-theme.
-                    </div>
+            <div class="modal-body">
+                <h6>General Guidelines:</h6>
+                <ul>
+                    <li>Review abstracts thoroughly for scientific merit, clarity, and relevance to the conference theme</li>
+                    <li>Provide constructive feedback to help authors improve their work</li>
+                    <li>Maintain confidentiality of all submitted abstracts</li>
+                    <li>Complete reviews before the deadline</li>
+                    <li>Declare any conflicts of interest</li>
+                </ul>
+                
+                <h6 class="mt-4">Evaluation Criteria:</h6>
+                <ul>
+                    <li><strong>Originality:</strong> Is the research novel and innovative?</li>
+                    <li><strong>Scientific Merit:</strong> Is the methodology sound and appropriate?</li>
+                    <li><strong>Clarity:</strong> Is the abstract well-written and easy to understand?</li>
+                    <li><strong>Relevance:</strong> Does it align with the conference sub-theme?</li>
+                    <li><strong>Impact:</strong> What is the potential contribution to the field?</li>
+                </ul>
+                
+                <div class="alert alert-info mt-4">
+                    <i class="fas fa-info-circle me-2"></i>
+                    For detailed review criteria, please refer to the Review Handbook in the Help section.
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-kalro-primary">Assign Reviewer</button>
-                </div>
-            </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="#" class="btn btn-reviewer-primary">View Full Guidelines</a>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- Bulk Action Modal -->
-<div class="modal fade" id="bulkActionModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Bulk Actions</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <form id="bulkActionForm">
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label">Select Action</label>
-                        <select class="form-select" name="action" required>
-                            <option value="">Choose an action...</option>
-                            <option value="assign_reviewer">Assign Reviewer</option>
-                            <option value="change_status">Change Status</option>
-                            <option value="export">Export Selected</option>
-                            <option value="delete">Delete Selected</option>
-                        </select>
+<!-- Quick Stats Info -->
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card bg-light">
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-3">
+                        <i class="fas fa-star text-warning fa-2x mb-2"></i>
+                        <h6 class="text-muted">Average Rating Given</h6>
+                        <h4>{{ $reviewerStats['avgRating'] ?? 'N/A' }}</h4>
                     </div>
-                    <div id="actionOptions"></div>
+                    <div class="col-md-3">
+                        <i class="fas fa-chart-line text-success fa-2x mb-2"></i>
+                        <h6 class="text-muted">Reviews This Month</h6>
+                        <h4>{{ $reviewerStats['monthlyReviews'] ?? 0 }}</h4>
+                    </div>
+                    <div class="col-md-3">
+                        <i class="fas fa-clock text-info fa-2x mb-2"></i>
+                        <h6 class="text-muted">Avg. Review Time</h6>
+                        <h4>{{ $reviewerStats['avgReviewTime'] ?? 'N/A' }}</h4>
+                    </div>
+                    <div class="col-md-3">
+                        <i class="fas fa-trophy text-primary fa-2x mb-2"></i>
+                        <h6 class="text-muted">Total Reviews</h6>
+                        <h4>{{ $reviewerStats['totalReviews'] ?? 0 }}</h4>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-kalro-primary">Apply</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
@@ -308,83 +335,22 @@
 
 @section('scripts')
 <script>
-    // Select all checkbox
-    document.getElementById('selectAll')?.addEventListener('change', function() {
-        document.querySelectorAll('.select-item').forEach(cb => cb.checked = this.checked);
-    });
-
-    // Assign Reviewer
-    function assignReviewer(abstractId) {
-        document.getElementById('abstract_id').value = abstractId;
-        new bootstrap.Modal(document.getElementById('assignReviewerModal')).show();
-    }
-
-    // Handle assign reviewer form
-    document.getElementById('assignReviewerForm')?.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const formData = new FormData(this);
-        
-        // Make AJAX call here
-        fetch('#', {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                'Accept': 'application/json'
-            },
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                location.reload();
-            }
-        });
-    });
-
-    // Change Status
-    function changeStatus(abstractId, status) {
-        if (confirm('Are you sure you want to change the status?')) {
-            fetch(`/admin/abstracts/${abstractId}/status`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({ status: status })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    location.reload();
-                }
-            });
-        }
-    }
-
-    // Delete Abstract
-    function deleteAbstract(abstractId) {
-        if (confirm('Are you sure you want to delete this abstract? This action cannot be undone.')) {
-            fetch(`/admin/abstracts/${abstractId}`, {
-                method: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    location.reload();
-                }
-            });
-        }
+    // Download Abstract
+    function downloadAbstract(abstractId) {
+        window.open(`/reviewer/abstracts/${abstractId}/download`, '_blank');
     }
 
     // Export Data
     function exportData() {
         const params = new URLSearchParams(window.location.search);
-        window.location.href = '#' + params.toString();
+        window.location.href = '/' + params.toString();
     }
+
+    // Show guidelines on first visit
+    $(document).ready(function() {
+        @if(session('first_visit'))
+            new bootstrap.Modal(document.getElementById('guidelinesModal')).show();
+        @endif
+    });
 </script>
 @endsection
