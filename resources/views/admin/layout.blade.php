@@ -294,7 +294,7 @@
                 <span>Manage Abstracts</span>
             </a>
             
-            <a href="/" class="menu-item {{ request()->routeIs('admin.fullpapers.*') ? 'active' : '' }}">
+            <a href="{{route('fullpapers.index')}}" class="menu-item {{ request()->routeIs('admin.fullpapers.*') ? 'active' : '' }}">
                 <i class="fas fa-file-pdf"></i>
                 <span>Manage Full Papers</span>
             </a>
