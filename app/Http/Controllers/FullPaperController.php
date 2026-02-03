@@ -55,31 +55,47 @@ class FullPaperController extends Controller
 
     public function index(Request $request)
     {
-        $query = FullPaper::with([
-            'abstract',
-            'abstract.subTheme',
-        ]);
 
-        // Filters
+        $fullPapers = FullPaper::with(['abstract', 'abstract.subTheme'])->get();
+
+        $query = FullPaper::with(['abstract', 'abstract.subTheme']);
+
+        // Filter by status
         if ($request->filled('status')) {
-            $query->where('status', $request->status);
+            $query->where('status', strtoupper($request->status));
         }
 
+        // Filter by subtheme
         if ($request->filled('subtheme')) {
-            $query->whereHas('abstract', function ($q) use ($request) {
+            $query->whereHas('abstract', function($q) use ($request) {
                 $q->where('sub_theme_id', $request->subtheme);
             });
+        }
+
+        // Optional: filter by date range
+        if ($request->filled('date_range')) {
+            switch($request->date_range) {
+                case 'today':
+                    $query->whereDate('created_at', now());
+                    break;
+                case 'week':
+                    $query->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+                    break;
+                case 'month':
+                    $query->whereMonth('created_at', now()->month);
+                    break;
+            }
         }
 
         $fullPapers = $query->latest()->get();
 
         $stats = [
-            'total'   => FullPaper::count(),
-            'pending' => FullPaper::where('status', 'pending')->count(),
-            'accepted'=> FullPaper::where('status', 'accepted')->count(),
-            'rejected'=> FullPaper::where('status', 'rejected')->count(),
+            'total'    => FullPaper::count(),
+            'pending'  => FullPaper::where('status', 'PENDING')->count(),
+            'accepted' => FullPaper::where('status', 'APPROVED')->count(),
+            'rejected' => FullPaper::where('status', 'REJECTED')->count(),
         ];
-
+        
         $subthemes = SubTheme::all();
 
         return view('admin.fullpapers.index', compact(
