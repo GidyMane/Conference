@@ -44,3 +44,66 @@ Route::get('/full-papers/{abstract}',[FullPaperController::class, 'create'])->na
 
 Route::post('/full-papers/{abstract}',[FullPaperController::class, 'store'])->name('full-papers.store');
 
+// Reviewer Authentication Routes
+Route::prefix('reviewer')->name('reviewer.')->group(function () {
+    Route::get('/login', [ReviewerAuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [ReviewerAuthController::class, 'login'])->name('login.submit');
+    Route::post('/logout', [ReviewerAuthController::class, 'logout'])->name('logout');
+});
+// Protected Reviewer Routes (require login)
+Route::prefix('reviewer')->name('reviewer.')->middleware('web')->group(function () {
+    
+    // Dashboard
+    Route::get('/dashboard', [ReviewerDashboardController::class, 'index'])->name('dashboard');
+    
+    // Assignments
+    Route::get('/assignments', [ReviewerDashboardController::class, 'assignments'])->name('assignments.index');
+    Route::get('/assignments/{id}', [ReviewerDashboardController::class, 'showAbstract'])->name('assignments.show');
+    Route::post('/assignments/{id}/review', [ReviewerDashboardController::class, 'submitReview'])->name('assignments.review');
+    
+    // Profile
+    Route::get('/profile', [ReviewerDashboardController::class, 'profile'])->name('profile');
+    Route::post('/profile', [ReviewerDashboardController::class, 'updateProfile'])->name('profile.update');
+    Route::get('/change-password', [ReviewerDashboardController::class, 'changePassword'])->name('change-password');
+    Route::post('/change-password', [ReviewerDashboardController::class, 'updatePassword'])->name('change-password.update');
+});
+
+// Admin Authentication Routes
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AdminAuthController::class, 'login'])->name('login.submit');
+    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
+});
+
+// Protected Admin Routes (require login)
+Route::prefix('admin')->name('admin.')->middleware('web')->group(function () {
+    
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard/chart-data', [DashboardController::class, 'getChartData'])->name('dashboard.chart-data');
+    
+    // Abstracts Management
+    Route::prefix('abstracts')->name('abstracts.')->group(function () {
+        Route::get('/', [AbstractController::class, 'index'])->name('index');
+        Route::get('/{id}', [AbstractController::class, 'show'])->name('show');
+        Route::post('/{id}/assign-reviewer', [AbstractController::class, 'assignReviewer'])->name('assign-reviewer');
+        Route::delete('/{id}/assignments/{assignmentId}', [AbstractController::class, 'removeAssignment'])->name('remove-assignment');
+        Route::post('/{id}/update-status', [AbstractController::class, 'updateStatus'])->name('update-status');
+        Route::post('/bulk-action', [AbstractController::class, 'bulkAction'])->name('bulk-action');
+        Route::get('/export', [AbstractController::class, 'export'])->name('export');
+    });
+        // Reviewers Management
+    Route::prefix('reviewers')->name('reviewers.')->group(function () {
+        Route::get('/', [ReviewerController::class, 'index'])->name('index');
+        Route::get('/create', [ReviewerController::class, 'create'])->name('create');
+        Route::post('/', [ReviewerController::class, 'store'])->name('store');
+        Route::get('/{id}', [ReviewerController::class, 'show'])->name('show');
+        Route::get('/{id}/edit', [ReviewerController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [ReviewerController::class, 'update'])->name('update');
+        Route::delete('/{id}', [ReviewerController::class, 'destroy'])->name('destroy');
+        Route::post('/{id}/reset-password', [ReviewerController::class, 'resetPassword'])->name('reset-password');
+        Route::get('/workload/view', [ReviewerController::class, 'workload'])->name('workload');
+    });
+});
+
+    
