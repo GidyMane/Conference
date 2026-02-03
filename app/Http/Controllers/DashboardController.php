@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -140,7 +140,7 @@ class DashboardController extends Controller
             ];
         }
 
-        return view('admin.dashboard.index', compact(
+        return view('admin.dashboard2', compact(
             'metrics',
             'recentAbstracts',
             'recentReviews',

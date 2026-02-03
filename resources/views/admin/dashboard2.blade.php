@@ -113,7 +113,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0"><i class="fas fa-file-alt me-2"></i>Recent Abstracts</h5>
-                <a href="{{ route('admin.abstracts.index') }}" class="btn btn-sm btn-kalro-primary">View All</a>
+                <a href="/" class="btn btn-sm btn-kalro-primary">View All</a>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
@@ -154,7 +154,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0"><i class="fas fa-users me-2"></i>Active Reviewers</h5>
-                <a href="{{ route('admin.users.index') }}" class="btn btn-sm btn-kalro-primary">View All</a>
+                <a href="/users" class="btn btn-sm btn-kalro-primary">View All</a>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">

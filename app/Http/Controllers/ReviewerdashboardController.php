@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Reviewer;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -86,7 +86,7 @@ class ReviewerDashboardController extends Controller
             ],
         ];
 
-        return view('reviewer.dashboard.index', compact('stats', 'assignments'));
+        return view('admin.reviewer.index', compact('stats', 'assignments'));
     }
 
     public function assignments(Request $request)
