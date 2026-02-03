@@ -5,11 +5,20 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Models\SubTheme;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use App\Models\Reviewer;
 
 class ReviewerDashboardController extends Controller
 {
     public function index()
     {
+        if (auth()->user()->password_setup_token !== null) {
+            return redirect()->route('reviewer.password.change');
+        }
+
         // Get reviewer from session (dummy data)
         $reviewer = (object) session('reviewer_user', [
             'id' => 1,
@@ -200,14 +209,14 @@ class ReviewerDashboardController extends Controller
     public function updateProfile(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'full_name' => 'required|string|max:255',
             'organization' => 'nullable|string|max:255',
             'expertise' => 'nullable|string',
         ]);
 
         // Update session data
         $reviewer = session('reviewer_user');
-        $reviewer['name'] = $validated['name'];
+        $reviewer['full_name'] = $validated['full_name'];
         $reviewer['organization'] = $validated['organization'] ?? '';
         $reviewer['expertise'] = $validated['expertise'] ?? '';
         session(['reviewer_user' => $reviewer]);
@@ -237,5 +246,71 @@ class ReviewerDashboardController extends Controller
 
         return redirect()->route('reviewer.dashboard')
             ->with('success', 'Password changed successfully.');
+    }
+
+    public function create()
+    {
+        $subthemes = SubTheme::orderBy('full_name')->get();
+        $users = User::with('reviewer.subTheme')->get();
+
+        $stats = [
+            'total_users'       => User::count(),
+            'active_reviewers'  => User::where('role', 'REVIEWER')->count(),
+            'admins'            => User::where('role', 'ADMIN')->count(),
+            'pending_setup'     => User::whereNotNull('password_setup_token')->count(),
+        ];
+
+        return view('admin.users.index', compact(
+            'subthemes',
+            'users',
+            'stats'
+        ));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'full_name'  => 'required|string|max:255',
+            'email'      => 'required|email|unique:users,email',
+            'subtheme_id'=> 'required|exists:sub_themes,id',
+        ]);
+
+        // Generate one-time password
+        $plainPassword = Str::random(10);
+
+        // Create user
+        $user = User::create([
+            'full_name' => $request->full_name,
+            'email'     => $request->email,
+            'password'  => Hash::make($plainPassword),
+            'role'      => 'REVIEWER', // enforced
+            'is_active' => true,
+            'password_setup_token' => Str::uuid(),
+            'password_setup_expires_at' => now()->addHours(24),
+        ]);
+
+        // Assign reviewer sub-theme
+        if ($user->role === 'REVIEWER') {
+            Reviewer::create([
+                'user_id'      => $user->id,
+                'sub_theme_id' => $request->subtheme_id,
+            ]);
+        }
+
+        // Attempt to send email
+        try {
+            Mail::to($user->email)->send(
+                new \App\Mail\UserWelcomeMail($user, $plainPassword)
+            );
+
+            return redirect()->back()->with('success', 'User created successfully and email sent!');
+        } catch (\Throwable $e) {
+            \Log::error('Welcome email failed', [
+                'error' => $e->getMessage()
+            ]);
+
+            return redirect()->back()
+                ->with('warning', 'User created successfully, but welcome email failed to send.');
+        }
     }
 }

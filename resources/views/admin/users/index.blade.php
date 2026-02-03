@@ -88,26 +88,10 @@
         <h5 class="mb-0"><i class="fas fa-filter me-2"></i>Filters</h5>
     </div>
     <div class="card-body">
-        <form method="GET" action="{{ route('admin.users.index') }}">
+        <form method="GET" action="#">
             <div class="row g-3">
-                <div class="col-md-3">
-                    <label class="form-label">Role</label>
-                    <select name="role" class="form-select">
-                        <option value="">All Roles</option>
-                        <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                        <option value="reviewer" {{ request('role') == 'reviewer' ? 'selected' : '' }}>Reviewer</option>
-                    </select>
-                </div>
-                
-                <div class="col-md-3">
-                    <label class="form-label">Status</label>
-                    <select name="status" class="form-select">
-                        <option value="">All Status</option>
-                        <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
-                        <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
-                        <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending Setup</option>
-                    </select>
-                </div>
+                <input type="hidden" name="role" value="REVIEWER">
+
                 
                 <div class="col-md-3">
                     <label class="form-label">Sub-theme</label>
@@ -115,7 +99,7 @@
                         <option value="">All Sub-themes</option>
                         @foreach($subthemes ?? [] as $subtheme)
                         <option value="{{ $subtheme->id }}" {{ request('subtheme') == $subtheme->id ? 'selected' : '' }}>
-                            {{ $subtheme->name }}
+                            {{ $subtheme->full_name }}
                         </option>
                         @endforeach
                     </select>
@@ -127,7 +111,7 @@
                         <button type="submit" class="btn btn-kalro-primary flex-grow-1">
                             <i class="fas fa-search me-2"></i>Filter
                         </button>
-                        <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary">
+                        <a href="#" class="btn btn-outline-secondary">
                             <i class="fas fa-redo"></i>
                         </a>
                     </div>
@@ -152,9 +136,8 @@
                         <th>Email</th>
                         <th>Role</th>
                         <th>Sub-theme</th>
-                        <th>Assigned</th>
-                        <th>Completed</th>
                         <th>Status</th>
+                        <th>Assigned</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -165,45 +148,38 @@
                         <td>
                             <div class="d-flex align-items-center">
                                 <div class="user-avatar me-2" style="width: 35px; height: 35px; font-size: 14px;">
-                                    {{ strtoupper(substr($user->name, 0, 1)) }}
+                                    {{ strtoupper(substr($user->full_name, 0, 1)) }}
                                 </div>
-                                <strong>{{ $user->name }}</strong>
+                                <strong>{{ $user->full_name }}</strong>
                             </div>
                         </td>
                         <td>{{ $user->email }}</td>
                         <td>
-                            <span class="badge {{ $user->role == 'admin' ? 'bg-danger' : 'bg-primary' }}">
+                            <span class="badge {{ $user->role == 'ADMIN' ? 'bg-danger' : 'bg-primary' }}">
                                 {{ ucfirst($user->role) }}
                             </span>
                         </td>
                         <td>
-                            @if($user->subtheme)
-                                <span class="badge bg-secondary">{{ $user->subtheme->name }}</span>
+                            @if($user->reviewer && $user->reviewer->subTheme)
+                                <span class="badge bg-secondary">
+                                    {{ $user->reviewer->subTheme->form_field_value }}
+                                </span>
                             @else
                                 <span class="text-muted">-</span>
                             @endif
                         </td>
                         <td>
-                            @if($user->role == 'reviewer')
+                            @if($user->role == 'REVIEWER')
                                 <span class="badge bg-info">{{ $user->assigned_abstracts_count ?? 0 }}</span>
                             @else
                                 <span class="text-muted">-</span>
                             @endif
                         </td>
                         <td>
-                            @if($user->role == 'reviewer')
+                            @if($user->role == 'REVIEWER')
                                 <span class="badge bg-success">{{ $user->completed_reviews_count ?? 0 }}</span>
                             @else
                                 <span class="text-muted">-</span>
-                            @endif
-                        </td>
-                        <td>
-                            @if($user->status == 'active')
-                                <span class="badge bg-success">Active</span>
-                            @elseif($user->status == 'inactive')
-                                <span class="badge bg-secondary">Inactive</span>
-                            @else
-                                <span class="badge bg-warning">Pending</span>
                             @endif
                         </td>
                         <td>
@@ -214,7 +190,7 @@
                                 <button class="btn btn-primary" onclick="editUser({{ $user->id }})" title="Edit">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                @if($user->role == 'reviewer')
+                                @if($user->role == 'REVIEWER')
                                 <button class="btn btn-success" onclick="assignAbstracts({{ $user->id }})" title="Assign Abstracts">
                                     <i class="fas fa-file-alt"></i>
                                 </button>
@@ -247,12 +223,13 @@
                 <h5 class="modal-title">Add New User</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form id="addUserForm">
+            <form id="addUserForm" action="{{route('admin.users.store')}}" method="POST">
+                @csrf
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Full Name *</label>
-                            <input type="text" class="form-control" name="name" required>
+                            <input type="text" class="form-control" name="full_name" required>
                         </div>
                         
                         <div class="col-md-6 mb-3">
@@ -260,34 +237,15 @@
                             <input type="email" class="form-control" name="email" required>
                         </div>
                         
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Role *</label>
-                            <select class="form-select" name="role" id="userRole" required>
-                                <option value="">Select Role</option>
-                                <option value="admin">Admin</option>
-                                <option value="reviewer">Reviewer</option>
-                            </select>
-                        </div>
-                        
-                        <div class="col-md-6 mb-3" id="subthemeField" style="display: none;">
+                        <div class="col-md-6 mb-3" id="subthemeField">
                             <label class="form-label">Sub-theme *</label>
-                            <select class="form-select" name="subtheme_id">
+                            <select class="form-select" name="subtheme_id" required>
                                 <option value="">Select Sub-theme</option>
                                 @foreach($subthemes ?? [] as $subtheme)
-                                <option value="{{ $subtheme->id }}">{{ $subtheme->name }}</option>
+                                <option value="{{ $subtheme->id }}">{{ $subtheme->full_name }}</option>
                                 @endforeach
                             </select>
                             <small class="text-muted">Reviewers can only be assigned to one sub-theme</small>
-                        </div>
-                        
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Phone Number</label>
-                            <input type="text" class="form-control" name="phone" placeholder="+254...">
-                        </div>
-                        
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Institution/Organization</label>
-                            <input type="text" class="form-control" name="institution">
                         </div>
                         
                         <div class="col-12 mb-3">
@@ -331,7 +289,7 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Full Name *</label>
-                            <input type="text" class="form-control" name="name" id="editUserName" required>
+                            <input type="text" class="form-control" name="full_name" id="editUserName" required>
                         </div>
                         
                         <div class="col-md-6 mb-3">
@@ -342,8 +300,8 @@
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Role *</label>
                             <select class="form-select" name="role" id="editUserRole" required>
-                                <option value="admin">Admin</option>
-                                <option value="reviewer">Reviewer</option>
+                                <option value="ADMIN">Admin</option>
+                                <option value="REVIEWER">Reviewer</option>
                             </select>
                         </div>
                         
@@ -352,28 +310,9 @@
                             <select class="form-select" name="subtheme_id" id="editUserSubtheme">
                                 <option value="">Select Sub-theme</option>
                                 @foreach($subthemes ?? [] as $subtheme)
-                                <option value="{{ $subtheme->id }}">{{ $subtheme->name }}</option>
+                                <option value="{{ $subtheme->id }}">{{ $subtheme->full_name }}</option>
                                 @endforeach
                             </select>
-                        </div>
-                        
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Status</label>
-                            <select class="form-select" name="status" id="editUserStatus">
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
-                                <option value="pending">Pending</option>
-                            </select>
-                        </div>
-                        
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Phone Number</label>
-                            <input type="text" class="form-control" name="phone" id="editUserPhone">
-                        </div>
-                        
-                        <div class="col-12 mb-3">
-                            <label class="form-label">Institution/Organization</label>
-                            <input type="text" class="form-control" name="institution" id="editUserInstitution">
                         </div>
                     </div>
                 </div>
@@ -433,17 +372,7 @@
 
 @section('scripts')
 <script>
-    // Show/hide subtheme field based on role
-    document.getElementById('userRole')?.addEventListener('change', function() {
-        const subthemeField = document.getElementById('subthemeField');
-        if (this.value === 'reviewer') {
-            subthemeField.style.display = 'block';
-            subthemeField.querySelector('select').required = true;
-        } else {
-            subthemeField.style.display = 'none';
-            subthemeField.querySelector('select').required = false;
-        }
-    });
+
     
     // Add user form submission
     document.getElementById('addUserForm')?.addEventListener('submit', function(e) {
@@ -458,7 +387,18 @@
             },
             body: formData
         })
-        .then(response => response.json())
+        .then(async response => {
+            if (!response.ok) {
+                const err = await response.json();
+                const message =
+                    err?.message ||
+                    (err?.errors ? Object.values(err.errors).flat().join('\n') : 'Something went wrong');
+
+                alert(message);
+                return;
+            }
+            return response.json();
+        })
         .then(data => {
             if (data.success) {
                 location.reload();
@@ -473,16 +413,24 @@
     function editUser(userId) {
         // Fetch user data and populate edit modal
         fetch(`/admin/users/${userId}/edit`)
-            .then(response => response.json())
+            .then(async response => {
+                if (!response.ok) {
+                    const err = await response.json();
+                                        aconst message =
+                        err?.message ||
+                        (err?.errors ? Object.values(err.errors).flat().join('\n') : 'Something went wrong');
+
+                    alert(message);
+                    return;
+                }
+                return response.json();
+            })
             .then(data => {
                 document.getElementById('editUserId').value = data.id;
-                document.getElementById('editUserName').value = data.name;
+                document.getElementById('editUserName').value = data.full_name;
                 document.getElementById('editUserEmail').value = data.email;
                 document.getElementById('editUserRole').value = data.role;
                 document.getElementById('editUserSubtheme').value = data.subtheme_id || '';
-                document.getElementById('editUserStatus').value = data.status;
-                document.getElementById('editUserPhone').value = data.phone || '';
-                document.getElementById('editUserInstitution').value = data.institution || '';
                 
                 new bootstrap.Modal(document.getElementById('editUserModal')).show();
             });
@@ -491,11 +439,22 @@
     function assignAbstracts(userId) {
         // Fetch reviewer data and available abstracts
         fetch(`/admin/users/${userId}/available-abstracts`)
-            .then(response => response.json())
+            .then(async response => {
+                if (!response.ok) {
+                    const err = await response.json();
+                    const message =
+                        err?.message ||
+                        (err?.errors ? Object.values(err.errors).flat().join('\n') : 'Something went wrong');
+
+                    alert(message);
+                    return;
+                }
+                return response.json();
+            })
             .then(data => {
                 document.getElementById('assignReviewerId').value = data.reviewer.id;
-                document.getElementById('assignReviewerName').value = data.reviewer.name;
-                document.getElementById('assignReviewerSubtheme').value = data.reviewer.subtheme?.name || 'None';
+                document.getElementById('assignReviewerName').value = data.reviewer.full_name;
+                document.getElementById('assignReviewerSubtheme').value = data.reviewer.subtheme?.full_name || 'None';
                 
                 const abstractsContainer = document.getElementById('availableAbstracts');
                 abstractsContainer.innerHTML = '';
@@ -528,7 +487,18 @@
                     'Accept': 'application/json'
                 }
             })
-            .then(response => response.json())
+            .then(async response => {
+                if (!response.ok) {
+                    const err = await response.json();
+                    const message =
+                        err?.message ||
+                        (err?.errors ? Object.values(err.errors).flat().join('\n') : 'Something went wrong');
+
+                    alert(message);
+                    return;
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
                     alert('Password reset successfully. New credentials have been sent to the user\'s email.');
@@ -546,7 +516,18 @@
                     'Accept': 'application/json'
                 }
             })
-            .then(response => response.json())
+            .then(async response => {
+                if (!response.ok) {
+                    const err = await response.json();
+                    const message =
+                        err?.message ||
+                        (err?.errors ? Object.values(err.errors).flat().join('\n') : 'Something went wrong');
+
+                    alert(message);
+                    return;
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
                     location.reload();

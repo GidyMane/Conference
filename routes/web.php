@@ -47,12 +47,19 @@ Route::get('/full-papers/{abstract}',[FullPaperController::class, 'create'])->na
 
 Route::post('/full-papers/{abstract}',[FullPaperController::class, 'store'])->name('full-papers.store');
 
-// Reviewer Authentication Routes
+// Reviewer Authentication Routes (for login & password setup)
 Route::prefix('reviewer')->name('reviewer.')->group(function () {
     Route::get('/login', [ReviewerAuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [ReviewerAuthController::class, 'login'])->name('login.submit');
     Route::post('/logout', [ReviewerAuthController::class, 'logout'])->name('logout');
+
+    // 🔐 Password change (first login)
+    Route::get('/change-password', [ReviewerAuthController::class, 'showChangePasswordForm'])
+        ->name('password.change');
+    Route::post('/change-password', [ReviewerAuthController::class, 'updatePassword'])
+        ->name('password.update');
 });
+
 // Protected Reviewer Routes (require login)
 Route::prefix('reviewer')->name('reviewer.')->middleware('web', 'auth', 'reviewer')->group(function () {
     
@@ -67,8 +74,6 @@ Route::prefix('reviewer')->name('reviewer.')->middleware('web', 'auth', 'reviewe
     // Profile
     Route::get('/profile', [ReviewerDashboardController::class, 'profile'])->name('profile');
     Route::post('/profile', [ReviewerDashboardController::class, 'updateProfile'])->name('profile.update');
-    Route::get('/change-password', [ReviewerDashboardController::class, 'changePassword'])->name('change-password');
-    Route::post('/change-password', [ReviewerDashboardController::class, 'updatePassword'])->name('change-password.update');
 });
 
 // Admin Authentication Routes
@@ -84,6 +89,9 @@ Route::prefix('admin')->name('admin.')->middleware('web', 'auth', 'admin')->grou
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/chart-data', [DashboardController::class, 'getChartData'])->name('dashboard.chart-data');
+
+    Route::post('/users', [ReviewerDashboardController::class, 'store'])
+        ->name('users.store');
     
     // Abstracts Management
     Route::prefix('abstracts')->name('abstracts.')->group(function () {
