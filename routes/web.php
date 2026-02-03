@@ -54,7 +54,7 @@ Route::prefix('reviewer')->name('reviewer.')->group(function () {
     Route::post('/logout', [ReviewerAuthController::class, 'logout'])->name('logout');
 });
 // Protected Reviewer Routes (require login)
-Route::prefix('reviewer')->name('reviewer.')->middleware('web')->group(function () {
+Route::prefix('reviewer')->name('reviewer.')->middleware('web', 'auth', 'reviewer')->group(function () {
     
     // Dashboard
     Route::get('/dashboard', [ReviewerDashboardController::class, 'index'])->name('dashboard');
