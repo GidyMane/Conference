@@ -2,68 +2,91 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\SubmittedAbstract as AbstractSubmission;
+use App\Models\SubmittedAbstract;
 use App\Models\Reviewer;
 use App\Models\Subtheme;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
+use Carbon\Carbon;
 
 class ReviewerAbstractController extends Controller
 {
     /**
-     * Display a listing of the abstracts.
+     * Display a listing of the abstracts assigned to the logged-in reviewer.
      */
     public function index(Request $request)
     {
-        $query = AbstractSubmission::query()->with(['subtheme', 'reviewer']);
+        $userId = auth()->id();
+
+        // Base query: only abstracts assigned to this reviewer
+        $query = SubmittedAbstract::with([
+            'subtheme',
+            'assignments' => function ($q) use ($userId) {
+                $q->where('reviewer_id', $userId);
+            }
+        ])->whereHas('assignments', function ($q) use ($userId) {
+            $q->where('reviewer_id', $userId);
+        });
 
         // Filters
         if ($request->filled('status')) {
-            $query->where('status', $request->status);
-        }
-
-        if ($request->filled('subtheme')) {
-            $query->where('subtheme_id', $request->subtheme);
-        }
-
-        if ($request->filled('reviewer')) {
-            if ($request->reviewer === 'unassigned') {
-                $query->whereNull('reviewer_id');
-            } else {
-                $query->where('reviewer_id', $request->reviewer);
-            }
+            $query->where('review_status', $request->status);
         }
 
         if ($request->filled('date_range')) {
-            switch ($request->date_range) {
-                case 'today':
-                    $query->whereDate('created_at', now()->toDateString());
-                    break;
-                case 'week':
-                    $query->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
-                    break;
-                case 'month':
-                    $query->whereMonth('created_at', now()->month);
-                    break;
+            $today = now();
+            if ($request->date_range === 'today') {
+                $query->whereDate('created_at', $today);
+            } elseif ($request->date_range === 'week') {
+                $query->whereBetween('created_at', [$today->startOfWeek(), $today->endOfWeek()]);
+            } elseif ($request->date_range === 'month') {
+                $query->whereMonth('created_at', $today->month);
             }
         }
 
-       // $abstracts = $query->orderBy('created_at', 'desc')->paginate(15);
+        // Sorting
+        $sort = $request->get('sort', 'newest');
 
-        $subthemes = Subtheme::all();
-        $reviewers = Reviewer::all();
+        if ($sort === 'oldest') {
+            $query->join('abstract_assignments', 'submitted_abstracts.id', '=', 'abstract_assignments.abstract_id')
+                ->where('abstract_assignments.reviewer_id', $userId)
+                ->orderBy('abstract_assignments.created_at', 'asc')
+                ->select('submitted_abstracts.*');
+        } elseif ($sort === 'deadline') {
+            $query->orderBy('review_deadline', 'asc');
+        } else { // newest
+            $query->join('abstract_assignments', 'submitted_abstracts.id', '=', 'abstract_assignments.abstract_id')
+                ->where('abstract_assignments.reviewer_id', $userId)
+                ->orderBy('abstract_assignments.created_at', 'desc')
+                ->select('submitted_abstracts.*');
+        }
 
-        // Status counts for summary cards
+        $abstracts = $query->get();
+
+        // Status counts
         $statusCounts = [
-            'pending' => AbstractSubmission::where('status', 'pending')->count(),
-            'under_review' => AbstractSubmission::where('status', 'under_review')->count(),
-            'approved' => AbstractSubmission::where('status', 'approved')->count(),
-            'rejected' => AbstractSubmission::where('status', 'rejected')->count(),
+            'pending' => $abstracts->where('review_status', 'pending')->count(),
+            'under_review' => $abstracts->where('review_status', 'under_review')->count(),
+            'reviewed' => $abstracts->where('review_status', 'reviewed')->count(),
+            'total' => $abstracts->count(),
         ];
 
-        return view('reviewer.abstracts.index', compact('subthemes', 'reviewers', 'statusCounts'));
+        // Upcoming deadlines
+        $upcomingDeadlines = $abstracts->filter(function ($a) {
+            return $a->review_deadline && now()->diffInDays($a->review_deadline, false) <= 3 && now()->diffInDays($a->review_deadline, false) >= 0;
+        })->count();
+
+        // Reviewer stats (example placeholders, replace with real calculations)
+        $reviewerStats = [
+            'avgRating' => 'N/A',
+            'monthlyReviews' => 0,
+            'avgReviewTime' => 'N/A',
+            'totalReviews' => 0,
+        ];
+
+        return view('reviewer.abstracts.index', compact(
+            'abstracts', 'statusCounts', 'upcomingDeadlines', 'reviewerStats'
+        ));
     }
 
     /**
@@ -71,147 +94,23 @@ class ReviewerAbstractController extends Controller
      */
     public function show($id)
     {
-        $abstract = AbstractSubmission::with(['subtheme', 'reviewer', 'authors', 'reviews.reviewer'])->findOrFail($id);
-        $reviewers = Reviewer::all();
-
-        return view('reviewer.abstracts.show', compact('abstract', 'reviewers'));
+        $abstract = SubmittedAbstract::with(['subtheme', 'assignments.reviewer'])->findOrFail($id);
+        return view('reviewer.abstracts.show', compact('abstract'));
     }
 
     /**
-     * Assign a reviewer to an abstract.
+     * Download abstract PDF (dummy example).
      */
-    public function assignReviewer(Request $request)
+    public function download($id)
     {
-        $request->validate([
-            'abstract_id' => 'required|exists:abstract_submissions,id',
-            'reviewer_id' => 'required|exists:reviewers,id',
-        ]);
+        $abstract = SubmittedAbstract::findOrFail($id);
 
-        $abstract = AbstractSubmission::findOrFail($request->abstract_id);
-        $abstract->reviewer_id = $request->reviewer_id;
-        $abstract->status = 'under_review';
-        $abstract->save();
+        $content = "Title: {$abstract->title}\nAuthor: {$abstract->author_name}\nStatus: {$abstract->review_status}";
+        $filename = "abstract_{$abstract->submission_id}.txt";
 
-        // TODO: send notification email if needed
-
-        return response()->json(['success' => true, 'message' => 'Reviewer assigned successfully.']);
-    }
-
-    /**
-     * Change status of an abstract.
-     */
-    public function changeStatus(Request $request, $id)
-    {
-        $request->validate([
-            'status' => 'required|in:pending,under_review,approved,rejected',
-        ]);
-
-        $abstract = AbstractSubmission::findOrFail($id);
-        $abstract->status = $request->status;
-        $abstract->save();
-
-        // TODO: send notification to author if needed
-
-        return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
-    }
-
-    /**
-     * Approve an abstract.
-     */
-    public function approve($id)
-    {
-        $abstract = AbstractSubmission::findOrFail($id);
-        $abstract->status = 'approved';
-        $abstract->reviewed_at = now();
-        $abstract->save();
-
-        // TODO: notify author to submit full paper
-
-        return response()->json(['success' => true, 'message' => 'Abstract approved successfully.']);
-    }
-
-    /**
-     * Reject an abstract.
-     */
-    public function reject(Request $request, $id)
-    {
-        $request->validate([
-            'rejection_reason' => 'required|string',
-        ]);
-
-        $abstract = AbstractSubmission::findOrFail($id);
-        $abstract->status = 'rejected';
-        $abstract->rejection_reason = $request->rejection_reason;
-        $abstract->reviewed_at = now();
-        $abstract->save();
-
-        // TODO: notify author via email if needed
-
-        return response()->json(['success' => true, 'message' => 'Abstract rejected successfully.']);
-    }
-
-    /**
-     * Delete an abstract.
-     */
-    public function destroy($id)
-    {
-        $abstract = AbstractSubmission::findOrFail($id);
-        $abstract->delete();
-
-        return response()->json(['success' => true, 'message' => 'Abstract deleted successfully.']);
-    }
-
-    /**
-     * Export abstracts as CSV.
-     */
-    public function export(Request $request)
-    {
-        $query = AbstractSubmission::query()->with(['subtheme', 'reviewer']);
-
-        // Apply filters like in index
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
-        }
-
-        if ($request->filled('subtheme')) {
-            $query->where('subtheme_id', $request->subtheme);
-        }
-
-        if ($request->filled('reviewer')) {
-            if ($request->reviewer === 'unassigned') {
-                $query->whereNull('reviewer_id');
-            } else {
-                $query->where('reviewer_id', $request->reviewer);
-            }
-        }
-
-        $abstracts = $query->get();
-
-        $filename = 'abstracts_export_' . now()->format('Ymd_His') . '.csv';
-        $columns = ['Submission ID', 'Title', 'Author', 'Subtheme', 'Status', 'Reviewer', 'Submitted At'];
-
-        $callback = function () use ($abstracts, $columns) {
-            $file = fopen('php://output', 'w');
-            fputcsv($file, $columns);
-
-            foreach ($abstracts as $abstract) {
-                fputcsv($file, [
-                    $abstract->submission_id,
-                    $abstract->title,
-                    $abstract->author_name,
-                    $abstract->subtheme->name ?? 'N/A',
-                    $abstract->status,
-                    $abstract->reviewer->name ?? 'Unassigned',
-                    $abstract->created_at->format('Y-m-d H:i:s')
-                ]);
-            }
-
-            fclose($file);
-        };
-
-        return Response::stream($callback, 200, [
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => "attachment; filename={$filename}",
+        return Response::make($content, 200, [
+            'Content-Type' => 'application/octet-stream',
+            'Content-Disposition' => "attachment; filename={$filename}"
         ]);
     }
 }

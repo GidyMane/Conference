@@ -309,7 +309,7 @@
                 <span>Manage Exhibitions</span>
             </a>
             
-            <a href="{{route('admin.reviewers.index')}}" class="menu-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+            <a href="{{route('admin.reviewers.create')}}" class="menu-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
                 <i class="fas fa-user-shield"></i>
                 <span>Manage Users</span>
             </a>
