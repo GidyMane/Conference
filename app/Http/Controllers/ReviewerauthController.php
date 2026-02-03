@@ -11,7 +11,7 @@ class ReviewerAuthController extends Controller
 {
     public function showLoginForm()
     {
-        return view('reviewer.auth.login');
+        return view('admin.reviewerlogin');
     }
 
     public function login(Request $request)

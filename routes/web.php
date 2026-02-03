@@ -7,6 +7,10 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AbstractSubmissionController;
 use App\Http\Controllers\AbstractsController;
 use App\Http\Controllers\FullPaperController;
+use App\Http\Controllers\ReviewerAuthController;
+use App\Http\Controllers\ReviewerDashboardController;
+use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\Admin\DashboardController;
 
 /* MainController Routes */
 
