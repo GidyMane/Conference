@@ -94,10 +94,9 @@
                     <label class="form-label">Status</label>
                     <select name="status" class="form-select">
                         <option value="">All Statuses</option>
-                        <option value="pending">Pending</option>
-                        <option value="under_review">Under Review</option>
-                        <option value="accepted">Accepted</option>
-                        <option value="rejected">Rejected</option>
+                        <option value="PENDING">Pending</option>
+                        <option value="APPROVED">Accepted</option>
+                        <option value="REJECTED">Rejected</option>
                     </select>
                 </div>
                 
@@ -106,7 +105,7 @@
                     <select name="subtheme" class="form-select">
                         <option value="">All Sub-themes</option>
                         @foreach($subthemes ?? [] as $subtheme)
-                        <option value="{{ $subtheme->id }}">{{ $subtheme->name }}</option>
+                        <option value="{{ $subtheme->id }}">{{ $subtheme->full_name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -156,15 +155,19 @@
                 <tbody>
                     @forelse($fullPapers ?? [] as $paper)
                     <tr>
-                        <td><strong class="text-primary">{{ $paper->paper_id }}</strong></td>
+                        <td><strong class="text-primary">{{ $paper->id }}</strong></td>
                         <td>
-                            <a href="/" class="text-decoration-none">
-                                {{ $paper->abstract->submission_id }}
+                            <a href="#" class="text-decoration-none">
+                                {{ $paper->abstract->submission_code }}
                             </a>
                         </td>
-                        <td>{{ Str::limit($paper->title, 50) }}</td>
-                        <td>{{ $paper->author_name }}</td>
-                        <td><span class="badge bg-secondary">{{ $paper->subtheme->name ?? 'N/A' }}</span></td>
+                        <td>{{ $paper->abstract->paper_title }}</td>
+                        <td>{{ $paper->abstract->author_name }}</td>
+                        <td>
+                            <span class="badge bg-secondary">
+                                {{ $paper->abstract?->subTheme?->name ?? 'N/A' }}
+                            </span>
+                        </td>
                         <td>
                             <div class="btn-group btn-group-sm">
                                 @if($paper->full_paper_document)
@@ -192,7 +195,7 @@
                         <td>{{ $paper->created_at->format('M d, Y') }}</td>
                         <td>
                             <div class="btn-group btn-group-sm">
-                                <a href="/" class="btn btn-info" title="View">
+                                <a href="#" class="btn btn-info" title="View">
                                     <i class="fas fa-eye"></i>
                                 </a>
                                 <button class="btn btn-success" onclick="acceptPaper({{ $paper->id }})" title="Accept">
@@ -214,6 +217,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- Supplementary Documents Modal -->
 <div class="modal fade" id="supplementaryModal" tabindex="-1">
@@ -312,4 +316,5 @@
         window.location.href = '/' + params.toString();
     }
 </script>
+
 @endsection

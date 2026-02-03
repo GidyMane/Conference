@@ -14,8 +14,17 @@ class FullPaper extends Model
         'uploaded_at',
     ];
 
+    protected $casts = [
+        'uploaded_at' => 'datetime',
+    ];
+
     public function abstract()
     {
         return $this->belongsTo(SubmittedAbstract::class, 'submitted_abstract_id');
+    }
+
+    public function getFullPaperDocumentAttribute()
+    {
+        return $this->file_path ? asset("storage/{$this->file_path}") : null;
     }
 }
