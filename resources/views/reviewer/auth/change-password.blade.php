@@ -17,12 +17,17 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('reviewer.password.update') }}">
+                    <!-- Notification about password requirements -->
+                    <div class="alert alert-info">
+                        Password must be <strong>at least 8 characters</strong>.
+                    </div>
+
+                    <form id="passwordForm" method="POST" action="{{ route('reviewer.password.update') }}">
                         @csrf
 
                         <div class="mb-3 position-relative">
                             <label class="form-label">New Password</label>
-                            <input type="password" id="password" name="password" class="form-control" required>
+                            <input type="password" id="password" name="password" class="form-control" required minlength="8">
                             <span class="position-absolute top-50 end-0 translate-middle-y me-3 cursor-pointer"
                                   onclick="togglePassword('password', this)">
                                 <i class="fas fa-eye"></i>
@@ -31,14 +36,14 @@
 
                         <div class="mb-3 position-relative">
                             <label class="form-label">Confirm Password</label>
-                            <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" required>
+                            <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" required minlength="8">
                             <span class="position-absolute top-50 end-0 translate-middle-y me-3 cursor-pointer"
                                   onclick="togglePassword('password_confirmation', this)">
                                 <i class="fas fa-eye"></i>
                             </span>
                         </div>
 
-                        <button class="btn btn-primary w-100">
+                        <button type="submit" class="btn btn-primary w-100">
                             Update Password
                         </button>
                     </form>
@@ -73,5 +78,23 @@
             iconElement.innerHTML = '<i class="fas fa-eye"></i>';
         }
     }
+
+    // Frontend validation
+    document.getElementById('passwordForm').addEventListener('submit', function(e) {
+        const password = document.getElementById('password').value;
+        const confirm = document.getElementById('password_confirmation').value;
+
+        if (password.length < 8) {
+            alert('Password must be at least 8 characters.');
+            e.preventDefault();
+            return false;
+        }
+
+        if (password !== confirm) {
+            alert('Passwords do not match.');
+            e.preventDefault();
+            return false;
+        }
+    });
 </script>
 @endsection
