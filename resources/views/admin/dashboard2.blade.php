@@ -17,7 +17,7 @@
 <div class="row mb-4">
     <div class="col-md-3 mb-3">
         <div class="stat-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-            <h3>{{ $stats['total_abstracts'] ?? 0 }}</h3>
+            <h3>{{ $metrics['totalSubmissions'] ?? 0 }}</h3>
             <p>Total Abstracts</p>
             <i class="fas fa-file-alt stat-card-icon"></i>
         </div>
@@ -25,7 +25,7 @@
     
     <div class="col-md-3 mb-3">
         <div class="stat-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-            <h3>{{ $stats['pending_abstracts'] ?? 0 }}</h3>
+            <h3>{{ $metrics['pendingCount'] ?? 0 }}</h3>
             <p>Pending Review</p>
             <i class="fas fa-clock stat-card-icon"></i>
         </div>
@@ -33,7 +33,7 @@
     
     <div class="col-md-3 mb-3">
         <div class="stat-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-            <h3>{{ $stats['under_review'] ?? 0 }}</h3>
+            <h3>{{ $metrics['reviewCount'] ?? 0 }}</h3>
             <p>Under Review</p>
             <i class="fas fa-search stat-card-icon"></i>
         </div>
@@ -41,7 +41,7 @@
     
     <div class="col-md-3 mb-3">
         <div class="stat-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
-            <h3>{{ $stats['approved_abstracts'] ?? 0 }}</h3>
+            <h3>{{ $metrics['approvedCount'] ?? 0 }}</h3>
             <p>Approved</p>
             <i class="fas fa-check-circle stat-card-icon"></i>
         </div>
@@ -51,7 +51,7 @@
 <div class="row mb-4">
     <div class="col-md-3 mb-3">
         <div class="stat-card" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
-            <h3>{{ $stats['rejected_abstracts'] ?? 0 }}</h3>
+            <h3>{{ $metrics['disapprovedCount'] ?? 0 }}</h3>
             <p>Rejected</p>
             <i class="fas fa-times-circle stat-card-icon"></i>
         </div>
@@ -59,7 +59,7 @@
     
     <div class="col-md-3 mb-3">
         <div class="stat-card" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
-            <h3>{{ $stats['full_papers'] ?? 0 }}</h3>
+            <h3>{{ $metrics['fullPaperCount'] ?? 0 }}</h3>
             <p>Full Papers</p>
             <i class="fas fa-file-pdf stat-card-icon"></i>
         </div>
@@ -113,7 +113,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0"><i class="fas fa-file-alt me-2"></i>Recent Abstracts</h5>
-                <a href="/" class="btn btn-sm btn-kalro-primary">View All</a>
+                <a href="{{route('admin.abstracts.index')}}" class="btn btn-sm btn-kalro-primary">View All</a>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
@@ -129,8 +129,8 @@
                         <tbody>
                             @forelse($recentAbstracts ?? [] as $abstract)
                             <tr>
-                                <td><strong>{{ $abstract->submission_id }}</strong></td>
-                                <td>{{ Str::limit($abstract->title, 40) }}</td>
+                                <td><strong>{{ $abstract->submission_code }}</strong></td>
+                                <td>{{ Str::limit($abstract->paper_title, 40) }}</td>
                                 <td>
                                     <span class="badge badge-{{ strtolower(str_replace('_', '-', $abstract->status)) }}">
                                         {{ ucfirst(str_replace('_', ' ', $abstract->status)) }}
@@ -223,7 +223,10 @@
 <script>
     // Subtheme Chart
     const subthemeCtx = document.getElementById('subthemeChart');
+
     if (subthemeCtx) {
+        const fullNames = {!! json_encode($chartData['full_names'] ?? []) !!};
+
         new Chart(subthemeCtx, {
             type: 'bar',
             data: {
@@ -242,6 +245,17 @@
                 plugins: {
                     legend: {
                         display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: function (context) {
+                                // Show FULL sub-theme name on hover
+                                return fullNames[context[0].dataIndex] ?? context[0].label;
+                            },
+                            label: function (context) {
+                                return `Submissions: ${context.raw}`;
+                            }
+                        }
                     }
                 },
                 scales: {
@@ -265,10 +279,10 @@
                 labels: ['Pending', 'Under Review', 'Approved', 'Rejected'],
                 datasets: [{
                     data: [
-                        {{ $stats['pending_abstracts'] ?? 0 }},
-                        {{ $stats['under_review'] ?? 0 }},
-                        {{ $stats['approved_abstracts'] ?? 0 }},
-                        {{ $stats['rejected_abstracts'] ?? 0 }}
+                        {{ $metrics['pendingCount'] ?? 0 }},
+                        {{ $metrics['reviewCount'] ?? 0 }},
+                        {{ $metrics['approvedCount'] ?? 0 }},
+                        {{ $metrics['disapprovedCount'] ?? 0 }}
                     ],
                     backgroundColor: [
                         '#ffc107',
