@@ -282,7 +282,7 @@
                         <span class="badge bg-white text-dark ms-2">{{ $stats['under_review'] ?? 0 }}</span>
                     </a>
                     
-                    <a href="{{ route('reviewer.completed') }}" class="btn btn-success">
+                    <a href="#" class="btn btn-success">
                         <i class="fas fa-check-circle me-2"></i>
                         Completed Reviews
                         <span class="badge bg-white text-success ms-2">{{ $stats['completed'] ?? 0 }}</span>
@@ -290,7 +290,7 @@
                     
                     <hr>
                     
-                    <a href="{{ route('reviewer.help') }}" class="btn btn-outline-primary">
+                    <a href="#" class="btn btn-outline-primary">
                         <i class="fas fa-book me-2"></i>
                         Review Guidelines
                     </a>

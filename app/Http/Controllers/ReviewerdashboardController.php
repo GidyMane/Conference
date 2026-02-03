@@ -95,7 +95,7 @@ class ReviewerDashboardController extends Controller
             ],
         ];
 
-        return view('admin.reviewer.index', compact('stats', 'assignments'));
+        return view('reviewer.dashboard', compact('stats', 'assignments'));
     }
 
     public function assignments(Request $request)
