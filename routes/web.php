@@ -8,6 +8,7 @@ use App\Http\Controllers\AbstractSubmissionController;
 use App\Http\Controllers\AbstractsController;
 use App\Http\Controllers\FullPaperController;
 use App\Http\Controllers\ReviewerAuthController;
+use App\Http\Controllers\ReviewerAbstractController;
 use App\Http\Controllers\ReviewerDashboardController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\DashboardController;
@@ -74,9 +75,11 @@ Route::prefix('reviewer')->name('reviewer.')->middleware('web', 'auth', 'reviewe
     // Profile
     Route::get('/profile', [ReviewerDashboardController::class, 'profile'])->name('profile');
     Route::post('/profile', [ReviewerDashboardController::class, 'updateProfile'])->name('profile.update');
+
+    Route::get('/abstracts', [ReviewerAbstractController::class, 'index'])->name('abstracts.index');
 });
 
-// Admin Authentication Routes
+// Admin Authentication Route
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AdminAuthController::class, 'login'])->name('login.submit');

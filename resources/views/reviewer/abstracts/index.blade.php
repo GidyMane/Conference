@@ -29,7 +29,7 @@
         <h5 class="mb-0"><i class="fas fa-filter me-2"></i>Filters</h5>
     </div>
     <div class="card-body">
-        <form method="GET" action="{{ route('admin.abstracts.index') }}">
+        <form method="GET" action="#">
             <div class="row g-3">
                 <div class="col-md-3">
                     <label class="form-label">Status</label>
@@ -325,7 +325,7 @@
         const formData = new FormData(this);
         
         // Make AJAX call here
-        fetch('{{ route("admin.abstracts.assign-reviewer") }}', {
+        fetch('#', {
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -384,7 +384,7 @@
     // Export Data
     function exportData() {
         const params = new URLSearchParams(window.location.search);
-        window.location.href = '{{ route("admin.abstracts.export") }}?' + params.toString();
+        window.location.href = '#' + params.toString();
     }
 </script>
 @endsection
