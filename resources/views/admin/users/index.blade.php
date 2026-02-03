@@ -428,9 +428,19 @@
             }
             return response.json();
         })
+
         .then(data => {
             if (data.success) {
-                location.reload();
+                const modalEl = document.getElementById('addUserModal');
+                bootstrap.Modal.getInstance(modalEl).hide();
+
+                // reset form
+                document.getElementById('addUserForm').reset();
+
+                // show toast / alert
+                alert('User created successfully');
+
+                // optionally append row dynamically instead of reload
             }
         });
     });

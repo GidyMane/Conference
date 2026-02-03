@@ -307,50 +307,50 @@ class ReviewerDashboardController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'full_name'  => 'required|string|max:255',
-            'email'      => 'required|email|unique:users,email',
-            'subtheme_id'=> 'required|exists:sub_themes,id',
-        ]);
+        try {
+            $validated = $request->validate([
+                'full_name'   => 'required|string|max:255',
+                'email'       => 'required|email|unique:users,email',
+                'subtheme_id' => 'required|exists:sub_themes,id',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'errors'  => $e->errors(),
+            ], 422);
+        }
 
-        // Generate one-time password
         $plainPassword = Str::random(10);
 
-        // Create user
         $user = User::create([
-            'full_name' => $request->full_name,
-            'email'     => $request->email,
+            'full_name' => $validated['full_name'],
+            'email'     => $validated['email'],
             'password'  => Hash::make($plainPassword),
-            'role'      => 'REVIEWER', // enforced
+            'role'      => 'REVIEWER',
             'is_active' => true,
             'password_setup_token' => Str::uuid(),
             'password_setup_expires_at' => now()->addHours(24),
         ]);
 
-        // Assign reviewer sub-theme
-        if ($user->role === 'REVIEWER') {
-            Reviewer::create([
-                'user_id'      => $user->id,
-                'sub_theme_id' => $request->subtheme_id,
-            ]);
-        }
+        Reviewer::create([
+            'user_id'      => $user->id,
+            'sub_theme_id' => $validated['subtheme_id'],
+        ]);
 
-        // Attempt to send email
         try {
             Mail::to($user->email)->send(
                 new \App\Mail\UserWelcomeMail($user, $plainPassword)
             );
-
-            return redirect()->back()->with('success', 'User created successfully and email sent!');
         } catch (\Throwable $e) {
-            \Log::error('Welcome email failed', [
-                'error' => $e->getMessage()
-            ]);
-
-            return redirect()->back()
-                ->with('warning', 'User created successfully, but welcome email failed to send.');
+            \Log::error('Welcome email failed', ['error' => $e->getMessage()]);
         }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User created successfully',
+        ]);
     }
+
 
 
 
