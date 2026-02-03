@@ -88,7 +88,7 @@
         <h5 class="mb-0"><i class="fas fa-filter me-2"></i>Filters</h5>
     </div>
     <div class="card-body">
-        <form method="GET" action="{{ route('admin.fullpapers.index') }}">
+        <form method="GET" action="{{ route('fullpapers.index') }}">
             <div class="row g-3">
                 <div class="col-md-3">
                     <label class="form-label">Status</label>
@@ -158,7 +158,7 @@
                     <tr>
                         <td><strong class="text-primary">{{ $paper->paper_id }}</strong></td>
                         <td>
-                            <a href="{{ route('admin.abstracts.show', $paper->abstract_id) }}" class="text-decoration-none">
+                            <a href="/" class="text-decoration-none">
                                 {{ $paper->abstract->submission_id }}
                             </a>
                         </td>
@@ -192,7 +192,7 @@
                         <td>{{ $paper->created_at->format('M d, Y') }}</td>
                         <td>
                             <div class="btn-group btn-group-sm">
-                                <a href="{{ route('admin.fullpapers.show', $paper->id) }}" class="btn btn-info" title="View">
+                                <a href="/" class="btn btn-info" title="View">
                                     <i class="fas fa-eye"></i>
                                 </a>
                                 <button class="btn btn-success" onclick="acceptPaper({{ $paper->id }})" title="Accept">
@@ -309,7 +309,7 @@
     
     function exportData() {
         const params = new URLSearchParams(window.location.search);
-        window.location.href = '{{ route("admin.fullpapers.export") }}?' + params.toString();
+        window.location.href = '/' + params.toString();
     }
 </script>
 @endsection
