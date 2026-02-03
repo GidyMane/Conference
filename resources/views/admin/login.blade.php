@@ -15,13 +15,15 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
     <style>
-        body {
-            font-family: 'Nunito', sans-serif;
-            min-height: 100vh;
-            background:
-                linear-gradient(rgba(27,94,32,0.85), rgba(27,94,32,0.85)),
-                url('{{ asset("assets/images/banner1.jpg") }}') no-repeat center center / cover;
-        }
+       body {
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    background:
+        /* lighter gradient overlay for transparency effect */
+        linear-gradient(rgba(73, 117, 76, 0.4), rgba(217, 230, 218, 0.4)),
+        url('{{ asset("assets/images/banner1.jpg") }}') no-repeat center center / cover;
+}
+
 
         .login-container {
             min-height: 100vh;
