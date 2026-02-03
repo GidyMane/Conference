@@ -320,11 +320,11 @@
                     <span>Settings</span>
                 </a>
                 
-                <a href="/" class="menu-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <a href="{{route('admin.logout')}}" class="menu-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span>
                 </a>
-                <form id="logout-form" action="/" method="POST" style="display: none;">
+                <form id="logout-form" action="{{route('admin.logout')}}" method="POST" style="display: none;">
                     @csrf
                 </form>
             </div>
@@ -366,7 +366,7 @@
                         <li><a class="dropdown-item" href="/"><i class="fas fa-cog me-2"></i>Settings</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
-                            <a class="dropdown-item" href="/" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <a class="dropdown-item" href="{{route('admin.logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i class="fas fa-sign-out-alt me-2"></i>Logout
                             </a>
                         </li>
