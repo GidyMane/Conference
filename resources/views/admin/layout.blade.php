@@ -299,12 +299,12 @@
                 <span>Manage Full Papers</span>
             </a>
             
-            <a href="/" class="menu-item {{ request()->routeIs('admin.registrations.*') ? 'active' : '' }}">
+            <a href="#" class="menu-item {{ request()->routeIs('admin.registrations.*') ? 'active' : '' }}">
                 <i class="fas fa-users"></i>
                 <span>Manage Registrations</span>
             </a>
             
-            <a href="/" class="menu-item {{ request()->routeIs('admin.exhibitions.*') ? 'active' : '' }}">
+            <a href="#" class="menu-item {{ request()->routeIs('admin.exhibitions.*') ? 'active' : '' }}">
                 <i class="fas fa-store"></i>
                 <span>Manage Exhibitions</span>
             </a>
@@ -315,7 +315,7 @@
             </a>
             
             <div style="margin: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-                <a href="/" class="menu-item {{ request()->routeIs('admin.settings') ? 'active' : '' }}">
+                <a href="#" class="menu-item {{ request()->routeIs('admin.settings') ? 'active' : '' }}">
                     <i class="fas fa-cog"></i>
                     <span>Settings</span>
                 </a>
