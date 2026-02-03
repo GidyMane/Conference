@@ -19,7 +19,7 @@
             font-family: 'Nunito', sans-serif;
             min-height: 100vh;
             background:
-                linear-gradient(rgba(27,94,32,0.85), rgba(27,94,32,0.85)),
+                linear-gradient(rgba(73, 117, 76, 0.85), rgba(217, 230, 218, 0.85)),
                 url('{{ asset("assets/images/banner1.jpg") }}') no-repeat center center / cover;
         }
 

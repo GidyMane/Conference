@@ -18,7 +18,7 @@
             min-height: 100vh;
             font-family: 'Nunito', sans-serif;
             background: 
-                linear-gradient(rgba(13, 71, 161, 0.85), rgba(13, 71, 161, 0.85)),
+                linear-gradient(rgba(73, 112, 170, 0.5), rgba(13, 71, 161, 0.5)),
                 url('{{ asset("assets/images/banner1.jpg") }}') no-repeat center center / cover;
         }
 
@@ -33,37 +33,37 @@
         .login-card {
             background: #fff;
             border-radius: 16px;
-            box-shadow: 0 15px 45px rgba(0,0,0,0.25);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
             overflow: hidden;
-            max-width: 950px;
+            max-width: 450px; /* smaller width like admin login */
             width: 100%;
         }
 
         .login-header {
             background: linear-gradient(135deg, #1976d2, #0d47a1);
             color: #fff;
-            padding: 35px;
+            padding: 25px;
             text-align: center;
         }
 
         .login-header img {
-            max-width: 90px;
-            margin-bottom: 15px;
+            max-width: 70px;
+            margin-bottom: 10px;
         }
 
         .login-header h1 {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
             margin-bottom: 5px;
         }
 
         .login-body {
-            padding: 40px;
+            padding: 25px;
         }
 
         .form-control {
             border-radius: 8px;
-            padding: 12px 15px;
+            padding: 10px 12px;
             border: 2px solid #e0e0e0;
         }
 
@@ -86,7 +86,7 @@
             background: linear-gradient(135deg, #1976d2, #0d47a1);
             border: none;
             border-radius: 8px;
-            padding: 12px;
+            padding: 10px;
             font-weight: 600;
             color: white;
             width: 100%;
@@ -103,9 +103,19 @@
         .info-box {
             background: #fff3cd;
             border-left: 4px solid #ffc107;
-            padding: 15px;
+            padding: 12px;
             border-radius: 6px;
-            margin-top: 20px;
+            margin-top: 15px;
+        }
+
+        /* Make alerts slightly smaller */
+        .alert {
+            font-size: 0.9rem;
+        }
+
+        /* Footer contact text */
+        .text-center.text-muted {
+            font-size: 0.85rem;
         }
     </style>
 </head>
