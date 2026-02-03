@@ -1,4 +1,4 @@
-@extends('admin.layout')
+@extends('reviewer.layout')
 
 @section('title', 'Change Password')
 
