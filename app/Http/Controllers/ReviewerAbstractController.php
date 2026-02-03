@@ -30,7 +30,7 @@ class ReviewerAbstractController extends Controller
 
         // Filters
         if ($request->filled('status')) {
-            $query->where('review_status', $request->status);
+            $query->where('status', strtoupper($request->status));
         }
 
         if ($request->filled('date_range')) {
@@ -65,9 +65,9 @@ class ReviewerAbstractController extends Controller
 
         // Status counts
         $statusCounts = [
-            'pending' => $abstracts->where('review_status', 'pending')->count(),
-            'under_review' => $abstracts->where('review_status', 'under_review')->count(),
-            'reviewed' => $abstracts->where('review_status', 'reviewed')->count(),
+            'pending' => $abstracts->where('status', 'PENDING')->count(),
+            'under_review' => $abstracts->where('status', 'UNDER_REVIEW')->count(),
+            'reviewed' => $abstracts->whereIn('status', ['APPROVED', 'REJECTED'])->count(),
             'total' => $abstracts->count(),
         ];
 

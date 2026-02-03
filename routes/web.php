@@ -12,6 +12,7 @@ use App\Http\Controllers\ReviewerAbstractController;
 use App\Http\Controllers\ReviewerDashboardController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Admin\AbstractAssignmentController;
 
 /* MainController Routes */
 
@@ -95,6 +96,14 @@ Route::prefix('admin')->name('admin.')->middleware('web', 'auth', 'admin')->grou
 
     Route::post('/users', [ReviewerDashboardController::class, 'store'])
         ->name('users.store');
+
+    // Fetch available abstracts for a reviewer
+    Route::get('/users/{reviewer}/available-abstracts', [AbstractAssignmentController::class, 'availableAbstracts'])
+        ->name('users.available-abstracts');
+
+    // Assign abstracts to a reviewer
+    Route::post('/users/assign-abstracts', [AbstractAssignmentController::class, 'assign'])
+        ->name('users.assign-abstracts');
     
     // Abstracts Management
     Route::prefix('abstracts')->name('abstracts.')->group(function () {

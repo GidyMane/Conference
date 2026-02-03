@@ -136,81 +136,110 @@
                         <th>Email</th>
                         <th>Role</th>
                         <th>Sub-theme</th>
-                        <th>Status</th>
                         <th>Assigned</th>
+                        <th>Completed</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($users ?? [] as $user)
-                    <tr>
-                        <td>{{ $user->id }}</td>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <div class="user-avatar me-2" style="width: 35px; height: 35px; font-size: 14px;">
-                                    {{ strtoupper(substr($user->full_name, 0, 1)) }}
+                    @forelse($users as $user)
+                        <tr>
+                            <td>{{ $user->id }}</td>
+
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="user-avatar me-2"
+                                        style="width: 35px; height: 35px; font-size: 14px;">
+                                        {{ strtoupper(substr($user->full_name, 0, 1)) }}
+                                    </div>
+                                    <strong>{{ $user->full_name }}</strong>
                                 </div>
-                                <strong>{{ $user->full_name }}</strong>
-                            </div>
-                        </td>
-                        <td>{{ $user->email }}</td>
-                        <td>
-                            <span class="badge {{ $user->role == 'ADMIN' ? 'bg-danger' : 'bg-primary' }}">
-                                {{ ucfirst($user->role) }}
-                            </span>
-                        </td>
-                        <td>
-                            @if($user->reviewer && $user->reviewer->subTheme)
-                                <span class="badge bg-secondary">
-                                    {{ $user->reviewer->subTheme->form_field_value }}
+                            </td>
+
+                            <td>{{ $user->email }}</td>
+
+                            <td>
+                                <span class="badge {{ $user->role === 'ADMIN' ? 'bg-danger' : 'bg-primary' }}">
+                                    {{ ucfirst(strtolower($user->role)) }}
                                 </span>
-                            @else
-                                <span class="text-muted">-</span>
-                            @endif
-                        </td>
-                        <td>
-                            @if($user->role == 'REVIEWER')
-                                <span class="badge bg-info">{{ $user->assigned_abstracts_count ?? 0 }}</span>
-                            @else
-                                <span class="text-muted">-</span>
-                            @endif
-                        </td>
-                        <td>
-                            @if($user->role == 'REVIEWER')
-                                <span class="badge bg-success">{{ $user->completed_reviews_count ?? 0 }}</span>
-                            @else
-                                <span class="text-muted">-</span>
-                            @endif
-                        </td>
-                        <td>
-                            <div class="btn-group btn-group-sm">
-                                <button class="btn btn-info" onclick="viewUser({{ $user->id }})" title="View Details">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="btn btn-primary" onclick="editUser({{ $user->id }})" title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                @if($user->role == 'REVIEWER')
-                                <button class="btn btn-success" onclick="assignAbstracts({{ $user->id }})" title="Assign Abstracts">
-                                    <i class="fas fa-file-alt"></i>
-                                </button>
+                            </td>
+
+                            <td>
+                                @if($user->reviewer && $user->reviewer->subTheme)
+                                    <span class="badge bg-secondary">
+                                        {{ $user->reviewer->subTheme->form_field_value }}
+                                    </span>
+                                @else
+                                    <span class="text-muted">-</span>
                                 @endif
-                                <button class="btn btn-warning" onclick="resetPassword({{ $user->id }})" title="Reset Password">
-                                    <i class="fas fa-key"></i>
-                                </button>
-                                <button class="btn btn-danger" onclick="deleteUser({{ $user->id }})" title="Delete">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
+                            </td>
+
+                            <td>
+                                @if($user->role === 'REVIEWER')
+                                    <span class="badge bg-info">
+                                        {{ $user->assigned_abstracts_count ?? 0 }}
+                                    </span>
+                                @else
+                                    <span class="text-muted">-</span>
+                                @endif
+                            </td>
+
+                            <td>
+                                @if($user->role === 'REVIEWER')
+                                    <span class="badge bg-success">
+                                        {{ $user->completed_reviews_count ?? 0 }}
+                                    </span>
+                                @else
+                                    <span class="text-muted">-</span>
+                                @endif
+                            </td>
+
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <button class="btn btn-info"
+                                            onclick="viewUser({{ $user->id }})"
+                                            title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+
+                                    <button class="btn btn-primary"
+                                            onclick="editUser({{ $user->id }})"
+                                            title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+
+                                    @if($user->role === 'REVIEWER')
+                                        <button class="btn btn-success"
+                                                onclick="assignAbstracts({{ $user->id }})"
+                                                title="Assign Abstracts">
+                                            <i class="fas fa-file-alt"></i>
+                                        </button>
+                                    @endif
+
+                                    <button class="btn btn-warning"
+                                            onclick="resetPassword({{ $user->id }})"
+                                            title="Reset Password">
+                                        <i class="fas fa-key"></i>
+                                    </button>
+
+                                    <button class="btn btn-danger"
+                                            onclick="deleteUser({{ $user->id }})"
+                                            title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
                     @empty
-                    <tr>
-                        <td colspan="9" class="text-center text-muted py-4">No users found</td>
-                    </tr>
+                        <tr>
+                            <td colspan="8" class="text-center text-muted py-4">
+                                No users found
+                            </td>
+                        </tr>
                     @endforelse
                 </tbody>
             </table>
+
         </div>
     </div>
 </div>
@@ -405,6 +434,40 @@
             }
         });
     });
+
+    document.getElementById('assignAbstractsForm')?.addEventListener('submit', function(e) {
+        e.preventDefault(); // Prevent normal form submission
+
+        const formData = new FormData(this);
+
+        fetch('{{ route("admin.users.assign-abstracts") }}', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            },
+            body: formData
+        })
+        .then(async response => {
+            if (!response.ok) {
+                const err = await response.json();
+                const message = err?.message || (err?.errors ? Object.values(err.errors).flat().join('\n') : 'Something went wrong');
+                alert(message);
+                return;
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                alert(data.message || 'Abstracts assigned successfully.');
+                // Hide modal
+                const modalEl = document.getElementById('assignAbstractsModal');
+                const modal = bootstrap.Modal.getInstance(modalEl);
+                modal.hide();
+                location.reload(); // or update table dynamically
+            }
+        });
+    });
     
     function viewUser(userId) {
         window.location.href = `/admin/users/${userId}`;
@@ -416,7 +479,7 @@
             .then(async response => {
                 if (!response.ok) {
                     const err = await response.json();
-                                        aconst message =
+                                        const message =
                         err?.message ||
                         (err?.errors ? Object.values(err.errors).flat().join('\n') : 'Something went wrong');
 
@@ -437,7 +500,6 @@
     }
     
     function assignAbstracts(userId) {
-        // Fetch reviewer data and available abstracts
         fetch(`/admin/users/${userId}/available-abstracts`)
             .then(async response => {
                 if (!response.ok) {
@@ -445,21 +507,23 @@
                     const message =
                         err?.message ||
                         (err?.errors ? Object.values(err.errors).flat().join('\n') : 'Something went wrong');
-
                     alert(message);
                     return;
                 }
                 return response.json();
             })
             .then(data => {
-                document.getElementById('assignReviewerId').value = data.reviewer.id;
-                document.getElementById('assignReviewerName').value = data.reviewer.full_name;
-                document.getElementById('assignReviewerSubtheme').value = data.reviewer.subtheme?.full_name || 'None';
-                
+                const reviewer = data.reviewer;
+                const subTheme = reviewer?.reviewer?.sub_theme;
+
+                document.getElementById('assignReviewerId').value = reviewer.id;
+                document.getElementById('assignReviewerName').value = reviewer.full_name;
+                document.getElementById('assignReviewerSubtheme').value = subTheme?.full_name || 'None';
+
                 const abstractsContainer = document.getElementById('availableAbstracts');
                 abstractsContainer.innerHTML = '';
-                
-                if (data.abstracts.length === 0) {
+
+                if (!data.abstracts.length) {
                     abstractsContainer.innerHTML = '<p class="text-muted mb-0">No available abstracts for this sub-theme</p>';
                 } else {
                     data.abstracts.forEach(abstract => {
@@ -467,17 +531,17 @@
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="checkbox" name="abstracts[]" value="${abstract.id}" id="abstract_${abstract.id}">
                                 <label class="form-check-label" for="abstract_${abstract.id}">
-                                    <strong>${abstract.submission_id}</strong> - ${abstract.title}
+                                    <strong>${abstract.submission_code}</strong> - ${abstract.title}
                                 </label>
                             </div>
                         `;
                     });
                 }
-                
+
                 new bootstrap.Modal(document.getElementById('assignAbstractsModal')).show();
             });
     }
-    
+
     function resetPassword(userId) {
         if (confirm('Are you sure you want to reset this user\'s password? A new password will be sent to their email.')) {
             fetch(`/admin/users/${userId}/reset-password`, {
@@ -535,5 +599,6 @@
             });
         }
     }
+
 </script>
 @endsection

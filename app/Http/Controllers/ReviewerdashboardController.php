@@ -174,22 +174,55 @@ class ReviewerDashboardController extends Controller
         return view('reviewer.assignments.show', compact('assignment', 'existingReview'));
     }
 
-    public function submitReview(Request $request, $assignmentId)
+    public function submitReview(Request $request)
     {
-        $validated = $request->validate([
-            'decision' => 'required|in:approved,rejected,needs_revision',
-            'comments' => 'required|string|min:50',
-            'relevance_score' => 'required|integer|min:1|max:5',
-            'methodology_score' => 'required|integer|min:1|max:5',
-            'originality_score' => 'required|integer|min:1|max:5',
-            'clarity_score' => 'required|integer|min:1|max:5',
+        $request->validate([
+            'abstract_id' => 'required|exists:submitted_abstracts,id',
+            'decision' => 'required|in:APPROVED,REJECTED',
+            'comment' => 'required|string|min:10',
         ]);
 
-        // In real implementation, save to database
-        // For now, just show success message
+        $reviewerId = auth()->id();
+        $abstractId = $request->abstract_id;
 
-        return redirect()->route('reviewer.dashboard')
-            ->with('success', 'Review submitted successfully! Thank you for your contribution.');
+        // Check if reviewer already submitted a review for this abstract
+        $existingReview = \App\Models\AbstractReview::where([
+            ['abstract_id', $abstractId],
+            ['reviewer_id', $reviewerId]
+        ])->first();
+
+        if ($existingReview) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'You have already submitted a review for this abstract.'
+            ], 400);
+        }
+
+        // Save the review
+        $review = \App\Models\AbstractReview::create([
+            'abstract_id' => $abstractId,
+            'reviewer_id' => $reviewerId,
+            'comment' => $request->comment,
+            'decision' => $request->decision,
+            'reviewed_at' => now(),
+        ]);
+
+        // Optionally, update abstract status if all reviewers have submitted
+        $abstract = \App\Models\SubmittedAbstract::find($abstractId);
+
+        $totalAssignments = $abstract->assignments()->count();
+        $totalReviews = $abstract->reviews()->count();
+
+        if ($totalReviews >= $totalAssignments) {
+            // If all assigned reviewers reviewed, update status to REVIEWED
+            $abstract->status = 'UNDER_REVIEW';
+            $abstract->save();
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Review submitted successfully.'
+        ]);
     }
 
     public function profile()
@@ -251,7 +284,12 @@ class ReviewerDashboardController extends Controller
     public function create()
     {
         $subthemes = SubTheme::orderBy('full_name')->get();
-        $users = User::with('reviewer.subTheme')->get();
+        $users = User::with('reviewer.subTheme')
+        ->withCount([
+            'assignedAbstracts',                     // adds assigned_abstracts_count
+            'reviews as completed_reviews_count'     // adds completed_reviews_count
+        ])
+        ->get();
 
         $stats = [
             'total_users'       => User::count(),
@@ -313,4 +351,7 @@ class ReviewerDashboardController extends Controller
                 ->with('warning', 'User created successfully, but welcome email failed to send.');
         }
     }
+
+
+
 }
