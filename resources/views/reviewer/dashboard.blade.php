@@ -236,13 +236,13 @@
                 <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>Quick Actions</h5>
             </div>
             <div class="card-body d-grid gap-2">
-                <a href="{{ route('reviewer.abstracts.index', ['status' => 'pending']) }}" class="btn btn-warning">
+                <a href="#" class="btn btn-warning">
                     Pending Reviews
                 </a>
-                <a href="{{ route('reviewer.abstracts.index', ['status' => 'under_review']) }}" class="btn btn-info">
+                <a href="#" class="btn btn-info">
                     Continue Reviews
                 </a>
-                <a href="{{ route('reviewer.profile') }}" class="btn btn-outline-secondary">
+                <a href="#" class="btn btn-outline-secondary">
                     My Profile
                 </a>
             </div>
