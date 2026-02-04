@@ -47,7 +47,7 @@
 
 <!-- Statistics Cards -->
 <div class="row mb-3">
-    <div class="col-md-3 mb-3">
+    <div class="col-md-4 mb-3">
         <div class="stat-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
             <h3>{{ $stats['total_assigned'] ?? 0 }}</h3>
             <p>Total Assigned</p>
@@ -55,7 +55,7 @@
         </div>
     </div>
 
-    <div class="col-md-3 mb-3">
+    <div class="col-md-4 mb-3">
         <div class="stat-card" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
             <h3>{{ $stats['pending_review'] ?? 0 }}</h3>
             <p>Pending Review</p>
@@ -65,7 +65,7 @@
 
    
 
-    <div class="col-md-3 mb-3">
+    <div class="col-md-4 mb-3">
         <div class="stat-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
             <h3>{{ $stats['completed'] ?? 0 }}</h3>
             <p>Completed</p>
@@ -76,7 +76,7 @@
 
 <!-- Performance Metrics -->
 <div class="row mb-4">
-    <div class="col-md-3 mb-3">
+    <div class="col-md-4 mb-3">
         <div class="card border-start border-success border-4">
             <div class="card-body d-flex justify-content-between align-items-center">
                 <div>
@@ -88,7 +88,7 @@
         </div>
     </div>
 
-    <div class="col-md-3 mb-3">
+    <div class="col-md-4 mb-3">
         <div class="card border-start border-danger border-4">
             <div class="card-body d-flex justify-content-between align-items-center">
                 <div>
@@ -101,7 +101,7 @@
     </div>
 
 
-    <div class="col-md-3 mb-3">
+    <div class="col-md-4 mb-3">
         <div class="card border-start border-info border-4">
             <div class="card-body d-flex justify-content-between align-items-center">
                 <div>
