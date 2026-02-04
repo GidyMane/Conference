@@ -280,9 +280,7 @@
                         <th>Submission ID</th>
                         <th>Title</th>
                         <th>Author</th>
-                        <th>Sub-theme</th>
                         <th>Decision</th>
-                        <th>Overall Score</th>
                         <th>Reviewed Date</th>
                         <th>Actions</th>
                     </tr>
@@ -293,14 +291,10 @@
                         <td><strong class="text-primary">{{ $review->abstract->submission_code }}</strong></td>
                         <td>{{ Str::limit($review->abstract->paper_title, 50) }}</td>
                         <td>{{ $review->abstract->author_name }}</td>
-                        <td><span class="badge bg-secondary">{{ $review->abstract->subTheme->name ?? 'N/A' }}</span></td>
                         <td>
                             <span class="status-badge {{ strtolower(str_replace('_', '-', $review->decision)) }}">
                                 {{ ucfirst(str_replace('_', ' ', $review->decision)) }}
                             </span>
-                        </td>
-                        <td>
-                            <span class="score-badge">{{ number_format($review->overall_score, 1) }}/5.0</span>
                         </td>
                         <td>{{ $review->created_at->format('M d, Y') }}</td>
                         <td>
@@ -310,9 +304,9 @@
                                     data-code="{{ $review->abstract->submission_code }}"
                                     data-title="{{ $review->abstract->paper_title }}"
                                     data-author="{{ $review->abstract->author_name }}"
-                                    data-theme="{{ $review->abstract->subTheme->name ?? 'N/A' }}"
+                                    data-theme="{{ $review->abstract->subTheme->form_field_value ?? 'N/A' }}"
                                     data-decision="{{ $review->decision }}"
-                                    data-comments="{{ $review->comments }}"
+                                    data-comments="{{ $review->comment }}"
                                     data-relevance="{{ $review->relevance_score }}"
                                     data-methodology="{{ $review->methodology_score }}"
                                     data-originality="{{ $review->originality_score }}"
@@ -373,31 +367,6 @@
                 </div>
 
                 <!-- Scores -->
-                <div class="review-section">
-                    <h6><i class="fas fa-star me-2"></i>Evaluation Scores</h6>
-                    <div class="score-grid">
-                        <div class="score-item">
-                            <label>Relevance</label>
-                            <div class="score" id="scoreRelevance"></div>
-                        </div>
-                        <div class="score-item">
-                            <label>Methodology</label>
-                            <div class="score" id="scoreMethodology"></div>
-                        </div>
-                        <div class="score-item">
-                            <label>Originality</label>
-                            <div class="score" id="scoreOriginality"></div>
-                        </div>
-                        <div class="score-item">
-                            <label>Clarity</label>
-                            <div class="score" id="scoreClarity"></div>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <strong>Overall Score: </strong>
-                        <span class="score-badge" id="scoreOverall"></span>
-                    </div>
-                </div>
 
                 <!-- Comments -->
                 <div class="review-section">
@@ -432,13 +401,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('modalAuthor').textContent = data.author;
             document.getElementById('modalTheme').textContent = data.theme;
             document.getElementById('modalDate').textContent = data.date;
-            
-            // Set scores
-            document.getElementById('scoreRelevance').textContent = data.relevance + '/5';
-            document.getElementById('scoreMethodology').textContent = data.methodology + '/5';
-            document.getElementById('scoreOriginality').textContent = data.originality + '/5';
-            document.getElementById('scoreClarity').textContent = data.clarity + '/5';
-            document.getElementById('scoreOverall').textContent = parseFloat(data.overall).toFixed(1) + '/5.0';
             
             // Set comments
             document.getElementById('modalComments').textContent = data.comments;

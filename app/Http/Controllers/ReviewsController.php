@@ -5,6 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use App\Models\SubmittedAbstract;
+use App\Models\AbstractReview;
+use App\Models\SubTheme;
+use App\Models\User;
+use App\Models\Reviewer;
 
 class ReviewsController extends Controller
 {
@@ -13,133 +19,110 @@ class ReviewsController extends Controller
      */
     public function pendingReviews(Request $request)
     {
-        $data = [
-            (object)[
-                'id' => 1,
-                'status' => 'assigned',
-                'assigned_at' => now()->subDays(2),
-                'deadline' => now()->addDays(5),
-                'abstract' => (object)[
-                    'id' => 101,
-                    'submission_code' => 'AB-001',
-                    'paper_title' => 'AI in Agriculture',
-                    'author_name' => 'John Doe',
-                    'author_email' => 'john@example.com',
-                    'organisation' => 'AgriTech Inc.',
-                    'subTheme' => (object)['name' => 'Technology in Farming'],
-                    'abstract_text' => 'This study explores the use of AI in modern agriculture...',
-                    'keywords' => 'AI, Agriculture, Technology',
-                    'uploaded_file' => null,
-                ],
-            ],
-            (object)[
-                'id' => 2,
-                'status' => 'under_review',
-                'assigned_at' => now()->subDays(5),
-                'deadline' => now()->addDays(2),
-                'abstract' => (object)[
-                    'id' => 102,
-                    'submission_code' => 'AB-002',
-                    'paper_title' => 'Climate Change Effects',
-                    'author_name' => 'Jane Smith',
-                    'author_email' => 'jane@example.com',
-                    'organisation' => 'EnviroGroup',
-                    'subTheme' => (object)['name' => 'Environmental Studies'],
-                    'abstract_text' => 'An analysis of the effects of climate change on crop yields...',
-                    'keywords' => 'Climate Change, Agriculture, Environment',
-                    'uploaded_file' => null,
-                ],
-            ],
-        ];
+        $user = auth()->user(); // logged-in reviewer
 
-        $page = $request->get('page', 1);
-        $perPage = 15;
-        $collection = collect($data);
-        $pendingReviews = new LengthAwarePaginator(
-            $collection->forPage($page, $perPage),
-            $collection->count(),
-            $perPage,
-            $page,
-            ['path' => $request->url(), 'query' => $request->query()]
-        );
+        // Base query: abstracts assigned to this reviewer
+        $pendingReviews = DB::table('abstract_assignments')
+            ->join('submitted_abstracts', 'submitted_abstracts.id', '=', 'abstract_assignments.abstract_id')
+            ->leftJoin('sub_themes', 'sub_themes.id', '=', 'submitted_abstracts.sub_theme_id')
+            ->leftJoin('abstract_reviews', function ($join) {
+                $join->on('abstract_reviews.abstract_id', '=', 'submitted_abstracts.id')
+                    ->whereRaw('abstract_reviews.id = (
+                        SELECT MAX(id) FROM abstract_reviews AS ar 
+                        WHERE ar.abstract_id = submitted_abstracts.id
+                    )');
+            })
+            ->select(
+                'abstract_assignments.id as assignment_id',
+                'abstract_assignments.assigned_at',
+                'submitted_abstracts.id as abstract_id',
+                'submitted_abstracts.submission_code',
+                'submitted_abstracts.paper_title',
+                'submitted_abstracts.author_name',
+                'submitted_abstracts.author_email',
+                'submitted_abstracts.author_phone',
+                'submitted_abstracts.organisation',
+                'submitted_abstracts.abstract_text',
+                'submitted_abstracts.keywords',
+                'submitted_abstracts.status as abstract_status',
+                'sub_themes.full_name as subtheme_name',
+                'abstract_reviews.comment as review_comment',
+                'abstract_reviews.decision as review_decision',
+                'abstract_reviews.created_at as review_created_at',
+                'abstract_reviews.reviewer_id as review_reviewer_id'
+            )
+            ->where('abstract_assignments.reviewer_id', $user->id);
 
+        // Optional filters
+        if ($request->filled('date_from')) {
+            $pendingReviews->whereDate('abstract_assignments.assigned_at', '>=', $request->date_from);
+        }
+        if ($request->filled('date_to')) {
+            $pendingReviews->whereDate('abstract_assignments.assigned_at', '<=', $request->date_to);
+        }
+        if ($request->filled('status')) {
+            $pendingReviews->where('submitted_abstracts.status', $request->status);
+        } else {
+            // Default to UNDER_REVIEW only
+            $pendingReviews->where('submitted_abstracts.status', 'UNDER_REVIEW');
+        }
+
+        $pendingReviews = $pendingReviews
+            ->orderBy('abstract_assignments.assigned_at', 'desc')
+            ->paginate(15)
+            ->withQueryString();
+
+        // Stats: count by status
         $stats = [
-            'pending' => 1,
-            'under_review' => 1,
+            'pending' => DB::table('abstract_assignments')
+                ->join('submitted_abstracts', 'submitted_abstracts.id', '=', 'abstract_assignments.abstract_id')
+                ->where('abstract_assignments.reviewer_id', $user->id)
+                ->where('submitted_abstracts.status', 'PENDING')
+                ->count(),
+
+            'under_review' => DB::table('abstract_assignments')
+                ->join('submitted_abstracts', 'submitted_abstracts.id', '=', 'abstract_assignments.abstract_id')
+                ->where('abstract_assignments.reviewer_id', $user->id)
+                ->where('submitted_abstracts.status', 'UNDER_REVIEW')
+                ->count(),
         ];
 
         return view('reviewer.pending-reviews', compact('pendingReviews', 'stats'));
     }
+
+
 
     /**
      * Show completed reviews
      */
     public function completedReviews(Request $request)
     {
-        $data = [
-            (object)[
-                'id' => 201,
-                'decision' => 'APPROVED',
-                'relevance_score' => 5,
-                'methodology_score' => 4,
-                'originality_score' => 4,
-                'clarity_score' => 5,
-                'overall_score' => 4.5,
-                'comments' => 'Excellent work with clear methodology.',
-                'created_at' => now()->subDays(3),
-                'abstract' => (object)[
-                    'id' => 201,
-                    'submission_code' => 'AB-010',
-                    'paper_title' => 'Renewable Energy',
-                    'author_name' => 'Alice Johnson',
-                    'author_email' => 'alice@example.com',
-                    'organisation' => 'GreenPower Ltd.',
-                    'subTheme' => (object)['name' => 'Sustainable Tech'],
-                    'abstract_text' => 'Exploring renewable energy sources in urban areas...',
-                    'keywords' => 'Renewable, Energy, Sustainability',
-                    'uploaded_file' => null,
-                ],
-            ],
-            (object)[
-                'id' => 202,
-                'decision' => 'NEEDS_REVISION',
-                'relevance_score' => 3,
-                'methodology_score' => 3,
-                'originality_score' => 4,
-                'clarity_score' => 3,
-                'overall_score' => 3.3,
-                'comments' => 'Good concept but needs better clarity in results section.',
-                'created_at' => now()->subDays(1),
-                'abstract' => (object)[
-                    'id' => 202,
-                    'submission_code' => 'AB-011',
-                    'paper_title' => 'Soil Health',
-                    'author_name' => 'Bob Williams',
-                    'author_email' => 'bob@example.com',
-                    'organisation' => 'AgroResearch',
-                    'subTheme' => (object)['name' => 'Agronomy'],
-                    'abstract_text' => 'Studying the impact of fertilizers on soil health...',
-                    'keywords' => 'Soil, Fertilizer, Agriculture',
-                    'uploaded_file' => null,
-                ],
-            ],
-        ];
+        $user = auth()->user();
 
-        $page = $request->get('page', 1);
-        $perPage = 15;
-        $collection = collect($data);
-        $completedReviews = new LengthAwarePaginator(
-            $collection->forPage($page, $perPage),
-            $collection->count(),
-            $perPage,
-            $page,
-            ['path' => $request->url(), 'query' => $request->query()]
-        );
+        $completedReviews = AbstractReview::with([
+                'abstract.subTheme'
+            ])
+            ->where('reviewer_id', $user->id)
+            ->whereIn('decision', ['APPROVED', 'REJECTED'])
+            ->whereHas('abstract', function ($q) {
+                $q->whereIn('status', ['APPROVED', 'REJECTED']);
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(15);
 
+        // Stats
         $stats = [
-            'approved' => 1,
-            'rejected' => 0,
-            'needs_revision' => 1,
+            'approved' => AbstractReview::where('reviewer_id', $user->id)
+                ->where('decision', 'APPROVED')
+                ->count(),
+
+            'rejected' => AbstractReview::where('reviewer_id', $user->id)
+                ->where('decision', 'REJECTED')
+                ->count(),
+
+            'needs_revision' => AbstractReview::where('reviewer_id', $user->id)
+                ->where('decision', 'NEEDS_REVISION')
+                ->count(),
         ];
 
         return view('reviewer.completed-reviews', compact('completedReviews', 'stats'));
@@ -150,9 +133,26 @@ class ReviewsController extends Controller
      */
     public function submitReview(Request $request)
     {
-        return redirect()
-            ->route('reviewer.pending-reviews')
-            ->with('success', 'Dummy review submitted successfully!');
+        $request->validate([
+            'abstract_id' => 'required|exists:submitted_abstracts,id',
+            'decision' => 'required|in:APPROVED,REJECTED',
+            'comment' => 'nullable|string'
+        ]);
+
+        AbstractReview::create([
+            'abstract_id' => $request->abstract_id,
+            'reviewer_id' => auth()->id(),
+            'decision' => $request->decision,
+            'comment' => $request->comment,
+        ]);
+
+        SubmittedAbstract::where('id', $request->abstract_id)
+            ->update(['status' => 'REVIEWED']);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Review submitted successfully'
+        ]);
     }
 
     /**

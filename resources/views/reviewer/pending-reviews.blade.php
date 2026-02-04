@@ -288,6 +288,7 @@
     }
 </style>
 
+
 <div class="page-header">
     <h1 class="page-title">
         <i class="fas fa-clock me-2"></i>Pending Reviews
@@ -327,9 +328,7 @@
         <form method="GET" action="{{ route('reviewer.pending-reviews') }}">
             <div class="filter-row">
                 <div class="form-group">
-                    <label for="status" class="form-label">
-                        <i class="fas fa-circle me-1"></i> Status
-                    </label>
+                    <label for="status" class="form-label"><i class="fas fa-circle me-1"></i> Status</label>
                     <select name="status" id="status" class="form-select">
                         <option value="">All Statuses</option>
                         <option value="assigned" {{ request('status') == 'assigned' ? 'selected' : '' }}>Assigned</option>
@@ -338,13 +337,11 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="date_from" class="form-label">
-                        <i class="fas fa-calendar me-1"></i> Date Assigned
-                    </label>
+                    <label for="date_from" class="form-label"><i class="fas fa-calendar me-1"></i> Date Assigned</label>
                     <input type="date" name="date_from" id="date_from" class="form-control" value="{{ request('date_from') }}">
                 </div>
             </div>
-            
+
             <div class="d-flex gap-2">
                 <button type="submit" class="btn btn-filter">
                     <i class="fas fa-search me-1"></i> Apply Filters
@@ -367,59 +364,50 @@
                         <th>Submission ID</th>
                         <th>Title</th>
                         <th>Author</th>
-                        <th>Sub-theme</th>
                         <th>Status</th>
                         <th>Assigned Date</th>
-                        <th>Deadline</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($pendingReviews as $assignment)
+                   @foreach($pendingReviews as $assignment)
                     <tr>
-                        <td><strong class="text-primary">{{ $assignment->abstract->submission_code }}</strong></td>
-                        <td>{{ Str::limit($assignment->abstract->paper_title, 50) }}</td>
-                        <td>{{ $assignment->abstract->author_name }}</td>
-                        <td><span class="badge bg-secondary">{{ $assignment->abstract->subTheme->name ?? 'N/A' }}</span></td>
+                        <td><strong class="text-primary">{{ $assignment->submission_code }}</strong></td>
+                        <td>{{ Str::limit($assignment->paper_title, 50) }}</td>
+                        <td>{{ $assignment->author_name }}</td>
                         <td>
-                            <span class="status-badge {{ strtolower(str_replace('_', '-', $assignment->status)) }}">
-                                {{ ucfirst(str_replace('_', ' ', $assignment->status)) }}
+                            <span class="status-badge {{ strtolower(str_replace('_', '-', $assignment->abstract_status)) }}">
+                                {{ ucfirst(str_replace('_', ' ', $assignment->abstract_status)) }}
                             </span>
                         </td>
-                        <td>{{ $assignment->assigned_at->format('M d, Y') }}</td>
-                        <td>
-                            @if($assignment->deadline)
-                                {{ $assignment->deadline->format('M d, Y') }}
-                            @else
-                                <span class="text-muted">No deadline</span>
-                            @endif
-                        </td>
+                        <td>{{ \Carbon\Carbon::parse($assignment->assigned_at)->format('M d, Y') }}</td>
                         <td>
                             <div class="btn-group btn-group-sm">
                                 <button class="btn btn-view view-abstract"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#reviewModal"
-                                        data-assignment-id="{{ $assignment->id }}"
-                                        data-abstract-id="{{ $assignment->abstract->id }}"
-                                        data-code="{{ $assignment->abstract->submission_code }}"
-                                        data-title="{{ $assignment->abstract->paper_title }}"
-                                        data-author="{{ $assignment->abstract->author_name }}"
-                                        data-email="{{ $assignment->abstract->author_email }}"
-                                        data-org="{{ $assignment->abstract->organisation }}"
-                                        data-theme="{{ $assignment->abstract->subTheme->name ?? 'N/A' }}"
-                                        data-abstract="{{ $assignment->abstract->abstract_text }}"
-                                        data-keywords="{{ $assignment->abstract->keywords }}"
-                                        data-status="{{ $assignment->status }}">
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#abstractModal"
+                                    data-assignment-id="{{ $assignment->assignment_id }}"
+                                    data-id="{{ $assignment->abstract_id }}"
+                                    data-code="{{ $assignment->submission_code }}"
+                                    data-title="{{ $assignment->paper_title }}"
+                                    data-author="{{ $assignment->author_name }}"
+                                    data-email="{{ $assignment->author_email }}"
+                                    data-phone="{{ $assignment->author_phone ?? '' }}"
+                                    data-org="{{ $assignment->organisation }}"
+                                    data-theme="{{ $assignment->subtheme_name ?? 'N/A' }}"
+                                    data-abstract="{{ $assignment->abstract_text }}"
+                                    data-keywords="{{ $assignment->keywords ?? '' }}"
+                                    data-status="{{ $assignment->abstract_status }}"
+                                    data-created="{{ \Carbon\Carbon::parse($assignment->assigned_at)->format('M d, Y') }}"
+                                    data-reviewed-by="{{ $assignment->review_reviewer_id ? \App\Models\User::find($assignment->review_reviewer_id)->full_name : '' }}"
+                                    data-reviewed-at="{{ $assignment->review_created_at ? \Carbon\Carbon::parse($assignment->review_created_at)->format('M d, Y') : '' }}"
+                                    data-review-comment="{{ $assignment->review_comment ?? '' }}"
+                                    data-review-decision="{{ $assignment->review_decision ?? '' }}"
+                                    data-presentation="{{ $assignment->presentation_preference ?? '' }}"
+                                    data-attendance="{{ $assignment->attendance_mode ?? '' }}">
                                     <i class="fas fa-eye me-1"></i> Review
                                 </button>
-                                @if($assignment->abstract->uploaded_file)
-                                <a href="{{ Storage::url($assignment->abstract->uploaded_file) }}" 
-                                   class="btn btn-download" 
-                                   target="_blank"
-                                   title="Download Abstract">
-                                    <i class="fas fa-download"></i>
-                                </a>
-                                @endif
+
                             </div>
                         </td>
                     </tr>
@@ -441,151 +429,9 @@
     @endif
 </div>
 
-<!-- Review Modal -->
-<div class="modal fade" id="reviewModal" tabindex="-1">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    <i class="fas fa-file-alt me-2"></i>Review Abstract
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Abstract Details -->
-                <div class="submission-meta">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p><strong><i class="fas fa-hashtag me-2"></i>Submission Code:</strong> 
-                               <span id="modalCode" class="text-primary fw-bold"></span></p>
-                            <p><strong><i class="fas fa-user me-2"></i>Author:</strong> 
-                               <span id="modalAuthor"></span></p>
-                            <p><strong><i class="fas fa-envelope me-2"></i>Email:</strong> 
-                               <span id="modalEmail"></span></p>
-                        </div>
-                        <div class="col-md-6">
-                            <p><strong><i class="fas fa-building me-2"></i>Organization:</strong> 
-                               <span id="modalOrg"></span></p>
-                            <p><strong><i class="fas fa-tag me-2"></i>Sub-Theme:</strong> 
-                               <span id="modalTheme" class="badge bg-secondary"></span></p>
-                            <p><strong><i class="fas fa-circle me-2"></i>Current Status:</strong> 
-                               <span id="modalStatus"></span></p>
-                        </div>
-                    </div>
-                </div>
+<!-- Include the Modal Partial -->
+@include('reviewer.partials.abstractModal')
 
-                <!-- Paper Title -->
-                <div class="mb-4">
-                    <h6 class="text-primary mb-3">
-                        <i class="fas fa-heading me-2"></i>Paper Title
-                    </h6>
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 id="modalTitle" class="card-title mb-0"></h5>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Abstract Content -->
-                <div class="row mb-4">
-                    <div class="col-md-8">
-                        <h6 class="text-primary mb-3">
-                            <i class="fas fa-file-lines me-2"></i>Abstract Content
-                        </h6>
-                        <div class="abstract-content" id="modalAbstract"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <h6 class="text-primary mb-3">
-                            <i class="fas fa-tags me-2"></i>Keywords
-                        </h6>
-                        <div id="modalKeywords" class="mb-3"></div>
-                    </div>
-                </div>
-
-                <!-- Review Form -->
-                <form id="reviewForm" action="{{ route('reviewer.submit-review') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="assignment_id" id="assignmentId">
-                    <input type="hidden" name="abstract_id" id="abstractId">
-
-                    <!-- Review Comment -->
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">
-                            <i class="fas fa-comment me-1"></i> Review Comments
-                        </label>
-                        <textarea class="form-control" name="comments" rows="4" 
-                                  placeholder="Provide detailed feedback on the abstract..." required></textarea>
-                    </div>
-
-                    <!-- Review Scores -->
-                    <div class="row mb-3">
-                        <div class="col-md-3">
-                            <label class="form-label">Relevance (1-5)</label>
-                            <select name="relevance_score" class="form-select" required>
-                                <option value="">Select</option>
-                                <option value="1">1 - Poor</option>
-                                <option value="2">2 - Fair</option>
-                                <option value="3">3 - Good</option>
-                                <option value="4">4 - Very Good</option>
-                                <option value="5">5 - Excellent</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Methodology (1-5)</label>
-                            <select name="methodology_score" class="form-select" required>
-                                <option value="">Select</option>
-                                <option value="1">1 - Poor</option>
-                                <option value="2">2 - Fair</option>
-                                <option value="3">3 - Good</option>
-                                <option value="4">4 - Very Good</option>
-                                <option value="5">5 - Excellent</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Originality (1-5)</label>
-                            <select name="originality_score" class="form-select" required>
-                                <option value="">Select</option>
-                                <option value="1">1 - Poor</option>
-                                <option value="2">2 - Fair</option>
-                                <option value="3">3 - Good</option>
-                                <option value="4">4 - Very Good</option>
-                                <option value="5">5 - Excellent</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Clarity (1-5)</label>
-                            <select name="clarity_score" class="form-select" required>
-                                <option value="">Select</option>
-                                <option value="1">1 - Poor</option>
-                                <option value="2">2 - Fair</option>
-                                <option value="3">3 - Good</option>
-                                <option value="4">4 - Very Good</option>
-                                <option value="5">5 - Excellent</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Decision -->
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">
-                            <i class="fas fa-gavel me-1"></i> Decision
-                        </label>
-                        <select name="decision" class="form-select" required>
-                            <option value="">Select Decision</option>
-                            <option value="APPROVED">Approve</option>
-                            <option value="REJECTED">Reject</option>
-                            <option value="NEEDS_REVISION">Needs Revision</option>
-                        </select>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary w-100">
-                        <i class="fas fa-paper-plane me-1"></i> Submit Review
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 @endsection
 
 @section('scripts')
@@ -593,37 +439,38 @@
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.view-abstract').forEach(btn => {
         btn.addEventListener('click', () => {
-            const data = btn.dataset;
-            
-            document.getElementById('assignmentId').value = data.assignmentId;
-            document.getElementById('abstractId').value = data.abstractId;
-            document.getElementById('modalCode').textContent = data.code;
-            document.getElementById('modalTitle').textContent = data.title;
-            document.getElementById('modalAuthor').textContent = data.author;
-            document.getElementById('modalEmail').textContent = data.email;
-            document.getElementById('modalOrg').textContent = data.org;
-            document.getElementById('modalTheme').textContent = data.theme;
-            document.getElementById('modalAbstract').textContent = data.abstract;
-            
-            // Render status
-            const statusEl = document.getElementById('modalStatus');
-            const cls = data.status.toLowerCase().replace('_', '-');
-            statusEl.className = `status-badge ${cls}`;
-            statusEl.textContent = data.status.replace('_', ' ');
-            
-            // Render keywords
+            const d = btn.dataset;
+
+            const setText = (id, value) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = value || '—';
+            };
+
+            setText('modalCode', d.code);
+            setText('modalTitle', d.title);
+            setText('modalAuthor', d.author);
+            setText('modalEmail', d.email);
+            setText('modalOrg', d.org);
+            setText('modalTheme', d.theme);
+            setText('modalStatus', d.status);
+            setText('modalAbstract', d.abstract);
+
             const keywordsContainer = document.getElementById('modalKeywords');
             keywordsContainer.innerHTML = '';
-            if (data.keywords) {
-                data.keywords.split(',').forEach(keyword => {
+            if (d.keywords) {
+                d.keywords.split(',').forEach(k => {
                     const badge = document.createElement('span');
                     badge.className = 'keywords-badge';
-                    badge.textContent = keyword.trim();
+                    badge.textContent = k.trim();
                     keywordsContainer.appendChild(badge);
                 });
             } else {
                 keywordsContainer.innerHTML = '<span class="text-muted">No keywords</span>';
             }
+
+            // Fill hidden fields in the review form
+            document.getElementById('assignmentId').value = d.assignmentId;
+            document.getElementById('abstractId').value = d.abstractId;
         });
     });
 });

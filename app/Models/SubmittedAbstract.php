@@ -75,4 +75,9 @@ class SubmittedAbstract extends Model
         )->latestOfMany();
     }
 
+    public function fullPaper()
+    {
+        return $this->hasOne(FullPaper::class, 'submitted_abstract_id');
+    }
+
 }

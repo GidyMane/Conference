@@ -289,7 +289,7 @@
 
     <div class="stat-card warning">
         <div class="stat-card-content">
-            <h6>Pending Review</h6>
+            <h6>Pending Submission</h6>
             <h3>{{ $stats['pending'] ?? 0 }}</h3>
         </div>
         <div class="stat-card-icon">
@@ -319,7 +319,6 @@
                         <th>Abstract ID</th>
                         <th>Title</th>
                         <th>Author</th>
-                        <th>Sub-theme</th>
                         <th>Documents</th>
                         <th>Status</th>
                         <th>Submitted</th>
@@ -333,7 +332,6 @@
                         <td>{{ $paper->abstract->submission_code }}</td>
                         <td>{{ Str::limit($paper->abstract->paper_title, 40) }}</td>
                         <td>{{ $paper->abstract->author_name }}</td>
-                        <td><span class="badge bg-secondary">{{ $paper->abstract->subTheme->name ?? 'N/A' }}</span></td>
                         <td>
                             @if($paper->paper_file_path)
                                 <span class="doc-badge paper" title="Full Paper">
@@ -366,14 +364,15 @@
                                     data-title="{{ $paper->abstract->paper_title }}"
                                     data-author="{{ $paper->abstract->author_name }}"
                                     data-email="{{ $paper->abstract->author_email }}"
-                                    data-theme="{{ $paper->abstract->subTheme->name ?? 'N/A' }}"
+                                    data-theme="{{ $paper->abstract->subTheme->form_field_value ?? 'N/A' }}"
                                     data-status="{{ $paper->status }}"
                                     data-submitted="{{ $paper->created_at->format('M d, Y H:i') }}"
-                                    data-has-paper="{{ $paper->paper_file_path ? '1' : '0' }}"
+                                    data-has-paper="{{ $paper->file_path ? '1' : '0' }}"
                                     data-has-presentation="{{ $paper->presentation_file_path ? '1' : '0' }}"
                                     data-has-supplementary="{{ $paper->supplementary_files_path ? '1' : '0' }}"
-                                    data-paper-url="{{ $paper->paper_file_path ? Storage::url($paper->paper_file_path) : '' }}"
-                                    data-presentation-url="{{ $paper->presentation_file_path ? Storage::url($paper->presentation_file_path) : '' }}">
+                                    data-paper-url="{{ $paper->paper_url }}"
+                                    data-presentation-url="{{ $paper->presentation_url }}">
+                                    
                                 <i class="fas fa-eye me-1"></i> View
                             </button>
                         </td>
@@ -383,10 +382,7 @@
             </table>
         </div>
 
-        <!-- Pagination -->
-        <div class="p-3">
-            {{ $fullPapers->links() }}
-        </div>
+
     @else
         <div class="empty-state">
             <i class="fas fa-file-pdf"></i>
