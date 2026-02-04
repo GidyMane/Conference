@@ -122,46 +122,6 @@ class ReviewerDashboardController extends Controller
 
     public function showAbstract($assignmentId)
     {
-        // Dummy assignment details
-        $assignment = (object)[
-            'id' => $assignmentId,
-            'status' => 'assigned',
-            'assigned_at' => new \DateTime('2026-01-30 10:00:00'),
-            'abstract' => (object)[
-                'id' => 1,
-                'submission_id' => 'SUB01-087',
-                'title' => 'Climate-Resilient Maize Varieties for Semi-Arid Regions of Kenya',
-                'abstract_text' => 'Climate change poses significant challenges to maize production in Kenya\'s semi-arid regions. This study evaluates the performance of climate-resilient maize varieties developed through conventional breeding and biotechnology approaches. Field trials were conducted across three agro-ecological zones over two seasons. Results indicate that drought-tolerant varieties increased yields by 30-45% compared to traditional varieties under water-stressed conditions. The varieties also showed improved resistance to common pests and diseases. Recommendations for scaling up adoption among smallholder farmers are discussed.',
-                'keywords' => 'climate change, drought tolerance, maize breeding, food security, Kenya',
-                'submission_type' => 'Research Paper',
-                'presentation_preference' => 'Oral Presentation',
-                'preferred_attendance_mode' => 'In-person',
-                'special_requirements' => null,
-                'subTheme' => (object)[
-                    'code' => 'CSA-01',
-                    'name' => 'Climate-Smart Agriculture'
-                ],
-                'correspondingAuthor' => (object)[
-                    'full_name' => 'Dr. Jane Mwangi',
-                    'email' => 'j.mwangi@kalro.org',
-                    'phone_number' => '+254728463410',
-                    'organization' => 'Kenya Agricultural and Livestock Research Organization',
-                    'department' => 'Crop Research',
-                    'position' => 'Senior Research Scientist'
-                ],
-                'coAuthors' => [
-                    (object)[
-                        'author_name' => 'Prof. Samuel Ochieng',
-                        'institution' => 'University of Nairobi'
-                    ],
-                    (object)[
-                        'author_name' => 'Dr. Mary Wanjiku',
-                        'institution' => 'JKUAT'
-                    ]
-                ]
-            ]
-        ];
-
         $existingReview = null; // No existing review
 
         return view('reviewer.assignments.show', compact('assignment', 'existingReview'));
@@ -248,30 +208,6 @@ class ReviewerDashboardController extends Controller
         session(['reviewer_user' => $reviewer]);
 
         return redirect()->back()->with('success', 'Profile updated successfully.');
-    }
-
-    public function changePassword()
-    {
-        return view('reviewer.profile.change-password');
-    }
-
-    public function updatePassword(Request $request)
-    {
-        $validated = $request->validate([
-            'current_password' => 'required',
-            'password' => 'required|min:8|confirmed',
-        ]);
-
-        // In dummy mode, just accept any current password
-        // In real implementation, verify against database
-
-        // Update session to mark password as changed
-        $reviewer = session('reviewer_user');
-        $reviewer['password_changed'] = true;
-        session(['reviewer_user' => $reviewer]);
-
-        return redirect()->route('reviewer.dashboard')
-            ->with('success', 'Password changed successfully.');
     }
 
     public function create()

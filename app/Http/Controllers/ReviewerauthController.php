@@ -62,7 +62,18 @@ class ReviewerAuthController extends Controller
     public function updatePassword(Request $request)
     {
         $request->validate([
-            'password' => 'required|min:8|confirmed',
+            'password' => [
+                'required',
+                'confirmed',
+                'min:8',
+                'regex:/[a-z]/',      // lowercase
+                'regex:/[A-Z]/',      // uppercase
+                'regex:/[0-9]/',      // number
+                'regex:/[@$!%*#?&]/', // special character
+            ],
+        ], [
+            'password.min'   => 'Password must be at least 8 characters.',
+            'password.regex' => 'Password must include uppercase, lowercase, number, and special character.',
         ]);
 
         $user = Auth::user();
