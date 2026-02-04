@@ -196,17 +196,17 @@
 
                             <td>
                                 <div class="btn-group btn-group-sm">
-                                    <button class="btn btn-info"
+                                    <!-- <button class="btn btn-info"
                                             onclick="viewUser({{ $user->id }})"
                                             title="View Details">
                                         <i class="fas fa-eye"></i>
-                                    </button>
+                                    </button> -->
 
-                                    <button class="btn btn-primary"
+                                    <!-- <button class="btn btn-primary"
                                             onclick="editUser({{ $user->id }})"
                                             title="Edit">
                                         <i class="fas fa-edit"></i>
-                                    </button>
+                                    </button> -->
 
                                     @if($user->role === 'REVIEWER')
                                         <button class="btn btn-success"
@@ -222,11 +222,14 @@
                                         <i class="fas fa-key"></i>
                                     </button>
 
+                                @if($user->role === 'REVIEWER')
+
                                     <button class="btn btn-danger"
                                             onclick="deleteUser({{ $user->id }})"
                                             title="Delete">
                                         <i class="fas fa-trash"></i>
                                     </button>
+                                 @endif
                                 </div>
                             </td>
                         </tr>
