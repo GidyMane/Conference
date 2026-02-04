@@ -416,7 +416,7 @@
                         
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="{{ route('reviewer.profile') }}"><i class="fas fa-user me-2"></i>My Profile</a></li>
+                        <!-- <li><a class="dropdown-item" href="{{ route('reviewer.profile') }}"><i class="fas fa-user me-2"></i>My Profile</a></li> -->
                         
                         <li><hr class="dropdown-divider"></li>
                         <li>
