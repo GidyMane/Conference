@@ -320,7 +320,7 @@
 </div>
 
 <!-- Filter Section -->
-<div class="filter-card">
+<!-- <div class="filter-card">
     <div class="filter-header">
         <h2 class="filter-title"><i class="fas fa-filter me-2"></i>Filter Abstracts</h2>
     </div>
@@ -352,7 +352,7 @@
             </div>
         </form>
     </div>
-</div>
+</div> -->
 
 <!-- Pending Reviews Table -->
 <div class="table-card">
