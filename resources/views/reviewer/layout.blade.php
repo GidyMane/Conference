@@ -366,9 +366,10 @@
             </a>
             
             <a href="#" class="menu-item {{ request()->is('reviewer/profile*') ? 'active' : '' }}">
-                <i class="fas fa-user"></i>
-                <span>My Profile</span>
-            </a>
+    <i class="fas fa-book-reader"></i>
+    <span>Full Papers</span>
+</a>
+
             
             <div style="margin: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
                 <a href="#" class="menu-item {{ request()->is('reviewer/help*') ? 'active' : '' }}">
