@@ -115,7 +115,7 @@
         </p>
 
         <p>
-            <a href="{{ route('reviewer.login') }}" class="login-btn">
+            <a href="{{ route('reviewer.login') }}" class="login-btn" style="color: #ffffff;">
                 Login to KALRO System
             </a>
         </p>

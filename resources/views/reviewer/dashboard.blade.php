@@ -5,7 +5,7 @@
 
 @section('content')
 <div class="page-header">
-    <h1>Welcome back, {{ Auth::user()->name ?? 'Reviewer' }}!</h1>
+    <h1>Welcome back, {{ Auth::user()->full_name ?? 'Reviewer' }}!</h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item active">Dashboard</li>
@@ -35,7 +35,7 @@
                         <p class="mb-1">
                             <strong>Assigned Sub-theme:</strong>
                             <span class="badge bg-light text-primary fw-semibold">
-                                {{ Auth::user()->subtheme->name ?? 'Not Assigned' }}
+                                 {{ Auth::user()->reviewer->subTheme->full_name ?? 'Not Assigned' }}
                             </span>
                         </p>
                     </div>
@@ -145,24 +145,42 @@
                         <tbody>
                             @forelse($recentAbstracts ?? [] as $abstract)
                                 <tr>
-                                    <td><strong class="text-primary">{{ $abstract->submission_id }}</strong></td>
-                                    <td>{{ Str::limit($abstract->title, 40) }}</td>
+                                    <td><strong class="text-primary">{{ $abstract->submission_code }}</strong></td>
+                                    <td>{{ Str::limit($abstract->paper_title, 40) }}</td>
                                     <td>
-                                        <span class="badge badge-{{ strtolower(str_replace('_', '-', $abstract->review_status ?? 'pending')) }}">
-                                            {{ ucfirst(str_replace('_', ' ', $abstract->review_status ?? 'Pending')) }}
+                                        <span class="badge badge-{{ strtolower(str_replace('_', '-', $abstract->status)) }}">
+                                            {{ ucfirst(str_replace('_', ' ', $abstract->status)) }}
                                         </span>
                                     </td>
                                     
                                     <td>
-                                        <div class="btn-group btn-group-sm">
-                                            <a href="{{ route('reviewer.abstracts.show', $abstract->id) }}" class="btn btn-info">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                            <a href="{{ route('reviewer.abstracts.review', $abstract->id) }}" class="btn btn-primary">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        </div>
+                                        <button class="btn btn-info btn-sm view-abstract"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#abstractModal"
+
+                                            data-id="{{ $abstract->id }}"
+                                            data-code="{{ $abstract->submission_code }}"
+                                            data-title="{{ $abstract->paper_title }}"
+                                            data-author="{{ $abstract->author_name }}"
+                                            data-email="{{ $abstract->author_email }}"
+                                            data-phone="{{ $abstract->author_phone }}"
+                                            data-org="{{ $abstract->organisation }}"
+                                            data-theme="{{ $abstract->subTheme->full_name ?? '' }}"
+                                            data-status="{{ $abstract->status }}"
+                                            data-created="{{ $abstract->created_at->format('d M Y H:i') }}"
+                                            data-reviewed-by="{{ auth()->user()->full_name }}"
+                                            data-reviewed-at="{{ optional($abstract->latestReview)->created_at?->format('d M Y') }}"
+                                            data-abstract="{{ $abstract->abstract_text }}"
+                                            data-keywords="{{ $abstract->keywords }}"
+                                            data-presentation="{{ $abstract->presentation_preference }}"
+                                            data-attendance="{{ $abstract->attendance_mode }}"
+                                            data-review-comment="{{ $abstract->latestReview?->comment ?? '' }}"
+                                            data-review-decision="{{ $abstract->latestReview?->decision ?? '' }}"
+                                        >
+                                            <i class="fas fa-eye"></i>
+                                        </button>
                                     </td>
+
                                 </tr>
                             @empty
                                 <tr>
@@ -184,3 +202,4 @@
 
 </div>
 @endsection
+@include('reviewer.partials.abstractModal')

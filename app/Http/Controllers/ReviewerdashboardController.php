@@ -15,88 +15,81 @@ class ReviewerDashboardController extends Controller
 {
     public function index()
     {
-        if (auth()->user()->password_setup_token !== null) {
+        $user = auth()->user();
+
+        if ($user->password_setup_token !== null) {
             return redirect()->route('reviewer.password.change');
         }
 
-        // Get reviewer from session (dummy data)
-        $reviewer = (object) session('reviewer_user', [
-            'id' => 1,
-            'name' => 'Dr. John Kamau',
-            'email' => 'reviewer@kalro.org',
-            'sub_theme_name' => 'Climate-Smart Agriculture',
-            'password_changed' => true
-        ]);
+        $reviewer = $user->reviewer;
 
-        // Dummy statistics
+        // =============================
+        // FETCH ASSIGNED ABSTRACTS
+        // =============================
+        $assignedAbstractsQuery = \App\Models\SubmittedAbstract::query()
+            ->where('status', 'UNDER_REVIEW')
+            ->whereHas('assignments', function ($q) use ($user) {
+                $q->where('reviewer_id', $user->id);
+            });
+
+        // =============================
+        // STATS
+        // =============================
         $stats = [
-            'total_assigned' => 5,
-            'pending' => 2,
-            'under_review' => 1,
-            'completed' => 2,
+            'total_assigned' => \App\Models\AbstractAssignment::where(
+                                    'reviewer_id',
+                                    auth()->id()
+                                )->count(),
+
+            'pending_review' => \App\Models\SubmittedAbstract::whereHas('assignments', function ($q) use ($user) {
+                $q->where('reviewer_id', $user->id);
+            })->where('status', 'UNDER_REVIEW')->count(),
+
+            'completed' => \App\Models\AbstractReview::where('reviewer_id', $user->id)->count(),
+
+            'approved' => \App\Models\AbstractReview::where('reviewer_id', $user->id)
+                ->where('decision', 'APPROVED')->count(),
+
+            'rejected' => \App\Models\AbstractReview::where('reviewer_id', $user->id)
+                ->where('decision', 'REJECTED')->count(),
+                
         ];
 
-        // Dummy assignments
-        $assignments = [
-            (object)[
-                'id' => 1,
-                'status' => 'assigned',
-                'assigned_at' => new \DateTime('2026-01-30 10:00:00'),
-                'abstract' => (object)[
-                    'id' => 1,
-                    'submission_id' => 'SUB01-087',
-                    'title' => 'Climate-Resilient Maize Varieties for Semi-Arid Regions',
-                    'subTheme' => (object)['code' => 'CSA-01', 'name' => 'Climate-Smart Agriculture']
-                ]
-            ],
-            (object)[
-                'id' => 2,
-                'status' => 'under_review',
-                'assigned_at' => new \DateTime('2026-01-28 14:30:00'),
-                'abstract' => (object)[
-                    'id' => 2,
-                    'submission_id' => 'SUB01-085',
-                    'title' => 'Water Harvesting Technologies for Small-Scale Farmers',
-                    'subTheme' => (object)['code' => 'CSA-01', 'name' => 'Climate-Smart Agriculture']
-                ]
-            ],
-            (object)[
-                'id' => 3,
-                'status' => 'assigned',
-                'assigned_at' => new \DateTime('2026-01-25 09:15:00'),
-                'abstract' => (object)[
-                    'id' => 3,
-                    'submission_id' => 'SUB01-082',
-                    'title' => 'Drought-Tolerant Sorghum Production in Arid Lands',
-                    'subTheme' => (object)['code' => 'CSA-01', 'name' => 'Climate-Smart Agriculture']
-                ]
-            ],
-            (object)[
-                'id' => 4,
-                'status' => 'reviewed',
-                'assigned_at' => new \DateTime('2026-01-22 11:00:00'),
-                'abstract' => (object)[
-                    'id' => 4,
-                    'submission_id' => 'SUB01-078',
-                    'title' => 'Conservation Agriculture Practices in Western Kenya',
-                    'subTheme' => (object)['code' => 'CSA-01', 'name' => 'Climate-Smart Agriculture']
-                ]
-            ],
-            (object)[
-                'id' => 5,
-                'status' => 'reviewed',
-                'assigned_at' => new \DateTime('2026-01-20 15:45:00'),
-                'abstract' => (object)[
-                    'id' => 5,
-                    'submission_id' => 'SUB01-075',
-                    'title' => 'Climate Information Services for Farmers',
-                    'subTheme' => (object)['code' => 'CSA-01', 'name' => 'Climate-Smart Agriculture']
-                ]
-            ],
-        ];
+        $stats['completion_rate'] = $stats['total_assigned'] > 0
+            ? round(($stats['completed'] / $stats['total_assigned']) * 100)
+            : 0;
 
-        return view('reviewer.dashboard', compact('stats', 'assignments'));
+        // =============================
+        // RECENT ASSIGNED (LATEST FIRST)
+        // =============================
+        /*$recentAbstracts = \App\Models\SubmittedAbstract::with('subTheme')
+            ->where('status', 'UNDER_REVIEW')
+            ->whereHas('assignments', function ($q) use ($user) {
+                $q->where('reviewer_id', $user->id);
+            })
+            ->latest('updated_at')
+            ->take(5)
+            ->get();*/
+            
+        $recentAbstracts = \App\Models\SubmittedAbstract::with([
+                'subTheme',
+                'latestReview' => function ($q) use ($user) {
+                    $q->where('reviewer_id', $user->id);
+                }
+            ])
+            ->where('status', 'UNDER_REVIEW')
+            ->whereHas('assignments', function ($q) use ($user) {
+                $q->where('reviewer_id', $user->id);
+            })
+            ->latest('updated_at')
+            ->take(5)
+            ->get();
+        return view('reviewer.dashboard', compact(
+            'stats',
+            'recentAbstracts'
+        ));
     }
+
 
     public function assignments(Request $request)
     {
