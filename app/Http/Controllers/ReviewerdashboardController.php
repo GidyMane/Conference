@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Models\Reviewer;
+use Illuminate\Support\Facades\DB;
 
 class ReviewerDashboardController extends Controller
 {
@@ -280,7 +281,44 @@ class ReviewerDashboardController extends Controller
         ]);
     }
 
+    public function resetPassword($id)
+    {
+        $user = User::findOrFail($id);
 
+        if (!$user->email) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User has no email address.'
+            ], 400);
+        }
+
+        // Generate new temporary password
+        $temporaryPassword = Str::random(10);
+
+        // Reset credentials
+        $user->update([
+            'password' => Hash::make($temporaryPassword),
+            'password_setup_token' => Str::uuid(),
+            'password_setup_expires_at' => now()->addHours(24),
+        ]);
+
+        // Send reset email
+        try {
+            Mail::to($user->email)->send(
+                new \App\Mail\UserPasswordResetMail($user, $temporaryPassword)
+            );
+        } catch (\Throwable $e) {
+            \Log::error('Password reset email failed', [
+                'user_id' => $user->id,
+                'error' => $e->getMessage()
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Password reset successfully.'
+        ]);
+    }
 
 
 }

@@ -87,6 +87,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 });
 
+Route::prefix('users')->group(function () {
+        Route::post('{id}/reset-password', [
+            ReviewerDashboardController::class,
+            'resetPassword'
+        ])->name('users.reset-password');
+    });
+
 // Protected Admin Routes (require login)
 Route::prefix('admin')->name('admin.')->middleware('web', 'auth', 'admin')->group(function () {
     
@@ -108,12 +115,13 @@ Route::prefix('admin')->name('admin.')->middleware('web', 'auth', 'admin')->grou
     // Abstracts Management
     Route::prefix('abstracts')->name('abstracts.')->group(function () {
         Route::get('/', [AdminController::class, 'abstracts'])->name('index');
-        /*Route::get('/{id}', [AbstractController::class, 'show'])->name('show');
-        Route::post('/{id}/assign-reviewer', [AbstractController::class, 'assignReviewer'])->name('assign-reviewer');
-        Route::delete('/{id}/assignments/{assignmentId}', [AbstractController::class, 'removeAssignment'])->name('remove-assignment');
-        Route::post('/{id}/update-status', [AbstractController::class, 'updateStatus'])->name('update-status');
-        Route::post('/bulk-action', [AbstractController::class, 'bulkAction'])->name('bulk-action');
-        Route::get('/export', [AbstractController::class, 'export'])->name('export');*/
+    });
+
+    Route::prefix('users')->group(function () {
+        Route::post('{id}/reset-password', [
+            ReviewerDashboardController::class,
+            'resetPassword'
+        ])->name('users.reset-password');
     });
         // Reviewers Management
     Route::prefix('reviewers')->name('reviewers.')->group(function () {
