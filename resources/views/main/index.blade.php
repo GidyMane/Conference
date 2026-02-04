@@ -43,7 +43,7 @@
                         <div class="carousel-caption">
                             <h2 class="display-5 fw-bold">Networking & Collaboration</h2>
                             <p class="lead">Connect with leading agricultural researchers</p>
-                            <a href="pages/conference_procedure.php" class="btn btn-primary btn-lg mt-3">
+                            <a href="/conference-procedure" class="btn btn-primary btn-lg mt-3">
                                 View Conference Procedure<i class="fas fa-calendar-alt ms-2"></i>
                             </a>
                         </div>
