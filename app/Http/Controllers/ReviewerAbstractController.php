@@ -18,21 +18,32 @@ class ReviewerAbstractController extends Controller
     {
         $userId = auth()->id();
 
-        // Base query: only abstracts assigned to this reviewer
+        // Base query: abstracts assigned to this reviewer
         $query = SubmittedAbstract::with([
             'subtheme',
-            'assignments' => function ($q) use ($userId) {
-                $q->where('reviewer_id', $userId);
-            }
-        ])->whereHas('assignments', function ($q) use ($userId) {
-            $q->where('reviewer_id', $userId);
-        });
+            'assignments' => fn($q) => $q->where('reviewer_id', $userId),
+            'latestReview'
+        ])->whereHas('assignments', fn($q) => $q->where('reviewer_id', $userId));
 
-        // Filters
-        if ($request->filled('status')) {
-            $query->where('status', strtoupper($request->status));
+        // --- Filters ---
+        $statusMap = [
+            'pending'  => 'UNDER_REVIEW',
+            'reviewed' => ['APPROVED', 'REJECTED'], // multiple statuses
+            'approved' => 'APPROVED',
+            'rejected' => 'REJECTED',
+        ];
+
+        if ($request->filled('status') && isset($statusMap[$request->status])) {
+            $dbStatus = $statusMap[$request->status];
+
+            if (is_array($dbStatus)) {
+                $query->whereIn('status', $dbStatus);
+            } else {
+                $query->where('status', $dbStatus);
+            }
         }
 
+        // Date range filter
         if ($request->filled('date_range')) {
             $today = now();
             if ($request->date_range === 'today') {
@@ -44,7 +55,7 @@ class ReviewerAbstractController extends Controller
             }
         }
 
-        // Sorting
+        // --- Sorting ---
         $sort = $request->get('sort', 'newest');
 
         if ($sort === 'oldest') {
@@ -61,38 +72,30 @@ class ReviewerAbstractController extends Controller
                 ->select('submitted_abstracts.*');
         }
 
-        $abstracts = SubmittedAbstract::with([
-                'subtheme',
-                'assignments' => fn($q) => $q->where('reviewer_id', $userId),
-                'latestReview'
-            ])
-            ->whereHas('assignments', fn($q) => $q->where('reviewer_id', $userId))
-            ->join('abstract_assignments', 'submitted_abstracts.id', '=', 'abstract_assignments.abstract_id')
-            ->where('abstract_assignments.reviewer_id', $userId)
-            ->orderBy('abstract_assignments.created_at', 'desc') // latest assigned first
-            ->select('submitted_abstracts.*')
-            ->get();
+        // Get filtered & sorted abstracts
+        $abstracts = $query->get();
 
-        // Status counts
+        // --- Status counts ---
         $statusCounts = [
-            'pending' => $abstracts->where('status', 'UNDER_REVIEW')->count(),
+            'pending'  => $abstracts->where('status', 'UNDER_REVIEW')->count(),
             'approved' => $abstracts->where('status', 'APPROVED')->count(),
             'reviewed' => $abstracts->whereIn('status', ['APPROVED', 'REJECTED'])->count(),
             'rejected' => $abstracts->where('status', 'REJECTED')->count(),
-            'total' => $abstracts->count(),
+            'total'    => $abstracts->count(),
         ];
 
-        // Upcoming deadlines
-        $upcomingDeadlines = $abstracts->filter(function ($a) {
-            return $a->review_deadline && now()->diffInDays($a->review_deadline, false) <= 3 && now()->diffInDays($a->review_deadline, false) >= 0;
-        })->count();
+        // Upcoming deadlines within 3 days
+        $upcomingDeadlines = $abstracts->filter(fn($a) => 
+            $a->review_deadline && now()->diffInDays($a->review_deadline, false) <= 3 &&
+            now()->diffInDays($a->review_deadline, false) >= 0
+        )->count();
 
-        // Reviewer stats (example placeholders, replace with real calculations)
+        // Reviewer stats placeholders (replace with real calculations)
         $reviewerStats = [
-            'avgRating' => 'N/A',
+            'avgRating'      => 'N/A',
             'monthlyReviews' => 0,
-            'avgReviewTime' => 'N/A',
-            'totalReviews' => 0,
+            'avgReviewTime'  => 'N/A',
+            'totalReviews'   => 0,
         ];
 
         return view('reviewer.abstracts.index', compact(

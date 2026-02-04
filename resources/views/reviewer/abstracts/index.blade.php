@@ -57,16 +57,6 @@
                 </div>
 
                 <div class="col-md-4">
-                    <label class="form-label">Date Range</label>
-                    <select name="date_range" class="form-select">
-                        <option value="">All Time</option>
-                        <option value="today" {{ request('date_range')=='today' ? 'selected' : '' }}>Today</option>
-                        <option value="week" {{ request('date_range')=='week' ? 'selected' : '' }}>This Week</option>
-                        <option value="month" {{ request('date_range')=='month' ? 'selected' : '' }}>This Month</option>
-                    </select>
-                </div>
-
-                <div class="col-md-4">
                     <label class="form-label">Sort By</label>
                     <select name="sort" class="form-select">
                         <option value="newest" {{ request('sort')=='newest' ? 'selected' : '' }}>Newest First</option>
