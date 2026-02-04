@@ -45,7 +45,7 @@
         <form method="GET" action="{{ route('reviewer.abstracts.index') }}">
             <div class="row g-3">
 
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <label class="form-label">Status</label>
                     <select name="status" class="form-select">
                         <option value="">All Statuses</option>
@@ -56,7 +56,7 @@
                     </select>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <label class="form-label">Sort By</label>
                     <select name="sort" class="form-select">
                         <option value="newest" {{ request('sort')=='newest' ? 'selected' : '' }}>Newest First</option>
