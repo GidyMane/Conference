@@ -14,7 +14,7 @@
 </div>
 
 <!-- Reviewer Info Card -->
-<div class="row mb-4">
+<div class="row mb-3">
     <div class="col-12">
         <div class="card shadow-lg border-0"
              style="background: linear-gradient(135deg, var(--reviewer-blue) 0%, var(--reviewer-dark-blue) 100%);">
@@ -46,7 +46,7 @@
 </div>
 
 <!-- Statistics Cards -->
-<div class="row mb-4">
+<div class="row mb-3">
     <div class="col-md-3 mb-3">
         <div class="stat-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
             <h3>{{ $stats['total_assigned'] ?? 0 }}</h3>
@@ -63,13 +63,7 @@
         </div>
     </div>
 
-    <div class="col-md-3 mb-3">
-        <div class="stat-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-            <h3>{{ $stats['under_review'] ?? 0 }}</h3>
-            <p>Under Review</p>
-            <i class="fas fa-search stat-card-icon"></i>
-        </div>
-    </div>
+   
 
     <div class="col-md-3 mb-3">
         <div class="stat-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
@@ -106,18 +100,6 @@
         </div>
     </div>
 
-    <div class="col-md-3 mb-3">
-        <div class="card border-start border-warning border-4">
-            <div class="card-body d-flex justify-content-between align-items-center">
-                <div>
-                    <h6 class="text-muted mb-1">Avg. Review Time</h6>
-                    <h3 class="mb-0">{{ $stats['avg_review_time'] ?? 'N/A' }}</h3>
-                    <small class="text-muted">hours</small>
-                </div>
-                <i class="fas fa-stopwatch fa-2x text-warning"></i>
-            </div>
-        </div>
-    </div>
 
     <div class="col-md-3 mb-3">
         <div class="card border-start border-info border-4">
@@ -132,30 +114,7 @@
     </div>
 </div>
 
-<!-- Charts -->
-<div class="row mb-4">
-    <div class="col-md-8 mb-3">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Review Activity Over Time</h5>
-            </div>
-            <div class="card-body">
-                <canvas id="activityChart" height="80"></canvas>
-            </div>
-        </div>
-    </div>
 
-    <div class="col-md-4 mb-3">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="mb-0"><i class="fas fa-pie-chart me-2"></i>Review Status</h5>
-            </div>
-            <div class="card-body">
-                <canvas id="statusChart"></canvas>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- Recently Assigned Abstracts (FULL WIDTH) -->
 <div class="row mb-4">
@@ -226,54 +185,8 @@
     </div>
 </div>
 
-<!-- Quick Actions + Recent Activity (SHARED ROW) -->
-<div class="row mb-4">
 
-    <!-- Quick Actions -->
-    <div class="col-md-4 mb-3">
-        <div class="card h-100">
-            <div class="card-header">
-                <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>Quick Actions</h5>
-            </div>
-            <div class="card-body d-grid gap-2">
-                <a href="#" class="btn btn-warning">
-                    Pending Reviews
-                </a>
-                <a href="#" class="btn btn-info">
-                    Continue Reviews
-                </a>
-                <a href="#" class="btn btn-outline-secondary">
-                    My Profile
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Recent Activity -->
-    <div class="col-md-8 mb-3">
-        <div class="card h-100">
-            <div class="card-header">
-                <h5 class="mb-0"><i class="fas fa-history me-2"></i>Recent Activity</h5>
-            </div>
-            <div class="card-body">
-                @forelse($recentActivities ?? [] as $activity)
-                    <div class="d-flex mb-3 pb-3 border-bottom">
-                        <div class="me-3">
-                            <i class="fas fa-{{ $activity->icon ?? 'circle' }}
-                               text-{{ $activity->color ?? 'primary' }}"></i>
-                        </div>
-                        <div>
-                            <strong>{{ $activity->title }}</strong>
-                            <p class="text-muted small mb-0">{{ $activity->description }}</p>
-                            <small class="text-muted">{{ $activity->created_at->diffForHumans() }}</small>
-                        </div>
-                    </div>
-                @empty
-                    <p class="text-center text-muted mb-0">No recent activities</p>
-                @endforelse
-            </div>
-        </div>
-    </div>
+   
 
 </div>
 @endsection
