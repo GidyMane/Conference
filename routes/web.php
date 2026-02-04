@@ -137,6 +137,11 @@ Route::prefix('admin')->name('admin.')->middleware('web', 'auth', 'admin')->grou
         Route::post('/{id}/reset-password', [ReviewerdashboardController::class, 'resetPassword'])->name('reset-password');
         Route::get('/workload/view', [ReviewerdashboardController::class, 'workload'])->name('workload');
     });
+
+        // Admin Users CRUD
+    Route::prefix('users')->name('users.')->group(function () {
+        Route::delete('/{user}', [ReviewerDashboardController::class, 'destroy'])->name('destroy');
+    });
     
     
 });

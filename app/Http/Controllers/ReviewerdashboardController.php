@@ -215,15 +215,17 @@ class ReviewerDashboardController extends Controller
     {
         $subthemes = SubTheme::orderBy('full_name')->get();
         $users = User::with('reviewer.subTheme')
-        ->withCount([
-            'assignedAbstracts',                     // adds assigned_abstracts_count
-            'reviews as completed_reviews_count'     // adds completed_reviews_count
-        ])
-        ->get();
+            ->withCount([
+                'assignedAbstracts',                    
+                'reviews as completed_reviews_count'
+            ])
+            ->get();
 
         $stats = [
             'total_users'       => User::count(),
-            'active_reviewers'  => User::where('role', 'REVIEWER')->count(),
+            'active_reviewers' => User::where('role', 'REVIEWER')
+                           ->where('is_active', 1)
+                           ->count(),
             'admins'            => User::where('role', 'ADMIN')->count(),
             'pending_setup'     => User::whereNotNull('password_setup_token')->count(),
         ];
@@ -317,6 +319,17 @@ class ReviewerDashboardController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Password reset successfully.'
+        ]);
+    }
+
+    public function destroy(User $user)
+    {
+        $user->is_active = 0;
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User deactivated successfully.'
         ]);
     }
 

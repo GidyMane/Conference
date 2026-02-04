@@ -143,7 +143,7 @@
                 </thead>
                 <tbody>
                     @forelse($users as $user)
-                        <tr>
+                        <tr class="{{ !$user->is_active ? 'inactive-row' : '' }}">
                             <td>{{ $user->id }}</td>
 
                             <td>
@@ -195,42 +195,23 @@
                             </td>
 
                             <td>
-                                <div class="btn-group btn-group-sm">
-                                    <!-- <button class="btn btn-info"
-                                            onclick="viewUser({{ $user->id }})"
-                                            title="View Details">
-                                        <i class="fas fa-eye"></i>
-                                    </button> -->
-
-                                    <!-- <button class="btn btn-primary"
-                                            onclick="editUser({{ $user->id }})"
-                                            title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </button> -->
-
-                                    @if($user->role === 'REVIEWER')
-                                        <button class="btn btn-success"
-                                                onclick="assignAbstracts({{ $user->id }})"
-                                                title="Assign Abstracts">
-                                            <i class="fas fa-file-alt"></i>
-                                        </button>
-                                    @endif
-
-                                    <button class="btn btn-warning"
-                                            onclick="resetPassword({{ $user->id }})"
-                                            title="Reset Password">
-                                        <i class="fas fa-key"></i>
-                                    </button>
-
-                                @if($user->role === 'REVIEWER')
-
-                                    <button class="btn btn-danger"
-                                            onclick="deleteUser({{ $user->id }})"
-                                            title="Delete">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                 @endif
-                                </div>
+                                @if($user->is_active)
+                                    <div class="btn-group btn-group-sm">
+                                        @if($user->role === 'REVIEWER')
+                                            <button class="btn btn-success" onclick="assignAbstracts({{ $user->id }})" title="Assign Abstracts">
+                                                <i class="fas fa-file-alt"></i>
+                                            </button>
+                                            <button class="btn btn-warning" onclick="resetPassword({{ $user->id }})" title="Reset Password">
+                                                <i class="fas fa-key"></i>
+                                            </button>
+                                            <button class="btn btn-danger" onclick="deleteUser({{ $user->id }}, this)" title="Deactivate">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        @endif
+                                    </div>
+                                @else
+                                    <span class="text-muted">Inactive</span>
+                                @endif
                             </td>
                         </tr>
                     @empty
@@ -584,34 +565,35 @@
         }
     }
     
-    function deleteUser(userId) {
-        if (confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
-            fetch(`/admin/users/${userId}`, {
-                method: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    'Accept': 'application/json'
-                }
-            })
-            .then(async response => {
-                if (!response.ok) {
-                    const err = await response.json();
-                    const message =
-                        err?.message ||
-                        (err?.errors ? Object.values(err.errors).flat().join('\n') : 'Something went wrong');
-
-                    alert(message);
-                    return;
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    location.reload();
-                }
-            });
-        }
+function deleteUser(userId, btn) {
+    if (confirm('Are you sure you want to deactivate this user? This action cannot be undone.')) {
+        fetch(`/admin/users/${userId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            }
+        })
+        .then(async response => {
+            if (!response.ok) {
+                const err = await response.json();
+                const message =
+                    err?.message ||
+                    (err?.errors ? Object.values(err.errors).flat().join('\n') : 'Something went wrong');
+                alert(message);
+                return;
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                alert(data.message || 'User deactivated successfully.');
+                // Reload the page so stats and table refresh
+                location.reload();
+            }
+        });
     }
+}
 
 </script>
 @endsection

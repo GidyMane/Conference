@@ -238,6 +238,12 @@
             opacity: 0.9;
         }
 
+        .inactive-row {
+            opacity: 0.5;
+            pointer-events: none; /* disables clicks on buttons inside */
+            background-color: #f8f9fa !important;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .sidebar {
