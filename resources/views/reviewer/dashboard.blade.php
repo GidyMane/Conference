@@ -138,7 +138,7 @@
                                 <th>Submission ID</th>
                                 <th>Title</th>
                                 <th>Status</th>
-                                <th>Deadline</th>
+                               
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -152,13 +152,7 @@
                                             {{ ucfirst(str_replace('_', ' ', $abstract->review_status ?? 'Pending')) }}
                                         </span>
                                     </td>
-                                    <td>
-                                        @if($abstract->review_deadline)
-                                            {{ \Carbon\Carbon::parse($abstract->review_deadline)->format('M d') }}
-                                        @else
-                                            <small class="text-muted">No deadline</small>
-                                        @endif
-                                    </td>
+                                    
                                     <td>
                                         <div class="btn-group btn-group-sm">
                                             <a href="{{ route('reviewer.abstracts.show', $abstract->id) }}" class="btn btn-info">
