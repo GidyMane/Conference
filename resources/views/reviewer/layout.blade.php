@@ -355,17 +355,17 @@
                 <span>My Abstracts</span>
             </a>
             
-            <a href="#" class="menu-item {{ request()->is('reviewer/pending*') ? 'active' : '' }}">
+            <a href="{{ route('reviewer.pending-reviews') }}" class="menu-item {{ request()->is('reviewer/pending*') ? 'active' : '' }}">
                 <i class="fas fa-clock"></i>
                 <span>Pending Reviews</span>
             </a>
             
-            <a href="#" class="menu-item {{ request()->is('reviewer/completed*') ? 'active' : '' }}">
+            <a href="{{ route('reviewer.completed-reviews') }}" class="menu-item {{ request()->is('reviewer/completed*') ? 'active' : '' }}">
                 <i class="fas fa-check-circle"></i>
                 <span>Completed Reviews</span>
             </a>
             
-            <a href="#" class="menu-item {{ request()->is('reviewer/profile*') ? 'active' : '' }}">
+            <a href="{{ route('reviewer.fullpapers.index') }}" class="menu-item {{ request()->is('reviewer/fullpapers*') ? 'active' : '' }}">
     <i class="fas fa-book-reader"></i>
     <span>Full Papers</span>
 </a>

@@ -13,6 +13,8 @@ use App\Http\Controllers\ReviewerDashboardController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\AbstractAssignmentController;
+use App\Http\Controllers\ReviewsController;
+use App\Http\Controllers\ReviewerFullPaperController;
 
 /* MainController Routes */
 
@@ -134,6 +136,39 @@ Route::prefix('admin')->name('admin.')->middleware('web', 'auth', 'admin')->grou
         Route::delete('/{id}', [ReviewerdashboardController::class, 'destroy'])->name('destroy');
         Route::post('/{id}/reset-password', [ReviewerdashboardController::class, 'resetPassword'])->name('reset-password');
         Route::get('/workload/view', [ReviewerdashboardController::class, 'workload'])->name('workload');
+    });
+    
+    
+});
+
+
+
+
+
+
+
+
+// Reviewer Routes
+Route::prefix('reviewer')->name('reviewer.')->middleware('auth')->group(function () {
+    
+    // Pending Reviews
+    Route::get('/pending-reviews', [ReviewsController::class, 'pendingReviews'])->name('pending-reviews');
+    
+    // Completed Reviews
+    Route::get('/completed-reviews', [ReviewsController::class, 'completedReviews'])->name('completed-reviews');
+    
+    // Submit Review
+    Route::post('/submit-review', [ReviewsController::class, 'submitReview'])->name('submit-review');
+    
+    // Start Review (AJAX)
+    Route::post('/start-review/{assignmentId}', [ReviewsController::class, 'startReview'])->name('start-review');
+    
+    // Full Papers
+    Route::prefix('fullpapers')->name('fullpapers.')->group(function () {
+        Route::get('/', [ReviewerFullpaperController::class, 'index'])->name('index');
+        Route::get('/{id}', [ReviewerFullPapersController::class, 'show'])->name('show');
+        Route::get('/{id}/download/{type}', [ReviewerFullPapersController::class, 'download'])->name('download');
+        Route::get('/{id}/supplementary', [ReviewerFullPapersController::class, 'supplementary'])->name('supplementary');
     });
 });
 
