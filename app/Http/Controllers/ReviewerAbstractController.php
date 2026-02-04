@@ -61,13 +61,24 @@ class ReviewerAbstractController extends Controller
                 ->select('submitted_abstracts.*');
         }
 
-        $abstracts = $query->get();
+        $abstracts = SubmittedAbstract::with([
+                'subtheme',
+                'assignments' => fn($q) => $q->where('reviewer_id', $userId),
+                'latestReview'
+            ])
+            ->whereHas('assignments', fn($q) => $q->where('reviewer_id', $userId))
+            ->join('abstract_assignments', 'submitted_abstracts.id', '=', 'abstract_assignments.abstract_id')
+            ->where('abstract_assignments.reviewer_id', $userId)
+            ->orderBy('abstract_assignments.created_at', 'desc') // latest assigned first
+            ->select('submitted_abstracts.*')
+            ->get();
 
         // Status counts
         $statusCounts = [
-            'pending' => $abstracts->where('status', 'PENDING')->count(),
-            'under_review' => $abstracts->where('status', 'UNDER_REVIEW')->count(),
+            'pending' => $abstracts->where('status', 'UNDER_REVIEW')->count(),
+            'approved' => $abstracts->where('status', 'APPROVED')->count(),
             'reviewed' => $abstracts->whereIn('status', ['APPROVED', 'REJECTED'])->count(),
+            'rejected' => $abstracts->where('status', 'REJECTED')->count(),
             'total' => $abstracts->count(),
         ];
 

@@ -191,7 +191,8 @@
                                     data-keywords="{{ $abstract->keywords }}"
                                     data-presentation="{{ $abstract->presentation_preference }}"
                                     data-attendance="{{ $abstract->attendance_mode }}"
-                                >
+                                    data-review-comment="{{ $abstract->latestReview?->comment ?? '' }}"
+                                    data-review-decision="{{ $abstract->latestReview?->decision ?? '' }}">
                                     <i class="fas fa-eye"></i>
                                 </button>
 
@@ -215,6 +216,7 @@
 </div>
 
 @endsection
+@include('reviewer.partials.abstractModal')
 
 @section('scripts')
 <script>
