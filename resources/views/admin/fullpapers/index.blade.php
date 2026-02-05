@@ -4,6 +4,82 @@
 @section('page-title', 'Manage Full Papers')
 
 @section('content')
+<style>
+
+    :root {
+        --success-green: #28a745;
+    }
+    /* Modal */
+    .modal-header {
+        background: linear-gradient(135deg, var(--primary-blue) 0%, #0d3d5c 100%);
+        color: white;
+    }
+
+    .paper-details {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .paper-details p {
+        margin-bottom: 10px;
+        line-height: 1.6;
+    }
+
+    .documents-section {
+        margin-top: 20px;
+    }
+
+    .document-item {
+        background: white;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .document-item:hover {
+        border-color: var(--primary-blue);
+        background: #f8f9fa;
+    }
+
+    .document-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .document-icon {
+        font-size: 32px;
+        color: var(--primary-blue);
+    }
+
+    .document-meta h6 {
+        margin: 0;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .document-meta p {
+        margin: 0;
+        font-size: 13px;
+        color: #6c757d;
+    }
+
+    .btn-download {
+        background: var(--success-green);
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 5px;
+        font-size: 13px;
+        transition: all 0.3s;
+    }
+</style>
 <div class="page-header">
     <div class="d-flex justify-content-between align-items-center">
         <div>
@@ -170,20 +246,11 @@
                         </td>
                         <td>
                             <div class="btn-group btn-group-sm">
-                                @if($paper->full_paper_document)
-                                <a href="{{ $paper->full_paper_document }}" class="btn btn-outline-primary" title="Full Paper" target="_blank">
-                                    <i class="fas fa-file-pdf"></i>
-                                </a>
-                                @endif
-                                @if($paper->presentation_document)
-                                <a href="{{ $paper->presentation_document }}" class="btn btn-outline-success" title="Presentation" target="_blank">
-                                    <i class="fas fa-file-powerpoint"></i>
-                                </a>
-                                @endif
-                                @if($paper->supplementary_documents)
-                                <button class="btn btn-outline-info" onclick="viewSupplementary({{ $paper->id }})" title="Supplementary">
-                                    <i class="fas fa-paperclip"></i>
-                                </button>
+                                @if($paper->file_path)
+                                    <a href="{{ asset('full-papers/'.$paper->abstract->sub_theme_id.'/'.basename($paper->file_path)) }}" 
+                                    class="btn btn-sm btn-primary" target="_blank" download>
+                                        <i class="fas fa-file-pdf"></i> Paper
+                                    </a>
                                 @endif
                             </div>
                         </td>
@@ -194,17 +261,24 @@
                         </td>
                         <td>{{ $paper->created_at->format('M d, Y') }}</td>
                         <td>
-                            <div class="btn-group btn-group-sm">
-                                <a href="#" class="btn btn-info" title="View">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <button class="btn btn-success" onclick="acceptPaper({{ $paper->id }})" title="Accept">
-                                    <i class="fas fa-check"></i>
-                                </button>
-                                <button class="btn btn-danger" onclick="rejectPaper({{ $paper->id }})" title="Reject">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
+                            <button class="btn btn-info btn-sm view-paper"
+                                data-bs-toggle="modal"
+                                data-bs-target="#paperModal"
+
+                                data-id="{{ $paper->id }}"
+                                data-abstract-code="{{ $paper->abstract->submission_code }}"
+                                data-title="{{ $paper->abstract->paper_title }}"
+                                data-author="{{ $paper->abstract->author_name }}"
+                                data-email="{{ $paper->abstract->author_email }}"
+                                data-theme="{{ $paper->abstract?->subTheme?->form_field_value ?? 'N/A' }}"
+                                data-status="{{ $paper->status }}"
+                                data-submitted="{{ $paper->created_at->format('M d, Y H:i') }}"
+
+                                data-has-paper="{{ $paper->file_path ? '1' : '0' }}"
+                                data-paper-url="{{ asset('full-papers/'.$paper->abstract->sub_theme_id.'/'.basename($paper->file_path)) }}"
+                            >
+                                <i class="fas fa-eye"></i>
+                            </button>
                         </td>
                     </tr>
                     @empty
@@ -238,6 +312,8 @@
         </div>
     </div>
 </div>
+
+@include('admin.fullpapers.partials.paperModal')
 @endsection
 
 @section('scripts')
