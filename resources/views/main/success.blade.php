@@ -44,7 +44,7 @@
 
                         <div class="alert alert-success mt-4 border-0">
                             <h5>Your Submission Reference Number</h5>
-                            <div class="display-6 fw-bold">
+                            <div class="display-6 fw-bold text-dark">
                                 {{ request('ref') }}
                             </div>
                             <small class="text-muted">
