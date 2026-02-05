@@ -9,9 +9,9 @@ use Illuminate\Http\Request;
 
 class FullPaperController extends Controller
 {
-    // =========================
+   
     // PARTICIPANT UPLOAD FLOW
-    // =========================
+   
 
     public function create(Request $request, SubmittedAbstract $abstract)
     {
@@ -49,9 +49,9 @@ class FullPaperController extends Controller
         return back()->with('success', 'Full paper uploaded successfully.');
     }
 
-    // =========================
+  
     // ADMIN MANAGEMENT FLOW
-    // =========================
+
 
     public function index(Request $request)
     {

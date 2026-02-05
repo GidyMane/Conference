@@ -55,7 +55,7 @@ class AbstractAssignmentController extends Controller
                 'reviewer_id' => $reviewer->id,
             ]);
 
-            // ✅ FORCE status to UNDER_REVIEW if not final
+            // FORCE status to UNDER_REVIEW if not final
             SubmittedAbstract::where('id', $abstractId)
                 ->whereIn('status', ['PENDING']) // keep strict for now
                 ->update([

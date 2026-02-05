@@ -60,7 +60,7 @@ class AbstractsController extends Controller
                     $uploadUrl
                 ));
 
-            // ✅ Return JSON for JS
+            //  Return JSON for JS
             return response()->json([
                 'status' => 'success',
                 'message' => 'Review submitted successfully!'

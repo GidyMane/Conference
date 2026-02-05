@@ -19,7 +19,7 @@ class ReviewerFullpaperController extends Controller
     {
         $reviewerId = auth()->id();
 
-        // 1️⃣ Fetch full papers linked to abstracts assigned to this reviewer
+        // Fetch full papers linked to abstracts assigned to this reviewer
         $fullPapers = FullPaper::with(['abstract.subTheme'])
             ->whereHas('abstract.assignments', function ($q) use ($reviewerId) {
                 $q->where('reviewer_id', $reviewerId);
@@ -27,17 +27,17 @@ class ReviewerFullpaperController extends Controller
             ->latest()
             ->paginate(10); // Pagination, adjust per your needs
 
-        // 2️⃣ Total abstracts assigned to this reviewer
+        // Total abstracts assigned to this reviewer
         $totalAssigned = SubmittedAbstract::whereHas('assignments', function ($q) use ($reviewerId) {
             $q->where('reviewer_id', $reviewerId);
         })->count();
 
-        // 3️⃣ Full papers submitted for assigned abstracts
+        // Full papers submitted for assigned abstracts
         $submitted = FullPaper::whereHas('abstract.assignments', function ($q) use ($reviewerId) {
             $q->where('reviewer_id', $reviewerId);
         })->count();
 
-        // 4️⃣ Pending = assigned abstracts approved but without a full paper
+        // Pending = assigned abstracts approved but without a full paper
         $pending = SubmittedAbstract::whereHas('assignments', function ($q) use ($reviewerId) {
                 $q->where('reviewer_id', $reviewerId)
                   ->where('status', 'approved'); // only approved abstracts
@@ -45,7 +45,7 @@ class ReviewerFullpaperController extends Controller
             ->whereDoesntHave('fullPaper')
             ->count();
 
-        // 5️⃣ Approved = full papers that have been approved
+        // Approved = full papers that have been approved
         $approved = FullPaper::where('status', 'approved')
             ->whereHas('abstract.assignments', function ($q) use ($reviewerId) {
                 $q->where('reviewer_id', $reviewerId);
