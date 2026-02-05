@@ -23,6 +23,9 @@ Route::get('/about', [MainController::class, 'about'])->name('about');
 Route::get('/conference-theme', [MainController::class, 'conferenceTheme'])->name('conference.theme');
 Route::get('/conference-procedure', [MainController::class, 'conferenceProcedure'])->name('conference.procedure');
 Route::get('/submit-abstract', [MainController::class, 'submitAbstract'])->name('submit.abstract');
+Route::get('/abstracts/success', function () {
+    return view('main.success');
+})->name('abstracts.success');
 
 
 

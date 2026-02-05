@@ -12,31 +12,25 @@ use Illuminate\Support\Facades\Mail;
 
 class AbstractSubmissionController extends Controller
 {
-    public function store(Request $request)
+        public function store(Request $request)
     {
         $request->validate([
             'author_name'   => 'required|string|max:255',
             'author_email'  => 'required|email|max:255',
             'author_phone'  => 'required|string|max:20',
             'organisation'  => 'required|string|max:255',
-            'department'    => 'nullable|string|max:255',
-            'position'      => 'nullable|string|max:255',
             'sub_theme'     => 'required|exists:sub_themes,id',
             'paper_title'   => 'required|string|max:255',
             'abstract_text' => 'required|string|max:3000',
-            'keywords'      => 'nullable|string|max:500',
-            'presentation_preference' => 'nullable|string',
-            'attendance_mode' => 'nullable|string',
-            'special_requirements' => 'nullable|string',
-            'terms' => 'accepted',
+            'terms'         => 'accepted',
         ]);
 
-        DB::transaction(function () use ($request) {
+        $submissionCode = null;
 
-            // Generate submission code
+        DB::transaction(function () use ($request, &$submissionCode) {
+
             $submissionCode = SubmittedAbstract::generateSubmissionCode($request->sub_theme);
 
-            // Save abstract
             $abstract = SubmittedAbstract::create([
                 'submission_code' => $submissionCode,
                 'author_name'     => $request->author_name,
@@ -59,7 +53,6 @@ class AbstractSubmissionController extends Controller
                 'status' => 'PENDING',
             ]);
 
-            // Save co-authors
             if ($request->has('authors')) {
                 foreach ($request->authors as $order => $author) {
                     AbstractCoAuthor::create([
@@ -71,13 +64,19 @@ class AbstractSubmissionController extends Controller
                 }
             }
 
-            // Send email
-            Mail::to($abstract->author_email)
-                ->send(new AbstractSubmittedMail($abstract));
+            try {
+                Mail::to($abstract->author_email)
+                    ->send(new AbstractSubmittedMail($abstract));
+
+                session()->flash('email_sent', true);
+                session()->flash('corresponding_email', $abstract->author_email);
+            } catch (\Exception $e) {
+                session()->flash('email_error', true);
+            }
         });
 
-        return redirect()
-            ->back()
-            ->with('success', 'Your abstract has been submitted successfully. A confirmation email has been sent.');
+        return redirect()->route('abstracts.success', [
+            'ref' => $submissionCode
+        ]);
     }
 }
