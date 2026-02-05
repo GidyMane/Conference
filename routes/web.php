@@ -26,6 +26,9 @@ Route::get('/submit-abstract', [MainController::class, 'submitAbstract'])->name(
 Route::get('/abstracts/success', function () {
     return view('main.success');
 })->name('abstracts.success');
+Route::get('/full-papers/success', function () {
+    return view('full-papers.success');
+})->name('fullpapers.success');
 
 
 

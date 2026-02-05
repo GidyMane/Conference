@@ -32,21 +32,34 @@ class FullPaperController extends Controller
             'full_paper' => 'required|file|mimes:doc,docx,pdf,ppt,pptx|max:10240',
         ]);
 
-        $path = $request->file('full_paper')
-            ->store("full-papers/{$abstract->sub_theme_id}", 'public');
+        $nextNumber = FullPaper::where('submitted_abstract_id', $abstract->id)->count() + 1;
+        $fullPaperCode = 'FP_' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
 
-        FullPaper::updateOrCreate(
+        $extension = $request->file('full_paper')->getClientOriginalExtension();
+
+        $fileName = "{$abstract->submission_code}-{$fullPaperCode}.{$extension}";
+
+        $path = $request->file('full_paper')->storeAs(
+            "full-papers/{$abstract->sub_theme_id}",
+            $fileName,
+            'public'
+        );
+
+        $fullPaper = FullPaper::updateOrCreate(
             ['submitted_abstract_id' => $abstract->id],
             [
-                'file_path'   => $path,
-                'file_type'   => $request->file('full_paper')->getClientOriginalExtension(),
-                'file_size'   => $request->file('full_paper')->getSize(),
-                'uploaded_at' => now(),
-                'status'      => 'pending', // 👈 important for admin review
+                'file_path'       => $path,
+                'full_paper_code' => $fullPaperCode,
+                'file_type'       => $extension,
+                'file_size'       => $request->file('full_paper')->getSize(),
+                'uploaded_at'     => now(),
+                'status'          => 'PENDING',
             ]
         );
 
-        return back()->with('success', 'Full paper uploaded successfully.');
+        return redirect()->route('fullpapers.success', [
+            'ref' => "{$abstract->submission_code}-{$fullPaperCode}"
+        ]);
     }
 
   
