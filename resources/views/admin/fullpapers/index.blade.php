@@ -241,7 +241,7 @@
                         <td>{{ $paper->abstract->author_name }}</td>
                         <td>
                             <span class="badge bg-secondary">
-                                {{ $paper->abstract?->subTheme?->name ?? 'N/A' }}
+                                {{ $paper->abstract?->subTheme?->form_field_value ?? 'N/A' }}
                             </span>
                         </td>
                         <td>
