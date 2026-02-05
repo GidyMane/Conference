@@ -333,7 +333,7 @@
                         <td>{{ Str::limit($paper->abstract->paper_title, 40) }}</td>
                         <td>{{ $paper->abstract->author_name }}</td>
                         <td>
-                            @if($paper->paper_file_path)
+                            @if($paper->file_path)
                                 <span class="doc-badge paper" title="Full Paper">
                                     <i class="fas fa-file-pdf"></i> Paper
                                 </span>
@@ -368,7 +368,7 @@
                                     data-status="{{ $paper->status }}"
                                     data-submitted="{{ $paper->created_at->format('M d, Y H:i') }}"
                                     data-has-paper="{{ $paper->file_path ? '1' : '0' }}"
-                                    data-has-presentation="{{ $paper->presentation_file_path ? '1' : '0' }}"
+                                    data-paper-url="{{ $paper->file_path ? asset($paper->file_path) : '' }}"
                                     data-has-supplementary="{{ $paper->supplementary_files_path ? '1' : '0' }}"
                                     data-paper-url="{{ $paper->paper_url }}"
                                     data-presentation-url="{{ $paper->presentation_url }}">
