@@ -354,7 +354,7 @@
                                                 <option value="" selected>No preference</option>
                                                 <option value="oral">Oral Presentation</option>
                                                 <option value="poster">Poster Presentation</option>
-                                                <option value="either">Either Oral or Poster</option>
+                                                <!-- <option value="either">Either Oral or Poster</option> -->
                                             </select>
                                             <label for="presentation_preference">Presentation Preference</label>
                                         </div>
@@ -366,7 +366,7 @@
                                                 <option value="" selected>Not specified</option>
                                                 <option value="PHYSICAL">In-person Attendance</option>
                                                 <option value="VIRTUAL">Virtual Attendance</option>
-                                                <option value="BOTH">Both</option>
+                                                <!-- <option value="BOTH">Both</option> -->
                                             </select>
                                             <label for="attendance_mode">Preferred Attendance Mode</label>
                                         </div>
