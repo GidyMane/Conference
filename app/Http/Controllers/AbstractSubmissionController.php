@@ -9,10 +9,13 @@ use App\Mail\AbstractSubmittedMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use App\Models\AbstractAssignment;
+use App\Models\Reviewer;
+use App\Mail\AbstractAssignedMail;
 
 class AbstractSubmissionController extends Controller
 {
-        public function store(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'author_name'   => 'required|string|max:255',
@@ -26,8 +29,10 @@ class AbstractSubmissionController extends Controller
         ]);
 
         $submissionCode = null;
+        $abstract = null;
+        $reviewerUser = null;
 
-        DB::transaction(function () use ($request, &$submissionCode) {
+        DB::transaction(function () use ($request, &$submissionCode, &$abstract, &$reviewerUser) {
 
             $submissionCode = SubmittedAbstract::generateSubmissionCode($request->sub_theme);
 
@@ -50,8 +55,23 @@ class AbstractSubmissionController extends Controller
                     ? strtoupper($request->attendance_mode)
                     : null,
                 'special_requirements' => $request->special_requirements,
-                'status' => 'PENDING',
+                'status' => 'UNDER_REVIEW',
             ]);
+
+            // Find reviewer
+            $reviewer = Reviewer::with('user')
+                ->where('sub_theme_id', $request->sub_theme)
+                ->first();
+
+            if ($reviewer && $reviewer->user) {
+                AbstractAssignment::create([
+                    'abstract_id' => $abstract->id,
+                    'reviewer_id' => $reviewer->user_id,
+                    'assigned_at' => now(),
+                ]);
+
+                $reviewerUser = $reviewer->user; // capture for email later
+            }
 
             if ($request->has('authors')) {
                 foreach ($request->authors as $order => $author) {
@@ -63,17 +83,31 @@ class AbstractSubmissionController extends Controller
                     ]);
                 }
             }
-
-            try {
-                Mail::to($abstract->author_email)
-                    ->send(new AbstractSubmittedMail($abstract));
-
-                session()->flash('email_sent', true);
-                session()->flash('corresponding_email', $abstract->author_email);
-            } catch (\Exception $e) {
-                session()->flash('email_error', true);
-            }
         });
+
+        /* 📧 SEND EMAILS AFTER TRANSACTION */
+
+        // Reviewer email
+        if ($reviewerUser) {
+            try {
+                Mail::to($reviewerUser->email)
+                    ->send(new AbstractAssignedMail($reviewerUser, $abstract));
+            } catch (\Throwable $e) {
+                \Log::error('Reviewer email failed', [
+                    'error' => $e->getMessage()
+                ]);
+            }
+        }
+
+        // Author confirmation
+        try {
+            Mail::to($abstract->author_email)
+                ->send(new AbstractSubmittedMail($abstract));
+        } catch (\Throwable $e) {
+            \Log::error('Author confirmation email failed', [
+                'error' => $e->getMessage()
+            ]);
+        }
 
         return redirect()->route('abstracts.success', [
             'ref' => $submissionCode

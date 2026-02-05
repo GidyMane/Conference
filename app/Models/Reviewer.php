@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Reviewer extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'user_id',
         'sub_theme_id',
@@ -21,6 +19,11 @@ class Reviewer extends Model
 
     public function subTheme()
     {
-        return $this->belongsTo(SubTheme::class);
+        return $this->belongsTo(SubTheme::class, 'sub_theme_id');
+    }
+
+    public function assignments()
+    {
+        return $this->hasMany(AbstractAssignment::class, 'reviewer_id', 'user_id');
     }
 }
