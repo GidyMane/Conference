@@ -43,9 +43,7 @@ class AdminController extends Controller
             'presentation' => SubmittedAbstract::selectRaw('presentation_preference, COUNT(*) as t')->groupBy('presentation_preference')->get()->toArray(),
             'attendance' => SubmittedAbstract::selectRaw('attendance_mode, COUNT(*) as t')->groupBy('attendance_mode')->get()->toArray(),
             'dates' => SubmittedAbstract::selectRaw('DATE(created_at) as d, COUNT(*) as t')->groupBy('d')->get()->toArray(),
-            #'submissionTypes' => SubmittedAbstract::selectRaw('submission_type, COUNT(*) as t')->groupBy('submission_type')->get()->toArray(),
-            #'institutions' => SubmittedAbstract::selectRaw('organization, COUNT(*) as t')->groupBy('organization')->get()->toArray(),
-            #'authors' => SubmittedAbstract::selectRaw('id as submission_id, COUNT(author_id) as t')->groupBy('id')->get()->toArray(),
+           
         ];
 
         $recentSubmissionsData = SubmittedAbstract::latest()
@@ -57,44 +55,49 @@ class AdminController extends Controller
 
         return view('admin.dashboard', compact('metrics', 'cards', 'recentSubmissionsData', 'chartData', 'totalSubmissions'));
     }
-
     public function abstracts(Request $request)
-    {
-        $sub_themes = SubTheme::all();
+{
+    $sub_themes = SubTheme::all();
 
-        $statuses = [
-            'PENDING' => 'Pending',
-            'UNDER_REVIEW' => 'Under Review',
-            'APPROVED' => 'Approved',
-            'REJECTED' => 'Rejected',
-        ];
+    $statuses = [
+        'PENDING' => 'Pending',
+        'UNDER_REVIEW' => 'Under Review',
+        'APPROVED' => 'Approved',
+        'REJECTED' => 'Rejected',
+    ];
 
-        $query = SubmittedAbstract::with(['subTheme', 'latestReview']);
+    $query = SubmittedAbstract::with(['subTheme', 'latestReview']);
 
-        if ($request->filled('sub_theme')) {
-            $query->where('sub_theme_id', $request->sub_theme);
-        }
-
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
-        }
-
-        if ($request->filled('date_from')) {
-            $query->whereDate('created_at', '>=', $request->date_from);
-        }
-
-        if ($request->filled('date_to')) {
-            $query->whereDate('created_at', '<=', $request->date_to);
-        }
-
-        $abstracts = $query->get();
-        $totalSubmissions = SubmittedAbstract::count();
-
-        return view(
-            'admin.abstracts',
-            compact('sub_themes', 'statuses', 'abstracts', 'totalSubmissions')
-        );
+    if ($request->filled('sub_theme')) {
+        $query->where('sub_theme_id', $request->sub_theme);
     }
+
+    if ($request->filled('status')) {
+        $query->where('status', $request->status);
+    }
+
+    if ($request->filled('date_from')) {
+        $query->whereDate('created_at', '>=', $request->date_from);
+    }
+
+    if ($request->filled('date_to')) {
+        $query->whereDate('created_at', '<=', $request->date_to);
+    }
+
+    // PAGINATION (latest first)
+    $abstracts = $query
+        ->orderByDesc('created_at')
+        ->paginate(10)
+        ->withQueryString();
+
+    $totalSubmissions = SubmittedAbstract::count();
+
+    return view(
+        'admin.abstracts',
+        compact('sub_themes', 'statuses', 'abstracts', 'totalSubmissions')
+    );
+}
+
 
     public function dashboard2()
     {

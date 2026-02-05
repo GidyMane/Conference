@@ -70,8 +70,8 @@ class SubmittedAbstract extends Model
     {
         return $this->hasOne(
             AbstractReview::class,
-            'abstract_id', // 👈 FK in abstract_reviews
-            'id'           // 👈 PK in submitted_abstracts
+            'abstract_id', //  FK in abstract_reviews
+            'id'           // PK in submitted_abstracts
         )->latestOfMany();
     }
 

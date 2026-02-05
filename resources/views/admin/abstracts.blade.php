@@ -395,7 +395,7 @@
                                 $last_reviewed = $r->updated_at ? $r->updated_at->format('d M Y') : 'Not reviewed';
                             @endphp
                             <tr>
-                                <td>{{ $i + 1 }}</td>
+                                <td>{{ $abstracts->firstItem() + $i }}</td>
                                 <td><strong>{{ $r->submission_code }}</strong></td>
                                 <td>{{ Str::limit($r->paper_title, 50) }}</td>
                                 <td>{{ $r->author_name }}</td>
@@ -435,6 +435,18 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div class="d-flex justify-content-between align-items-center mt-3 px-3 pb-3">
+    <div class="text-muted">
+        Showing {{ $abstracts->firstItem() }}
+        – {{ $abstracts->lastItem() }}
+        of {{ $abstracts->total() }} abstracts
+    </div>
+
+    <div>
+        {{ $abstracts->links() }}
+    </div>
+</div>
+
             </div>
         @else
             <div class="empty-state">
