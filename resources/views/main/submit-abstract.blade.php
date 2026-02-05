@@ -253,8 +253,8 @@
                                 <div class="mb-3">
                                     <div class="form-floating">
                                         <textarea class="form-control" id="keywords" name="keywords" 
-                                                placeholder="Keywords (comma separated)" style="height: 100px"></textarea>
-                                        <label for="keywords">Keywords</label>
+                                                placeholder="Keywords (comma separated)" style="height: 100px"  required></textarea>
+                                        <label for="keywords">Keywords<span class="text-danger">*</span></label>
                                         <div class="form-text">Separate keywords with commas (e.g., climate-smart, agriculture, sustainability)</div>
                                     </div>
                                 </div>
@@ -651,6 +651,7 @@ document.addEventListener('DOMContentLoaded', function() {
             '#sub_theme[required], ' +
             '#paper_title[required], ' +
             '#abstract_text[required], ' +
+            '#keywords[required], ' +
             '#terms[required]'
         );
         
