@@ -83,41 +83,39 @@
     </div>
 </div>
 
-<!-- ================= SUBMISSION BY THEME ================= -->
+
 <div class="row mb-4">
-    <div class="col-12">
-        <div class="card shadow-sm">
+    <!-- Submissions by Sub-theme -->
+    <div class="col-md-6 mb-3">
+        <div class="card shadow-sm h-100">
             <div class="card-header">
                 <h5 class="mb-0">
                     <i class="fas fa-chart-bar me-2"></i>
                     Submissions by Sub-theme
                 </h5>
             </div>
-            <div class="card-body">
-                <div style="height: 420px;">
-                    <canvas id="subthemeChart"></canvas>
-                </div>
+            <div class="card-body" style="height: 400px;">
+                <canvas id="subthemeChart"></canvas>
             </div>
         </div>
     </div>
-</div>
 
-<!-- ================= STATUS CHART ================= -->
-<div class="row mb-4">
-    <div class="col-md-6 offset-md-3">
-        <div class="card shadow-sm">
+    <!-- Abstract Status Distribution -->
+    <div class="col-md-6 mb-3">
+        <div class="card shadow-sm h-100">
             <div class="card-header">
                 <h5 class="mb-0">
                     <i class="fas fa-pie-chart me-2"></i>
                     Abstract Status Distribution
                 </h5>
             </div>
-            <div class="card-body">
-                <canvas id="statusChart" height="260"></canvas>
+            <div class="card-body" style="height: 400px;">
+                <canvas id="statusChart"></canvas>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- ================= RECENT ABSTRACTS ================= -->
 <div class="row mb-4">
@@ -172,54 +170,8 @@
     </div>
 </div>
 
-<!-- ================= ACTIVE REVIEWERS ================= -->
-<!-- <div class="row mb-4">
-    <div class="col-12">
-        <div class="card shadow-sm">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">
-                    <i class="fas fa-users me-2"></i>
-                    Active Reviewers
-                </h5>
-                <a href="/users" class="btn btn-sm btn-kalro-primary">
-                    View All
-                </a>
-            </div>
 
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0">
-                        <thead class="thead-light">
-                            <tr>
-                                <th>Name</th>
-                                <th>Sub-theme</th>
-                                <th>Assigned</th>
-                                <th>Completed</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($activeReviewers ?? [] as $reviewer)
-                                <tr>
-                                    <td>{{ $reviewer->name }}</td>
-                                    <td>{{ $reviewer->subtheme->name ?? 'N/A' }}</td>
-                                    <td><span class="badge bg-info">{{ $reviewer->assigned_count }}</span></td>
-                                    <td><span class="badge bg-success">{{ $reviewer->completed_count }}</span></td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="4" class="text-center text-muted py-4">
-                                        No active reviewers
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </div>
 
-        </div>
-    </div>
-</div> -->
 
 @endsection
 
