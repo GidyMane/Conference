@@ -27,7 +27,7 @@
     <div class="col-md-3 mb-3">
         <div class="stat-card bg-warning">
             <h3>{{ $metrics['pendingCount'] ?? 0 }}</h3>
-            <p>Pending Review</p>
+            <p>Pending Assignment</p>
             <i class="fas fa-clock stat-card-icon"></i>
         </div>
     </div>
