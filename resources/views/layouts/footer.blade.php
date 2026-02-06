@@ -62,7 +62,7 @@
                     </p>
                     <p class="mb-2">
                         <i class="fas fa-envelope me-2"></i>
-                        <a href="mailto:sepdconference@kalro.org" class="text-white-50">conference@kalro.org</a>
+                        <a href="mailto:kalroconference2026@gmail.com" class="text-white-50">kalroconference2026@gmail.com</a>
                     </p>
                 </address>
             </div>

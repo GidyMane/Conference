@@ -86,7 +86,7 @@
                     <div class="card-body p-4">
                         <h4 class="mb-4">Conference Secretariat</h4>
                         <p><i class="fas fa-map-marker-alt text-success me-2"></i>KALRO Headquarters, Nairobi, Kenya</p>
-                        <p><i class="fas fa-envelope text-success me-2"></i>conference@kalro.org</p>
+                        <p><i class="fas fa-envelope text-success me-2"></i>kalroconference2026@gmail.com</p>
                         <p><i class="fas fa-phone text-success me-2"></i>+254 20 722 6000</p>
 
                         <hr>

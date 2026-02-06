@@ -178,7 +178,7 @@
 
     <p>
         If you have any questions, please contact us at
-        <a href="mailto:sepdconference@gmail.com">sepdconference@gmail.com</a>
+        <a href="mailto:kalroconference2026@gmail.com">kalroconference2026@gmail.com</a>
         and include your submission code in all correspondence.
     </p>
 
@@ -190,7 +190,7 @@
     <p>
         Best regards,<br>
         <strong>KALRO Scientific Conference Committee</strong><br>
-        Email: sepdconference@gmail.com
+        Email: kalroconference2026@gmail.com
     </p>
 </div>
 

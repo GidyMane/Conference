@@ -80,7 +80,7 @@
 
         <div class="details">
             <p><strong>Title:</strong> {{ $abstract->paper_title }}</p>
-            <p><strong>Submission ID:</strong> {{ $abstract->submission_id }}</p>
+            <p><strong>Submission ID:</strong> {{ $abstract->submission_code }}</p>
         </div>
 
         <p>

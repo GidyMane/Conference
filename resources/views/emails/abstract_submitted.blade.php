@@ -69,7 +69,7 @@
         <p>
             If you need to make any changes to your submission or have any questions,
             please contact us at
-            <a href="mailto:sepdconference@gmail.com">sepdconference@gmail.com</a>
+            <a href="mailto:kalroconference2026@gmail.com">kalroconference2026@gmail.com</a>
             and include your submission code.
         </p>
 
@@ -81,7 +81,7 @@
         <p>
             Best regards,<br>
             <strong>KALRO 2nd Scientific Conference and Exhibition Committee</strong><br>
-            Email: sepdconference@gmail.com<br>
+            Email: kalroconference2026@gmail.com<br>
             Website: {{ $host }}
         </p>
     </div>

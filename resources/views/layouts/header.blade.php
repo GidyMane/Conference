@@ -56,7 +56,7 @@
                 <div class="col-lg-1 col-md-4 col-6">
                     <div class="logo">
                         <a href="/">
-                            <img src="assets/images/kalro-logo.gif" alt="KALRO Logo" class="img-fluid kalro-logo">
+                            <img src="{{asset('assets/images/kalro-logo.gif')}}" alt="KALRO Logo" class="img-fluid kalro-logo">
                         </a>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
                         </div>
                         <div class="contact-item">
                             <i class="fas fa-envelope me-2"></i>
-                            <a href="mailto:conference@kalro.org" class="text-decoration-none">Conference@kalro.org</a>
+                            <a href="mailto:kalroconference2026@gmail.com" class="text-decoration-none">kalroconference2026@gmail.com</a>
                         </div>
                     </div>
                 </div>
