@@ -200,8 +200,6 @@
                                 @if($user->is_active)
                                     <div class="btn-group btn-group-sm">
                                         @if($user->role === 'REVIEWER')
-                                            <button class="btn btn-success" onclick="assignAbstracts({{ $user->id }})" title="Assign Abstracts">
-                                                <i class="fas fa-file-alt"></i>
                                             </button>
                                             <button class="btn btn-warning" onclick="resetPassword({{ $user->id }})" title="Reset Password">
                                                 <i class="fas fa-key"></i>
