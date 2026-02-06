@@ -7,23 +7,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Reviewer extends Model
 {
-    protected $fillable = [
-        'user_id',
-        'sub_theme_id',
-    ];
+    protected $fillable = ['user_id'];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function subTheme()
+    public function subThemes()
     {
-        return $this->belongsTo(SubTheme::class, 'sub_theme_id');
+        return $this->belongsToMany(SubTheme::class, 'reviewer_sub_theme');
     }
 
     public function assignments()
     {
-        return $this->hasMany(AbstractAssignment::class, 'reviewer_id', 'user_id');
+        return $this->hasMany(AbstractAssignment::class);
     }
 }

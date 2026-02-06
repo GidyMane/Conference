@@ -17,8 +17,8 @@ class SubTheme extends Model
         'code',
     ];
 
-    public function reviewer()
+    public function reviewers()
     {
-        return $this->hasOne(Reviewer::class, 'sub_theme_id');
+        return $this->belongsToMany(Reviewer::class, 'reviewer_sub_theme');
     }
 }

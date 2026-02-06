@@ -12,16 +12,18 @@ return new class extends Migration
     public function up()
     {
         Schema::table('reviewers', function (Blueprint $table) {
-            $table->unique('user_id');
-            $table->unique('sub_theme_id');
+            $table->dropForeign(['sub_theme_id']);
+            $table->dropColumn('sub_theme_id');
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
         Schema::table('reviewers', function (Blueprint $table) {
-            $table->dropUnique(['user_id']);
-            $table->dropUnique(['sub_theme_id']);
+            //
         });
     }
 };
