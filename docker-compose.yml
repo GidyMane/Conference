@@ -1,47 +1,35 @@
-
 services:
   php:
     build:
       context: .
       dockerfile: php/Dockerfile
-    networks:
-      - internal
     volumes:
-      - ./application/:/var/www/html/
-      - ./logs/php.log:/var/log/fpm-php.www.log
-    container_name: php
-    expose:
-      - "8000"
+      - .:/var/www/html  # CHANGED: Current directory instead of ./application
+    depends_on:
+      - mysql
 
-
-  mysql:
-      container_name: kalro-db
-      restart: always
-      image: mysql:latest
-      ports:
-      - "3306:3306"
-      environment:
-        MYSQL_ROOT_PASSWORD: 'root'
-        MYSQL_USER: 'root'
-        MYSQL_PASS: 'password'
-        MYSQL_DATABASE: 'kalro'
-      volumes:
-        - ./db-data:/var/lib/mysql
-      networks:
-        - internal
-    
   nginx:
     build:
       context: .
       dockerfile: nginx/Dockerfile
     ports: 
       - "8080:80"
-    networks:
-      - internal
     volumes:
-      - ./application/:/var/www/html/
-      - ./logs/nginx:/var/log/nginx/
-    container_name: nginx
-networks:
-  internal:
-    driver: bridge
+      - .:/var/www/html  # CHANGED: Current directory instead of ./application
+    depends_on:
+      - php
+
+  mysql:
+    image: mysql:5.7
+    container_name: kalro-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: kalro
+      MYSQL_ROOT_PASSWORD: kalro123
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
