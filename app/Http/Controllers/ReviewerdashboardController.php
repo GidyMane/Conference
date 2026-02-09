@@ -214,7 +214,7 @@ class ReviewerDashboardController extends Controller
     public function create()
     {
         $subthemes = SubTheme::orderBy('full_name')->get();
-        $users = User::with('reviewer.subTheme')
+        $users = User::with('reviewer.subThemes')
             ->withCount([
                 'assignedAbstracts',                    
                 'reviews as completed_reviews_count'
@@ -239,56 +239,64 @@ class ReviewerDashboardController extends Controller
 
 public function store(Request $request)
 {
+    // =============================
+    // VALIDATION
+    // =============================
     try {
         $validated = $request->validate([
-            'full_name'   => 'required|string|max:255',
-            'email'       => 'required|email|unique:users,email',
-            'subtheme_id' => 'required|exists:sub_themes,id',
+            'full_name'      => 'required|string|max:255',
+            'email'          => 'required|email|unique:users,email',
+            'subtheme_ids'   => 'required|array|min:1',
+            'subtheme_ids.*' => 'exists:sub_themes,id',
         ]);
-    } catch (ValidationException $e) {
+    } catch (\Illuminate\Validation\ValidationException $e) {
         return response()->json([
             'success' => false,
             'errors'  => $e->errors(),
         ], 422);
     }
 
-    // 🔒 HARD STOP: subtheme already assigned
-    if (Reviewer::where('sub_theme_id', $validated['subtheme_id'])->exists()) {
-        return response()->json([
-            'success' => false,
-            'errors'  => [
-                'subtheme_id' => ['This sub-theme already has a reviewer assigned.']
-            ]
-        ], 422);
-    }
-
+    // =============================
+    // GENERATE TEMP PASSWORD
+    // =============================
     $plainPassword = Str::random(10);
 
     try {
         DB::beginTransaction();
 
-        // Create user
+        // =============================
+        // CREATE USER
+        // =============================
         $user = User::create([
-            'full_name' => $validated['full_name'],
-            'email'     => $validated['email'],
-            'password'  => Hash::make($plainPassword),
-            'role'      => 'REVIEWER',
-            'is_active' => true,
-            'password_setup_token' => Str::uuid(),
-            'password_setup_expires_at' => now()->addHours(24),
+            'full_name'                  => $validated['full_name'],
+            'email'                      => $validated['email'],
+            'password'                   => Hash::make($plainPassword),
+            'role'                       => 'REVIEWER',
+            'is_active'                  => true,
+            'password_setup_token'       => Str::uuid(),
+            'password_setup_expires_at'  => now()->addHours(24),
         ]);
 
-        // Create reviewer (1 ↔ 1 enforced)
-        Reviewer::create([
-            'user_id'      => $user->id,
-            'sub_theme_id' => $validated['subtheme_id'],
+        // =============================
+        // CREATE REVIEWER PROFILE
+        // =============================
+        $reviewer = Reviewer::create([
+            'user_id' => $user->id,
         ]);
+
+        // =============================
+        // ATTACH MULTIPLE SUB-THEMES
+        // =============================
+        $reviewer->subThemes()->sync($validated['subtheme_ids']);
 
         DB::commit();
 
     } catch (\Throwable $e) {
         DB::rollBack();
-        \Log::error('Reviewer creation failed', ['error' => $e->getMessage()]);
+
+        \Log::error('Reviewer creation failed', [
+            'error' => $e->getMessage()
+        ]);
 
         return response()->json([
             'success' => false,
@@ -296,13 +304,18 @@ public function store(Request $request)
         ], 500);
     }
 
-    // 📧 Send welcome email (NON-BLOCKING)
+    // =============================
+    // SEND WELCOME EMAIL (NON-BLOCKING)
+    // =============================
     try {
         Mail::to($user->email)->send(
             new \App\Mail\UserWelcomeMail($user, $plainPassword)
         );
     } catch (\Throwable $e) {
-        \Log::error('Welcome email failed', ['error' => $e->getMessage()]);
+        \Log::error('Welcome email failed', [
+            'user_id' => $user->id,
+            'error'   => $e->getMessage()
+        ]);
         // Do NOT fail user creation if email fails
     }
 
@@ -311,6 +324,8 @@ public function store(Request $request)
         'message' => 'Reviewer created successfully and email sent.',
     ]);
 }
+
+
 
     public function resetPassword($id)
     {

@@ -165,10 +165,12 @@
                             </td>
 
                             <td>
-                                @if($user->reviewer && $user->reviewer->subTheme)
-                                    <span class="badge bg-secondary">
-                                        {{ $user->reviewer->subTheme->form_field_value }}
-                                    </span>
+                                @if($user->reviewer && $user->reviewer->subThemes->isNotEmpty())
+                                    @foreach($user->reviewer->subThemes as $subTheme)
+                                        <span class="badge bg-secondary me-1">
+                                            {{ $subTheme->form_field_value }}
+                                        </span>
+                                    @endforeach
                                 @else
                                     <span class="text-muted">-</span>
                                 @endif
@@ -198,8 +200,6 @@
                                 @if($user->is_active)
                                     <div class="btn-group btn-group-sm">
                                         @if($user->role === 'REVIEWER')
-                                            <button class="btn btn-success" onclick="assignAbstracts({{ $user->id }})" title="Assign Abstracts">
-                                                <i class="fas fa-file-alt"></i>
                                             </button>
                                             <button class="btn btn-warning" onclick="resetPassword({{ $user->id }})" title="Reset Password">
                                                 <i class="fas fa-key"></i>
@@ -252,13 +252,13 @@
                         
                         <div class="col-md-6 mb-3" id="subthemeField">
                             <label class="form-label">Sub-theme *</label>
-                            <select class="form-select" name="subtheme_id" required>
-                                <option value="">Select Sub-theme</option>
-                                @foreach($subthemes ?? [] as $subtheme)
-                                <option value="{{ $subtheme->id }}">{{ $subtheme->full_name }}</option>
-                                @endforeach
-                            </select>
-                            <small class="text-muted">Reviewers can only be assigned to one sub-theme</small>
+                                <select class="form-select" name="subtheme_ids[]" multiple required>
+                                    @foreach($subthemes as $subtheme)
+                                        <option value="{{ $subtheme->id }}">{{ $subtheme->full_name }}</option>
+                                    @endforeach
+                                </select>
+
+                                <small class="text-muted">Hold Ctrl / Cmd to select multiple sub-themes</small>
                         </div>
                         
                         <div class="col-12 mb-3">

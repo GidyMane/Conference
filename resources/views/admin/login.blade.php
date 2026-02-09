@@ -206,7 +206,7 @@
 
             <div class="footer-text">
                 <p>
-                    <i class="fas fa-envelope"></i> conference@kalro.org |
+                    <i class="fas fa-envelope"></i> kalroconference2026@gmail.com |
                     <i class="fas fa-phone"></i> 0800 721741
                 </p>
             </div>

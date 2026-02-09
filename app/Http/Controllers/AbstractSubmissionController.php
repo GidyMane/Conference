@@ -59,8 +59,9 @@ class AbstractSubmissionController extends Controller
             ]);
 
             // Find reviewer
+            // Find reviewer
             $reviewer = Reviewer::with('user')
-                ->where('sub_theme_id', $request->sub_theme)
+                ->whereHas('subThemes', fn($q) => $q->where('sub_themes.id', $request->sub_theme))
                 ->first();
 
             if ($reviewer && $reviewer->user) {

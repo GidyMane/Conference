@@ -35,7 +35,13 @@
                         <p class="mb-1">
                             <strong>Assigned Sub-theme:</strong>
                             <span class="badge bg-light text-primary fw-semibold">
-                                 {{ Auth::user()->reviewer->subTheme->full_name ?? 'Not Assigned' }}
+                                @if(Auth::user()->reviewer && Auth::user()->reviewer->subThemes->isNotEmpty())
+                                    @foreach(Auth::user()->reviewer->subThemes as $subtheme)
+                                        {{ $subtheme->form_field_value }}@if(!$loop->last), @endif
+                                    @endforeach
+                                @else
+                                    Not Assigned
+                                @endif
                             </span>
                         </p>
                     </div>
