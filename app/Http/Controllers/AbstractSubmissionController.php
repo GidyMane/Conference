@@ -112,7 +112,7 @@ class AbstractSubmissionController extends Controller
         }
         // Secretariat notification
         try {
-            Mail::to('muragegideon2000@gmail.com')
+            Mail::to('kalroconference2026@gmail.com')
                 ->send(new AbstractSubmittedSecretariatMail($abstract));
         } catch (\Throwable $e) {
             \Log::error('Secretariat notification email failed', [
