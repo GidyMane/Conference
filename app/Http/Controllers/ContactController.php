@@ -22,7 +22,7 @@ class ContactController extends Controller
             'message' => 'required|string',
         ]);
 
-        Mail::to('enolaanne89@gmail.com') //Subject to change
+        Mail::to('kalroconference2026@gmail.com') //Subject to change
             ->send(new ContactMessageMail($validated));
 
         return back()->with('success', 'Your message has been sent successfully!');

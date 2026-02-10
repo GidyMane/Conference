@@ -11,27 +11,28 @@ class AbstractSubmittedSecretariatMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $abstract;
+    public SubmittedAbstract $abstract;
+    public int $authorCount;
+    public string $submissionDate;
+    public string $host;
 
-    /**
-     * Create a new message instance.
-     *
-     * @param SubmittedAbstract $abstract
-     */
     public function __construct(SubmittedAbstract $abstract)
     {
         $this->abstract = $abstract;
+        $this->authorCount = $abstract->coAuthors()->count() ?? 1;
+        $this->submissionDate = $abstract->created_at->format('F j, Y');
+        $this->host = config('app.url') ?? request()->getHost();
     }
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
     public function build()
     {
-        return $this
-            ->subject('New Abstract Submission – KALRO Conference 2026')
-            ->markdown('emails.abstract_submitted_secretariat');
+        return $this->subject('New Abstract Submission – KALRO Conference 2026')
+            ->view('emails.abstract_submitted_secretariat')
+            ->with([
+                'abstract'       => $this->abstract,
+                'authorCount'    => $this->authorCount,
+                'submissionDate' => $this->submissionDate,
+                'host'           => $this->host,
+            ]);
     }
 }
