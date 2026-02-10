@@ -1,33 +1,29 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>New Abstract Submission</title>
-</head>
-<body>
-    <p>Dear Secretariat Team,</p>
+@component('mail::message')
+# New Abstract Submission
 
-    <p>
-        A new abstract has been successfully submitted to the KALRO Conference 2026 system.
-    </p>
+Dear Secretariat Team,
 
-    <p><strong>Submission Details:</strong></p>
-    <ul>
-        <li><strong>Submission Code:</strong> {{ $abstract->submission_code }}</li>
-        <li><strong>Author:</strong> {{ $abstract->author_name }}</li>
-        <li><strong>Email:</strong> {{ $abstract->author_email }}</li>
-        <li><strong>Organisation:</strong> {{ $abstract->organisation }}</li>
-        <li><strong>Paper Title:</strong> {{ $abstract->paper_title }}</li>
-        <li><strong>Sub-Theme:</strong> {{ $abstract->subTheme->name ?? 'N/A' }}</li>
-    </ul>
+A new abstract has been successfully submitted to the **KALRO Conference 2026 system**.
 
-    <p>
-        A confirmation email has been sent to the author.
-    </p>
+**Submission Details:**
 
-    <p>
-        Kind regards,<br>
-        <strong>KALRO Conference System</strong>
-    </p>
-</body>
-</html>
+@component('mail::table')
+| Field | Details |
+|-------|---------|
+| Submission Code | {{ $abstract->submission_code }} |
+| Author | {{ $abstract->author_name }} |
+| Email | {{ $abstract->author_email }} |
+| Organisation | {{ $abstract->organisation }} |
+| Department | {{ $abstract->department ?? 'N/A' }} |
+| Position | {{ $abstract->position ?? 'N/A' }} |
+| Paper Title | {{ $abstract->paper_title }} |
+| Sub-Theme | {{ $abstract->subTheme->full_name ?? 'N/A' }} |
+| Presentation Preference | {{ $abstract->presentation_preference ?? 'N/A' }} |
+| Attendance Mode | {{ $abstract->attendance_mode ?? 'N/A' }} |
+@endcomponent
+
+A confirmation email has been sent to the author.
+
+Thanks,<br>
+**KALRO Conference System**
+@endcomponent

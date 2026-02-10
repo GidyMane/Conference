@@ -89,7 +89,7 @@ class AbstractSubmissionController extends Controller
 
         /* 📧 SEND EMAILS AFTER TRANSACTION */
 
-        // Reviewer email
+        // 1. Reviewer email (conditional)
         if ($reviewerUser) {
             try {
                 Mail::to($reviewerUser->email)
@@ -101,7 +101,7 @@ class AbstractSubmissionController extends Controller
             }
         }
 
-        // Author confirmation
+        // 2. Author confirmation (always)
         try {
             Mail::to($abstract->author_email)
                 ->send(new AbstractSubmittedMail($abstract));
@@ -110,14 +110,15 @@ class AbstractSubmissionController extends Controller
                 'error' => $e->getMessage()
             ]);
         }
-        // Secretariat notification
+
+        // 3. Secretariat / Overall notification (ALWAYS, regardless of subtheme)
         try {
-            Mail::to('kalroconference2026@gmail.com')
+            Mail::to(config('mail.secretariat_address', 'kalroconference2026@gmail.com'))
                 ->send(new AbstractSubmittedSecretariatMail($abstract));
         } catch (\Throwable $e) {
             \Log::error('Secretariat notification email failed', [
                 'error' => $e->getMessage()
-      ]); 
+            ]);
         }
 
 
