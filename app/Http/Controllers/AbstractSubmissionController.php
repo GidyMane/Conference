@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Models\AbstractAssignment;
 use App\Models\Reviewer;
 use App\Mail\AbstractAssignedMail;
+use App\Mail\AbstractSubmittedSecretariatMail;
+
 
 class AbstractSubmissionController extends Controller
 {
@@ -58,7 +60,6 @@ class AbstractSubmissionController extends Controller
                 'status' => 'UNDER_REVIEW',
             ]);
 
-            // Find reviewer
             // Find reviewer
             $reviewer = Reviewer::with('user')
                 ->whereHas('subThemes', fn($q) => $q->where('sub_themes.id', $request->sub_theme))
@@ -109,6 +110,16 @@ class AbstractSubmissionController extends Controller
                 'error' => $e->getMessage()
             ]);
         }
+        // Secretariat notification
+        try {
+            Mail::to('muragegideon2000@gmail.com')
+                ->send(new AbstractSubmittedSecretariatMail($abstract));
+        } catch (\Throwable $e) {
+            \Log::error('Secretariat notification email failed', [
+                'error' => $e->getMessage()
+      ]); 
+        }
+
 
         return redirect()->route('abstracts.success', [
             'ref' => $submissionCode
