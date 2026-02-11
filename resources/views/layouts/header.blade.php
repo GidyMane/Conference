@@ -56,7 +56,7 @@
                 <div class="col-lg-1 col-md-4 col-6">
                     <div class="logo">
                         <a href="/">
-                            <img src="{{asset('assets/images/kalro-logo.gif')}}" alt="KALRO Logo" class="img-fluid kalro-logo">
+                            <img src="/assets/images/kalro-logo.gif" alt="KALRO Logo" class="img-fluid kalro-logo">
                         </a>
                     </div>
                 </div>
