@@ -87,7 +87,7 @@
     </header>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark kalro-nav" style="background: linear-gradient(135deg, #198754 0%, #146c43 100%) !important; box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);">
+    <nav class="navbar navbar-expand-lg navbar-dark kalro-nav">
         <div class="container">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
                 <span class="navbar-toggler-icon"></span>
