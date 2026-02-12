@@ -45,11 +45,7 @@ class AbstractsController extends Controller
             // Generate upload link ONLY if approved
             $uploadUrl = null;
             if ($request->decision === 'APPROVED') {
-                $uploadUrl = URL::temporarySignedRoute(
-                    'full-papers.create',
-                    now()->addDays(14),
-                    ['abstract' => $abstract->id]
-                );
+                $uploadUrl = route('full-papers.create', $abstract->id);
             }
 
             // Email author

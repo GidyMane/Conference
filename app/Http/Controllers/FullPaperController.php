@@ -13,12 +13,8 @@ class FullPaperController extends Controller
     // PARTICIPANT UPLOAD FLOW
    
 
-    public function create(Request $request, SubmittedAbstract $abstract)
+    public function create(SubmittedAbstract $abstract)
     {
-        if (! $request->hasValidSignature()) {
-            abort(403);
-        }
-
         if ($abstract->status !== 'APPROVED') {
             abort(403, 'Abstract not approved.');
         }
