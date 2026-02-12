@@ -54,11 +54,12 @@ Route::post('/abstracts/review', [AbstractsController::class, 'review'])->name('
 
 /* FullPaperController Routes */
 Route::get('/admin/fullpapers', [FullPaperController::class, 'index'])->name('fullpapers.index');
-Route::get('/full-papers/{abstract}', [FullPaperController::class, 'create'])
+Route::get('/full-papers/{id}', [FullPaperController::class, 'create'])
     ->name('full-papers.create')
-    ->middleware('signed'); 
+    ->middleware('signed');
 
-Route::post('/full-papers/{abstract}',[FullPaperController::class, 'store'])->name('full-papers.store');
+Route::post('/full-papers/{id}', [FullPaperController::class, 'store'])
+    ->name('full-papers.store');
 
 // Reviewer Authentication Routes (for login & password setup)
 Route::prefix('reviewer')->name('reviewer.')->group(function () {
