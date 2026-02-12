@@ -53,12 +53,12 @@ class AbstractsController extends Controller
             }
 
             // Email author
-            /*Mail::to($abstract->author_email)
+            Mail::to($abstract->author_email)
                 ->send(new AbstractReviewedMail(
                     $abstract,
                     $request->comment,
                     $uploadUrl
-                ));*/
+                ));
 
             //  Return JSON for JS
             return response()->json([
