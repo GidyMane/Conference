@@ -40,7 +40,11 @@ class FullPaperController extends Controller
         $fullPaperCode = 'FP_' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
 
         $file = $request->file('full_paper');
-        $fileName = "{$abstract->submission_code}-{$fullPaperCode}.{$file->getClientOriginalExtension()}";
+
+        $fileSize = $file->getSize();
+        $extension = $file->getClientOriginalExtension();
+
+        $fileName = "{$abstract->submission_code}-{$fullPaperCode}.{$extension}";
         $destinationPath = public_path("full-papers/{$abstract->sub_theme_id}");
 
         if (!file_exists($destinationPath)) {
@@ -48,17 +52,18 @@ class FullPaperController extends Controller
         }
 
         $file->move($destinationPath, $fileName);
+
         $relativePath = "full-papers/{$abstract->sub_theme_id}/{$fileName}";
 
         FullPaper::updateOrCreate(
             ['submitted_abstract_id' => $abstract->id],
             [
-                'file_path' => $relativePath,
+                'file_path'       => $relativePath,
                 'full_paper_code' => $fullPaperCode,
-                'file_type' => $file->getClientOriginalExtension(),
-                'file_size' => $file->getSize(),
-                'uploaded_at' => now(),
-                'status' => 'PENDING',
+                'file_type'       => $extension,
+                'file_size'       => $fileSize,
+                'uploaded_at'     => now(),
+                'status'          => 'PENDING',
             ]
         );
 
