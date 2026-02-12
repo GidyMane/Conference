@@ -685,8 +685,12 @@
                                                 <i class="bi bi-check"></i>
                                             </span>
                                             <span class="checkbox-text">
-                                                I have read and agree to the 
-                                                <a href="{{ route('terms') }}" target="_blank">terms and conditions</a>
+                                                   I have read and agree to the 
+    <a href="{{ route('terms', ['from' => route('exhibition.register.form')]) }}" target="_blank">
+        terms and conditions
+    </a>
+
+
                                                 <span class="required">*</span>
                                             </span>
                                         </label>

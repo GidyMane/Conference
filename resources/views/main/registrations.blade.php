@@ -408,7 +408,11 @@
                                 <div class="custom-checkbox">
                                     <input type="checkbox" id="terms" name="terms" required>
                                     <label for="terms">
-                                        I agree to the <a href="{{ route('terms') }}" target="_blank">terms and conditions</a> <span class="text-danger">*</span>
+                                            I agree to the 
+    <a href="{{ route('terms', ['from' => route('conference.register.form')]) }}" target="_blank">
+        terms and conditions
+    </a>
+ <span class="text-danger">*</span>
                                     </label>
                                 </div>
                             </div>

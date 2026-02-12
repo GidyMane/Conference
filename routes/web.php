@@ -17,7 +17,7 @@ use App\Http\Controllers\ReviewsController;
 use App\Http\Controllers\ReviewerFullPaperController;
 use App\Http\Controllers\ConferenceRegistrationController;
 use App\Http\Controllers\ExhibitionRegistrationController;
-
+use App\Http\Controllers\TermsController; 
 
 /* MainController Routes */
 
@@ -210,9 +210,7 @@ Route::post('/conference/register', [ConferenceRegistrationController::class, 'p
     ->name('conference.register');
 
 // Terms page (if you need it)
-Route::get('/terms', function() {
-    return view('pages.terms');
-})->name('terms');
+Route::get('/terms', [TermsController::class, 'index'])->name('terms');
     
 
 // Exhibition Registration Routes
