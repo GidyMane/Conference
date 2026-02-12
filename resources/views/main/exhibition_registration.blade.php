@@ -179,35 +179,59 @@
                                 <div class="step-icon-large">
                                     <i class="bi bi-shop"></i>
                                 </div>
-                                <h2 class="step-title">Booth Configuration</h2>
-                                <p class="step-description">Select the number of booths and meal preferences</p>
+                                <h2 class="step-title">Customize Your Exhibition Booth</h2>
+                                <p class="step-description">
+                                    Choose your booth quantity and select your preferred package inclusions.
+                                </p>
                             </div>
 
                             <div class="step-content">
                                 <div class="row g-4">
-                                    <!-- Booth Count Selector -->
                                     <div class="col-12">
                                         <label class="form-label section-label">
                                             <i class="bi bi-grid-3x3 me-2"></i>
                                             How many booths do you need?
                                         </label>
+
                                         <div class="booth-counter-card">
                                             <div class="counter-wrapper">
-                                                <button type="button" class="counter-btn" id="decrementBooth">
-                                                    <i class="bi bi-dash-lg"></i>
+                                                <!-- Minus Button -->
+                                                <button type="button" 
+                                                        class="counter-btn decrement" 
+                                                        id="decrementBooth"
+                                                        aria-label="Decrease booth quantity">
+                                                    <span class="symbol">−</span>
                                                 </button>
+
+                                                <!-- Number Input -->
                                                 <div class="counter-display">
-                                                    <input type="number" class="form-control" id="boothCount" 
-                                                           name="boothCount" min="1" max="10" value="{{ old('boothCount', 1) }}" required readonly>
-                                                    <span class="counter-label">{{ old('boothCount', 1) == 1 ? 'Booth' : 'Booths' }}</span>
+                                                    <input type="number"
+                                                           class="form-control"
+                                                           id="boothCount"
+                                                           name="boothCount"
+                                                           min="1"
+                                                           max="10"
+                                                           value="{{ old('boothCount', 1) }}"
+                                                           required
+                                                           readonly>
+                                                    <span class="counter-label">
+                                                        {{ old('boothCount', 1) == 1 ? 'Booth Selected' : 'Booths Selected' }}
+                                                    </span>
                                                 </div>
-                                                <button type="button" class="counter-btn" id="incrementBooth">
-                                                    <i class="bi bi-plus-lg"></i>
+
+                                                <!-- Plus Button -->
+                                                <button type="button" 
+                                                        class="counter-btn increment" 
+                                                        id="incrementBooth"
+                                                        aria-label="Increase booth quantity">
+                                                    <span class="symbol">+</span>
                                                 </button>
                                             </div>
-                                            <p class="counter-note">
+
+                                            <!-- Info Note -->
+                                            <p class="counter-note mt-2">
                                                 <i class="bi bi-info-circle me-1"></i>
-                                                Each booth can accommodate up to 2 exhibitors
+                                                Each booth can accommodate up to <strong>2 exhibitors</strong>
                                             </p>
                                         </div>
                                     </div>
@@ -218,83 +242,98 @@
                                             <i class="bi bi-cup-hot me-2"></i>
                                             Choose Your Package <span class="required">*</span>
                                         </label>
+
                                         <div class="package-cards">
+                                            <!-- PREMIUM PACKAGE -->
                                             <label class="package-card">
                                                 <input type="radio" name="registrationType" value="with_meals" 
                                                        {{ old('registrationType', 'with_meals') == 'with_meals' ? 'checked' : '' }} required>
+
                                                 <div class="package-content">
-                                                    <div class="package-badge premium">
-                                                        <i class="bi bi-star-fill"></i>
-                                                        Popular
-                                                    </div>
                                                     <div class="package-icon">
                                                         <i class="bi bi-cup-hot-fill"></i>
                                                     </div>
+
                                                     <h4 class="package-title">Premium Package</h4>
+
+                                                    <!-- FEATURES FIRST -->
+                                                    <div class="package-features">
+                                                        <div class="feature-item included">
+                                                            <i class="bi bi-check-circle-fill text-success"></i>
+                                                            <span>Booth space with furniture</span>
+                                                        </div>
+
+                                                        <div class="feature-item included">
+                                                            <i class="bi bi-check-circle-fill text-success"></i>
+                                                            <span>2 exhibitor registrations</span>
+                                                        </div>
+
+                                                        <div class="feature-item included highlight-feature">
+                                                            <i class="bi bi-check-circle-fill text-success"></i>
+                                                            <span><strong>Full catering included</strong></span>
+                                                        </div>
+
+                                                        <div class="feature-item included">
+                                                            <i class="bi bi-check-circle-fill text-success"></i>
+                                                            <span>Conference materials</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- PRICE AFTER VALUE -->
                                                     <div class="package-price">
                                                         <span class="currency">KES</span>
                                                         <span class="amount">25,000</span>
                                                         <span class="per">per booth</span>
                                                     </div>
-                                                    <div class="package-features">
-                                                        <div class="feature-item">
-                                                            <i class="bi bi-check-circle-fill"></i>
-                                                            <span>Booth space with furniture</span>
-                                                        </div>
-                                                        <div class="feature-item">
-                                                            <i class="bi bi-check-circle-fill"></i>
-                                                            <span>2 exhibitor registrations</span>
-                                                        </div>
-                                                        <div class="feature-item highlighted">
-                                                            <i class="bi bi-cup-hot-fill"></i>
-                                                            <span><strong>Full catering included</strong></span>
-                                                        </div>
-                                                        <div class="feature-item">
-                                                            <i class="bi bi-check-circle-fill"></i>
-                                                            <span>Conference materials</span>
-                                                        </div>
-                                                    </div>
+
                                                     <div class="selection-indicator">
                                                         <i class="bi bi-check-circle-fill"></i>
                                                     </div>
                                                 </div>
                                             </label>
 
+                                            <!-- STANDARD PACKAGE -->
                                             <label class="package-card">
                                                 <input type="radio" name="registrationType" value="without_meals"
                                                        {{ old('registrationType') == 'without_meals' ? 'checked' : '' }}>
+
                                                 <div class="package-content">
-                                                    <div class="package-badge standard">
-                                                        <i class="bi bi-tag-fill"></i>
-                                                        Budget
-                                                    </div>
                                                     <div class="package-icon">
                                                         <i class="bi bi-shop-window"></i>
                                                     </div>
+
                                                     <h4 class="package-title">Standard Package</h4>
+
+                                                    <!-- FEATURES FIRST -->
+                                                    <div class="package-features">
+                                                        <div class="feature-item included">
+                                                            <i class="bi bi-check-circle-fill text-success"></i>
+                                                            <span>Booth space with furniture</span>
+                                                        </div>
+
+                                                        <div class="feature-item included">
+                                                            <i class="bi bi-check-circle-fill text-success"></i>
+                                                            <span>2 exhibitor registrations</span>
+                                                        </div>
+
+                                                        <div class="feature-item excluded">
+                                                            <i class="bi bi-x-circle-fill text-danger"></i>
+                                                            <span>Meals not included</span>
+                                                        </div>
+
+                                                        <div class="feature-item included">
+                                                            <i class="bi bi-check-circle-fill text-success"></i>
+                                                            <span>Conference materials</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- PRICE AFTER VALUE -->
                                                     <div class="package-price">
                                                         <span class="currency">KES</span>
                                                         <span class="amount">18,000</span>
                                                         <span class="per">per booth</span>
                                                     </div>
-                                                    <div class="package-features">
-                                                        <div class="feature-item">
-                                                            <i class="bi bi-check-circle-fill"></i>
-                                                            <span>Booth space with furniture</span>
-                                                        </div>
-                                                        <div class="feature-item">
-                                                            <i class="bi bi-check-circle-fill"></i>
-                                                            <span>2 exhibitor registrations</span>
-                                                        </div>
-                                                        <div class="feature-item muted">
-                                                            <i class="bi bi-x-circle"></i>
-                                                            <span>Meals not included</span>
-                                                        </div>
-                                                        <div class="feature-item">
-                                                            <i class="bi bi-check-circle-fill"></i>
-                                                            <span>Conference materials</span>
-                                                        </div>
-                                                    </div>
+
                                                     <div class="selection-indicator">
                                                         <i class="bi bi-check-circle-fill"></i>
                                                     </div>
@@ -675,7 +714,7 @@
 
 <style>
 /* ========================================
-   KALRO GREEN THEME
+   KALRO GREEN THEME - REDUCED SIZES
    ======================================== */
 :root {
     --kalro-primary: #1a5f3a;
@@ -704,9 +743,9 @@
 
 .exhibition-hero {
     background: var(--kalro-gradient);
-    padding: 3.5rem 0 5rem;
+    padding: 2.5rem 0 4rem;
     color: white;
-    margin-bottom: -3rem;
+    margin-bottom: -2.5rem;
     clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
     box-shadow: 0 4px 20px rgba(26, 95, 58, 0.2);
 }
@@ -715,15 +754,16 @@
     font-weight: 700;
     letter-spacing: -1px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 2.25rem;
 }
 
 .exhibition-hero .lead {
     color: rgba(255, 255, 255, 0.95);
-    font-size: 1.15rem;
+    font-size: 1rem;
 }
 
 /* ========================================
-   PROGRESS STEPS - ENHANCED
+   PROGRESS STEPS - REDUCED
    ======================================== */
 .progress-steps {
     display: flex;
@@ -739,35 +779,35 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.5rem;
     position: relative;
     z-index: 2;
     flex: 0 0 auto;
 }
 
 .step-circle {
-    width: 70px;
-    height: 70px;
+    width: 55px;
+    height: 55px;
     border-radius: 50%;
     background: white;
-    border: 4px solid var(--border-color);
+    border: 3px solid var(--border-color);
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     transition: all 0.4s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
 }
 
 .step-number {
     position: absolute;
     font-weight: 700;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     color: var(--text-muted);
-    top: -8px;
-    right: -8px;
-    width: 24px;
-    height: 24px;
+    top: -6px;
+    right: -6px;
+    width: 20px;
+    height: 20px;
     background: white;
     border: 2px solid var(--border-color);
     border-radius: 50%;
@@ -784,7 +824,7 @@
 }
 
 .step-icon i {
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: var(--kalro-primary);
 }
 
@@ -792,8 +832,8 @@
 .step.completed .step-circle {
     background: var(--kalro-gradient);
     border-color: var(--kalro-primary);
-    transform: scale(1.1);
-    box-shadow: 0 8px 20px rgba(26, 95, 58, 0.3);
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(26, 95, 58, 0.25);
 }
 
 .step.active .step-number,
@@ -824,7 +864,7 @@
 }
 
 .step-label {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: 600;
     color: var(--text-muted);
     text-align: center;
@@ -837,10 +877,10 @@
 }
 
 .progress-line {
-    height: 4px;
+    height: 3px;
     flex: 1;
     background: var(--border-color);
-    margin: 0 1rem;
+    margin: 0 0.75rem;
     position: relative;
     border-radius: 2px;
     overflow: hidden;
@@ -862,24 +902,24 @@
 }
 
 /* ========================================
-   FORM CARD
+   FORM CARD - REDUCED
    ======================================== */
 .form-card {
     background: white;
-    border-radius: 25px;
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
     padding: 0;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     overflow: hidden;
 }
 
 /* ========================================
-   FORM STEPS
+   FORM STEPS - REDUCED
    ======================================== */
 .form-step {
     display: none !important;
     animation: fadeSlideIn 0.5s ease;
-    padding: 3rem;
+    padding: 2rem;
 }
 
 .form-step.active {
@@ -899,47 +939,47 @@
 
 .step-header {
     text-align: center;
-    margin-bottom: 3rem;
-    padding-bottom: 2rem;
-    border-bottom: 3px solid var(--kalro-light);
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--kalro-light);
 }
 
 .step-icon-large {
-    width: 90px;
-    height: 90px;
-    border-radius: 20px;
+    width: 70px;
+    height: 70px;
+    border-radius: 16px;
     background: var(--kalro-gradient);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 10px 30px rgba(26, 95, 58, 0.25);
+    margin-bottom: 1rem;
+    box-shadow: 0 8px 20px rgba(26, 95, 58, 0.2);
 }
 
 .step-icon-large i {
-    font-size: 2.5rem;
+    font-size: 2rem;
     color: white;
 }
 
 .step-title {
-    font-size: 2rem;
+    font-size: 1.65rem;
     font-weight: 700;
     color: var(--text-dark);
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
 }
 
 .step-description {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     color: var(--text-muted);
     margin: 0;
 }
 
 .step-content {
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
 }
 
 /* ========================================
-   MODERN INPUT GROUPS
+   MODERN INPUT GROUPS - REDUCED
    ======================================== */
 .input-group-modern {
     position: relative;
@@ -949,20 +989,21 @@
 .form-label {
     font-weight: 600;
     color: var(--text-dark);
-    margin-bottom: 0.75rem;
-    font-size: 1rem;
+    margin-bottom: 0.6rem;
+    font-size: 0.9rem;
     display: flex;
     align-items: center;
 }
 
 .form-label i {
     color: var(--kalro-primary);
+    font-size: 0.95rem;
 }
 
 .section-label {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
     color: var(--kalro-dark);
 }
 
@@ -973,34 +1014,34 @@
 
 .form-control {
     border: 2px solid var(--border-color);
-    border-radius: 12px;
-    padding: 1rem 1.25rem;
-    font-size: 1.05rem;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
     transition: all 0.3s ease;
     background: white;
 }
 
 .form-control-lg {
-    padding: 1.15rem 1.5rem;
-    font-size: 1.1rem;
-    min-height: 58px;
+    padding: 0.85rem 1.15rem;
+    font-size: 1rem;
+    min-height: 48px;
 }
 
 .form-control:focus {
     border-color: var(--kalro-primary);
-    box-shadow: 0 0 0 4px rgba(26, 95, 58, 0.1);
+    box-shadow: 0 0 0 3px rgba(26, 95, 58, 0.08);
     outline: none;
 }
 
 .input-group-modern .input-icon {
     position: absolute;
-    right: 1rem;
+    right: 0.85rem;
     top: 50%;
     transform: translateY(-50%);
     color: var(--success);
     opacity: 0;
     transition: opacity 0.3s ease;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
 }
 
 .form-control:valid ~ .input-icon {
@@ -1009,21 +1050,21 @@
 
 textarea.form-control {
     resize: vertical;
-    min-height: 140px;
+    min-height: 120px;
 }
 
 .form-hint {
     display: block;
-    margin-top: 0.5rem;
+    margin-top: 0.4rem;
     color: var(--text-muted);
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }
 
 .char-counter {
     position: absolute;
-    right: 1rem;
-    bottom: -1.75rem;
-    font-size: 0.85rem;
+    right: 0.85rem;
+    bottom: -1.5rem;
+    font-size: 0.75rem;
     color: var(--text-muted);
     font-weight: 600;
 }
@@ -1033,13 +1074,13 @@ textarea.form-control {
 }
 
 /* ========================================
-   BOOTH COUNTER
+   BOOTH COUNTER - REDUCED
    ======================================== */
 .booth-counter-card {
     background: var(--kalro-light);
     border: 2px solid var(--kalro-accent);
-    border-radius: 20px;
-    padding: 2.5rem;
+    border-radius: 16px;
+    padding: 1.75rem;
     text-align: center;
 }
 
@@ -1047,31 +1088,31 @@ textarea.form-control {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
-    margin-bottom: 1.5rem;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .counter-btn {
-    width: 60px;
-    height: 60px;
-    border-radius: 15px;
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
     background: white;
-    border: 3px solid var(--kalro-primary);
+    border: 2px solid var(--kalro-primary);
     color: var(--kalro-primary);
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
 }
 
 .counter-btn:hover {
     background: var(--kalro-gradient);
     color: white;
-    transform: scale(1.1);
-    box-shadow: 0 6px 15px rgba(26, 95, 58, 0.3);
+    transform: scale(1.08);
+    box-shadow: 0 5px 12px rgba(26, 95, 58, 0.25);
 }
 
 .counter-btn:active {
@@ -1083,9 +1124,9 @@ textarea.form-control {
 }
 
 .counter-display .form-control {
-    width: 120px;
+    width: 100px;
     text-align: center;
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 700;
     color: var(--kalro-primary);
     border: none;
@@ -1096,8 +1137,8 @@ textarea.form-control {
 
 .counter-label {
     display: block;
-    margin-top: 0.5rem;
-    font-size: 1.1rem;
+    margin-top: 0.35rem;
+    font-size: 0.95rem;
     font-weight: 600;
     color: var(--kalro-dark);
 }
@@ -1105,16 +1146,16 @@ textarea.form-control {
 .counter-note {
     margin: 0;
     color: var(--text-muted);
-    font-size: 0.95rem;
+    font-size: 0.85rem;
 }
 
 /* ========================================
-   PACKAGE CARDS - PREMIUM DESIGN
+   PACKAGE CARDS - REDUCED
    ======================================== */
 .package-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
 }
 
 .package-card {
@@ -1131,9 +1172,9 @@ textarea.form-control {
 
 .package-content {
     background: white;
-    border: 3px solid var(--border-color);
-    border-radius: 20px;
-    padding: 2rem;
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.5rem;
     text-align: center;
     transition: all 0.4s ease;
     position: relative;
@@ -1142,55 +1183,31 @@ textarea.form-control {
 
 .package-card:hover .package-content {
     border-color: var(--kalro-accent);
-    transform: translateY(-8px);
-    box-shadow: 0 15px 40px rgba(26, 95, 58, 0.15);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(26, 95, 58, 0.12);
 }
 
 .package-card input:checked ~ .package-content {
     background: var(--kalro-gradient);
     border-color: var(--kalro-primary);
-    transform: translateY(-10px);
-    box-shadow: 0 20px 50px rgba(26, 95, 58, 0.3);
-}
-
-.package-badge {
-    position: absolute;
-    top: -12px;
-    right: 20px;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.package-badge.premium {
-    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-    color: white;
-}
-
-.package-badge.standard {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-    color: white;
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(26, 95, 58, 0.25);
 }
 
 .package-icon {
-    width: 80px;
-    height: 80px;
-    border-radius: 20px;
+    width: 65px;
+    height: 65px;
+    border-radius: 16px;
     background: var(--kalro-light);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     transition: all 0.4s ease;
 }
 
 .package-icon i {
-    font-size: 2.5rem;
+    font-size: 2rem;
     color: var(--kalro-primary);
     transition: all 0.4s ease;
 }
@@ -1204,10 +1221,10 @@ textarea.form-control {
 }
 
 .package-title {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: var(--text-dark);
-    margin-bottom: 1rem;
+    margin-bottom: 0.85rem;
     transition: all 0.4s ease;
 }
 
@@ -1216,28 +1233,28 @@ textarea.form-control {
 }
 
 .package-price {
-    margin-bottom: 1.75rem;
+    margin-bottom: 1.25rem;
 }
 
 .package-price .currency {
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 600;
     color: var(--text-muted);
     transition: all 0.4s ease;
 }
 
 .package-price .amount {
-    font-size: 3rem;
+    font-size: 2.25rem;
     font-weight: 700;
     color: var(--kalro-primary);
     display: block;
     line-height: 1;
-    margin: 0.25rem 0;
+    margin: 0.2rem 0;
     transition: all 0.4s ease;
 }
 
 .package-price .per {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
     transition: all 0.4s ease;
 }
@@ -1250,24 +1267,40 @@ textarea.form-control {
 
 .package-features {
     text-align: left;
-    margin-bottom: 1rem;
+    margin-bottom: 0.85rem;
 }
 
 .feature-item {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid #f0f0f0;
-    transition: all 0.4s ease;
+    gap: 7px;
+    margin-bottom: 5px;
+    font-size: 0.85rem;
 }
 
-.feature-item:last-child {
-    border-bottom: none;
+.feature-item.included i {
+    color: #16a34a;
+}
+
+.feature-item.excluded i {
+    color: #dc2626;
+}
+
+.highlight-feature {
+    background: rgba(22,163,74,0.08);
+    padding: 5px 8px;
+    border-radius: 5px;
+}
+
+.package-price {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid #e5e7eb;
+    font-weight: 600;
 }
 
 .feature-item i {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     color: var(--kalro-primary);
     flex-shrink: 0;
     transition: all 0.4s ease;
@@ -1275,27 +1308,8 @@ textarea.form-control {
 
 .feature-item span {
     color: var(--text-dark);
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     transition: all 0.4s ease;
-}
-
-.feature-item.highlighted {
-    background: var(--kalro-light);
-    margin: 0 -2rem;
-    padding: 0.75rem 2rem;
-    border-bottom: none;
-}
-
-.feature-item.muted i {
-    color: #dc2626;
-}
-
-.feature-item.muted span {
-    color: var(--text-muted);
-}
-
-.package-card input:checked ~ .package-content .feature-item {
-    border-bottom-color: rgba(255, 255, 255, 0.2);
 }
 
 .package-card input:checked ~ .package-content .feature-item i,
@@ -1303,15 +1317,11 @@ textarea.form-control {
     color: white;
 }
 
-.package-card input:checked ~ .package-content .feature-item.highlighted {
-    background: rgba(255, 255, 255, 0.15);
-}
-
 .selection-indicator {
     position: absolute;
-    top: 1.5rem;
-    left: 1.5rem;
-    font-size: 2rem;
+    top: 1.25rem;
+    left: 1.25rem;
+    font-size: 1.65rem;
     color: var(--success);
     opacity: 0;
     transform: scale(0);
@@ -1325,94 +1335,94 @@ textarea.form-control {
 }
 
 /* ========================================
-   COST SUMMARY - MODERN
+   COST SUMMARY - REDUCED
    ======================================== */
 .cost-summary-modern {
     background: white;
-    border: 3px solid var(--kalro-primary);
-    border-radius: 20px;
+    border: 2px solid var(--kalro-primary);
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(26, 95, 58, 0.15);
+    box-shadow: 0 8px 20px rgba(26, 95, 58, 0.12);
 }
 
 .summary-header {
     background: var(--kalro-gradient);
     color: white;
-    padding: 1.5rem 2rem;
+    padding: 1.15rem 1.5rem;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.6rem;
 }
 
 .summary-header i {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
 }
 
 .summary-header h5 {
     margin: 0;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     font-weight: 700;
 }
 
 .summary-body {
-    padding: 2rem;
+    padding: 1.5rem;
 }
 
 .summary-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 0;
+    padding: 0.75rem 0;
     border-bottom: 1px solid #f0f0f0;
 }
 
 .summary-row .label {
     color: var(--text-muted);
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 .summary-row .value {
     color: var(--text-dark);
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
 }
 
 .summary-divider {
-    height: 2px;
+    height: 1.5px;
     background: var(--kalro-light);
-    margin: 1.5rem 0;
+    margin: 1rem 0;
 }
 
 .summary-total {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem;
+    padding: 1.15rem;
     background: var(--kalro-light);
-    border-radius: 12px;
-    margin-top: 1rem;
+    border-radius: 10px;
+    margin-top: 0.75rem;
 }
 
 .summary-total .label {
-    font-size: 1.2rem;
+    font-size: 1.05rem;
     font-weight: 700;
     color: var(--kalro-dark);
 }
 
 .summary-total .amount {
-    font-size: 2.25rem;
+    font-size: 1.85rem;
     font-weight: 700;
     color: var(--kalro-primary);
 }
 
 /* ========================================
-   PAYMENT METHOD CARDS
+   PAYMENT METHOD CARDS - REDUCED
    ======================================== */
 .payment-method-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1.25rem;
 }
 
 .payment-method-card {
@@ -1430,30 +1440,30 @@ textarea.form-control {
 .method-content {
     display: flex;
     align-items: center;
-    gap: 1.25rem;
-    padding: 1.75rem;
+    gap: 1rem;
+    padding: 1.35rem;
     background: white;
-    border: 3px solid var(--border-color);
-    border-radius: 18px;
+    border: 2px solid var(--border-color);
+    border-radius: 14px;
     transition: all 0.4s ease;
 }
 
 .payment-method-card:hover .method-content {
     border-color: var(--kalro-accent);
-    transform: translateY(-4px);
-    box-shadow: 0 10px 25px rgba(26, 95, 58, 0.15);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(26, 95, 58, 0.12);
 }
 
 .payment-method-card input:checked ~ .method-content {
     background: var(--kalro-gradient);
     border-color: var(--kalro-primary);
-    box-shadow: 0 12px 30px rgba(26, 95, 58, 0.25);
+    box-shadow: 0 10px 25px rgba(26, 95, 58, 0.2);
 }
 
 .method-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 15px;
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
     background: var(--kalro-light);
     display: flex;
     align-items: center;
@@ -1463,7 +1473,7 @@ textarea.form-control {
 }
 
 .method-icon i {
-    font-size: 2rem;
+    font-size: 1.65rem;
     color: var(--kalro-primary);
     transition: all 0.4s ease;
 }
@@ -1481,8 +1491,8 @@ textarea.form-control {
 }
 
 .method-info h5 {
-    margin: 0 0 0.25rem 0;
-    font-size: 1.2rem;
+    margin: 0 0 0.2rem 0;
+    font-size: 1.05rem;
     font-weight: 700;
     color: var(--text-dark);
     transition: all 0.4s ease;
@@ -1490,7 +1500,7 @@ textarea.form-control {
 
 .method-info p {
     margin: 0;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
     transition: all 0.4s ease;
 }
@@ -1508,7 +1518,7 @@ textarea.form-control {
 }
 
 .method-check i {
-    font-size: 2rem;
+    font-size: 1.65rem;
     color: white;
 }
 
@@ -1518,21 +1528,21 @@ textarea.form-control {
 }
 
 /* ========================================
-   PAYMENT INFO - MODERN
+   PAYMENT INFO - REDUCED
    ======================================== */
 .payment-info-modern {
     background: white;
     border: 2px solid var(--border-color);
-    border-radius: 18px;
+    border-radius: 14px;
     overflow: hidden;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
     animation: slideDown 0.4s ease;
 }
 
 @keyframes slideDown {
     from {
         opacity: 0;
-        transform: translateY(-20px);
+        transform: translateY(-15px);
     }
     to {
         opacity: 1;
@@ -1543,38 +1553,38 @@ textarea.form-control {
 .info-header {
     background: var(--kalro-gradient);
     color: white;
-    padding: 1.5rem 2rem;
+    padding: 1.15rem 1.5rem;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.6rem;
 }
 
 .info-header i {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
 }
 
 .info-header h5 {
     margin: 0;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: 700;
 }
 
 .info-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 0;
-    padding: 2rem;
+    padding: 1.5rem;
 }
 
 .info-grid.simple {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 }
 
 .info-item {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    padding: 1.25rem;
+    gap: 0.4rem;
+    padding: 1rem;
     border-bottom: 1px solid #f0f0f0;
     border-right: 1px solid #f0f0f0;
 }
@@ -1585,30 +1595,30 @@ textarea.form-control {
 
 .info-item.highlight {
     background: var(--kalro-light);
-    border-radius: 12px;
-    margin: 0.5rem;
+    border-radius: 10px;
+    margin: 0.4rem;
     border: 2px solid var(--kalro-accent);
 }
 
 .info-label {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
     font-weight: 600;
 }
 
 .info-value {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     color: var(--text-dark);
     font-weight: 700;
 }
 
 .info-value.large {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     color: var(--kalro-primary);
 }
 
 .mpesa-steps {
-    padding: 1.5rem 2rem;
+    padding: 1.25rem 1.5rem;
     background: var(--bg-light);
     border-top: 2px solid var(--border-color);
 }
@@ -1616,21 +1626,23 @@ textarea.form-control {
 .mpesa-steps h6 {
     color: var(--kalro-dark);
     font-weight: 700;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
 }
 
 .mpesa-steps ol {
     margin: 0;
-    padding-left: 1.5rem;
+    padding-left: 1.25rem;
 }
 
 .mpesa-steps li {
-    padding: 0.5rem 0;
+    padding: 0.4rem 0;
     color: var(--text-dark);
+    font-size: 0.85rem;
 }
 
 /* ========================================
-   FILE UPLOAD - MODERN
+   FILE UPLOAD - REDUCED
    ======================================== */
 .file-upload-modern {
     position: relative;
@@ -1641,9 +1653,9 @@ textarea.form-control {
 }
 
 .upload-area {
-    border: 3px dashed var(--border-color);
-    border-radius: 15px;
-    padding: 2rem;
+    border: 2px dashed var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
     text-align: center;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -1656,39 +1668,40 @@ textarea.form-control {
 }
 
 .upload-area i {
-    font-size: 3rem;
+    font-size: 2.5rem;
     color: var(--kalro-primary);
     display: block;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .upload-text {
     display: block;
     font-weight: 600;
     color: var(--kalro-primary);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
+    font-size: 0.9rem;
 }
 
 .upload-hint {
     display: block;
     color: var(--text-muted);
-    font-size: 0.85rem;
+    font-size: 0.75rem;
 }
 
 .file-preview-modern {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 1.25rem;
+    gap: 0.85rem;
+    padding: 1rem;
     background: white;
     border: 2px solid var(--kalro-primary);
-    border-radius: 12px;
+    border-radius: 10px;
 }
 
 .file-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 10px;
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
     background: var(--kalro-light);
     display: flex;
     align-items: center;
@@ -1697,7 +1710,7 @@ textarea.form-control {
 }
 
 .file-icon i {
-    font-size: 2rem;
+    font-size: 1.65rem;
     color: var(--kalro-primary);
 }
 
@@ -1705,24 +1718,25 @@ textarea.form-control {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.2rem;
 }
 
 .file-name {
     font-weight: 600;
     color: var(--text-dark);
     word-break: break-all;
+    font-size: 0.85rem;
 }
 
 .file-size {
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     color: var(--text-muted);
 }
 
 .file-remove {
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
     background: #dc2626;
     color: white;
     border: none;
@@ -1736,15 +1750,15 @@ textarea.form-control {
 
 .file-remove:hover {
     background: #b91c1c;
-    transform: scale(1.1);
+    transform: scale(1.08);
 }
 
 /* ========================================
-   TOGGLE GROUP
+   TOGGLE GROUP - REDUCED
    ======================================== */
 .toggle-group {
     display: flex;
-    gap: 1rem;
+    gap: 0.85rem;
 }
 
 .toggle-option {
@@ -1760,18 +1774,19 @@ textarea.form-control {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
-    padding: 1.15rem 1.5rem;
+    gap: 0.6rem;
+    padding: 0.85rem 1.15rem;
     background: white;
-    border: 3px solid var(--border-color);
-    border-radius: 12px;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
     font-weight: 600;
     color: var(--text-dark);
     transition: all 0.3s ease;
+    font-size: 0.9rem;
 }
 
 .toggle-content i {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     color: var(--text-muted);
     transition: all 0.3s ease;
 }
@@ -1785,7 +1800,7 @@ textarea.form-control {
     background: var(--kalro-gradient);
     border-color: var(--kalro-primary);
     color: white;
-    box-shadow: 0 6px 15px rgba(26, 95, 58, 0.25);
+    box-shadow: 0 5px 12px rgba(26, 95, 58, 0.2);
 }
 
 .toggle-option input:checked ~ .toggle-content i {
@@ -1793,25 +1808,25 @@ textarea.form-control {
 }
 
 /* ========================================
-   TERMS SECTION
+   TERMS SECTION - REDUCED
    ======================================== */
 .terms-section {
-    margin-top: 2.5rem;
-    padding-top: 2rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
     border-top: 2px solid var(--border-color);
 }
 
 .terms-card {
     background: var(--kalro-light);
     border: 2px solid var(--kalro-accent);
-    border-radius: 15px;
-    padding: 1.75rem;
+    border-radius: 12px;
+    padding: 1.35rem;
 }
 
 .terms-checkbox {
     display: flex;
     align-items: flex-start;
-    gap: 1rem;
+    gap: 0.85rem;
 }
 
 .terms-checkbox input[type="checkbox"] {
@@ -1819,10 +1834,10 @@ textarea.form-control {
 }
 
 .checkbox-box {
-    width: 28px;
-    height: 28px;
-    border: 3px solid var(--border-color);
-    border-radius: 8px;
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1833,7 +1848,7 @@ textarea.form-control {
 }
 
 .checkbox-box i {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     color: white;
     opacity: 0;
     transform: scale(0);
@@ -1852,9 +1867,9 @@ textarea.form-control {
 
 .checkbox-text {
     flex: 1;
-    font-size: 1.05rem;
+    font-size: 0.9rem;
     color: var(--text-dark);
-    line-height: 1.6;
+    line-height: 1.5;
     cursor: pointer;
 }
 
@@ -1869,14 +1884,14 @@ textarea.form-control {
 }
 
 /* ========================================
-   STEP FOOTER
+   STEP FOOTER - REDUCED
    ======================================== */
 .step-footer {
     display: flex;
     justify-content: space-between;
-    gap: 1.25rem;
-    margin-top: 3rem;
-    padding-top: 2.5rem;
+    gap: 1rem;
+    margin-top: 2.5rem;
+    padding-top: 2rem;
     border-top: 2px solid var(--border-color);
 }
 
@@ -1885,15 +1900,15 @@ textarea.form-control {
 }
 
 .step-footer .btn {
-    min-width: 180px;
-    padding: 1.15rem 2.5rem;
+    min-width: 160px;
+    padding: 0.85rem 2rem;
     font-weight: 700;
-    font-size: 1.1rem;
-    border-radius: 12px;
+    font-size: 0.95rem;
+    border-radius: 10px;
     transition: all 0.3s ease;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    letter-spacing: 0.4px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
 }
 
 .btn-primary {
@@ -1903,8 +1918,8 @@ textarea.form-control {
 }
 
 .btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(26, 95, 58, 0.35);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(26, 95, 58, 0.3);
 }
 
 .btn-success {
@@ -1914,12 +1929,12 @@ textarea.form-control {
 }
 
 .btn-success:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.35);
 }
 
 .btn-outline-secondary {
-    border: 3px solid var(--border-color);
+    border: 2px solid var(--border-color);
     color: var(--text-dark);
     background: white;
 }
@@ -1931,24 +1946,24 @@ textarea.form-control {
 }
 
 /* ========================================
-   ALERTS
+   ALERTS - REDUCED
    ======================================== */
 .alert {
-    border-radius: 15px;
+    border-radius: 12px;
     border: none;
-    padding: 1.25rem 1.75rem;
-    margin-bottom: 1.5rem;
+    padding: 1rem 1.35rem;
+    margin-bottom: 1.25rem;
     animation: slideDown 0.4s ease;
 }
 
 .alert i {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
 }
 
 .alert-success {
     background: var(--kalro-light);
     color: var(--kalro-dark);
-    border-left: 5px solid var(--kalro-primary);
+    border-left: 4px solid var(--kalro-primary);
 }
 
 /* ========================================
@@ -1960,7 +1975,7 @@ textarea.form-control {
     }
     
     .form-step {
-        padding: 2.5rem 2rem;
+        padding: 2rem 1.5rem;
     }
     
     .package-cards {
@@ -1978,28 +1993,28 @@ textarea.form-control {
 
 @media (max-width: 768px) {
     .progress-steps {
-        gap: 0.5rem;
+        gap: 0.4rem;
     }
     
     .step-circle {
-        width: 60px;
-        height: 60px;
+        width: 50px;
+        height: 50px;
     }
     
     .step-icon i {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
     }
     
     .step-label {
-        font-size: 0.8rem;
+        font-size: 0.7rem;
     }
     
     .progress-line {
-        margin: 0 0.5rem;
+        margin: 0 0.4rem;
     }
     
     .form-step {
-        padding: 2rem 1.5rem;
+        padding: 1.5rem 1.25rem;
     }
     
     .step-footer {
@@ -2022,33 +2037,33 @@ textarea.form-control {
 
 @media (max-width: 576px) {
     .exhibition-hero {
-        padding: 3rem 0 4rem;
+        padding: 2.5rem 0 3.5rem;
     }
     
     .exhibition-hero h1 {
-        font-size: 2rem;
+        font-size: 1.75rem;
     }
     
     .step-icon-large {
-        width: 70px;
-        height: 70px;
+        width: 60px;
+        height: 60px;
     }
     
     .step-icon-large i {
-        font-size: 2rem;
+        font-size: 1.75rem;
     }
     
     .step-title {
-        font-size: 1.5rem;
+        font-size: 1.35rem;
     }
     
     .counter-btn {
-        width: 50px;
-        height: 50px;
+        width: 45px;
+        height: 45px;
     }
     
     .package-price .amount {
-        font-size: 2.5rem;
+        font-size: 2rem;
     }
 }
 </style>
