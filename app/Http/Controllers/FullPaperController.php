@@ -15,6 +15,11 @@ class FullPaperController extends Controller
 
     public function create(SubmittedAbstract $abstract)
     {
+        dd([
+            'id_from_url' => $abstract->id,
+            'status_in_db' => $abstract->status,
+        ]);
+
         if ($abstract->status !== 'APPROVED') {
             abort(403, 'Abstract not approved.');
         }
