@@ -57,8 +57,7 @@ Route::post('/abstracts/review', [AbstractsController::class, 'review'])->name('
 /* FullPaperController Routes */
 Route::get('/admin/fullpapers', [FullPaperController::class, 'index'])->name('fullpapers.index');
 Route::get('/full-papers/{id}', [FullPaperController::class, 'create'])
-    ->name('full-papers.create')
-    ->middleware('signed');
+    ->name('full-papers.create');
 
 Route::post('/full-papers/{id}', [FullPaperController::class, 'store'])
     ->name('full-papers.store');
