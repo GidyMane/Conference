@@ -15,6 +15,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\AbstractAssignmentController;
 use App\Http\Controllers\ReviewsController;
 use App\Http\Controllers\ReviewerFullPaperController;
+use App\Http\Controllers\ConferenceRegistrationController;
 
 /* MainController Routes */
 
@@ -183,6 +184,30 @@ Route::prefix('reviewer')->name('reviewer.')->middleware('auth')->group(function
         Route::get('/{id}/download/{type}', [ReviewerFullPapersController::class, 'download'])->name('download');
         Route::get('/{id}/supplementary', [ReviewerFullPapersController::class, 'supplementary'])->name('supplementary');
     });
+
+  //Registration roots
+
+
+
+
+
+
+
 });
 
+// Registration routes
+
+
+// Display the registration form
+Route::get('/conference/register', [ConferenceRegistrationController::class, 'showRegistrationForm'])
+    ->name('conference.register.form');
+
+// Process the registration
+Route::post('/conference/register', [ConferenceRegistrationController::class, 'processRegistration'])
+    ->name('conference.register');
+
+// Terms page (if you need it)
+Route::get('/terms', function() {
+    return view('pages.terms');
+})->name('terms');
     
