@@ -16,6 +16,8 @@ use App\Http\Controllers\Admin\AbstractAssignmentController;
 use App\Http\Controllers\ReviewsController;
 use App\Http\Controllers\ReviewerFullPaperController;
 use App\Http\Controllers\ConferenceRegistrationController;
+use App\Http\Controllers\ExhibitionRegistrationController;
+
 
 /* MainController Routes */
 
@@ -209,3 +211,26 @@ Route::get('/terms', function() {
     return view('pages.terms');
 })->name('terms');
     
+
+// Exhibition Registration Routes
+Route::get('/exhibition/register', [ExhibitionRegistrationController::class, 'showRegistrationForm'])
+    ->name('exhibition.register.form');
+
+Route::post('/exhibition/register', [ExhibitionRegistrationController::class, 'processRegistration'])
+    ->name('exhibition.register');
+
+Route::get('/exhibition/success', [ExhibitionRegistrationController::class, 'showSuccessPage'])
+    ->name('exhibition.success');
+
+// Optional: Admin routes (protect with auth middleware)
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/exhibitions', [ExhibitionRegistrationController::class, 'index'])
+        ->name('admin.exhibitions.index');
+    
+    Route::get('/admin/exhibitions/{id}', [ExhibitionRegistrationController::class, 'show'])
+        ->name('admin.exhibitions.show');
+    
+    Route::patch('/admin/exhibitions/{id}/status', [ExhibitionRegistrationController::class, 'updateStatus'])
+        ->name('admin.exhibitions.updateStatus');
+});
+
