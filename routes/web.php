@@ -15,6 +15,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\AbstractAssignmentController;
 use App\Http\Controllers\ReviewsController;
 use App\Http\Controllers\ReviewerFullPaperController;
+use App\Http\Controllers\ConferenceRegistrationController;
+use App\Http\Controllers\ExhibitionRegistrationController;
+
 
 /* MainController Routes */
 
@@ -53,9 +56,12 @@ Route::post('/abstracts/review', [AbstractsController::class, 'review'])->name('
 
 /* FullPaperController Routes */
 Route::get('/admin/fullpapers', [FullPaperController::class, 'index'])->name('fullpapers.index');
-Route::get('/full-papers/{abstract}',[FullPaperController::class, 'create'])->name('full-papers.create');
+Route::get('/full-papers/{id}', [FullPaperController::class, 'create'])
+    ->name('full-papers.create')
+    ->middleware('signed');
 
-Route::post('/full-papers/{abstract}',[FullPaperController::class, 'store'])->name('full-papers.store');
+Route::post('/full-papers/{id}', [FullPaperController::class, 'store'])
+    ->name('full-papers.store');
 
 // Reviewer Authentication Routes (for login & password setup)
 Route::prefix('reviewer')->name('reviewer.')->group(function () {
@@ -181,6 +187,53 @@ Route::prefix('reviewer')->name('reviewer.')->middleware('auth')->group(function
         Route::get('/{id}/download/{type}', [ReviewerFullPapersController::class, 'download'])->name('download');
         Route::get('/{id}/supplementary', [ReviewerFullPapersController::class, 'supplementary'])->name('supplementary');
     });
+
+  //Registration roots
+
+
+
+
+
+
+
 });
 
+// Registration routes
+
+
+// Display the registration form
+Route::get('/conference/register', [ConferenceRegistrationController::class, 'showRegistrationForm'])
+    ->name('conference.register.form');
+
+// Process the registration
+Route::post('/conference/register', [ConferenceRegistrationController::class, 'processRegistration'])
+    ->name('conference.register');
+
+// Terms page (if you need it)
+Route::get('/terms', function() {
+    return view('pages.terms');
+})->name('terms');
     
+
+// Exhibition Registration Routes
+Route::get('/exhibition/register', [ExhibitionRegistrationController::class, 'showRegistrationForm'])
+    ->name('exhibition.register.form');
+
+Route::post('/exhibition/register', [ExhibitionRegistrationController::class, 'processRegistration'])
+    ->name('exhibition.register');
+
+Route::get('/exhibition/success', [ExhibitionRegistrationController::class, 'showSuccessPage'])
+    ->name('exhibition.success');
+
+// Optional: Admin routes (protect with auth middleware)
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/exhibitions', [ExhibitionRegistrationController::class, 'index'])
+        ->name('admin.exhibitions.index');
+    
+    Route::get('/admin/exhibitions/{id}', [ExhibitionRegistrationController::class, 'show'])
+        ->name('admin.exhibitions.show');
+    
+    Route::patch('/admin/exhibitions/{id}/status', [ExhibitionRegistrationController::class, 'updateStatus'])
+        ->name('admin.exhibitions.updateStatus');
+});
+

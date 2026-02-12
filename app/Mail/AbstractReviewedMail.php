@@ -16,7 +16,11 @@ class AbstractReviewedMail extends Mailable
     public function build()
     {
         return $this->subject('Abstract Review Result – ' . $this->abstract->status)
-            ->view('emails.abstract-reviewed');
+            ->view('emails.abstract-reviewed')
+            ->with([
+                'abstract' => $this->abstract,
+                'comment' => $this->comment,
+                'uploadUrl' => $this->uploadUrl
+            ]);
     }
-
 }

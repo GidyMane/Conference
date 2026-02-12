@@ -24,7 +24,7 @@ class AbstractsController extends Controller
 
             $reviewerId = auth()->id() ?? 1;
 
-            // Save or update review (1 per reviewer)
+            // Save or update review
             AbstractReview::updateOrCreate(
                 [
                     'abstract_id' => $abstract->id,
@@ -38,32 +38,24 @@ class AbstractsController extends Controller
             );
 
             // Update abstract status
-            $abstract->update([
-                'status' => $request->decision,
-            ]);
+            $abstract->update(['status' => $request->decision]);
 
-            // Generate upload link ONLY if approved
+            // Generate signed upload URL if approved
             $uploadUrl = null;
             if ($request->decision === 'APPROVED') {
                 $uploadUrl = route('full-papers.create', $abstract->id);
             }
 
-            // Email author
+            // Send email
             Mail::to($abstract->author_email)
-                ->send(new AbstractReviewedMail(
-                    $abstract,
-                    $request->comment,
-                    $uploadUrl
-                ));
+                ->send(new AbstractReviewedMail($abstract, $request->comment, $uploadUrl));
 
-            //  Return JSON for JS
             return response()->json([
                 'status' => 'success',
                 'message' => 'Review submitted successfully!'
             ]);
 
         } catch (\Exception $e) {
-            // Return JSON even on error
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage()
