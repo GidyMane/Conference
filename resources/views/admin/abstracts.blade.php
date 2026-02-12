@@ -788,7 +788,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok) {
                     location.reload();
                 } else {
-                    alert('Failed to send review. Please try again.');
+                    const data = await response.json();
+                    console.log('Server error:', data);
+                    alert(data.message || 'Server error');
                 }
             } catch (e) {
                 console.error(e);
