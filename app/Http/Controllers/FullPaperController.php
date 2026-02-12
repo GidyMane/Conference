@@ -13,11 +13,13 @@ class FullPaperController extends Controller
     // PARTICIPANT UPLOAD FLOW
    
 
-    public function create(Request $request, SubmittedAbstract $abstract)
+    public function create(Request $request, $id)
     {
         if (! $request->hasValidSignature()) {
-            abort(403);
+            abort(403, 'Invalid or expired link.');
         }
+
+        $abstract = SubmittedAbstract::findOrFail($id);
 
         if ($abstract->status !== 'APPROVED') {
             abort(403, 'Abstract not approved.');
@@ -26,8 +28,14 @@ class FullPaperController extends Controller
         return view('full-papers.create', compact('abstract'));
     }
 
-    public function store(Request $request, SubmittedAbstract $abstract)
+    public function store(Request $request, $id)
     {
+        $abstract = SubmittedAbstract::findOrFail($id);
+
+        if ($abstract->status !== 'APPROVED') {
+            abort(403, 'Abstract not approved.');
+        }
+
         $request->validate([
             'full_paper' => 'required|file|mimes:doc,docx,pdf,ppt,pptx|max:10240',
         ]);
@@ -36,33 +44,25 @@ class FullPaperController extends Controller
         $fullPaperCode = 'FP_' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
 
         $file = $request->file('full_paper');
-
-        // ✅ READ METADATA FIRST
-        $fileSize  = $file->getSize();
-        $extension = $file->getClientOriginalExtension();
-
-        $fileName = "{$abstract->submission_code}-{$fullPaperCode}.{$extension}";
-
+        $fileName = "{$abstract->submission_code}-{$fullPaperCode}.{$file->getClientOriginalExtension()}";
         $destinationPath = public_path("full-papers/{$abstract->sub_theme_id}");
 
         if (!file_exists($destinationPath)) {
             mkdir($destinationPath, 0755, true);
         }
 
-        // ✅ MOVE LAST
         $file->move($destinationPath, $fileName);
-
         $relativePath = "full-papers/{$abstract->sub_theme_id}/{$fileName}";
 
         FullPaper::updateOrCreate(
             ['submitted_abstract_id' => $abstract->id],
             [
-                'file_path'       => $relativePath,
+                'file_path' => $relativePath,
                 'full_paper_code' => $fullPaperCode,
-                'file_type'       => $extension,
-                'file_size'       => $fileSize, // ✅ use saved size
-                'uploaded_at'     => now(),
-                'status'          => 'PENDING',
+                'file_type' => $file->getClientOriginalExtension(),
+                'file_size' => $file->getSize(),
+                'uploaded_at' => now(),
+                'status' => 'PENDING',
             ]
         );
 
@@ -70,7 +70,6 @@ class FullPaperController extends Controller
             'ref' => "{$abstract->submission_code}-{$fullPaperCode}"
         ]);
     }
-
   
     // ADMIN MANAGEMENT FLOW
 

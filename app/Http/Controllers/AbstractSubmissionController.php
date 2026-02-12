@@ -113,7 +113,7 @@ class AbstractSubmissionController extends Controller
 
         // 3. Secretariat / Overall notification (ALWAYS, regardless of subtheme)
         try {
-            Mail::to(config('mail.secretariat_address', 'enolaanne89@gmail.com'))
+            Mail::to(config('mail.secretariat_address', 'kalroconference2026.com'))
                 ->send(new AbstractSubmittedSecretariatMail($abstract));
         } catch (\Throwable $e) {
             \Log::error('Secretariat notification email failed', [
