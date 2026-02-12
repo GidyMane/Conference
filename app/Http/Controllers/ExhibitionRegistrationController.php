@@ -24,24 +24,24 @@ class ExhibitionRegistrationController extends Controller
     public function processRegistration(Request $request)
     {
         // Validate the request
-        $validated = $request->validate([
-            'organizationName' => 'required|string|max:255',
-            'aboutExhibition' => 'required|string|min:50',
-            'benefits' => 'required|string|min:50',
-            'boothCount' => 'required|integer|min:1|max:10',
-            'registrationType' => 'required|in:with_meals,without_meals',
-            'calculatedTotal' => 'required|numeric|min:18000',
-            'paymentMethod' => 'required|in:bank,mpesa',
-            'receiptNumber' => 'required|string|max:255',
-            'paymentProof' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
-            'contactName' => 'required|string|max:255',
-            'contactRole' => 'required|string|max:255',
-            'contactPhone' => 'required|string|max:20',
-            'contactEmail' => 'required|email|max:255',
-            'isTeamLeader' => 'required|in:yes,no',
-            'teamSize' => 'required|integer|min:1|max:20',
-            'terms' => 'required|accepted',
-        ]);
+        // $validated = $request->validate([
+        //     'organizationName' => 'required|string|max:255',
+        //     'aboutExhibition' => 'required|string|min:50',
+        //     'benefits' => 'required|string|min:50',
+        //     'boothCount' => 'required|integer|min:1|max:10',
+        //     'registrationType' => 'required|in:with_meals,without_meals',
+        //     'calculatedTotal' => 'required|numeric|min:18000',
+        //     'paymentMethod' => 'required|in:bank,mpesa',
+        //     'receiptNumber' => 'required|string|max:255',
+        //     'paymentProof' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
+        //     'contactName' => 'required|string|max:255',
+        //     'contactRole' => 'required|string|max:255',
+        //     'contactPhone' => 'required|string|max:20',
+        //     'contactEmail' => 'required|email|max:255',
+        //     'isTeamLeader' => 'required|in:yes,no',
+        //     'teamSize' => 'required|integer|min:1|max:20',
+        //     'terms' => 'required|accepted',
+        // ]);
 
         // Generate a unique reference number
         $referenceNumber = 'EXH-' . strtoupper(Str::random(8));
