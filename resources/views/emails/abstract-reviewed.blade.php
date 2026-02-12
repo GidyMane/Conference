@@ -154,10 +154,6 @@
                 Submit Full Paper
             </a>
         </p>
-
-        <p style="font-size:12px;color:#666;">
-            This link will expire in 14 days.
-        </p>
     @endif
 
 
