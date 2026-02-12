@@ -43,9 +43,7 @@ class AbstractsController extends Controller
             // Generate signed upload URL if approved
             $uploadUrl = null;
             if ($request->decision === 'APPROVED') {
-                $uploadUrl = route('full-papers.create', [
-                    'abstract' => $abstract->id
-                ]);
+                $uploadUrl = route('full-papers.create', $abstract->id);
             }
 
             // Send email

@@ -13,12 +13,9 @@ class FullPaperController extends Controller
     // PARTICIPANT UPLOAD FLOW
    
 
-    public function create(SubmittedAbstract $abstract)
+    public function create($id)
     {
-        dd([
-            'id_from_url' => $abstract->id,
-            'status_in_db' => $abstract->status,
-        ]);
+        $abstract = SubmittedAbstract::findOrFail($id);
 
         if ($abstract->status !== 'APPROVED') {
             abort(403, 'Abstract not approved.');
