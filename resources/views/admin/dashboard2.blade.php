@@ -68,7 +68,7 @@
 
     <div class="col-md-3 mb-3">
         <div class="stat-card bg-dark">
-            <h3>{{ $stats['registrations'] ?? 0 }}</h3>
+            <h3>{{ $metrics['registrationCount'] ?? 0 }}</h3>
             <p>Registrations</p>
             <i class="fas fa-users stat-card-icon"></i>
         </div>

@@ -8,6 +8,8 @@ use App\Models\AbstractAssignment;
 use App\Models\AbstractReview;
 use App\Models\AbstractCoAuthor;
 use App\Models\SubTheme;
+use App\Models\ConferenceRegistration;
+
 
 class AdminController extends Controller
 {
@@ -21,8 +23,7 @@ class AdminController extends Controller
             'pendingCount'       => SubmittedAbstract::where('status', 'pending')->count(),
             'reviewCount'        => SubmittedAbstract::where('status', 'under_review')->count(),
             'subThemeCount'      => SubTheme::count(),
-            'oralCount'          => SubmittedAbstract::where('presentation_preference', 'oral')->count(),
-            'posterCount'        => SubmittedAbstract::where('presentation_preference', 'poster')->count(),
+            'registrationCount'  => ConferenceRegistration::count(),
         ];
 
         $cards = [
@@ -33,9 +34,10 @@ class AdminController extends Controller
             ["Pending Review", $metrics['pendingCount'], "fa-clock", "pending"],
             ["Under Review", $metrics['reviewCount'], "fa-search", "review"],
             ["Sub Themes", $metrics['subThemeCount'], "fa-redo", "revision"],
-            ["Oral Presentations", $metrics['oralCount'], "fa-microphone", "total"],
-            ["Poster Presentations", $metrics['posterCount'], "fa-image", "total"]
+            ["Registrations", $metrics['registrationCount'], "fa-users", "approved"]
         ];
+
+        
 
         $chartData = [
             'status' => SubmittedAbstract::selectRaw('status, COUNT(*) as t')->groupBy('status')->get()->toArray(),
