@@ -305,7 +305,7 @@
                 <span>Manage Full Papers</span>
             </a>
             
-            <a href="#" class="menu-item {{ request()->routeIs('admin.registrations.*') ? 'active' : '' }}">
+            <a href="{{route('admin.registrations.index')}}" class="menu-item {{ request()->routeIs('admin.registrations.*') ? 'active' : '' }}">
                 <i class="fas fa-users"></i>
                 <span>Manage Registrations</span>
             </a>

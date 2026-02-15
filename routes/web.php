@@ -18,6 +18,7 @@ use App\Http\Controllers\ReviewerFullPaperController;
 use App\Http\Controllers\ConferenceRegistrationController;
 use App\Http\Controllers\ExhibitionRegistrationController;
 use App\Http\Controllers\TermsController; 
+use App\Http\Controllers\AdminRegistrationController; 
 
 /* MainController Routes */
 
@@ -205,7 +206,7 @@ Route::get('/conference/register', [ConferenceRegistrationController::class, 'sh
     ->name('conference.register.form');
 
 // Process the registration
-Route::post('/conference/register', [ConferenceRegistrationController::class, 'processRegistration'])
+Route::post('/conference/register', [ConferenceRegistrationController::class, 'store'])
     ->name('conference.register');
 
 // Terms page (if you need it)
@@ -232,5 +233,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
     
     Route::patch('/admin/exhibitions/{id}/status', [ExhibitionRegistrationController::class, 'updateStatus'])
         ->name('admin.exhibitions.updateStatus');
+
+    Route::get('/admin/registrations', [AdminRegistrationController::class, 'index'])->name('admin.registrations.index');
+    Route::get('/admin/registrations/{id}', [AdminRegistrationController::class, 'show'])->name('admin.registrations.show');
+    Route::post('/admin/registrations/{id}/approve', [AdminRegistrationController::class, 'approve'])->name('admin.registrations.approve');
+    Route::post('/admin/registrations/{id}/reject', [AdminRegistrationController::class, 'reject'])->name('admin.registrations.reject');
+    Route::get('/admin/registrations/{id}/download/{type}',[AdminRegistrationController::class, 'downloadProof'])->name('admin.registrations.downloadProof');
+
 });
 
