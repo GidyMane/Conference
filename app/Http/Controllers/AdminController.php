@@ -9,54 +9,66 @@ use App\Models\AbstractReview;
 use App\Models\AbstractCoAuthor;
 use App\Models\SubTheme;
 use App\Models\ConferenceRegistration;
+use App\Models\ExhibitionRegistration;
 
 
 class AdminController extends Controller
 {
-    public function dashboard()
-    {
-        $metrics = [
-            'totalSubmissions'   => SubmittedAbstract::count(),
-            'totalAuthors'       => AbstractCoAuthor::count(),
-            'approvedCount'      => SubmittedAbstract::where('status', 'approved')->count(),
-            'disapprovedCount'   => SubmittedAbstract::where('status', 'rejected')->count(),
-            'pendingCount'       => SubmittedAbstract::where('status', 'pending')->count(),
-            'reviewCount'        => SubmittedAbstract::where('status', 'under_review')->count(),
-            'subThemeCount'      => SubTheme::count(),
-            'registrationCount'  => ConferenceRegistration::count(),
-        ];
+   public function dashboard()
+{
+    $exhibitionCount = ExhibitionRegistration::count();
+    $registrationCount = ConferenceRegistration::count();
 
-        $cards = [
-            ["Total Submissions", $metrics['totalSubmissions'], "fa-file-alt", "total"],
-            ["Total Authors", $metrics['totalAuthors'], "fa-users", "total"],
-            ["Approved Abstracts", $metrics['approvedCount'], "fa-check-circle", "approved"],
-            ["Disapproved Abstracts", $metrics['disapprovedCount'], "fa-times-circle", "disapproved"],
-            ["Pending Review", $metrics['pendingCount'], "fa-clock", "pending"],
-            ["Under Review", $metrics['reviewCount'], "fa-search", "review"],
-            ["Sub Themes", $metrics['subThemeCount'], "fa-redo", "revision"],
-            ["Registrations", $metrics['registrationCount'], "fa-users", "approved"]
-        ];
+    $metrics = [
+        'totalSubmissions'   => SubmittedAbstract::count(),
+        'totalAuthors'       => AbstractCoAuthor::count(),
+        'approvedCount'      => SubmittedAbstract::where('status', 'approved')->count(),
+        'disapprovedCount'   => SubmittedAbstract::where('status', 'rejected')->count(),
+        'pendingCount'       => SubmittedAbstract::where('status', 'pending')->count(),
+        'reviewCount'        => SubmittedAbstract::where('status', 'under_review')->count(),
+        'subThemeCount'      => SubTheme::count(),
+        'registrationCount'  => $registrationCount,
+        'exhibitionCount'    => $exhibitionCount,
+        'fullPaperCount'     => 0, // Add this if you don't have a full papers count
+    ];
 
-        
+    $cards = [
+        ["Total Submissions", $metrics['totalSubmissions'], "fa-file-alt", "total"],
+        ["Total Authors", $metrics['totalAuthors'], "fa-users", "total"],
+        ["Approved Abstracts", $metrics['approvedCount'], "fa-check-circle", "approved"],
+        ["Disapproved Abstracts", $metrics['disapprovedCount'], "fa-times-circle", "disapproved"],
+        ["Pending Review", $metrics['pendingCount'], "fa-clock", "pending"],
+        ["Under Review", $metrics['reviewCount'], "fa-search", "review"],
+        ["Sub Themes", $metrics['subThemeCount'], "fa-redo", "revision"],
+        ["Registrations", $metrics['registrationCount'], "fa-users", "total"],
+        ["Exhibitions", $metrics['exhibitionCount'], "fa-store", "total"]
+    ];
 
-        $chartData = [
-            'status' => SubmittedAbstract::selectRaw('status, COUNT(*) as t')->groupBy('status')->get()->toArray(),
-            'subTheme' => SubmittedAbstract::selectRaw('sub_theme_id, COUNT(*) as t')->groupBy('sub_theme_id')->get()->toArray(),
-            'presentation' => SubmittedAbstract::selectRaw('presentation_preference, COUNT(*) as t')->groupBy('presentation_preference')->get()->toArray(),
-            'attendance' => SubmittedAbstract::selectRaw('attendance_mode, COUNT(*) as t')->groupBy('attendance_mode')->get()->toArray(),
-            'dates' => SubmittedAbstract::selectRaw('DATE(created_at) as d, COUNT(*) as t')->groupBy('d')->get()->toArray(),
-           
-        ];
+    $chartData = [
+        'status' => SubmittedAbstract::selectRaw('status, COUNT(*) as t')->groupBy('status')->get()->toArray(),
+        'subTheme' => SubmittedAbstract::selectRaw('sub_theme_id, COUNT(*) as t')->groupBy('sub_theme_id')->get()->toArray(),
+        'presentation' => SubmittedAbstract::selectRaw('presentation_preference, COUNT(*) as t')->groupBy('presentation_preference')->get()->toArray(),
+        'attendance' => SubmittedAbstract::selectRaw('attendance_mode, COUNT(*) as t')->groupBy('attendance_mode')->get()->toArray(),
+        'dates' => SubmittedAbstract::selectRaw('DATE(created_at) as d, COUNT(*) as t')->groupBy('d')->get()->toArray(),
+        'subthemes' => [], // Add your subtheme data here
+        'submissions' => [], // Add your submissions data here
+        'full_names' => [], // Add your full names data here
+    ];
 
-        $recentSubmissionsData = SubmittedAbstract::latest()
-            ->take(5)
-            ->get(['paper_title', 'submission_code', 'status', 'created_at'])
-            ->toArray(); 
+    $recentAbstracts = SubmittedAbstract::latest()
+        ->take(5)
+        ->get(['submission_code', 'paper_title', 'status', 'created_at']);
 
-       $totalSubmissions = SubmittedAbstract::count();
+    $totalSubmissions = SubmittedAbstract::count();
 
-        return view('admin.dashboard', compact('metrics', 'cards', 'recentSubmissionsData', 'chartData', 'totalSubmissions'));
-    }
+    return view('admin.dashboard', compact(
+        'metrics', 
+        'cards', 
+        'recentAbstracts', 
+        'chartData', 
+        'totalSubmissions'
+    ));
+}
     public function abstracts(Request $request)
 {
     $sub_themes = SubTheme::all();

@@ -85,7 +85,7 @@
 
                     <!-- Action Buttons -->
                     <div class="action-buttons">
-                        <a href="" class="btn btn-primary btn-lg">
+                        <a href="{{route('index')}}" class="btn btn-primary btn-lg">
                             <i class="bi bi-house-door me-2"></i>
                             Back to Homepage
                         </a>

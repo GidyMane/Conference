@@ -267,7 +267,6 @@
     <!-- MAIN CONTENT -->
     <main class="main">
         <h1 class="page-title">Conference Intelligence Overview</h1>
-        
         <!-- METRICS SECTION -->
         <div class="row g-4 mb-5">
             @php
@@ -279,7 +278,9 @@
                     ["Under Review", $metrics['reviewCount'], "fa-search", "under_review"],
                     ["Sub Themes", $metrics['subThemeCount'], "fa-redo", "revision"],
                     ["Oral Presentations", $metrics['oralCount'], "fa-microphone", "total"],
-                    ["Poster Presentations", $metrics['posterCount'], "fa-image", "total"]
+                    ["Poster Presentations", $metrics['posterCount'], "fa-image", "total"],
+                    ["Registrations", $metrics['registrationCount'], "fa-users", "total"],
+                    ["Exhibitions", $metrics['exhibitionCount'], "fa-store", "total"]
                 ];
             @endphp
 

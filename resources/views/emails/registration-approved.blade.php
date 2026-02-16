@@ -1,168 +1,180 @@
+{{-- resources/views/emails/conference-ticket.blade.php --}}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conference Ticket</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f4f6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
         }
-
-        .wrapper {
-            width: 100%;
-            padding: 30px 0;
-        }
-
-        .ticket {
+        .email-container {
             max-width: 600px;
-            margin: 0 auto;
-            background: #ffffff;
+            margin: 20px auto;
+            background: white;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-
-        .ticket-header {
-            background: linear-gradient(135deg, #1e7e34, #28a745);
+        .header {
+            background: linear-gradient(135deg, #1a5f3a 0%, #0d3d25 100%);
             color: white;
-            padding: 25px;
+            padding: 30px;
             text-align: center;
         }
-
-        .ticket-header h1 {
+        .header h1 {
             margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+        }
+        .header p {
+            margin: 10px 0 0;
+            opacity: 0.9;
+            font-size: 16px;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .content h2 {
+            color: #1a5f3a;
+            margin-top: 0;
             font-size: 22px;
         }
-
-        .ticket-header p {
-            margin: 5px 0 0;
-            font-size: 14px;
-            opacity: 0.9;
-        }
-
-        .ticket-body {
-            padding: 25px;
-        }
-
         .ticket-number {
-            text-align: center;
-            background: #f8f9fa;
+            background: #1a5f3a;
+            color: white;
             padding: 20px;
             border-radius: 10px;
+            text-align: center;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin: 25px 0;
+        }
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
             margin: 20px 0;
         }
-
-        .ticket-number span {
-            display: block;
-            font-size: 13px;
-            color: #666;
-            margin-bottom: 5px;
+        .details-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
         }
-
-        .ticket-number strong {
-            font-size: 26px;
-            color: #28a745;
-            letter-spacing: 2px;
+        .details-table td:first-child {
+            font-weight: 600;
+            color: #555;
+            width: 40%;
         }
-
-        .details {
-            margin-top: 20px;
+        .details-table td:last-child {
+            color: #1a5f3a;
+            font-weight: 500;
         }
-
-        .details p {
-            margin: 8px 0;
+        .status-badge {
+            background: #28a745;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
             font-size: 14px;
+            font-weight: 600;
+            display: inline-block;
         }
-
-        .divider {
-            margin: 25px 0;
-            border-top: 2px dashed #ccc;
-        }
-
-        .footer {
-            background: #f8f9fa;
+        .info-box {
+            background: #f8faf8;
+            border-left: 4px solid #1a5f3a;
             padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .footer {
+            background: #f8faf8;
+            padding: 25px 30px;
             text-align: center;
-            font-size: 12px;
-            color: #777;
-        }
-
-        .highlight {
-            color: #28a745;
-            font-weight: bold;
-        }
-
-        .emoji {
-            font-size: 18px;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #e0e0e0;
         }
     </style>
 </head>
 <body>
 
-<div class="wrapper">
-    <div class="ticket">
+<div class="email-container">
 
-        <!-- HEADER -->
-        <div class="ticket-header">
-            <h1>🎟 2nd KALRO Scientific Conference & Exhibition</h1>
-            <p>Registration Approved</p>
+    <div class="header">
+        <h1>🎟 Conference Ticket Confirmed</h1>
+        <p>2nd KALRO Scientific Conference & Exhibition</p>
+    </div>
+
+    <div class="content">
+
+        <h2>Registration Approved 🎉</h2>
+
+        <p>Dear <strong>{{ $registration->first_name }}</strong>,</p>
+
+        <p>
+            Your payment has been successfully verified and your conference
+            registration is now officially confirmed.
+        </p>
+
+        <!-- Ticket Number -->
+        <div class="ticket-number">
+            {{ $registration->ticket_number }}
         </div>
 
-        <!-- BODY -->
-        <div class="ticket-body">
+        <p style="text-align:center; margin-top:-15px;">
+            Please present this ticket number at the entrance.
+        </p>
 
-            <p>Dear <strong>{{ $registration->first_name }}</strong>,</p>
+        <!-- Details -->
+        <div class="info-box">
+            <h3>📋 Ticket Details</h3>
 
-            <p>
-                🎉 Your payment has been successfully verified.
-                Your official conference ticket is confirmed!
-            </p>
-
-            <!-- Ticket Number Section -->
-            <div class="ticket-number">
-                <span>Your Official Ticket Number</span>
-                <strong>{{ $registration->ticket_number }}</strong>
-            </div>
-
-            <div class="details">
-                <p><strong>Attendee:</strong> {{ $registration->first_name }} {{ $registration->last_name }}</p>
-                <p><strong>Email:</strong> {{ $registration->email }}</p>
-                <p><strong>Category:</strong> {{ $registration->category ?? 'Conference Registration' }}</p>
-                <p><strong>Status:</strong> <span class="highlight">Confirmed</span></p>
-                <p><strong>Approval Date:</strong> {{ now()->format('F j, Y') }}</p>
-            </div>
-
-            <div class="divider"></div>
-
-            <p>
-                📌 <strong>Important:</strong><br>
-                Please present this ticket number at the conference entrance.
-                Keep this email for verification.
-            </p>
-
-            <p>
-                We look forward to welcoming you to the conference.
-                See you soon!
-            </p>
-
-            <p>
-                Best regards,<br>
-                <strong>KALRO Conference Committee</strong><br>
-                kalroconference2026@gmail.com
-            </p>
-
+            <table class="details-table">
+                <tr>
+                    <td>Attendee:</td>
+                    <td>{{ $registration->first_name }} {{ $registration->last_name }}</td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td>{{ $registration->email }}</td>
+                </tr>
+                <tr>
+                    <td>Category:</td>
+                    <td>{{ $registration->category ?? 'Conference Registration' }}</td>
+                </tr>
+                <tr>
+                    <td>Status:</td>
+                    <td><span class="status-badge">Confirmed</span></td>
+                </tr>
+                <tr>
+                    <td>Approval Date:</td>
+                    <td>{{ now()->format('F j, Y') }}</td>
+                </tr>
+            </table>
         </div>
 
-        <!-- FOOTER -->
-        <div class="footer">
-            This is an automated email. Please do not reply.<br>
-            © {{ date('Y') }} 2nd KALRO Scientific Conference & Exhibition
-        </div>
+        <p>
+            📌 <strong>Important:</strong> Keep this email safe.
+            Your ticket number will be required for badge collection.
+        </p>
+
+        <p>
+            We look forward to welcoming you to the conference.
+        </p>
 
     </div>
+
+    <div class="footer">
+        <strong>KALRO Conference Committee</strong><br>
+        kalroconference2026@gmail.com<br><br>
+        © {{ date('Y') }} 2nd KALRO Scientific Conference & Exhibition
+    </div>
+
 </div>
 
 </body>

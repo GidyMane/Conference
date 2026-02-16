@@ -225,20 +225,20 @@ Route::get('/exhibition/success', [ExhibitionRegistrationController::class, 'sho
 
 // Optional: Admin routes (protect with auth middleware)
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin/exhibitions', [ExhibitionRegistrationController::class, 'index'])
-        ->name('admin.exhibitions.index');
-    
-    Route::get('/admin/exhibitions/{id}', [ExhibitionRegistrationController::class, 'show'])
-        ->name('admin.exhibitions.show');
-    
-    Route::patch('/admin/exhibitions/{id}/status', [ExhibitionRegistrationController::class, 'updateStatus'])
-        ->name('admin.exhibitions.updateStatus');
-
     Route::get('/admin/registrations', [AdminRegistrationController::class, 'index'])->name('admin.registrations.index');
     Route::get('/admin/registrations/{id}', [AdminRegistrationController::class, 'show'])->name('admin.registrations.show');
     Route::post('/admin/registrations/{id}/approve', [AdminRegistrationController::class, 'approve'])->name('admin.registrations.approve');
     Route::post('/admin/registrations/{id}/reject', [AdminRegistrationController::class, 'reject'])->name('admin.registrations.reject');
     Route::get('/admin/registrations/{id}/download/{type}',[AdminRegistrationController::class, 'downloadProof'])->name('admin.registrations.downloadProof');
 
+});
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/exhibitions', [ExhibitionRegistrationController::class, 'index'])->name('exhibitions.index');
+    Route::get('/exhibitions/{id}', [ExhibitionRegistrationController::class, 'show'])->name('exhibitions.show');
+    Route::post('/exhibitions/{id}/approve', [ExhibitionRegistrationController::class, 'approve'])->name('exhibitions.approve');
+    Route::post('/exhibitions/{id}/reject', [ExhibitionRegistrationController::class, 'reject'])->name('exhibitions.reject');
+    Route::get('/exhibitions/{id}/download-proof', [ExhibitionRegistrationController::class, 'downloadProof'])->name('exhibitions.downloadProof');
+    Route::post('/exhibitions/{id}/resend-email', [ExhibitionRegistrationController::class, 'resendApprovalEmail'])->name('exhibitions.resend-email');
 });
 

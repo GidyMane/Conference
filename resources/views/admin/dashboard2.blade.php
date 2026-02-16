@@ -76,7 +76,7 @@
 
     <div class="col-md-3 mb-3">
         <div class="stat-card" style="background:#6f42c1;">
-            <h3>{{ $stats['exhibitions'] ?? 0 }}</h3>
+            <h3>{{ $metrics['exhibitionCount'] ?? 0 }}</h3>
             <p>Exhibitions</p>
             <i class="fas fa-store stat-card-icon"></i>
         </div>

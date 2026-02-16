@@ -310,7 +310,7 @@
                 <span>Manage Registrations</span>
             </a>
             
-            <a href="#" class="menu-item {{ request()->routeIs('admin.exhibitions.*') ? 'active' : '' }}">
+            <a href="{{route('admin.exhibitions.index')}}" class="menu-item {{ request()->routeIs('admin.exhibitions.*') ? 'active' : '' }}">
                 <i class="fas fa-store"></i>
                 <span>Manage Exhibitions</span>
             </a>
