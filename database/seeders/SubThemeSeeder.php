@@ -95,6 +95,11 @@ class SubThemeSeeder extends Seeder
                 'form_field_value' => 'agribusiness',
                 'full_name' => 'Agribusiness, Financing, Policy, Adoption, and Socio-Economic Dimensions',
             ],
+            [
+                'code' => 18,
+                'form_field_value' => 'testTheme',
+                'full_name' => 'Test SubTheme for Developer',
+            ],
         ];
 
         foreach ($subThemes as $subTheme) {
