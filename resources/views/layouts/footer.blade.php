@@ -23,11 +23,13 @@
             <div class="col-lg-2 col-md-6 mb-4">
                 <h5 class="text-uppercase mb-4">Quick Links</h5>
                 <ul class="list-unstyled">
-                    <li class="mb-2"><a href="/" class="text-white-50">Home</a></li>
-                    <li class="mb-2"><a href="/about" class="text-white-50">About</a></li>
-                    <li class="mb-2"><a href="/conference-theme" class="text-white-50">Conference Theme</a></li>
-                    <li class="mb-2"><a href="/conference-procedure" class="text-white-50">Procedure</a></li>
-                    <li class="mb-2"><a href="/submit-abstract" class="text-white-50">Submit Abstract</a></li>
+                    <li class="mb-2"><a href="/" class="text-white-50"><i class="fas fa-home me-1"></i>Home</a></li>
+                    <li class="mb-2"><a href="/about" class="text-white-50"><i class="fas fa-info-circle me-1"></i>About</a></li>
+                    <li class="mb-2"><a href="/conference-theme" class="text-white-50"><i class="fas fa-book-open me-1"></i>Conference Theme</a></li>
+                    <li class="mb-2"><a href="/conference-procedure" class="text-white-50"><i class="fas fa-tasks me-1"></i>Procedure</a></li>
+                    <li class="mb-2"><a href="/submit-abstract" class="text-white-50"><i class="fas fa-paper-plane me-1"></i>Submit Abstract</a></li>
+                    <li class="mb-2"><a href="/conference/register" class="text-white-50"><i class="fas fa-user-plus me-1"></i>Register as Participant</a></li>
+                    <li class="mb-2"><a href="/exhibition/register" class="text-white-50"><i class="fas fa-handshake me-1"></i>Become an Exhibitor</a></li>
                 </ul>
             </div>
 
@@ -42,7 +44,7 @@
                     
                     <li>
                         <small>Conference Dates:</small><br>
-                        <span class="text-success"> 18th to 22nd May 2026.</span>
+                        <span class="text-success">18th to 22nd May 2026</span>
                     </li>
                 </ul>
             </div>
@@ -95,66 +97,60 @@
 
 <!-- Custom JavaScript -->
 <script>
-// Back to Top Button
-const backToTop = document.getElementById('backToTop');
-window.addEventListener('scroll', () => {
-    if (window.pageYOffset > 300) {
-        backToTop.classList.add('visible');
-    } else {
-        backToTop.classList.remove('visible');
-    }
-});
+    // Back to Top Button
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            backToTop.classList.add('visible');
+        } else {
+            backToTop.classList.remove('visible');
+        }
+    });
 
-backToTop.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-});
+    backToTop.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 
-// Initialize all tooltips
-var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl)
-});
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
 
-// Carousel auto-play
-document.addEventListener('DOMContentLoaded', function() {
-    const myCarousel = document.getElementById('mainCarousel');
-    if (myCarousel) {
-        const carousel = new bootstrap.Carousel(myCarousel, {
-            interval: 5000,
-            wrap: true
-        });
-    }
-});
+    // Carousel auto-play
+    document.addEventListener('DOMContentLoaded', function() {
+        const myCarousel = document.getElementById('mainCarousel');
+        if (myCarousel) {
+            const carousel = new bootstrap.Carousel(myCarousel, {
+                interval: 5000,
+                wrap: true
+            });
+        }
+    });
 
-// Navbar scroll effect
-window.addEventListener('scroll', function() {
-    const navbar = document.querySelector('.kalro-nav');
-    if (window.scrollY > 100) {
-        navbar.classList.add('navbar-scrolled');
-    } else {
-        navbar.classList.remove('navbar-scrolled');
-    }
-});
-</script>
+    // Navbar scroll effect
+    window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.kalro-nav');
+        if (window.scrollY > 100) {
+            navbar.classList.add('navbar-scrolled');
+        } else {
+            navbar.classList.remove('navbar-scrolled');
+        }
+    });
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Add hover effect to objective cards
-    const objectiveCards = document.querySelectorAll('.objective-card');
-    objectiveCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-10px)';
-            this.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
-        });
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-            this.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
+    // Objective cards hover effect
+    document.addEventListener('DOMContentLoaded', function() {
+        const objectiveCards = document.querySelectorAll('.objective-card');
+        objectiveCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px)';
+                this.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
+            });
         });
     });
-});
 </script>
-
-
-</body>
-</html>
