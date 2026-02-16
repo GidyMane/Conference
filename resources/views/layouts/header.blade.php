@@ -23,17 +23,33 @@
     <link rel="stylesheet" href="/assets/css/style.css">
 
     <style>
-        /* =========================
-           NAVIGATION STYLING
-        ========================== */
+        /* ================================
+           NAVBAR CLEAN PROFESSIONAL STYLE
+        ================================= */
 
-        .navbar .nav-link {
-            position: relative;
-            padding: 10px 15px;
-            font-weight: 500;
+        .navbar {
+            background: linear-gradient(135deg, #198754 0%, #146c43 100%);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
         }
 
-        /* Small underline effect */
+        /* Make ALL nav links white */
+        .navbar .nav-link,
+        .navbar .navbar-brand,
+        .navbar .dropdown-toggle {
+            color: #ffffff !important;
+            position: relative;
+            font-weight: 500;
+            padding: 10px 15px;
+        }
+
+        /* Remove bootstrap hover background */
+        .navbar .nav-link:hover,
+        .navbar .nav-link:focus {
+            color: #ffffff !important;
+            background: transparent !important;
+        }
+
+        /* Underline effect */
         .navbar .nav-link::after {
             content: "";
             position: absolute;
@@ -42,7 +58,7 @@
             width: 0%;
             height: 3px;
             background-color: #ffc107;
-            transition: 0.3s ease;
+            transition: width 0.3s ease;
         }
 
         /* Hover underline */
@@ -55,6 +71,9 @@
             width: 100%;
         }
 
+        /* ================================
+           DROPDOWN CLEAN FIX
+        ================================= */
 
         .dropdown-menu {
             border-radius: 8px;
@@ -62,23 +81,22 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
+        /* Clean dropdown items */
         .dropdown-item {
-            transition: 0.2s ease;
             font-weight: 500;
+            color: #212529;
+            background: transparent;
         }
 
-
-        .dropdown-item:hover,
-        .dropdown-item:focus {
-            background-color: #e9f7ef !important;  /* light green */
-            color: #198754 !important;             /* green text */
+        .dropdown-item:hover {
+            background-color: #e9f7ef !important;
+            color: #198754 !important;
         }
 
-   
-        .dropdown-item.active,
-        .dropdown-item:active {
-            background-color: #d1e7dd !important;  /* soft green */
-            color: #146c43 !important;
+        /* Remove blue active background */
+        .dropdown-item.active {
+            background: transparent !important;
+            color: #198754 !important;
             font-weight: 600;
         }
 
@@ -152,8 +170,7 @@
     </header>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark"
-         style="background: linear-gradient(135deg, #198754 0%, #146c43 100%); box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);">
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
@@ -163,18 +180,21 @@
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="navbar-nav me-auto">
 
+                    <!-- Home -->
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" href="/">
                             <i class="fas fa-home me-1"></i> Home
                         </a>
                     </li>
 
+                    <!-- About -->
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is('about') ? 'active' : '' }}" href="/about">
                             <i class="fas fa-info-circle me-1"></i> About Conference
                         </a>
                     </li>
 
+                    <!-- Conference Dropdown -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle 
                            {{ Request::is('conference*') || Request::is('exhibition*') ? 'active' : '' }}"
@@ -186,36 +206,38 @@
                             <li>
                                 <a class="dropdown-item {{ Request::is('conference-theme') ? 'active' : '' }}"
                                    href="/conference-theme">
-                                   Conference Theme
+                                   <i class="fas fa-book-open me-1"></i> Conference Theme
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item {{ Request::is('conference-procedure') ? 'active' : '' }}"
                                    href="/conference-procedure">
-                                   Conference Procedure
+                                   <i class="fas fa-tasks me-1"></i> Conference Procedure
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item {{ Request::is('conference/register') ? 'active' : '' }}"
                                    href="/conference/register">
-                                   Register as Participant
+                                   <i class="fas fa-user-plus me-1"></i> Register as Participant
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item {{ Request::is('exhibition/register') ? 'active' : '' }}"
                                    href="/exhibition/register">
-                                   Become an Exhibitor
+                                   <i class="fas fa-handshake me-1"></i> Become an Exhibitor
                                 </a>
                             </li>
                         </ul>
                     </li>
 
+                    <!-- Submit Abstract -->
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is('submit-abstract') ? 'active' : '' }}" href="/submit-abstract">
                             <i class="fas fa-paper-plane me-1"></i> Submit Abstract
                         </a>
                     </li>
 
+                    <!-- Contact -->
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is('contact') ? 'active' : '' }}" href="/contact">
                             <i class="fas fa-envelope me-1"></i> Contact Us
@@ -234,12 +256,14 @@
         </div>
     </nav>
 
+    <!-- Main Content -->
     <main class="main-content">
         @yield('content')
     </main>
 
     @include('layouts.footer')
 
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
