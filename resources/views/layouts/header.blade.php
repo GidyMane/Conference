@@ -55,9 +55,6 @@
             width: 100%;
         }
 
-        /* =========================
-           REMOVE BLUE DROPDOWN
-        ========================== */
 
         .dropdown-menu {
             border-radius: 8px;
@@ -70,14 +67,14 @@
             font-weight: 500;
         }
 
-        /* Remove Bootstrap blue hover */
+
         .dropdown-item:hover,
         .dropdown-item:focus {
             background-color: #e9f7ef !important;  /* light green */
             color: #198754 !important;             /* green text */
         }
 
-        /* Remove Bootstrap blue active */
+   
         .dropdown-item.active,
         .dropdown-item:active {
             background-color: #d1e7dd !important;  /* soft green */
