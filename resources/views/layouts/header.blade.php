@@ -6,7 +6,7 @@
     <title>KALRO Conference | @yield('title')</title>
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content=" - Join Kenya's premier agricultural research conference for knowledge exchange and networking.">
+    <meta name="description" content="Join Kenya's premier agricultural research conference for knowledge exchange and networking.">
     <meta name="keywords" content="2nd KALRO Scientific Conference and Exhibition, Agriculture, Research, Kenya">
     <meta name="author" content="KALRO">
     
@@ -21,11 +21,84 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/assets/css/style.css">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+
+    <style>
+        /* =========================
+           NAVIGATION STYLING
+        ========================== */
+
+        .navbar .nav-link {
+            position: relative;
+            padding: 10px 15px;
+            font-weight: 500;
+        }
+
+        /* Small underline effect */
+        .navbar .nav-link::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0%;
+            height: 3px;
+            background-color: #ffc107;
+            transition: 0.3s ease;
+        }
+
+        /* Hover underline */
+        .navbar .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Active underline */
+        .navbar .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* =========================
+           REMOVE BLUE DROPDOWN
+        ========================== */
+
+        .dropdown-menu {
+            border-radius: 8px;
+            border: none;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .dropdown-item {
+            transition: 0.2s ease;
+            font-weight: 500;
+        }
+
+        /* Remove Bootstrap blue hover */
+        .dropdown-item:hover,
+        .dropdown-item:focus {
+            background-color: #e9f7ef !important;  /* light green */
+            color: #198754 !important;             /* green text */
+        }
+
+        /* Remove Bootstrap blue active */
+        .dropdown-item.active,
+        .dropdown-item:active {
+            background-color: #d1e7dd !important;  /* soft green */
+            color: #146c43 !important;
+            font-weight: 600;
+        }
+
+        /* Dropdown auto open on hover (desktop only) */
+        @media (min-width: 992px) {
+            .navbar .dropdown:hover .dropdown-menu {
+                display: block;
+                margin-top: 0;
+            }
+        }
+    </style>
+
+    <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
 </head>
+
 <body>
+
     <!-- Top Announcement Bar -->
     <div class="announcement-bar bg-dark text-white py-2">
         <div class="container">
@@ -48,97 +121,129 @@
         </div>
     </div>
 
-    <!-- Main Header -->
+    <!-- Header -->
     <header class="header-area">
         <div class="container">
             <div class="row align-items-center py-3">
-                <!-- Logo Column -->
+
                 <div class="col-lg-1 col-md-4 col-6">
-                    <div class="logo">
-                        <a href="/">
-                            <img src="/assets/images/kalro-logo.gif" alt="KALRO Logo" class="img-fluid kalro-logo">
+                    <a href="/">
+                        <img src="/assets/images/kalro-logo.gif" alt="KALRO Logo" class="img-fluid">
+                    </a>
+                </div>
+
+                <div class="col-lg-7 col-md-4 d-none d-md-block">
+                    <h1 class="h4 mb-1">2nd KALRO Scientific Conference and Exhibition</h1>
+                    <p class="mb-0 text-muted">Strengthening Agricultural Innovation Systems</p>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-6 text-end">
+                    <div>
+                        <i class="fas fa-phone-alt me-2"></i>
+                        <a href="tel:+254800721741" class="text-decoration-none">0800 721741</a>
+                    </div>
+                    <div>
+                        <i class="fas fa-envelope me-2"></i>
+                        <a href="mailto:kalroconference2026@gmail.com" class="text-decoration-none">
+                            kalroconference2026@gmail.com
                         </a>
                     </div>
                 </div>
-                
-                <!-- Title Column -->
-                <div class="col-lg-7 col-md-4 d-none d-md-block">
-                    <div class="conference-title">
-                        <h1 class="h4 mb-1">2nd KALRO Scientific Conference and Exhibition</h1>
-                        <p class="mb-0 text-muted">Strengthening Agricultural Innovation Systems</p>
-                    </div>
-                </div>
-                
-                <!-- Contact Column -->
-                <div class="col-lg-4 col-md-4 col-6">
-                    <div class="contact-info text-end">
-                        <div class="contact-item mb-1">
-                            <i class="fas fa-phone-alt me-2"></i>
-                            <a href="tel:+254800721741" class="text-decoration-none">0800 721741</a>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-envelope me-2"></i>
-                            <a href="mailto:kalroconference2026@gmail.com" class="text-decoration-none">kalroconference2026@gmail.com</a>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </header>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark kalro-nav" style="background: linear-gradient(135deg, #198754 0%, #146c43 100%) !important; box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);">
+    <nav class="navbar navbar-expand-lg navbar-dark"
+         style="background: linear-gradient(135deg, #198754 0%, #146c43 100%); box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);">
         <div class="container">
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="navbar-nav me-auto">
+
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" href="/">
                             <i class="fas fa-home me-1"></i> Home
                         </a>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is('about') ? 'active' : '' }}" href="/about">
                             <i class="fas fa-info-circle me-1"></i> About Conference
                         </a>
                     </li>
+
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <a class="nav-link dropdown-toggle 
+                           {{ Request::is('conference*') || Request::is('exhibition*') ? 'active' : '' }}"
+                           href="#" role="button" data-bs-toggle="dropdown">
                             <i class="fas fa-bullseye me-1"></i> Conference
                         </a>
+
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/conference-theme">Conference Theme</a></li>
-                            <li><a class="dropdown-item" href="/conference-procedure">Conference Procedure</a></li>
+                            <li>
+                                <a class="dropdown-item {{ Request::is('conference-theme') ? 'active' : '' }}"
+                                   href="/conference-theme">
+                                   Conference Theme
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item {{ Request::is('conference-procedure') ? 'active' : '' }}"
+                                   href="/conference-procedure">
+                                   Conference Procedure
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item {{ Request::is('conference/register') ? 'active' : '' }}"
+                                   href="/conference/register">
+                                   Register as Participant
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item {{ Request::is('exhibition/register') ? 'active' : '' }}"
+                                   href="/exhibition/register">
+                                   Become an Exhibitor
+                                </a>
+                            </li>
                         </ul>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is('submit-abstract') ? 'active' : '' }}" href="/submit-abstract">
                             <i class="fas fa-paper-plane me-1"></i> Submit Abstract
                         </a>
                     </li>
-                    
+
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is('contact') ? 'active' : '' }}" href="/contact">
                             <i class="fas fa-envelope me-1"></i> Contact Us
                         </a>
                     </li>
+
                 </ul>
-                
-                <!-- Register Button -->
+
                 <div class="d-flex">
-                    <a href="/submit-abstract" class="btn btn-warning btn-sm">
-                        <i class="fas fa-user-plus me-1"></i> Submit Abstract Now
+                    <a href="/conference/register" class="btn btn-warning btn-sm">
+                        <i class="fas fa-user-plus me-1"></i> Register Now
                     </a>
                 </div>
+
             </div>
         </div>
     </nav>
 
-    <!-- Main Content Container -->
     <main class="main-content">
         @yield('content')
+    </main>
 
-@extends('layouts.footer')
+    @include('layouts.footer')
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
