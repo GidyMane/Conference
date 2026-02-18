@@ -337,50 +337,6 @@
         </div>
     </div>
 </div>
-
-<!-- Assign Abstracts Modal -->
-<div class="modal fade" id="assignAbstractsModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Assign Abstracts to Reviewer</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <form id="assignAbstractsForm">
-                <input type="hidden" name="reviewer_id" id="assignReviewerId">
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label">Reviewer</label>
-                        <input type="text" class="form-control" id="assignReviewerName" readonly>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label class="form-label">Sub-theme</label>
-                        <input type="text" class="form-control" id="assignReviewerSubtheme" readonly>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label class="form-label">Select Abstracts *</label>
-                        <div class="border rounded p-3" style="max-height: 300px; overflow-y: auto;">
-                            <div id="availableAbstracts">
-                                <!-- Will be populated dynamically -->
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle me-2"></i>
-                        Only abstracts from the reviewer's sub-theme that are not currently assigned will be shown.
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-kalro-primary">Assign Selected</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 @endsection
 
 @section('scripts')
@@ -425,40 +381,6 @@
                 alert('User created successfully');
 
                 // optionally append row dynamically instead of reload
-            }
-        });
-    });
-
-    document.getElementById('assignAbstractsForm')?.addEventListener('submit', function(e) {
-        e.preventDefault(); // Prevent normal form submission
-
-        const formData = new FormData(this);
-
-        fetch('{{ route("admin.users.assign-abstracts") }}', {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                'Accept': 'application/json'
-            },
-            body: formData
-        })
-        .then(async response => {
-            if (!response.ok) {
-                const err = await response.json();
-                const message = err?.message || (err?.errors ? Object.values(err.errors).flat().join('\n') : 'Something went wrong');
-                alert(message);
-                return;
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                alert(data.message || 'Abstracts assigned successfully.');
-                // Hide modal
-                const modalEl = document.getElementById('assignAbstractsModal');
-                const modal = bootstrap.Modal.getInstance(modalEl);
-                modal.hide();
-                location.reload(); // or update table dynamically
             }
         });
     });

@@ -300,7 +300,7 @@
                 <span>Manage Abstracts</span>
             </a>
             
-            <a href="{{route('fullpapers.index')}}" class="menu-item {{ request()->routeIs('admin.fullpapers.*') ? 'active' : '' }}">
+            <a href="{{route('admin.fullpapers.index')}}" class="menu-item {{ request()->routeIs('admin.fullpapers.index') ? 'active' : '' }}">
                 <i class="fas fa-file-pdf"></i>
                 <span>Manage Full Papers</span>
             </a>
@@ -315,7 +315,7 @@
                 <span>Manage Exhibitions</span>
             </a>
             
-            <a href="{{route('admin.reviewers.create')}}" class="menu-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+            <a href="{{route('admin.reviewers.create')}}" class="menu-item {{ request()->routeIs('admin.reviewers.*') ? 'active' : '' }}">
                 <i class="fas fa-user-shield"></i>
                 <span>Manage Users</span>
             </a>

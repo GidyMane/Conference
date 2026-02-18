@@ -164,7 +164,7 @@
         <h5 class="mb-0"><i class="fas fa-filter me-2"></i>Filters</h5>
     </div>
     <div class="card-body">
-        <form method="GET" action="{{ route('fullpapers.index') }}">
+        <form method="GET" action="{{ route('admin.fullpapers.index') }}">
             <div class="row g-3">
                 <div class="col-md-3">
                     <label class="form-label">Status</label>

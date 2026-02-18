@@ -166,7 +166,7 @@
                 <button type="button"
                         class="btn btn-success w-100"
                         id="sendFeedbackBtn"
-                        data-url="{{ route('abstracts.review') }}">
+                        data-url="{{ route('reviewer.review') }}">
                     <i class="fas fa-paper-plane me-1"></i> Send Feedback
                 </button>
 

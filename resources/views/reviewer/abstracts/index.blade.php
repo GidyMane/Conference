@@ -185,10 +185,6 @@
                                     data-review-decision="{{ $abstract->latestReview?->decision ?? '' }}">
                                     <i class="fas fa-eye"></i>
                                 </button>
-
-                                <button class="btn btn-success" onclick="downloadAbstract({{ $abstract->id }})">
-                                    <i class="fas fa-download"></i>
-                                </button>
                             </div>
                         </td>
                     </tr>
