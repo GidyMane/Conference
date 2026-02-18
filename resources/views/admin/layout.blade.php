@@ -348,30 +348,13 @@
                 <h5 class="mb-0">@yield('page-title', 'Dashboard')</h5>
             </div>
             
-            <div class="user-menu">
+            <div class="user-menu">        
                 <div class="dropdown">
-                    <button class="btn btn-link dropdown-toggle" type="button" id="notificationDropdown" data-bs-toggle="dropdown">
-                        <i class="fas fa-bell"></i>
-                        <span class="badge bg-danger badge-sm">3</span>
+                    <button class="btn btn-link dropdown-toggle d-flex align-items-center gap-2" type="button" id="userDropdown" data-bs-toggle="dropdown" style="text-decoration:none;">
+                        <div class="user-avatar">{{ strtoupper(substr(Auth::user()->full_name ?? 'A', 0, 1)) }}</div>
+                        <span class="d-none d-md-inline" style="text-decoration:none; color:#198754;">{{ Auth::user()->full_name ?? 'Admin' }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><h6 class="dropdown-header">Notifications</h6></li>
-                        <!-- <li><a class="dropdown-item" href="#">New abstract submission</a></li> -->
-                        <li><a class="dropdown-item" href="#">Review completed</a></li>
-                        <li><a class="dropdown-item" href="#">New registration</a></li>
-                    </ul>
-                </div>
-                
-                <div class="dropdown">
-                    <button class="btn btn-link dropdown-toggle d-flex align-items-center gap-2" type="button" id="userDropdown" data-bs-toggle="dropdown">
-                        <div class="user-avatar">{{ strtoupper(substr(Auth::user()->name ?? 'A', 0, 1)) }}</div>
-                        <span class="d-none d-md-inline">{{ Auth::user()->name ?? 'Admin' }}</span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <!-- <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profile</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Settings</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li> -->
                             <a class="dropdown-item" href="{{route('admin.logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i class="fas fa-sign-out-alt me-2"></i>Logout
                             </a>
