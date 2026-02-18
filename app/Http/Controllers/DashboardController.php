@@ -11,6 +11,8 @@ use App\Models\AbstractCoAuthor;
 use App\Models\SubTheme;
 use App\Models\FullPaper;
 use Illuminate\Support\Facades\DB;
+use App\Models\ConferenceRegistration;
+use App\Models\ExhibitionRegistration;
 
 class DashboardController extends Controller
 {
@@ -23,6 +25,8 @@ class DashboardController extends Controller
             'pendingCount'     => SubmittedAbstract::where('status', 'pending')->count(),
             'reviewCount'      => SubmittedAbstract::where('status', 'under_review')->count(),
             'fullPaperCount'   => FullPaper::count(),
+            'registrationCount'  => ConferenceRegistration::count(),
+            'exhibitionCount'    => ExhibitionRegistration::count(),
         ];
 
         // 🔹 Sub-theme distribution (REAL DATA)
