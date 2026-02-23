@@ -184,3 +184,46 @@ Route::prefix('reviewer')
         });
 });
 
+
+
+
+// Reviewer/Sub-Theme Leader Routes (NO AUTH)
+Route::prefix('reviewer')->group(function () {
+
+    Route::get('/fullpapers-review', function () {
+        return view('reviewer.fullpapers-review');
+    });
+
+    Route::get('/fullpapers/{id}/assign', function ($id) {
+        return view('reviewer.fullpapers-assign', ['paperId' => $id]);
+    });
+
+    Route::get('/fullpapers/{id}/reviews', function ($id) {
+        return view('reviewer.fullpapers-decision', ['paperId' => $id]);
+    });
+
+    Route::get('/fullpapers/{id}/decision', function ($id) {
+        return view('reviewer.fullpapers-decision', ['paperId' => $id]);
+    });
+
+});
+
+
+// Admin Routes (NO AUTH)
+Route::prefix('admin')->group(function () {
+
+    Route::get('/fullpapers/assignment', function () {
+        return view('admin.fullpapers.assignment');
+    });
+
+    Route::get('/fullpapers/{id}/assign', function ($id) {
+        return view('reviewer.fullpapers-assign', ['paperId' => $id]);
+    });
+
+});
+
+
+// Public Review Routes
+Route::get('/review/{token}', function ($token) {
+    return view('public.review-form', ['token' => $token]);
+});

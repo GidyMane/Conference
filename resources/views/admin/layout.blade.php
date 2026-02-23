@@ -299,7 +299,7 @@
                 <i class="fas fa-file-alt"></i>
                 <span>Manage Abstracts</span>
             </a>
-            
+             
             <a href="{{route('admin.fullpapers.index')}}" class="menu-item {{ request()->routeIs('admin.fullpapers.index') ? 'active' : '' }}">
                 <i class="fas fa-file-pdf"></i>
                 <span>Manage Full Papers</span>
@@ -314,11 +314,18 @@
                 <i class="fas fa-store"></i>
                 <span>Manage Exhibitions</span>
             </a>
+                        <a href="{{ url('/admin/fullpapers/assignment') }}" 
+   class="menu-item {{ request()->is('admin/fullpapers/assignment*') ? 'active' : '' }}">
+    <i class="fas fa-user-check"></i>
+    <span>Assign Reviewers</span>
+</a>
             
             <a href="{{route('admin.reviewers.create')}}" class="menu-item {{ request()->routeIs('admin.reviewers.*') ? 'active' : '' }}">
                 <i class="fas fa-user-shield"></i>
                 <span>Manage Users</span>
             </a>
+ 
+           
             
             <div style="margin: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
                 <a href="#" class="menu-item {{ request()->routeIs('admin.settings') ? 'active' : '' }}">
