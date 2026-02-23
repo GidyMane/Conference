@@ -360,6 +360,12 @@
                 <span>Pending Reviews</span>
             </a>
             
+<a href="{{ url('/reviewer/fullpapers-review') }}" 
+   class="menu-item {{ request()->is('reviewer/fullpapers-review*') ? 'active' : '' }}">
+    <i class="fas fa-clipboard-check"></i>
+    <span>Review Management</span>
+</a>
+            
             <a href="{{ route('reviewer.completed-reviews') }}" class="menu-item {{ request()->is('reviewer/completed*') ? 'active' : '' }}">
                 <i class="fas fa-check-circle"></i>
                 <span>Completed Reviews</span>
