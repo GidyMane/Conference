@@ -121,13 +121,13 @@
                 <div class="col-lg-8 col-md-7 col-12">
                     <marquee behavior="scroll" direction="left" scrollamount="3">
                         <i class="fas fa-bullhorn me-2"></i> 
-                        Call for Papers Now Open! Submit your research abstracts before <b>13th February.</b>
+                        Call for Papers Now Open! Submit your research abstracts before <b>13th March 2026.</b>
                     </marquee>
                 </div>
                 <div class="col-lg-4 col-md-5 col-12 text-end">
                     <span class="d-none d-md-inline">
                         <i class="fas fa-calendar-alt me-1"></i> 
-                        18th to 22nd May 2026 
+                        15th to 19th June 2026
                         <i class="fas fa-map-marker-alt ms-2 me-1"></i> 
                         Nairobi, Kenya
                     </span>

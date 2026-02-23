@@ -233,37 +233,36 @@
 
                             <li class="mb-3">
                                 <strong>Abstract Submission:</strong><br>
-                                <span class="text-success">Deadline: Feb 13, 2026</span>
-                            </li>
-
-                            <li class="mb-3">
-                                <strong>Notification of Acceptance:</strong><br>
-                                <span class="text-success">Instant</span>
+                                <span class="text-success">Deadline: March 13, 2026</span>
                             </li>
 
                             <li class="mb-3">
                                 <strong>Full Paper Submission:</strong><br>
-                                <span class="text-success">27th Feb 2026</span>
+                                <span class="text-success">27th March 2026</span>
                             </li>
 
                             <li class="mb-3">
-                                <strong>Final Paper Acceptance:</strong><br>
-                                <span class="text-success">Before 27th March 2026</span>
+                                <strong>Notification of Acceptance:</strong><br>
+                                <span class="text-success">24th April 2026</span>
                             </li>
 
+                            
+
                             <li class="mb-3">
-                                <strong>Final Submission:</strong><br>
-                                <span class="text-success">10th April 2026</span>
+                                <strong>Final Submission of Accepted Papers:</strong><br>
+                                <span class="text-success">15th May 2026</span>
                             </li>
+
+                          
 
                             <li class="mb-3">
                                 <strong>Registration:</strong><br>
-                                <span class="text-success">13 Feb – 17 April 2026</span>
+                                <span class="text-success">13th February – 17th May 2026</span>
                             </li>
 
                             <li>
                                 <strong>Conference Dates:</strong><br>
-                                <span class="text-success">18 – 22 May 2026</span>
+                                <span class="text-success">15th to 19th June 2026</span>
                             </li>
 
                         </ul>

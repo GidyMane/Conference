@@ -39,12 +39,12 @@
                 <ul class="list-unstyled">
                     <li class="mb-2">
                         <small>Abstract Submission:</small><br>
-                        <span class="text-success">Feb 13, 2026</span>
+                        <span class="text-success">March 13, 2026</span>
                     </li>
                     
                     <li>
                         <small>Conference Dates:</small><br>
-                        <span class="text-success">18th to 22nd May 2026</span>
+                        <span class="text-success">15th to 19th June 2026</span>
                     </li>
                 </ul>
             </div>
