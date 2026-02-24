@@ -80,19 +80,19 @@
                             <div class="row g-4">
                                 <div class="col-md-6">
                                     <label for="firstName" class="form-label">First Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control form-control-lg" id="firstName" name="firstName" 
+                                    <input type="text" class="form-control form-control-lg" id="firstName" name="firstName"
                                            value="{{ old('firstName') }}" required>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label for="lastName" class="form-label">Last Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control form-control-lg" id="lastName" name="lastName" 
+                                    <input type="text" class="form-control form-control-lg" id="lastName" name="lastName"
                                            value="{{ old('lastName') }}" required>
                                 </div>
 
                                 <div class="col-12">
                                     <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
-                                    <input type="email" class="form-control form-control-lg" id="email" name="email" 
+                                    <input type="email" class="form-control form-control-lg" id="email" name="email"
                                            placeholder="your.email@example.com" value="{{ old('email') }}" required>
                                 </div>
 
@@ -106,14 +106,14 @@
 
                                 <div class="col-md-8">
                                     <label for="phoneNumber" class="form-label">Phone Number <span class="text-danger">*</span></label>
-                                    <input type="tel" class="form-control form-control-lg" id="phoneNumber" name="phoneNumber" 
+                                    <input type="tel" class="form-control form-control-lg" id="phoneNumber" name="phoneNumber"
                                            placeholder="e.g., 712345678" value="{{ old('phoneNumber') }}" required>
                                     <small class="text-muted">Format: 7XX XXX XXX</small>
                                 </div>
 
                                 <div class="col-12">
                                     <label for="institution" class="form-label">Institution/Organization <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control form-control-lg" id="institution" name="institution" 
+                                    <input type="text" class="form-control form-control-lg" id="institution" name="institution"
                                            placeholder="Your institution or company name" value="{{ old('institution') }}" required>
                                 </div>
 
@@ -143,17 +143,6 @@
                         </div>
 
                         <!-- Step 2: Registration Details -->
-                         <div id="earlyBirdNotice" style="
-    background:#f0f9ff;
-    border:1px solid #0ea5e9;
-    color:#075985;
-    padding:10px 15px;
-    border-radius:6px;
-    margin-bottom:15px;
-    font-weight:500;
-">
-    Checking ticket status...
-</div>
                         <div class="form-section" data-section="2">
                             <div class="section-header">
                                 <h3 class="section-title">
@@ -217,7 +206,7 @@
                                     <div class="upload-section">
                                         <label class="form-label fw-bold">Student ID Proof <span class="text-danger">*</span></label>
                                         <p class="text-muted small mb-3">Please upload a clear copy of your valid student ID card</p>
-                                        
+
                                         <div class="upload-area" id="studentIdUploadArea">
                                             <input type="file" class="file-input" id="studentId" name="studentId" accept="image/*,.pdf">
                                             <div class="upload-placeholder">
@@ -236,6 +225,11 @@
                                     </div>
                                 </div>
 
+                                <!-- Early Bird Banner -->
+                                <div class="col-12" id="earlyBirdBannerWrap">
+                                    <div id="earlyBirdBanner"></div>
+                                </div>
+
                                 <!-- Registration Fee Display -->
                                 <div class="col-12">
                                     <div class="fee-calculator">
@@ -250,8 +244,8 @@
                                             </select>
                                             <input type="hidden" id="feeCurrency" name="feeCurrency">
                                             <p class="fee-note mt-2 mb-0">
-                                                <i class="bi bi-info-circle"></i> 
-                                                <small>Fee is calculated based on your nationality, attendance type, and category</small>
+                                                <i class="bi bi-info-circle"></i>
+                                                <small>Fee is calculated based on your nationality, attendance type, and category. Early bird rates apply until <strong>10 April 2025</strong>.</small>
                                             </p>
                                         </div>
                                     </div>
@@ -384,7 +378,7 @@
                                 <!-- Transaction Details -->
                                 <div class="col-12">
                                     <label for="transactionId" class="form-label fw-bold">Transaction/Reference ID <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control form-control-lg" id="transactionId" name="transactionId" 
+                                    <input type="text" class="form-control form-control-lg" id="transactionId" name="transactionId"
                                            placeholder="Enter your transaction reference number" value="{{ old('transactionId') }}" required>
                                     <small class="text-muted">This is the confirmation code you received after payment</small>
                                 </div>
@@ -394,7 +388,7 @@
                                     <div class="upload-section">
                                         <label class="form-label fw-bold">Payment Proof <span class="text-danger">*</span></label>
                                         <p class="text-muted small mb-3">Upload a screenshot or receipt of your payment</p>
-                                        
+
                                         <div class="upload-area" id="paymentProofUploadArea">
                                             <input type="file" class="file-input" id="paymentProof" name="paymentProof" accept="image/*,.pdf" required>
                                             <div class="upload-placeholder">
@@ -419,11 +413,11 @@
                                 <div class="custom-checkbox">
                                     <input type="checkbox" id="terms" name="terms" required>
                                     <label for="terms">
-                                            I agree to the 
-    <a href="{{ route('terms', ['from' => route('conference.register.form')]) }}" target="_blank">
-        terms and conditions
-    </a>
- <span class="text-danger">*</span>
+                                        I agree to the
+                                        <a href="{{ route('terms', ['from' => route('conference.register.form')]) }}" target="_blank">
+                                            terms and conditions
+                                        </a>
+                                        <span class="text-danger">*</span>
                                     </label>
                                 </div>
                             </div>
@@ -449,19 +443,18 @@
    KALRO GREEN THEME - COLOR VARIABLES
    ======================================== */
 :root {
-    --kalro-primary: #1a5f3a;     /* Same as navbar green */
-    --kalro-secondary: #14532d;   /* Slightly deeper variation */
-    --kalro-light: #e6f4ec;       /* Soft green background tint */
-    --kalro-dark: #0d3d25;        /* Navbar hover green */
-    --kalro-accent: #1f7a4c;      /* Slightly brighter but same tone */
+    --kalro-primary: #1a5f3a;
+    --kalro-secondary: #14532d;
+    --kalro-light: #e6f4ec;
+    --kalro-dark: #0d3d25;
+    --kalro-accent: #1f7a4c;
     --kalro-gradient: linear-gradient(135deg, #1a5f3a 0%, #0d3d25 100%);
-    
+
     --text-dark: #111827;
     --text-muted: #6b7280;
     --border-color: #e5e7eb;
     --bg-light: #f9fafb;
 }
-
 
 /* ========================================
    GLOBAL STYLES
@@ -590,14 +583,8 @@
 }
 
 @keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 .section-header {
@@ -627,7 +614,7 @@
 }
 
 /* ========================================
-   FORM INPUTS - IMPROVED VISIBILITY
+   FORM INPUTS
    ======================================== */
 .form-label {
     font-weight: 600;
@@ -671,7 +658,6 @@
     font-size: 1rem;
 }
 
-/* Ensure select dropdown text is visible */
 .form-select {
     appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%232d3748' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
@@ -682,7 +668,7 @@
 }
 
 /* ========================================
-   ATTENDANCE OPTIONS - REFINED
+   ATTENDANCE OPTIONS
    ======================================== */
 .attendance-options {
     display: grid;
@@ -793,7 +779,7 @@
 }
 
 /* ========================================
-   PAYMENT METHODS - REFINED
+   PAYMENT METHODS
    ======================================== */
 .payment-methods {
     display: grid;
@@ -849,6 +835,132 @@
 .payment-card input:checked ~ .card-content .text-content h5,
 .payment-card input:checked ~ .card-content .text-content p {
     color: white;
+}
+
+/* ========================================
+   EARLY BIRD BANNER  ← NEW
+   ======================================== */
+#earlyBirdBanner {
+    border-radius: 12px;
+    overflow: hidden;
+    font-size: 0.9rem;
+}
+
+#earlyBirdBanner.is-early {
+    background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    border: 2px solid #86efac;
+}
+
+#earlyBirdBanner.is-standard {
+    background: linear-gradient(135deg, #fffbeb, #fef3c7);
+    border: 2px solid #fcd34d;
+}
+
+.eb-inner {
+    padding: 1.1rem 1.4rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+}
+
+.eb-emoji { font-size: 1.75rem; flex-shrink: 0; }
+
+.eb-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+}
+
+#earlyBirdBanner.is-early   .eb-title { color: #14532d; }
+#earlyBirdBanner.is-standard .eb-title { color: #78350f; }
+
+.eb-desc {
+    font-size: 0.825rem;
+    color: #374151;
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+}
+
+.eb-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.76rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 100px;
+    margin-bottom: 0.85rem;
+}
+
+#earlyBirdBanner.is-early   .eb-badge { background: #bbf7d0; color: #14532d; }
+#earlyBirdBanner.is-standard .eb-badge { background: #fde68a; color: #78350f; }
+
+.eb-countdown {
+    display: flex;
+    gap: 0.4rem;
+    margin-bottom: 0.9rem;
+    flex-wrap: wrap;
+}
+
+.eb-cd-unit {
+    background: white;
+    border-radius: 7px;
+    padding: 0.35rem 0.6rem;
+    min-width: 50px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+}
+
+.eb-cd-num {
+    display: block;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #15803d;
+    line-height: 1.2;
+    font-family: 'Courier New', monospace;
+}
+
+.eb-cd-lbl {
+    display: block;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #9ca3af;
+}
+
+.eb-prices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
+}
+
+.eb-price-row {
+    background: white;
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    box-shadow: 0 1px 2px rgba(0,0,0,.05);
+}
+
+.eb-price-label { color: #6b7280; font-weight: 500; }
+.eb-price-amount { font-weight: 700; }
+
+#earlyBirdBanner.is-early   .eb-price-amount { color: #15803d; }
+#earlyBirdBanner.is-standard .eb-price-amount { color: #d97706; }
+
+.eb-footer {
+    background: rgba(0,0,0,.04);
+    padding: 0.55rem 1.4rem;
+    font-size: 0.74rem;
+    color: #6b7280;
+}
+
+@media (max-width: 576px) {
+    .eb-prices { grid-template-columns: 1fr; }
 }
 
 /* ========================================
@@ -911,9 +1023,7 @@
     gap: 0.75rem;
 }
 
-.details-header i {
-    font-size: 1.75rem;
-}
+.details-header i { font-size: 1.75rem; }
 
 .details-header h5 {
     margin: 0;
@@ -921,9 +1031,7 @@
     font-weight: 700;
 }
 
-.details-body {
-    padding: 1.75rem;
-}
+.details-body { padding: 1.75rem; }
 
 .detail-item {
     display: flex;
@@ -933,9 +1041,7 @@
     border-bottom: 1px solid #f0f0f0;
 }
 
-.detail-item:last-child {
-    border-bottom: none;
-}
+.detail-item:last-child { border-bottom: none; }
 
 .detail-item.highlight {
     background: var(--kalro-light);
@@ -981,9 +1087,7 @@
 /* ========================================
    FILE UPLOAD
    ======================================== */
-.upload-section {
-    margin-top: 0.5rem;
-}
+.upload-section { margin-top: 0.5rem; }
 
 .upload-area {
     border: 3px dashed var(--border-color);
@@ -1000,9 +1104,7 @@
     background: var(--kalro-light);
 }
 
-.file-input {
-    display: none;
-}
+.file-input { display: none; }
 
 .upload-placeholder i {
     font-size: 3.5rem;
@@ -1015,9 +1117,7 @@
     color: var(--text-dark);
 }
 
-.upload-placeholder strong {
-    color: var(--kalro-primary);
-}
+.upload-placeholder strong { color: var(--kalro-primary); }
 
 .file-preview {
     display: flex;
@@ -1099,9 +1199,7 @@
     font-weight: 600;
 }
 
-.custom-checkbox a:hover {
-    text-decoration: underline;
-}
+.custom-checkbox a:hover { text-decoration: underline; }
 
 /* ========================================
    SECTION FOOTER / BUTTONS
@@ -1170,9 +1268,7 @@
     font-size: 1rem;
 }
 
-.alert i {
-    font-size: 1.25rem;
-}
+.alert i { font-size: 1.25rem; }
 
 .alert-success {
     background: var(--kalro-light);
@@ -1181,54 +1277,38 @@
 }
 
 /* ========================================
-   RESPONSIVE DESIGN
+   RESPONSIVE
    ======================================== */
 @media (max-width: 768px) {
-    .form-card {
-        padding: 2rem 1.5rem;
-    }
-    
+    .form-card { padding: 2rem 1.5rem; }
+
     .attendance-options,
-    .payment-methods {
-        grid-template-columns: 1fr;
-    }
-    
-    .section-footer {
-        flex-direction: column;
-    }
-    
+    .payment-methods { grid-template-columns: 1fr; }
+
+    .section-footer { flex-direction: column; }
+
     .section-footer .btn {
         width: 100%;
         min-width: unset;
     }
-    
-    .progress-steps {
-        padding: 0 10px;
-    }
-    
-    .step-label {
-        font-size: 0.75rem;
-    }
-    
+
+    .progress-steps { padding: 0 10px; }
+    .step-label { font-size: 0.75rem; }
+
     .step-number {
         width: 45px;
         height: 45px;
         font-size: 1rem;
     }
-    
-    .section-title {
-        font-size: 1.5rem;
-    }
-    
-    .section-title i {
-        font-size: 1.5rem;
-    }
-    
+
+    .section-title { font-size: 1.5rem; }
+    .section-title i { font-size: 1.5rem; }
+
     .attendance-card .card-content {
         flex-direction: column;
         text-align: center;
     }
-    
+
     .check-indicator {
         position: absolute;
         top: 1rem;
@@ -1237,75 +1317,58 @@
 }
 
 @media (max-width: 576px) {
-    .registration-hero {
-        padding: 3rem 0 4rem;
-    }
-    
-    .registration-hero h1 {
-        font-size: 2rem;
-    }
-    
-    .form-card {
-        padding: 1.5rem 1rem;
-    }
+    .registration-hero { padding: 3rem 0 4rem; }
+    .registration-hero h1 { font-size: 2rem; }
+    .form-card { padding: 1.5rem 1rem; }
 }
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    
+
     const nationalitySelect = document.getElementById('nationality');
-    const platformRadios = document.querySelectorAll('input[name="platform"]');
-    const categorySelect = document.getElementById('category');
-    const feeSelect = document.getElementById('fee');
-    const feeCurrencyInput = document.getElementById('feeCurrency');
-    const studentIdUpload = document.getElementById('studentIdUpload');
-    const studentIdInput = document.getElementById('studentId');
-    
-    // Payment Elements
-    const bankRadio = document.getElementById('bank');
-    const mpesaRadio = document.getElementById('mpesa');
-    const bankDetails = document.getElementById('bankDetails');
+    const platformRadios    = document.querySelectorAll('input[name="platform"]');
+    const categorySelect    = document.getElementById('category');
+    const feeSelect         = document.getElementById('fee');
+    const feeCurrencyInput  = document.getElementById('feeCurrency');
+    const studentIdUpload   = document.getElementById('studentIdUpload');
+    const studentIdInput    = document.getElementById('studentId');
+
+    const bankDetails  = document.getElementById('bankDetails');
     const mpesaDetails = document.getElementById('mpesaDetails');
-    
-    // Multi-step Elements
-    const formSections = document.querySelectorAll('.form-section');
-    const progressSteps = document.querySelectorAll('.progress-steps .step');
-    const nextBtns = document.querySelectorAll('.next-step');
-    const prevBtns = document.querySelectorAll('.prev-step');
-    let currentStep = 1;
-    
+
+    const formSections    = document.querySelectorAll('.form-section');
+    const progressSteps   = document.querySelectorAll('.progress-steps .step');
+    const nextBtns        = document.querySelectorAll('.next-step');
+    const prevBtns        = document.querySelectorAll('.prev-step');
+    let   currentStep     = 1;
+
     // ========================================
     // FILE UPLOAD HANDLER
     // ========================================
     function setupFileUpload(uploadAreaId, inputId) {
         const uploadArea = document.getElementById(uploadAreaId);
-        const input = document.getElementById(inputId);
-        
+        const input      = document.getElementById(inputId);
         if (!uploadArea || !input) return;
-        
+
         const placeholder = uploadArea.querySelector('.upload-placeholder');
-        const preview = uploadArea.querySelector('.file-preview');
+        const preview     = uploadArea.querySelector('.file-preview');
         const fileNameSpan = preview?.querySelector('.file-name');
-        const removeBtn = preview?.querySelector('.btn-remove');
-        
-        // Click to upload
+        const removeBtn   = preview?.querySelector('.btn-remove');
+
         uploadArea.addEventListener('click', (e) => {
-            if (!e.target.closest('.btn-remove')) {
-                input.click();
-            }
+            if (!e.target.closest('.btn-remove')) input.click();
         });
-        
-        // Drag and drop
+
         uploadArea.addEventListener('dragover', (e) => {
             e.preventDefault();
             uploadArea.style.borderColor = '#2d7a3e';
         });
-        
+
         uploadArea.addEventListener('dragleave', () => {
             uploadArea.style.borderColor = '';
         });
-        
+
         uploadArea.addEventListener('drop', (e) => {
             e.preventDefault();
             uploadArea.style.borderColor = '';
@@ -1314,14 +1377,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 handleFileSelect(input.files[0]);
             }
         });
-        
-        // File input change
+
         input.addEventListener('change', function() {
-            if (this.files && this.files[0]) {
-                handleFileSelect(this.files[0]);
-            }
+            if (this.files && this.files[0]) handleFileSelect(this.files[0]);
         });
-        
+
         function handleFileSelect(file) {
             if (fileNameSpan && placeholder && preview) {
                 fileNameSpan.textContent = file.name;
@@ -1329,8 +1389,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 preview.style.display = 'flex';
             }
         }
-        
-        // Remove file
+
         removeBtn?.addEventListener('click', (e) => {
             e.stopPropagation();
             input.value = '';
@@ -1340,27 +1399,110 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
+
     setupFileUpload('studentIdUploadArea', 'studentId');
     setupFileUpload('paymentProofUploadArea', 'paymentProof');
-    
+
+    // ========================================
+    // EARLY BIRD BANNER  ← NEW
+    // ========================================
+    function renderEarlyBirdBanner() {
+        const banner  = document.getElementById('earlyBirdBanner');
+        if (!banner) return;
+
+        const deadline = new Date('2025-04-10T23:59:59');
+        const now      = new Date();
+        const isEarly  = now <= deadline;
+        const pad      = n => String(n).padStart(2, '0');
+
+        function getTimeParts() {
+            const diff = deadline - new Date();
+            if (diff <= 0) return [0, 0, 0, 0];
+            return [
+                Math.floor(diff / 86400000),
+                Math.floor((diff % 86400000) / 3600000),
+                Math.floor((diff % 3600000) / 60000),
+                Math.floor((diff % 60000) / 1000)
+            ];
+        }
+
+        const [d, h, m, s] = getTimeParts();
+
+        if (isEarly) {
+            banner.className = 'is-early';
+            banner.innerHTML = `
+                <div class="eb-inner">
+                    <div class="eb-emoji">🎉</div>
+                    <div>
+                        <div class="eb-title">Early Bird Pricing is Active!</div>
+                        <div class="eb-desc">Register before <strong>10 April 2025</strong> to get discounted rates. All virtual participants save with early bird pricing.</div>
+                        <div class="eb-badge"><i class="bi bi-clock"></i> Deadline: 10 April 2025</div>
+                        <div class="eb-countdown">
+                            <div class="eb-cd-unit"><span class="eb-cd-num" id="eb-d">${pad(d)}</span><span class="eb-cd-lbl">Days</span></div>
+                            <div class="eb-cd-unit"><span class="eb-cd-num" id="eb-h">${pad(h)}</span><span class="eb-cd-lbl">Hrs</span></div>
+                            <div class="eb-cd-unit"><span class="eb-cd-num" id="eb-m">${pad(m)}</span><span class="eb-cd-lbl">Min</span></div>
+                            <div class="eb-cd-unit"><span class="eb-cd-num" id="eb-s">${pad(s)}</span><span class="eb-cd-lbl">Sec</span></div>
+                        </div>
+                        <div class="eb-prices">
+                            <div class="eb-price-row"><span class="eb-price-label">🌍 Virtual – Professional (EAC)</span><span class="eb-price-amount">KES 2,000</span></div>
+                            <div class="eb-price-row"><span class="eb-price-label">🌐 Virtual – Professional (Intl)</span><span class="eb-price-amount">USD 50</span></div>
+                            <div class="eb-price-row"><span class="eb-price-label">🎓 Virtual – Student (EAC)</span><span class="eb-price-amount">KES 1,000</span></div>
+                            <div class="eb-price-row"><span class="eb-price-label">🎓 Virtual – Student (Intl)</span><span class="eb-price-amount">USD 25</span></div>
+                            <div class="eb-price-row"><span class="eb-price-label">🏢 Physical – Org. Team (EAC)</span><span class="eb-price-amount">KES 15,000</span></div>
+                            <div class="eb-price-row"><span class="eb-price-label">🏢 Physical – Org. Team (Intl)</span><span class="eb-price-amount">USD 150</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="eb-footer">Standard rates apply after 10 April 2025. Your exact fee is auto-calculated in the section below.</div>`;
+
+            const ticker = setInterval(() => {
+                const r = deadline - new Date();
+                if (r <= 0) { clearInterval(ticker); renderEarlyBirdBanner(); return; }
+                const nd = Math.floor(r / 86400000);
+                const nh = Math.floor((r % 86400000) / 3600000);
+                const nm = Math.floor((r % 3600000) / 60000);
+                const ns = Math.floor((r % 60000) / 1000);
+                document.getElementById('eb-d').textContent = pad(nd);
+                document.getElementById('eb-h').textContent = pad(nh);
+                document.getElementById('eb-m').textContent = pad(nm);
+                document.getElementById('eb-s').textContent = pad(ns);
+            }, 1000);
+
+        } else {
+            banner.className = 'is-standard';
+            banner.innerHTML = `
+                <div class="eb-inner">
+                    <div class="eb-emoji">⚠️</div>
+                    <div>
+                        <div class="eb-title">Standard Rates Now Apply</div>
+                        <div class="eb-desc">The early bird deadline of <strong>10 April 2025</strong> has passed. Standard registration fees are now in effect.</div>
+                        <div class="eb-badge"><i class="bi bi-calendar-x"></i> Early bird closed 10 April 2025</div>
+                        <div class="eb-prices">
+                            <div class="eb-price-row"><span class="eb-price-label">🌍 Virtual – Professional (EAC)</span><span class="eb-price-amount">KES 3,000</span></div>
+                            <div class="eb-price-row"><span class="eb-price-label">🌐 Virtual – Professional (Intl)</span><span class="eb-price-amount">USD 60</span></div>
+                            <div class="eb-price-row"><span class="eb-price-label">🎓 Virtual – Student (EAC)</span><span class="eb-price-amount">KES 1,500</span></div>
+                            <div class="eb-price-row"><span class="eb-price-label">🎓 Virtual – Student (Intl)</span><span class="eb-price-amount">USD 30</span></div>
+                            <div class="eb-price-row"><span class="eb-price-label">🏢 Physical – Org. Team (EAC)</span><span class="eb-price-amount">KES 18,000</span></div>
+                            <div class="eb-price-row"><span class="eb-price-label">🏢 Physical – Org. Team (Intl)</span><span class="eb-price-amount">USD 200</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="eb-footer">Your exact fee is auto-calculated in the section below once you select your category.</div>`;
+        }
+    }
+
+    renderEarlyBirdBanner();
+
     // ========================================
     // PAYMENT METHOD TOGGLE
     // ========================================
-    bankRadio?.addEventListener('change', function() {
-        if (this.checked) {
-            bankDetails.style.display = 'block';
-            mpesaDetails.style.display = 'none';
-        }
+    document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            bankDetails.style.display  = this.value === 'bank'  ? 'block' : 'none';
+            mpesaDetails.style.display = this.value === 'mpesa' ? 'block' : 'none';
+        });
     });
-    
-    mpesaRadio?.addEventListener('change', function() {
-        if (this.checked) {
-            bankDetails.style.display = 'none';
-            mpesaDetails.style.display = 'block';
-        }
-    });
-    
+
     // ========================================
     // STUDENT ID UPLOAD TOGGLE
     // ========================================
@@ -1375,158 +1517,68 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         calculateFee();
     });
-    
-    
+
+    // ========================================
+    // FEE CALCULATION  ← UPDATED
+    // ========================================
     function calculateFee() {
-    const nationality = nationalitySelect?.value;
-    const platform = document.querySelector('input[name="platform"]:checked')?.value;
-    const category = categorySelect?.value;
+        const nationality = nationalitySelect?.value;
+        const platform    = document.querySelector('input[name="platform"]:checked')?.value;
+        const category    = categorySelect?.value;
 
-    if (!feeSelect) return;
+        if (!feeSelect) return;
 
-    feeSelect.innerHTML = '<option value="">Please complete the fields above</option>';
+        feeSelect.innerHTML = '<option value="">Please complete the fields above</option>';
 
-    if (nationality && platform && category) {
+        if (nationality && platform && category) {
+            const isEAC     = nationality === 'east_african';
+            const earlyBird = new Date() <= new Date('2025-04-10T23:59:59');
+            const currency  = isEAC ? 'KES' : 'USD';
 
-        let feeOptions = [];
-        let currency = '';
+            if (feeCurrencyInput) feeCurrencyInput.value = currency;
 
-        // ===== EARLY BIRD CHECK =====
-        const today = new Date();
-        const earlyBirdDeadline = new Date(today.getFullYear(), 3, 10, 23, 59, 59); // April = 3
-        const isEarlyBird = today <= earlyBirdDeadline;
+            let value = null, label = null;
 
-        // Treat KALRO staff as professionals
-        const effectiveCategory = category === 'kalro_staff' ? 'professional' : category;
-
-        if (nationality === 'east_african') {
-            currency = 'KES';
-
-            if (platform === 'physical') {
-                // Physical = Organizing Team Only
-                const amount = isEarlyBird ? '15000' : '18000';
-                const label = isEarlyBird ? 'Early Bird' : 'Standard';
-
-                feeOptions = [
-                    { value: amount, text: `${label} – Organizing Team: ${currency} ${Number(amount).toLocaleString()}`, category: 'professional' },
-                    { value: amount, text: `${label} – Organizing Team: ${currency} ${Number(amount).toLocaleString()}`, category: 'kalro_staff' }
-                ];
-
-            } else {
-                // Virtual
-                if (isEarlyBird) {
-                    feeOptions = [
-                        { value: '1000', text: `Early Bird – Students: ${currency} 1,000`, category: 'student' },
-                        { value: '2000', text: `Early Bird – Professionals: ${currency} 2,000`, category: 'professional' },
-                        { value: '2000', text: `Early Bird – Professionals: ${currency} 2,000`, category: 'kalro_staff' }
-                    ];
+            if (platform === 'virtual') {
+                if (category === 'professional') {
+                    value = isEAC ? (earlyBird ? '2000' : '3000') : (earlyBird ? '50' : '60');
+                    label = isEAC
+                        ? (earlyBird ? 'Scientists/Professionals – Early Bird: KES 2,000 (by 10 Apr)' : 'Scientists/Professionals – Standard: KES 3,000')
+                        : (earlyBird ? 'Scientists/Professionals – Early Bird: USD 50 (by 10 Apr)'    : 'Scientists/Professionals – Standard: USD 60');
+                } else if (category === 'student') {
+                    value = isEAC ? (earlyBird ? '1000' : '1500') : (earlyBird ? '25' : '30');
+                    label = isEAC
+                        ? (earlyBird ? 'Students – Early Bird: KES 1,000 (by 10 Apr)' : 'Students – Standard: KES 1,500')
+                        : (earlyBird ? 'Students – Early Bird: USD 25 (by 10 Apr)'    : 'Students – Standard: USD 30');
                 } else {
-                    feeOptions = [
-                        { value: '1500', text: `Standard – Students: ${currency} 1,500`, category: 'student' },
-                        { value: '3000', text: `Standard – Professionals: ${currency} 3,000`, category: 'professional' },
-                        { value: '3000', text: `Standard – Professionals: ${currency} 3,000`, category: 'kalro_staff' }
-                    ];
+                    feeSelect.innerHTML = '<option value="">Virtual attendance not available for KALRO Staff</option>';
+                    return;
+                }
+            } else if (platform === 'physical') {
+                if (category === 'kalro_staff') {
+                    value = isEAC ? (earlyBird ? '15000' : '18000') : (earlyBird ? '150' : '200');
+                    label = isEAC
+                        ? (earlyBird ? 'Organizing Team – Early Bird: KES 15,000 (by 10 Apr)' : 'Organizing Team – Standard: KES 18,000')
+                        : (earlyBird ? 'Organizing Team – Early Bird: USD 150 (by 10 Apr)'    : 'Organizing Team – Standard: USD 200');
+                } else {
+                    feeSelect.innerHTML = '<option value="">Physical attendance is for KALRO organizing team only</option>';
+                    return;
                 }
             }
 
-        } else {
-            currency = 'USD';
-
-            if (platform === 'physical') {
-                const amount = isEarlyBird ? '150' : '200';
-                const label = isEarlyBird ? 'Early Bird' : 'Standard';
-
-                feeOptions = [
-                    { value: amount, text: `${label} – Organizing Team: ${currency} ${amount}`, category: 'professional' },
-                    { value: amount, text: `${label} – Organizing Team: ${currency} ${amount}`, category: 'kalro_staff' }
-                ];
-
-            } else {
-                if (isEarlyBird) {
-                    feeOptions = [
-                        { value: '25', text: `Early Bird – Students: ${currency} 25`, category: 'student' },
-                        { value: '50', text: `Early Bird – Professionals: ${currency} 50`, category: 'professional' },
-                        { value: '50', text: `Early Bird – Professionals: ${currency} 50`, category: 'kalro_staff' }
-                    ];
-                } else {
-                    feeOptions = [
-                        { value: '30', text: `Standard – Students: ${currency} 30`, category: 'student' },
-                        { value: '60', text: `Standard – Professionals: ${currency} 60`, category: 'professional' },
-                        { value: '60', text: `Standard – Professionals: ${currency} 60`, category: 'kalro_staff' }
-                    ];
-                }
+            if (value && label) {
+                const opt = document.createElement('option');
+                opt.value = value;
+                opt.textContent = label;
+                opt.selected = true;
+                feeSelect.appendChild(opt);
             }
         }
-
-        // ========================================
-// EARLY BIRD COUNTDOWN
-// ========================================
-function updateEarlyBirdNotice() {
-
-    const notice = document.getElementById('earlyBirdNotice');
-    if (!notice) return;
-
-    const now = new Date();
-    const deadline = new Date(now.getFullYear(), 3, 10, 23, 59, 59); // April 10
-
-    if (now <= deadline) {
-
-        const diff = deadline - now;
-
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-        const minutes = Math.floor((diff / (1000 * 60)) % 60);
-
-        notice.innerHTML = `
-            ✅ <strong>Early Bird Tickets Available</strong><br>
-            Discount ends in ${days} days, ${hours} hours, ${minutes} minutes.
-        `;
-
-        notice.style.background = "#f0fdf4";
-        notice.style.borderColor = "#16a34a";
-        notice.style.color = "#065f46";
-
-    } else {
-
-        notice.innerHTML = `
-            ⚠️ <strong>Early Bird Closed</strong><br>
-            Standard pricing is now active.
-        `;
-
-        notice.style.background = "#fff7ed";
-        notice.style.borderColor = "#ea580c";
-        notice.style.color = "#7c2d12";
     }
-}
 
-// Run on page load
-updateEarlyBirdNotice();
-
-// Update every minute
-setInterval(updateEarlyBirdNotice, 60000);
-
-        const filteredOptions = feeOptions.filter(option => option.category === category);
-
-        filteredOptions.forEach(option => {
-            const optElement = document.createElement('option');
-            optElement.value = option.value;
-            optElement.textContent = option.text;
-            feeSelect.appendChild(optElement);
-        });
-
-        if (feeCurrencyInput) {
-            feeCurrencyInput.value = currency;
-        }
-
-        if (filteredOptions.length === 0) {
-            feeSelect.innerHTML = '<option value="">No fee available for this category</option>';
-        }
-    }
-}
-    
     nationalitySelect?.addEventListener('change', calculateFee);
     platformRadios?.forEach(radio => radio.addEventListener('change', calculateFee));
-    
+
     // ========================================
     // MULTI-STEP NAVIGATION
     // ========================================
@@ -1535,30 +1587,24 @@ setInterval(updateEarlyBirdNotice, 60000);
             section.classList.remove('active');
             progressSteps[index]?.classList.remove('active', 'completed');
         });
-        
-        const targetSection = document.querySelector(`[data-section="${step}"]`);
-        targetSection?.classList.add('active');
-        
+
+        document.querySelector(`[data-section="${step}"]`)?.classList.add('active');
+
         progressSteps.forEach((stepEl, index) => {
-            if (index + 1 < step) {
-                stepEl.classList.add('completed');
-            } else if (index + 1 === step) {
-                stepEl.classList.add('active');
-            }
+            if (index + 1 < step)       stepEl.classList.add('completed');
+            else if (index + 1 === step) stepEl.classList.add('active');
         });
-        
+
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    
+
     nextBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             const currentSection = this.closest('.form-section');
             const inputs = currentSection.querySelectorAll('input[required]:not([type="radio"]), select[required], textarea[required]');
             const radioGroups = {};
-            
             let valid = true;
-            
-            // Check regular inputs and selects
+
             inputs.forEach(input => {
                 if (!input.value.trim()) {
                     valid = false;
@@ -1573,21 +1619,16 @@ setInterval(updateEarlyBirdNotice, 60000);
                     input.classList.remove('is-invalid');
                 }
             });
-            
-            // Check radio groups
+
             currentSection.querySelectorAll('input[type="radio"][required]').forEach(radio => {
-                if (!radioGroups[radio.name]) {
-                    radioGroups[radio.name] = false;
-                }
-                if (radio.checked) {
-                    radioGroups[radio.name] = true;
-                }
+                if (!radioGroups[radio.name]) radioGroups[radio.name] = false;
+                if (radio.checked) radioGroups[radio.name] = true;
             });
-            
+
             Object.values(radioGroups).forEach(isChecked => {
                 if (!isChecked) valid = false;
             });
-            
+
             if (valid && currentStep < 3) {
                 currentStep++;
                 showStep(currentStep);
@@ -1596,7 +1637,7 @@ setInterval(updateEarlyBirdNotice, 60000);
             }
         });
     });
-    
+
     prevBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             if (currentStep > 1) {
@@ -1605,8 +1646,7 @@ setInterval(updateEarlyBirdNotice, 60000);
             }
         });
     });
-    
-    // Remove invalid class on input
+
     document.querySelectorAll('.form-control, .form-select').forEach(input => {
         input.addEventListener('input', function() {
             this.classList.remove('is-invalid');
@@ -1614,8 +1654,7 @@ setInterval(updateEarlyBirdNotice, 60000);
             if (feedback) feedback.remove();
         });
     });
-    
-    // Initialize
+
     showStep(1);
 });
 </script>
