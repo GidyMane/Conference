@@ -143,6 +143,17 @@
                         </div>
 
                         <!-- Step 2: Registration Details -->
+                         <div id="earlyBirdNotice" style="
+    background:#f0f9ff;
+    border:1px solid #0ea5e9;
+    color:#075985;
+    padding:10px 15px;
+    border-radius:6px;
+    margin-bottom:15px;
+    font-weight:500;
+">
+    Checking ticket status...
+</div>
                         <div class="form-section" data-section="2">
                             <div class="section-header">
                                 <h3 class="section-title">
@@ -1365,70 +1376,153 @@ document.addEventListener('DOMContentLoaded', function() {
         calculateFee();
     });
     
-    // ========================================
-    // FEE CALCULATION
-    // ========================================
+    
     function calculateFee() {
-        const nationality = nationalitySelect?.value;
-        const platform = document.querySelector('input[name="platform"]:checked')?.value;
-        const category = categorySelect?.value;
-        
-        if (!feeSelect) return;
-        
-        feeSelect.innerHTML = '<option value="">Please complete the fields above</option>';
-        
-        if (nationality && platform && category) {
-            let feeOptions = [];
-            let currency = '';
-            
-            if (nationality === 'east_african') {
-                currency = 'KES';
-                if (platform === 'physical') {
-                    feeOptions = [
-                        { value: '6500', text: `Students: ${currency} 6,500`, category: 'student' },
-                        { value: '8500', text: `KALRO Staff: ${currency} 8,500`, category: 'kalro_staff' },
-                        { value: '8500', text: `Professionals: ${currency} 8,500`, category: 'professional' }
-                    ];
-                } else {
-                    feeOptions = [
-                        { value: '1000', text: `Students: ${currency} 1,000`, category: 'student' },
-                        { value: '1000', text: `KALRO Staff: ${currency} 1,000`, category: 'kalro_staff' },
-                        { value: '4000', text: `Professionals: ${currency} 4,000`, category: 'professional' }
-                    ];
-                }
+    const nationality = nationalitySelect?.value;
+    const platform = document.querySelector('input[name="platform"]:checked')?.value;
+    const category = categorySelect?.value;
+
+    if (!feeSelect) return;
+
+    feeSelect.innerHTML = '<option value="">Please complete the fields above</option>';
+
+    if (nationality && platform && category) {
+
+        let feeOptions = [];
+        let currency = '';
+
+        // ===== EARLY BIRD CHECK =====
+        const today = new Date();
+        const earlyBirdDeadline = new Date(today.getFullYear(), 3, 10, 23, 59, 59); // April = 3
+        const isEarlyBird = today <= earlyBirdDeadline;
+
+        // Treat KALRO staff as professionals
+        const effectiveCategory = category === 'kalro_staff' ? 'professional' : category;
+
+        if (nationality === 'east_african') {
+            currency = 'KES';
+
+            if (platform === 'physical') {
+                // Physical = Organizing Team Only
+                const amount = isEarlyBird ? '15000' : '18000';
+                const label = isEarlyBird ? 'Early Bird' : 'Standard';
+
+                feeOptions = [
+                    { value: amount, text: `${label} – Organizing Team: ${currency} ${Number(amount).toLocaleString()}`, category: 'professional' },
+                    { value: amount, text: `${label} – Organizing Team: ${currency} ${Number(amount).toLocaleString()}`, category: 'kalro_staff' }
+                ];
+
             } else {
-                currency = 'USD';
-                if (platform === 'physical') {
+                // Virtual
+                if (isEarlyBird) {
                     feeOptions = [
-                        { value: '65', text: `Students: ${currency} 65`, category: 'student' },
-                        { value: '100', text: `Professionals: ${currency} 100`, category: 'professional' }
+                        { value: '1000', text: `Early Bird – Students: ${currency} 1,000`, category: 'student' },
+                        { value: '2000', text: `Early Bird – Professionals: ${currency} 2,000`, category: 'professional' },
+                        { value: '2000', text: `Early Bird – Professionals: ${currency} 2,000`, category: 'kalro_staff' }
                     ];
                 } else {
                     feeOptions = [
-                        { value: '10', text: `Students: ${currency} 10`, category: 'student' },
-                        { value: '50', text: `Professionals: ${currency} 50`, category: 'professional' }
+                        { value: '1500', text: `Standard – Students: ${currency} 1,500`, category: 'student' },
+                        { value: '3000', text: `Standard – Professionals: ${currency} 3,000`, category: 'professional' },
+                        { value: '3000', text: `Standard – Professionals: ${currency} 3,000`, category: 'kalro_staff' }
                     ];
                 }
             }
-            
-            const filteredOptions = feeOptions.filter(option => option.category === category);
-            
-            filteredOptions.forEach(option => {
-                const optElement = document.createElement('option');
-                optElement.value = option.value;
-                optElement.textContent = option.text;
-                feeSelect.appendChild(optElement);
-            });
-            
-            if (feeCurrencyInput) {
-                feeCurrencyInput.value = currency;
-            }
-            
-            if (filteredOptions.length === 0) {
-                feeSelect.innerHTML = '<option value="">No fee available for this category</option>';
+
+        } else {
+            currency = 'USD';
+
+            if (platform === 'physical') {
+                const amount = isEarlyBird ? '150' : '200';
+                const label = isEarlyBird ? 'Early Bird' : 'Standard';
+
+                feeOptions = [
+                    { value: amount, text: `${label} – Organizing Team: ${currency} ${amount}`, category: 'professional' },
+                    { value: amount, text: `${label} – Organizing Team: ${currency} ${amount}`, category: 'kalro_staff' }
+                ];
+
+            } else {
+                if (isEarlyBird) {
+                    feeOptions = [
+                        { value: '25', text: `Early Bird – Students: ${currency} 25`, category: 'student' },
+                        { value: '50', text: `Early Bird – Professionals: ${currency} 50`, category: 'professional' },
+                        { value: '50', text: `Early Bird – Professionals: ${currency} 50`, category: 'kalro_staff' }
+                    ];
+                } else {
+                    feeOptions = [
+                        { value: '30', text: `Standard – Students: ${currency} 30`, category: 'student' },
+                        { value: '60', text: `Standard – Professionals: ${currency} 60`, category: 'professional' },
+                        { value: '60', text: `Standard – Professionals: ${currency} 60`, category: 'kalro_staff' }
+                    ];
+                }
             }
         }
+
+        // ========================================
+// EARLY BIRD COUNTDOWN
+// ========================================
+function updateEarlyBirdNotice() {
+
+    const notice = document.getElementById('earlyBirdNotice');
+    if (!notice) return;
+
+    const now = new Date();
+    const deadline = new Date(now.getFullYear(), 3, 10, 23, 59, 59); // April 10
+
+    if (now <= deadline) {
+
+        const diff = deadline - now;
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+
+        notice.innerHTML = `
+            ✅ <strong>Early Bird Tickets Available</strong><br>
+            Discount ends in ${days} days, ${hours} hours, ${minutes} minutes.
+        `;
+
+        notice.style.background = "#f0fdf4";
+        notice.style.borderColor = "#16a34a";
+        notice.style.color = "#065f46";
+
+    } else {
+
+        notice.innerHTML = `
+            ⚠️ <strong>Early Bird Closed</strong><br>
+            Standard pricing is now active.
+        `;
+
+        notice.style.background = "#fff7ed";
+        notice.style.borderColor = "#ea580c";
+        notice.style.color = "#7c2d12";
     }
+}
+
+// Run on page load
+updateEarlyBirdNotice();
+
+// Update every minute
+setInterval(updateEarlyBirdNotice, 60000);
+
+        const filteredOptions = feeOptions.filter(option => option.category === category);
+
+        filteredOptions.forEach(option => {
+            const optElement = document.createElement('option');
+            optElement.value = option.value;
+            optElement.textContent = option.text;
+            feeSelect.appendChild(optElement);
+        });
+
+        if (feeCurrencyInput) {
+            feeCurrencyInput.value = currency;
+        }
+
+        if (filteredOptions.length === 0) {
+            feeSelect.innerHTML = '<option value="">No fee available for this category</option>';
+        }
+    }
+}
     
     nationalitySelect?.addEventListener('change', calculateFee);
     platformRadios?.forEach(radio => radio.addEventListener('change', calculateFee));
