@@ -29,134 +29,332 @@ class PrequalifiedReviewerSeeder extends Seeder
             [ 
                 'sub_theme_id' => 17, 
                 'name' => 'Mathai Ndungu',
-                'title' => 'Mr.', 'institution' => 'KALRO Oljoro Orok', 'phone_email' =>
-                '0722296541 ndungu.mathai@kalro.org', 'area_of_specialization' => 'Agribusiness
-                Management', ], [ 'sub_theme_id' => 17, 'name' => 'Simon P.W. Omondi',
-                'title' => 'Dr.', 'institution' => 'KALRO Mtwapa', 'phone_email' =>
-                '0717444923 simon.omondi@kalro.org', 'area_of_specialization' => 'Agribusiness
-                Management', ], [ 'sub_theme_id' => 17, 'name' => 'James Maina Minai',
-                'title' => 'Mr.', 'institution' => 'KALRO Ruiru', 'phone_email' =>
-                '0722641667 James.Minai@kalro.org', 'area_of_specialization' => 'Agribusiness
-                Management & Trade', ], [ 'sub_theme_id' => 17, 'name' => 'Mumina Guyo
-                Shibia', 'title' => 'Dr.', 'institution' => 'KALRO Headquarters',
-                'phone_email' => '0727718755 Mumina.Shibia@kalro.org', 'area_of_specialization'
-                => 'Agricultural and Applied Economics', ], [ 'sub_theme_id' => 17,
-                'name' => 'Charles Bett', 'title' => 'Mr.', 'institution' => 'KALRO
-                ABIRI Perkerra', 'phone_email' => '0713241421; Charles.Bett@kalro.org',
-                'area_of_specialization' => 'Agricultural Economics', ], [ 'sub_theme_id' => 17,
-                'name' => 'Stella N. Makokha', 'title' => 'Dr.', 'institution' => 'KALRO
-                BioRI Kabete', 'phone_email' => '0721558965 Stella.Makokha@kalro.org',
-                'area_of_specialization' => 'Agricultural Economics', ], [ 'sub_theme_id' => 17,
-                'name' => 'Tabby Karanja', 'title' => 'Ms.', 'institution' => 'KALRO
-                FCRC Kabete', 'phone_email' => '0722490978 Tabby.Karanja@kalro.org',
-                'area_of_specialization' => 'Agricultural Economics', ], [ 'sub_theme_id' => 17,
-                'name' => 'Stella Jane Matere', 'title' => 'Dr.', 'institution' =>
-                'KALRO FCRC Muguga', 'phone_email' => '0722704640
-                Stella.Matere@kalro.org', 'area_of_specialization' => 'Agricultural Economics',
-                ], [ 'sub_theme_id' => 17, 'name' => 'Alice Murage', 'title' => 'Dr.',
-                'institution' => 'KALRO Headquarters', 'phone_email' => '0720891539:
-                Alice.Murage@kalro.org', 'area_of_specialization' => 'Agricultural Economics',
-                ], [ 'sub_theme_id' => 17, 'name' => 'Fredah Maina', 'title' => 'Dr.',
-                'institution' => 'KALRO Headquarters', 'phone_email' => '0721291808:
-                Fredah.Maina@kalro.org', 'area_of_specialization' => 'Agricultural Economics',
-                ], [ 'sub_theme_id' => 17, 'name' => 'Wellington Mulinge', 'title' =>
-                'Dr.', 'institution' => 'KALRO Headquarters', 'phone_email' =>
-                '0720788921 Wellington.Mulinge@kalro.org', 'area_of_specialization' =>
-                'Agricultural Economics', ], [ 'sub_theme_id' => 17, 'name' => 'Faith
-                Njeri Nguthi', 'title' => 'Ms.', 'institution' => 'KALRO ICRC
-                Sericulture', 'phone_email' => '0722807291 Faith.Nguthi@kalro.org',
-                'area_of_specialization' => 'Agricultural Economics', ], [ 'sub_theme_id' => 17,
-                'name' => 'Rosemary Emongor', 'title' => 'Dr.', 'institution' => 'KALRO
-                Kabete', 'phone_email' => '0725836635 Rosemary.Emongor@kalro.org',
-                'area_of_specialization' => 'Agricultural Economics', ], [ 'sub_theme_id' => 17,
-                'name' => 'Martins Odendo', 'title' => 'Dr.', 'institution' => 'KALRO
-                NRI Kakamega', 'phone_email' => '0713 413062 Martins.Odendo@kalro.org',
-                'area_of_specialization' => 'Agricultural Economics', ], [ 'sub_theme_id' => 17,
-                'name' => 'John M. Ndungu', 'title' => 'Dr.', 'institution' => 'KALRO
-                HRI Kandara', 'phone_email' => '0722780300 john.ndungu@kalro.org/
-                janmwaniki@gmail.com', 'area_of_specialization' => 'Agricultural Economics', ],
-                [ 'sub_theme_id' => 17, 'name' => 'Paul Kiprop Kiprono', 'title' =>
-                'Dr.', 'institution' => 'KALRO HRI Kandara', 'phone_email' =>
-                '0722806729 Paul.Kiprono@kalro.org', 'area_of_specialization' => 'Agricultural
-                economics', ], [ 'sub_theme_id' => 17, 'name' => 'John R M Wambua',
-                'title' => 'Dr.', 'institution' => 'KALRO AMRI Katumani', 'phone_email'
-                => '0705018619 John.Wambua@kalro.org', 'area_of_specialization' => 'Agricultural
-                Economics', ], [ 'sub_theme_id' => 17, 'name' => 'Juma Magogo', 'title'
-                => 'Dr.', 'institution' => 'KALRO Mariakani', 'phone_email' =>
-                'juma.magogo@kalro.org', 'area_of_specialization' => 'Agricultural Economics',
-                ], [ 'sub_theme_id' => 17, 'name' => 'Kadenge Lewa', 'title' => 'Mr.',
-                'institution' => 'KALRO Mtwapa', 'phone_email' => '0722284640
-                Lewa.Kadenge@kalro.org', 'area_of_specialization' => 'Agricultural economics',
-                ], [ 'sub_theme_id' => 17, 'name' => 'Anne Gichangi', 'title' => 'Dr.',
-                'institution' => 'KALRO FCRI Njoro', 'phone_email' => '0722333485;
-                Anne.gichangi@kalro.org', 'area_of_specialization' => 'Agricultural Economics',
-                ], [ 'sub_theme_id' => 17, 'name' => 'Nancy M Nganga', 'title' => 'Ms.',
-                'institution' => 'KALRO Tigoni', 'phone_email' => '0721462439
-                Nancy.Nganga@kalro.org', 'area_of_specialization' => 'Agricultural Economics',
-                ], [ 'sub_theme_id' => 17, 'name' => 'Paul Odongo Ayiemba', 'title' =>
-                'Mr.', 'institution' => 'KALRO TRI, Kericho', 'phone_email' =>
-                '0720017174 Paul.Odongo@kalro.org', 'area_of_specialization' => 'Agricultural
-                Economics', ], [ 'sub_theme_id' => 17, 'name' => 'Judith K Chemuliti',
-                'title' => 'Ms.', 'institution' => 'KALRO VSRI Muguga', 'phone_email' =>
-                '0721603455 Judith.Chemuliti@kalro.org', 'area_of_specialization' =>
-                'Agricultural Economics', ], [ 'sub_theme_id' => 17, 'name' => 'David
-                Otieno', 'title' => 'Dr.', 'institution' => 'University of Nairobi',
-                'phone_email' => '0721660756 ayiekodav@gmail.com', 'area_of_specialization' =>
-                'Agricultural Economics', ], [ 'sub_theme_id' => 17, 'name' => 'Paswel
-                Marenya Phiri', 'title' => 'Dr.', 'institution' => 'CIMMYT',
-                'phone_email' => '0714884011 p.marenya@cgiar.org', 'area_of_specialization' =>
-                'Agricultural Economics', ], [ 'sub_theme_id' => 17, 'name' =>
-                'Narmandakh Davaatseren', 'title' => 'Dr.', 'institution' => 'CIMMYT',
-                'phone_email' => '0719610530 D.NARMANDAKH@cgiar.org', 'area_of_specialization'
-                => 'Agricultural Economics', ], [ 'sub_theme_id' => 17, 'name' =>
-                'George Owuro', 'title' => 'Prof.', 'institution' => 'University',
-                'phone_email' => '0722831634; gowuor2012@gmail.com', 'area_of_specialization' =>
-                'Agricultural Economics', ], [ 'sub_theme_id' => 17, 'name' => 'Caroline
-                Thuo', 'title' => 'Ms.', 'institution' => 'KALRO HRI Tigoni',
-                'phone_email' => '0721233167 Caroline.Thuo@kalro.org', 'area_of_specialization'
-                => 'Agricultural Extension', ], [ 'sub_theme_id' => 17, 'name' =>
-                'Kennedy Wanjala', 'title' => 'Dr.', 'institution' => 'KALRO BioRI
-                Muguga', 'phone_email' => '0722620788 Kennedy.Barasa@kalro.org',
-                'area_of_specialization' => 'Anthropology and sociology', ], [ 'sub_theme_id' =>
-                17, 'name' => 'Beth Wangari Ndungu', 'title' => 'Dr.', 'institution' =>
-                'KALRO HRI Thika', 'phone_email' => '0722295272 Beth.ndungu@kalro.org',
-                'area_of_specialization' => 'Anthropology/Gender', ], [ 'sub_theme_id' => 17,
-                'name' => 'Anastasia W. Kagunyu', 'title' => 'Dr.', 'institution' =>
-                'KALRO BioRI Kabete', 'phone_email' => '0723770295;
-                Anastasia.Kagunyu@kalro.org; kagunyu2010@gmail.com', 'area_of_specialization' =>
-                'Anthropology/Gender/Sociology', ], [ 'sub_theme_id' => 17, 'name' =>
-                'John Manyeki', 'title' => 'Dr.', 'institution' => 'KALRO ARLRI Kiboko',
-                'phone_email' => '0769383853: manyekijk@gmail.com', 'area_of_specialization' =>
-                'Economics', ], [ 'sub_theme_id' => 17, 'name' => 'Purity Kinya Kaburu',
-                'title' => 'Ms.', 'institution' => 'KALRO VSRI Muguga', 'phone_email' =>
-                '0722432506 Purity.kaburu@kalro.org', 'area_of_specialization' =>
-                'Economics/Agribusiness', ], [ 'sub_theme_id' => 17, 'name' => 'Stephen
-                Irungu Kariuki', 'title' => 'Mr.', 'institution' => 'KALRO Seeds
-                Kandara', 'phone_email' => '0725162374 Stephen.Irungu@kalro.org',
-                'area_of_specialization' => 'Entrepreneurship', ], [ 'sub_theme_id' => 17,
-                'name' => 'Morgan Mutoko', 'title' => 'Dr.', 'institution' => 'KALRO
-                FCRI Muguga', 'phone_email' => '0732677892 morgan.mutoko@kalro.org',
-                'area_of_specialization' => 'Environmental Economics', ], [ 'sub_theme_id' =>
-                17, 'name' => 'Jessica Ndubi Maithekia', 'title' => 'Dr.', 'institution'
-                => 'KALRO Headquarters', 'phone_email' => '0721368417
-                jessicandubi@gmail.com', 'area_of_specialization' => 'Gender', ], [
-                'sub_theme_id' => 17, 'name' => 'Elias Gitonga Thuranira', 'title' =>
-                'Mr.', 'institution' => 'KALRO BioRI Kabete', 'phone_email' =>
-                '0723606204 Elias.Thuranira@kalro,org/thuranira2003@yahoo.com',
-                'area_of_specialization' => 'Statistics and Research Methods', ], [
-                'sub_theme_id' => 8, 'name' => 'Desterio Nyamongo', 'title' => 'Dr.',
-                'institution' => 'KALRO GeRRI Muguga', 'phone_email' => '0725234249;
-                dnyamongo@yahoo.co.uk', 'area_of_specialization' => 'Geneticist/ science/
-                biodiversity', ], [ 'sub_theme_id' => 8, 'name' => 'Peterson Wambugu',
-                'title' => 'Dr.', 'institution' => 'KALRO GeRRI Muguga', 'phone_email'
-                => '0722563141; pwambuguw@gmail.com', 'area_of_specialization' => 'Seed science/
-                Biodiversity conservation', ], [ 'sub_theme_id' => 9, 'name' => 'Simon
-                Kuria', 'title' => 'Dr.', 'institution' => 'KALRO ARLRI Kiboko',
-                'phone_email' => '0722289697; kuriasg@gmail.com', 'area_of_specialization' =>
-                'Animal Nutrition', ], [ 'sub_theme_id' => 9, 'name' => 'Washington
-                Otieno', 'title' => 'Dr.', 'institution' => 'FAO', 'phone_email' =>
-                '0722427097; Wotieno2000@gmail.com', 'area_of_specialization' => 'Dryland
-                management/ Forage research', ], [ 'sub_theme_id' => 9, 'name' => 'Bosco
+                'title' => 'Mr.', 
+                'institution' => 'KALRO Oljoro Orok', 
+                'phone_email' =>'0722296541 ndungu.mathai@kalro.org', 
+                'area_of_specialization' => 'Agribusiness Management', 
+            ], 
+            [ 
+                'sub_theme_id' => 17, 
+                'name' => 'Simon P.W. Omondi',
+                'title' => 'Dr.', 
+                'institution' => 'KALRO Mtwapa', 
+                'phone_email' => '0717444923 simon.omondi@kalro.org', 
+                'area_of_specialization' => 'Agribusiness Management', 
+            ], 
+            [ 
+                'sub_theme_id' => 17, 
+                'name' => 'James Maina Minai',
+                'title' => 'Mr.', 
+                'institution' => 'KALRO Ruiru', 
+                'phone_email' => '0722641667 James.Minai@kalro.org', 
+                'area_of_specialization' => 'Agribusiness Management & Trade', 
+            ], 
+            [ 
+                'sub_theme_id' => 17, 
+                'name' => 'Mumina Guyo Shibia', 
+                'title' => 'Dr.', 
+                'institution' => 'KALRO Headquarters',
+                'phone_email' => '0727718755 Mumina.Shibia@kalro.org', 
+                'area_of_specialization' => 'Agricultural and Applied Economics', 
+            ], 
+            [ 
+                'sub_theme_id' => 17,
+                'name' => 'Charles Bett', 
+                'title' => 'Mr.', 
+                'institution' => 'KALRO ABIRI Perkerra', 
+                'phone_email' => '0713241421 Charles.Bett@kalro.org',
+                'area_of_specialization' => 'Agricultural Economics', 
+            ], 
+            [ 
+                'sub_theme_id' => 17,
+                'name' => 'Stella N. Makokha', 
+                'title' => 'Dr.', 
+                'institution' => 'KALRO BioRI Kabete', 
+                'phone_email' => '0721558965 Stella.Makokha@kalro.org',
+                'area_of_specialization' => 'Agricultural Economics', 
+            ], 
+            [ 
+                'sub_theme_id' => 17,
+                'name' => 'Tabby Karanja', 
+                'title' => 'Ms.', 
+                'institution' => 'KALRO FCRC Kabete', 
+                'phone_email' => '0722490978 Tabby.Karanja@kalro.org',
+                'area_of_specialization' => 'Agricultural Economics', 
+            ], 
+            [ 
+                'sub_theme_id' => 17,
+                'name' => 'Stella Jane Matere', 
+                'title' => 'Dr.', 
+                'institution' => 'KALRO FCRC Muguga', 
+                'phone_email' => '0722704640 Stella.Matere@kalro.org', 
+                'area_of_specialization' => 'Agricultural Economics',
+            ], 
+            [ 
+                'sub_theme_id' => 17, 
+                'name' => 'Alice Murage', 
+                'title' => 'Dr.',
+                'institution' => 'KALRO Headquarters', 
+                'phone_email' => '0720891539 Alice.Murage@kalro.org', 
+                'area_of_specialization' => 'Agricultural Economics',
+            ], 
+            [ 
+                'sub_theme_id' => 17, 
+                'name' => 'Fredah Maina', 
+                'title' => 'Dr.',
+                'institution' => 'KALRO Headquarters', 
+                'phone_email' => '0721291808 Fredah.Maina@kalro.org', 
+                'area_of_specialization' => 'Agricultural Economics',
+            ], 
+            [ 
+                'sub_theme_id' => 17, 
+                'name' => 'Wellington Mulinge',
+                'title' => 'Dr.', 
+                'institution' => 'KALRO Headquarters', 
+                'phone_email' => '0720788921 Wellington.Mulinge@kalro.org', 
+                'area_of_specialization' => 'Agricultural Economics', 
+            ], 
+            [ 
+                'sub_theme_id' => 17, 
+                'name' => 'Faith Njeri Nguthi', 
+                'title' => 'Ms.', 
+                'institution' => 'KALRO ICRC Sericulture', 
+                'phone_email' => '0722807291 Faith.Nguthi@kalro.org',
+                'area_of_specialization' => 'Agricultural Economics', 
+            ], 
+            [ 
+                'sub_theme_id' => 17,
+                'name' => 'Rosemary Emongor', 
+                'title' => 'Dr.', 
+                'institution' => 'KALRO Kabete', 
+                'phone_email' => '0725836635 Rosemary.Emongor@kalro.org',
+                'area_of_specialization' => 'Agricultural Economics', 
+            ], 
+            [ 
+                'sub_theme_id' => 17,
+                'name' => 'Martins Odendo', 
+                'title' => 'Dr.', 
+                'institution' => 'KALRO NRI Kakamega', 
+                'phone_email' => '0713 413062 Martins.Odendo@kalro.org',
+                'area_of_specialization' => 'Agricultural Economics', 
+            ], 
+            [ 
+                'sub_theme_id' => 17,
+                'name' => 'John M. Ndungu', 
+                'title' => 'Dr.', 
+                'institution' => 'KALRO HRI Kandara', 
+                'phone_email' => '0722780300 john.ndungu@kalro.org', 
+                'area_of_specialization' => 'Agricultural Economics', 
+            ],
+            [ 
+                'sub_theme_id' => 17, 
+                'name' => 'Paul Kiprop Kiprono', 
+                'title' => 'Dr.', 
+                'institution' => 'KALRO HRI Kandara', 
+                'phone_email' => '0722806729 Paul.Kiprono@kalro.org', 
+                'area_of_specialization' => 'Agricultural economics', 
+            ], 
+            [ 
+                'sub_theme_id' => 17, 
+                'name' => 'John R M Wambua',
+                'title' => 'Dr.', 
+                'institution' => 'KALRO AMRI Katumani', 
+                'phone_email' => '0705018619 John.Wambua@kalro.org', 
+                'area_of_specialization' => 'Agricultural Economics', 
+            ], 
+            [ 
+                'sub_theme_id' => 17, 
+                'name' => 'Juma Magogo', 
+                'title' => 'Dr.', 
+                'institution' => 'KALRO Mariakani', 
+                'phone_email' => 'juma.magogo@kalro.org', 
+                'area_of_specialization' => 'Agricultural Economics',
+            ], 
+            [ 
+                'sub_theme_id' => 17, 
+                'name' => 'Kadenge Lewa', 
+                'title' => 'Mr.',
+                'institution' => 'KALRO Mtwapa', 
+                'phone_email' => '0722284640 Lewa.Kadenge@kalro.org', 
+                'area_of_specialization' => 'Agricultural economics',
+            ], 
+            [ 
+                'sub_theme_id' => 17, 
+                'name' => 'Anne Gichangi', 
+                'title' => 'Dr.',
+                'institution' => 'KALRO FCRI Njoro', 
+                'phone_email' => '0722333485 Anne.gichangi@kalro.org', 
+                'area_of_specialization' => 'Agricultural Economics',
+            ], 
+            [ 
+                'sub_theme_id' => 17, 
+                'name' => 'Nancy M Nganga', 
+                'title' => 'Ms.',
+                'institution' => 'KALRO Tigoni', 
+                'phone_email' => '0721462439 Nancy.Nganga@kalro.org', 
+                'area_of_specialization' => 'Agricultural Economics',
+            ], 
+            [ 
+                'sub_theme_id' => 17, 
+                'name' => 'Paul Odongo Ayiemba', 
+                'title' => 'Mr.', 
+                'institution' => 'KALRO TRI, Kericho', 
+                'phone_email' => '0720017174 Paul.Odongo@kalro.org', 
+                'area_of_specialization' => 'Agricultural Economics', 
+            ], 
+            [ 
+                'sub_theme_id' => 17, 
+                'name' => 'Judith K Chemuliti',
+                'title' => 'Ms.', 
+                'institution' => 'KALRO VSRI Muguga', 
+                'phone_email' => '0721603455 Judith.Chemuliti@kalro.org', 
+                'area_of_specialization' => 'Agricultural Economics', 
+            ], 
+            [ 
+                'sub_theme_id' => 17, 
+                'name' => 'David Otieno', 
+                'title' => 'Dr.', 
+                'institution' => 'University of Nairobi',
+                'phone_email' => '0721660756 ayiekodav@gmail.com', 
+                'area_of_specialization' => 'Agricultural Economics', 
+            ], 
+            [ 
+                'sub_theme_id' => 17, 
+                'name' => 'Paswel Marenya Phiri', 
+                'title' => 'Dr.', 
+                'institution' => 'CIMMYT',
+                'phone_email' => '0714884011 p.marenya@cgiar.org', 
+                'area_of_specialization' => 'Agricultural Economics', 
+            ], 
+            [ 
+                'sub_theme_id' => 17, 
+                'name' => 'Narmandakh Davaatseren', 
+                'title' => 'Dr.', 
+                'institution' => 'CIMMYT',
+                'phone_email' => '0719610530 D.NARMANDAKH@cgiar.org', 
+                'area_of_specialization' => 'Agricultural Economics', 
+            ], 
+            [ 
+                'sub_theme_id' => 17, 
+                'name' => 'George Owuro', 
+                'title' => 'Prof.', 
+                'institution' => 'University',
+                'phone_email' => '0722831634; gowuor2012@gmail.com', 
+                'area_of_specialization' => 'Agricultural Economics', 
+            ], 
+            [ 
+                'sub_theme_id' => 17, 
+                'name' => 'Caroline Thuo', 
+                'title' => 'Ms.', 
+                'institution' => 'KALRO HRI Tigoni',
+                'phone_email' => '0721233167 Caroline.Thuo@kalro.org', 
+                'area_of_specialization' => 'Agricultural Extension', 
+            ], 
+            [ 
+                'sub_theme_id' => 17, 
+                'name' => 'Kennedy Wanjala', 
+                'title' => 'Dr.', 
+                'institution' => 'KALRO BioRI Muguga', 
+                'phone_email' => '0722620788 Kennedy.Barasa@kalro.org',
+                'area_of_specialization' => 'Anthropology and sociology', 
+            ], 
+            [ 
+                'sub_theme_id' => 17, 
+                'name' => 'Beth Wangari Ndungu', 
+                'title' => 'Dr.', 
+                'institution' => 'KALRO HRI Thika', 
+                'phone_email' => '0722295272 Beth.ndungu@kalro.org',
+                'area_of_specialization' => 'Anthropology/Gender', 
+            ],
+            [ 
+                'sub_theme_id' => 17,
+                'name' => 'Anastasia W. Kagunyu', 
+                'title' => 'Dr.', 
+                'institution' => 'KALRO BioRI Kabete', 
+                'phone_email' => '0723770295 Anastasia.Kagunyu@kalro.org', 
+                'area_of_specialization' => 'Anthropology/Gender/Sociology', 
+            ], 
+            [ 
+                'sub_theme_id' => 17, 
+                'name' => 'John Manyeki', 
+                'title' => 'Dr.', 
+                'institution' => 'KALRO ARLRI Kiboko',
+                'phone_email' => '0769383853 manyekijk@gmail.com', 
+                'area_of_specialization' => 'Economics', 
+            ], 
+            [ 
+                'sub_theme_id' => 17, 
+                'name' => 'Purity Kinya Kaburu',
+                'title' => 'Ms.', 
+                'institution' => 'KALRO VSRI Muguga', 
+                'phone_email' => '0722432506 Purity.kaburu@kalro.org', 
+                'area_of_specialization' => 'Economics/Agribusiness', 
+            ], 
+            [ 
+                'sub_theme_id' => 17, 
+                'name' => 'Stephen Irungu Kariuki', 
+                'title' => 'Mr.', 
+                'institution' => 'KALRO Seeds Kandara', 
+                'phone_email' => '0725162374 Stephen.Irungu@kalro.org',
+                'area_of_specialization' => 'Entrepreneurship', 
+            ], 
+            [ 
+                'sub_theme_id' => 17,
+                'name' => 'Morgan Mutoko', 
+                'title' => 'Dr.', 
+                'institution' => 'KALRO FCRI Muguga', 
+                'phone_email' => '0732677892 morgan.mutoko@kalro.org',
+                'area_of_specialization' => 'Environmental Economics', 
+            ], 
+            [ 
+                'sub_theme_id' => 17, 
+                'name' => 'Jessica Ndubi Maithekia', 
+                'title' => 'Dr.', 
+                'institution' => 'KALRO Headquarters', 
+                'phone_email' => '0721368417 jessicandubi@gmail.com', 
+                'area_of_specialization' => 'Gender',
+            ], 
+            [
+                'sub_theme_id' => 17, 
+                'name' => 'Elias Gitonga Thuranira', 
+                'title' => 'Mr.', 
+                'institution' => 'KALRO BioRI Kabete', 
+                'phone_email' => '0723606204 Elias.Thuranira@kalro.org',
+                'area_of_specialization' => 'Statistics and Research Methods', 
+            ], 
+            [
+                'sub_theme_id' => 8, 
+                'name' => 'Desterio Nyamongo', 
+                'title' => 'Dr.',
+                'institution' => 'KALRO GeRRI Muguga', 
+                'phone_email' => '0725234249 dnyamongo@yahoo.co.uk', 
+                'area_of_specialization' => 'Geneticist/ science/biodiversity', 
+            ], 
+            [ 
+                'sub_theme_id' => 8, 
+                'name' => 'Peterson Wambugu',
+                'title' => 'Dr.', 
+                'institution' => 'KALRO GeRRI Muguga', 
+                'phone_email' => '0722563141 pwambuguw@gmail.com', 
+                'area_of_specialization' => 'Seed science/Biodiversity conservation', 
+            ], 
+            [ 
+                'sub_theme_id' => 9, 
+                'name' => 'Simon Kuria', 
+                'title' => 'Dr.', 
+                'institution' => 'KALRO ARLRI Kiboko',
+                'phone_email' => '0722289697 kuriasg@gmail.com', 
+                'area_of_specialization' => 'Animal Nutrition', 
+            ], 
+            [ 
+                'sub_theme_id' => 9, 
+                'name' => 'Washington Otieno', 
+                'title' => 'Dr.', 
+                'institution' => 'FAO', 
+                'phone_email' => '0722427097 Wotieno2000@gmail.com', 
+                'area_of_specialization' => 'Dryland management/ Forage research', 
+            ], 
+            [ 'sub_theme_id' => 9, 'name' => 'Bosco
                 Kidake', 'title' => 'Dr.', 'institution' => 'KALRO ARLRI', 'phone_email'
                 => '0723723403; bkkidake@gmail.com', 'area_of_specialization' => 'Dryland
                 management/ Forage research', ], [ 'sub_theme_id' => 9, 'name' =>
