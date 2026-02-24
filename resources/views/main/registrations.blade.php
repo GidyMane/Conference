@@ -245,7 +245,7 @@
                                             <input type="hidden" id="feeCurrency" name="feeCurrency">
                                             <p class="fee-note mt-2 mb-0">
                                                 <i class="bi bi-info-circle"></i>
-                                                <small>Fee is calculated based on your nationality, attendance type, and category. Early bird rates apply until <strong>10 April 2025</strong>.</small>
+                                                <small>Fee is calculated based on your nationality, attendance type, and category. Early bird rates apply until <strong>10 April 2026</strong>.</small>
                                             </p>
                                         </div>
                                     </div>
@@ -1410,7 +1410,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const banner  = document.getElementById('earlyBirdBanner');
         if (!banner) return;
 
-        const deadline = new Date('2025-04-10T23:59:59');
+        const deadline = new Date('2026-04-10T23:59:59');
         const now      = new Date();
         const isEarly  = now <= deadline;
         const pad      = n => String(n).padStart(2, '0');
@@ -1435,8 +1435,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="eb-emoji">🎉</div>
                     <div>
                         <div class="eb-title">Early Bird Pricing is Active!</div>
-                        <div class="eb-desc">Register before <strong>10 April 2025</strong> to get discounted rates. All virtual participants save with early bird pricing.</div>
-                        <div class="eb-badge"><i class="bi bi-clock"></i> Deadline: 10 April 2025</div>
+                        <div class="eb-desc">Register before <strong>10 April 2026</strong> to get discounted rates. All virtual participants save with early bird pricing.</div>
+                        <div class="eb-badge"><i class="bi bi-clock"></i> Deadline: 10 April 2026</div>
                         <div class="eb-countdown">
                             <div class="eb-cd-unit"><span class="eb-cd-num" id="eb-d">${pad(d)}</span><span class="eb-cd-lbl">Days</span></div>
                             <div class="eb-cd-unit"><span class="eb-cd-num" id="eb-h">${pad(h)}</span><span class="eb-cd-lbl">Hrs</span></div>
@@ -1453,7 +1453,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                     </div>
                 </div>
-                <div class="eb-footer">Standard rates apply after 10 April 2025. Your exact fee is auto-calculated in the section below.</div>`;
+                <div class="eb-footer">Standard rates apply after 10 April 2026. Your exact fee is auto-calculated in the section below.</div>`;
 
             const ticker = setInterval(() => {
                 const r = deadline - new Date();
@@ -1475,8 +1475,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="eb-emoji">⚠️</div>
                     <div>
                         <div class="eb-title">Standard Rates Now Apply</div>
-                        <div class="eb-desc">The early bird deadline of <strong>10 April 2025</strong> has passed. Standard registration fees are now in effect.</div>
-                        <div class="eb-badge"><i class="bi bi-calendar-x"></i> Early bird closed 10 April 2025</div>
+                        <div class="eb-desc">The early bird deadline of <strong>10 April 2026</strong> has passed. Standard registration fees are now in effect.</div>
+                        <div class="eb-badge"><i class="bi bi-calendar-x"></i> Early bird closed 10 April 2026</div>
                         <div class="eb-prices">
                             <div class="eb-price-row"><span class="eb-price-label">🌍 Virtual – Professional (EAC)</span><span class="eb-price-amount">KES 3,000</span></div>
                             <div class="eb-price-row"><span class="eb-price-label">🌐 Virtual – Professional (Intl)</span><span class="eb-price-amount">USD 60</span></div>
@@ -1532,7 +1532,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (nationality && platform && category) {
             const isEAC     = nationality === 'east_african';
-            const earlyBird = new Date() <= new Date('2025-04-10T23:59:59');
+            const earlyBird = new Date() <= new Date('2026-04-10T23:59:59');
             const currency  = isEAC ? 'KES' : 'USD';
 
             if (feeCurrencyInput) feeCurrencyInput.value = currency;
