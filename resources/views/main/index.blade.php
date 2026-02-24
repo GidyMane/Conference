@@ -257,7 +257,7 @@
 
                             <li class="mb-3">
                                 <strong>Registration:</strong><br>
-                                <span class="text-success">13th February – 17th May 2026</span>
+                                <span class="text-success">13th February – 22nd May 2026</span>
                             </li>
 
                             <li>
