@@ -197,7 +197,7 @@
                                         <option value="">Select Your Category</option>
                                         <option value="student" {{ old('category') == 'student' ? 'selected' : '' }}>Student (Valid Student ID Required)</option>
                                         <option value="professional" {{ old('category') == 'professional' ? 'selected' : '' }}>Professional/Researcher</option>
-                                        <option value="kalro_staff" {{ old('category') == 'kalro_staff' ? 'selected' : '' }}>KALRO Staff Member</option>
+                                        <option value="kalro_staff" {{ old('category') == 'kalro_staff' ? 'selected' : '' }}>Organizing Team</option>
                                     </select>
                                 </div>
 
