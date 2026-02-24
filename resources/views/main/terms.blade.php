@@ -355,9 +355,7 @@
 </div>
 
 <style>
-/* ========================================
-   KALRO GREEN THEME - TERMS & CONDITIONS
-   ======================================== */
+
 :root {
     --kalro-primary: #1a5f3a;
     --kalro-secondary: #14532d;
@@ -380,9 +378,7 @@
     padding: 2rem 0;
 }
 
-/* ========================================
-   HERO SECTION
-   ======================================== */
+
 .terms-hero {
     background: var(--kalro-gradient);
     border-radius: 20px;
