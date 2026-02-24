@@ -16,6 +16,7 @@
             padding: 2rem;
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            background: white;
         }
         .upload-header {
             background-color: #158532;
@@ -58,57 +59,204 @@
             padding: 0.75rem;
             font-weight: 600;
         }
+        .guidelines-section {
+            background-color: #e6f9e6;
+            border-left: 4px solid #158532;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+        }
+        .guidelines-section h6 {
+            color: #158532;
+            font-weight: 600;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .guidelines-section h6:first-of-type {
+            margin-top: 0;
+        }
+        .reference-example {
+            background: #f8f9fa;
+            padding: 0.75rem;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            border-left: 3px solid #158532;
+        }
+        .important-note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+        .hero {
+            background: linear-gradient(135deg, #158532 0%, #0d5c23 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        .theme-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
 
 <!-- Top Bar -->
-    <div class="col-lg-1 col-md-4 col-6">
-        <div class="logo">
-            <a href="/">
-                <img src="{{asset('assets/images/kalro-logo.gif')}}" alt="KALRO Logo" class="img-fluid kalro-logo">
-            </a>
+<div class="container-fluid bg-white py-2 shadow-sm">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="logo">
+                    <a href="/">
+                        <img src="{{asset('assets/images/kalro-logo.gif')}}" alt="KALRO Logo" class="img-fluid" style="max-height: 60px;">
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-10 col-md-8 col-6 text-end">
+                <h5 class="mb-0 text-success d-none d-md-block">2nd KALRO Scientific Conference</h5>
+            </div>
         </div>
     </div>
-
-    
+</div>
 
 <!-- Hero -->
-
 <section class="hero">
     <div class="container text-center">
-        <h1 class="theme-title"> <b>Conference Theme :</b> "Innovations for Sustainable Agri-food Systems, Climate Change Resilience and Improved Livelihoods" </h1>
+        <h1 class="theme-title">
+            <b>Conference Theme:</b> "Innovations for Sustainable Agri-food Systems, Climate Change Resilience and Improved Livelihoods"
+        </h1>
     </div>
 </section>
 
 <div class="container">
 
-    <!-- Guidelines -->
+    <!-- Comprehensive Guidelines -->
     <div class="container my-4">
-        <div class="card shadow-sm w-100" style="background-color: #e6f9e6;">
+        <div class="card shadow-sm">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-info-circle me-2"></i>Full Paper Submission Guidelines
+                </h5>
+            </div>
             <div class="card-body">
-            <h5 class="card-title text-success">
-                <i class="fas fa-info-circle me-2"></i>Full Paper Upload Guidelines
-            </h5>
-            <p class="card-text">
-                <strong>Title and Author Details:</strong><br>
-                Include the paper title, author name(s), institutional affiliation(s), complete mailing addresses, and email(s). Clearly indicate the corresponding author.<br><br>
+                
+                <!-- Important Notice -->
+                <div class="important-note">
+                    <strong><i class="fas fa-exclamation-triangle me-2"></i>Important:</strong> 
+                    Abstracts and full papers must align with one of the conference sub-themes. 
+                    Authors will participate in peer review and mentorship.
+                </div>
 
-                <strong>Sections:</strong><br>
-                Your paper should include the following sections: Abstract, Introduction, Materials and Methods, Results, Discussion, Conclusion, Recommendations, Acknowledgment, and References.<br><br>
+                <div class="guidelines-section">
+                    <h6><i class="fas fa-file-alt me-2"></i>Manuscript Requirements</h6>
+                    <ul>
+                        <li><strong>Maximum Length:</strong> <span style="color: red; font-weight: bold;">Not more than 3000 words</span></li>
+                        <li><strong>Language:</strong> British English</li>
+                        <li><strong>Paper Size:</strong> A4</li>
+                        <li><strong>Spacing:</strong> Double-spaced</li>
+                        <li><strong>Font:</strong> Times New Roman, size 12</li>
+                        <li><strong>Page Numbers:</strong> Consecutively numbered</li>
+                        <li><strong>File Format:</strong> MS Word for Windows 2003, 2007 to 2016 (.doc, .docx)</li>
+                    </ul>
 
-                <strong>Maximum Length:</strong><br>
-                <span style="color: red; font-weight: bold;">The full paper should not exceed 3000 words.</span><br><br>
+                    <h6><i class="fas fa-sort-numeric-down me-2"></i>Number Formatting</h6>
+                    <ul>
+                        <li>Numbers 1-10 should be written in words in the text</li>
+                        <li>Numbers 11 to infinity should be in numeral form</li>
+                        <li>Numbers at the beginning of a sentence should always be written in words</li>
+                    </ul>
 
-                <strong>Language:</strong><br>
-                All submissions must be written in British English.<br><br>
+                    <h6><i class="fas fa-heading me-2"></i>Cover, Title and Author Details</h6>
+                    <p>The cover page must include:</p>
+                    <ul>
+                        <li>Title of paper</li>
+                        <li>Names and complete mailing addresses of all authors</li>
+                        <li>Institutional affiliation(s)</li>
+                        <li>Telephone and e-mail contacts</li>
+                        <li>Indication of which author is responsible for correspondence</li>
+                        <li>The name of the author to present the paper should be <strong>underlined</strong></li>
+                    </ul>
+                    <p class="mb-0"><em>The title should represent the content, briefly identify the subject, indicate the purpose, and include important high-impact words early.</em></p>
 
-                <strong>Formatting:</strong><br>
-                Use A4 paper, double-spacing, Times New Roman font, size 12.<br><br>
+                    <h6><i class="fas fa-list-ol me-2"></i>Required Sections</h6>
+                    <p>Your paper must include the following sections in order:</p>
+                    <ol>
+                        <li>Abstract</li>
+                        <li>Introduction</li>
+                        <li>Materials and Methods</li>
+                        <li>Results</li>
+                        <li>Discussion</li>
+                        <li>Conclusion</li>
+                        <li>Recommendations</li>
+                        <li>Acknowledgment</li>
+                        <li>References</li>
+                    </ol>
 
-                <strong>File Format:</strong><br>
-                Submit your document in MS Word format (compatible with Windows 2003, 2007–2016).
-            </p>
+                    <h6><i class="fas fa-microscope me-2"></i>Scientific and Common Names</h6>
+                    <ul>
+                        <li>Scientific names must be given for each organism with authority the first time used</li>
+                        <li>Species and genera names must be <em>italicized</em></li>
+                        <li>For other taxa, capitalize the first letter but do not italicize</li>
+                        <li>Generic names may be abbreviated after first mention (not at sentence beginning)</li>
+                        <li>Pesticide names should follow standard convention with correct chemical name on first mention</li>
+                        <li>Use S.I. units for measurements</li>
+                        <li>Equations should be done using Microsoft Equation Editor 3.1 or lower</li>
+                    </ul>
+
+                    <h6><i class="fas fa-image me-2"></i>Illustrations (Figures and Tables)</h6>
+                    <ul>
+                        <li>Must fit on one page and be clearly labelled</li>
+                        <li>Figure captions must be placed <strong>below</strong> the figure</li>
+                        <li>Tables must have table headings <strong>above</strong> the table</li>
+                        <li>Use Microsoft Word table function for tables</li>
+                        <li>Place figures and tables where they are first referred to in the text</li>
+                        <li><strong>No provisions</strong> will be made for altering illustrations after submission</li>
+                    </ul>
+
+                    <h6><i class="fas fa-book me-2"></i>References</h6>
+                    <p><strong>In-text citations:</strong></p>
+                    <ul>
+                        <li>Reference by author and year</li>
+                        <li>Multiple publications per year: add letters (a, b, c) after year</li>
+                        <li>More than two authors: first author followed by "et al."</li>
+                    </ul>
+
+                    <p><strong>Reference list format:</strong></p>
+                    <ul>
+                        <li>Journal names in <em>italics</em>, spelled out in full</li>
+                        <li>Include Volume Number (and Issue Number if available)</li>
+                        <li>Page numbers inclusive after colon following Volume Number</li>
+                        <li>Books: title, publisher, city, total pages</li>
+                        <li>Online sources: include URL, access date, and/or DOI</li>
+                    </ul>
+
+                    <p><strong>Examples:</strong></p>
+                    
+                    <p class="mb-1"><strong>Journal paper:</strong></p>
+                    <div class="reference-example">
+                        Ndungu, M.M., J.K. Lagat and J.K. Langat (2019). Determinants and causes of postharvest milk losses among milk producers in Nyandarua North subcounty, Kenya. <em>East African Agricultural and Forestry Journal</em> 83: 269-280. https://doi.org/10.1080/00128325.2019.1667648.
+                    </div>
+
+                    <p class="mb-1"><strong>Book chapter:</strong></p>
+                    <div class="reference-example">
+                        Namikoye, E.S., G.M. Kariuki, Z.M. Kinyua, M. Githendu and M. Kasina (2020). Enhancing monitoring efficiency and management of vectors of maize lethal necrosis disease in Kenya. In: Niassy, S., Ekesi, S., Migiro, L., Otieno, W. (eds) <em>Sustainable Management of Invasive Pests in Africa</em>. Sustainability in Plant and Crop Protection, vol 14: pp 125–137. Springer, Cham. https://doi.org/10.1007/978-3-030-41083-4_11.
+                    </div>
+
+                    <p class="mb-1"><strong>Conference proceedings:</strong></p>
+                    <div class="reference-example">
+                        Wambua, S., G. Mwenjeri and I. Macharia (2024). Production and marketing of improved indigenous chicken in selected counties of Kenya. In T. Karanja-Lumumba, I. Osuga, S. Mbuku, and E. Makokha (Eds.), <em>Resilient and Sustainable Food Systems Transformation Agenda: Making Climate Smart Livestock Production Future-Compliant</em>. Proceedings of the Annual Animal Production Society of Kenya (APSK) Scientific Symposium, held from 29th October to 1st November 2024, (pp. 226–233). Animal Production Society of Kenya (APSK).
+                    </div>
+
+                    <p class="mb-1"><strong>Book:</strong></p>
+                    <div class="reference-example">
+                        Singh G. (2025). <em>Principles of Animal Husbandry and Dairy Science</em>. Sura India Publication. ISBN No: - 978-81-989418-0-0.
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -116,7 +264,7 @@
     <!-- Upload Box -->
     <div class="upload-container">
         <div class="upload-header">
-            <h2><i class="fas fa-file-upload me-2"></i> Full Paper Upload</h2>
+            <h2><i class="fas fa-file-upload me-2"></i>Full Paper Upload</h2>
         </div>
 
         <div class="submission-info">
@@ -150,6 +298,7 @@
                 <i class="fas fa-cloud-upload-alt fa-3x mb-3 text-muted"></i>
                 <h5>Drag & Drop your file here</h5>
                 <p class="text-muted">or click to browse</p>
+                <small class="text-muted">Accepted formats: .doc, .docx</small>
             </div>
 
             <div id="fileInfo" class="file-info"></div>
@@ -157,17 +306,73 @@
             <div id="progressContainer" class="progress-container">
                 <div class="progress">
                     <div id="uploadProgress"
-                         class="progress-bar progress-bar-striped progress-bar-animated"
+                         class="progress-bar progress-bar-striped progress-bar-animated bg-success"
                          style="width:0%"></div>
                 </div>
                 <div id="progressText" class="text-center mt-2">0%</div>
             </div>
 
             <button id="submitBtn" class="btn btn-success submit-btn">
-                <i class="fas fa-paper-plane me-2"></i> Submit Paper
+                <i class="fas fa-paper-plane me-2"></i>Submit Paper
             </button>
         </form>
     </div>
+
+    <!-- Final Checklist -->
+    <div class="container my-4">
+        <div class="card shadow-sm border-warning">
+            <div class="card-header bg-warning">
+                <h5 class="mb-0">
+                    <i class="fas fa-check-square me-2"></i>Pre-Submission Checklist
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="check1">
+                    <label class="form-check-label" for="check1">
+                        Paper does not exceed 3000 words
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="check2">
+                    <label class="form-check-label" for="check2">
+                        Written in British English, Times New Roman 12, double-spaced
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="check3">
+                    <label class="form-check-label" for="check3">
+                        Cover page includes all author details and contacts
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="check4">
+                    <label class="form-check-label" for="check4">
+                        All required sections included (Abstract through References)
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="check5">
+                    <label class="form-check-label" for="check5">
+                        Scientific names properly formatted (italicized)
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="check6">
+                    <label class="form-check-label" for="check6">
+                        Figures and tables properly placed and labeled
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="check7">
+                    <label class="form-check-label" for="check7">
+                        References formatted correctly with examples provided
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -196,8 +401,10 @@ $(function () {
         if (!file) return;
 
         fileInfo.html(`
-            <strong>File:</strong> ${file.name}<br>
-            <strong>Size:</strong> ${(file.size / 1048576).toFixed(2)} MB
+            <div class="alert alert-info">
+                <strong><i class="fas fa-file-word me-2"></i>File Selected:</strong> ${file.name}<br>
+                <strong>Size:</strong> ${(file.size / 1048576).toFixed(2)} MB
+            </div>
         `);
 
         submitBtn.show();
