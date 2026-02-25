@@ -139,120 +139,65 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- Pending Assignment --}}
-                        <tr>
-                            <td><strong class="text-primary">FP-0001</strong></td>
-                            <td>Climate-Smart Agriculture Practices in Smallholder Farming Systems</td>
-                            <td>Dr. Jane Kamau</td>
-                            <td><span class="status-badge status-pending">Pending</span></td>
-                            <td class="text-center">
-                                <strong class="fs-5">0</strong><span class="text-muted">/3</span>
-                            </td>
-                            <td>
-                                <a href="{{ url('/reviewer/fullpapers/1/assign') }}" class="btn btn-sm btn-primary">
-                                    <i class="fas fa-user-plus me-1"></i>Assign Reviewers
-                                </a>
-                            </td>
-                        </tr>
+                        @forelse($papers as $paper)
+                            <tr>
+                                <td>
+                                    <strong class="text-primary">
+                                        FP-{{ str_pad($paper->id, 4, '0', STR_PAD_LEFT) }}
+                                    </strong>
+                                </td>
 
-                        {{-- Under Review --}}
-                        <tr>
-                            <td><strong class="text-primary">FP-0002</strong></td>
-                            <td>Impact of Organic Fertilizers on Maize Yield in Semi-Arid Regions</td>
-                            <td>Prof. John Odhiambo</td>
-                            <td><span class="status-badge status-under-review">Under Review</span></td>
-                            <td class="text-center">
-                                <div class="review-progress justify-content-center">
-                                    <div class="progress-circle completed"><i class="fas fa-check"></i></div>
-                                    <div class="progress-circle completed"><i class="fas fa-check"></i></div>
-                                    <div class="progress-circle pending">3</div>
-                                </div>
-                            </td>
-                            <td>
-                                <a href="{{ url('/reviewer/fullpapers/2/reviews') }}" class="btn btn-sm btn-info">
-                                    <i class="fas fa-eye me-1"></i>View Reviews (2/3)
-                                </a>
-                            </td>
-                        </tr>
+                                <td>{{ $paper->title }}</td>
 
-                        {{-- Awaiting Decision --}}
-                        <tr>
-                            <td><strong class="text-primary">FP-0003</strong></td>
-                            <td>Sustainable Water Management Techniques for Crop Production</td>
-                            <td>Dr. Mary Wanjiru</td>
-                            <td><span class="status-badge status-awaiting-decision">Awaiting Decision</span></td>
-                            <td class="text-center">
-                                <div class="review-progress justify-content-center">
-                                    <div class="progress-circle completed"><i class="fas fa-check"></i></div>
-                                    <div class="progress-circle completed"><i class="fas fa-check"></i></div>
-                                    <div class="progress-circle completed"><i class="fas fa-check"></i></div>
-                                </div>
-                            </td>
-                            <td>
-                                <a href="{{ url('/reviewer/fullpapers/3/decision') }}" class="btn btn-sm btn-warning">
-                                    <i class="fas fa-gavel me-1"></i>Make Decision
-                                </a>
-                                <a href="{{ url('/reviewer/fullpapers/3/reviews') }}" class="btn btn-sm btn-info">
-                                    <i class="fas fa-eye me-1"></i>View Reviews
-                                </a>
-                            </td>
-                        </tr>
+                                <td>{{ $paper->author_name }}</td>
 
-                        {{-- Another Under Review --}}
-                        <tr>
-                            <td><strong class="text-primary">FP-0004</strong></td>
-                            <td>Integrated Pest Management Strategies in Vegetable Production</td>
-                            <td>Dr. Peter Mwangi</td>
-                            <td><span class="status-badge status-under-review">Under Review</span></td>
-                            <td class="text-center">
-                                <div class="review-progress justify-content-center">
-                                    <div class="progress-circle completed"><i class="fas fa-check"></i></div>
-                                    <div class="progress-circle pending">2</div>
-                                    <div class="progress-circle pending">3</div>
-                                </div>
-                            </td>
-                            <td>
-                                <a href="{{ url('/reviewer/fullpapers/4/reviews') }}" class="btn btn-sm btn-info">
-                                    <i class="fas fa-eye me-1"></i>View Reviews (1/3)
-                                </a>
-                            </td>
-                        </tr>
+                                <td>
+                                    <span class="status-badge status-{{ str_replace('_','-',$paper->status) }}">
+                                        {{ ucwords(str_replace('_',' ',$paper->status)) }}
+                                    </span>
+                                </td>
 
-                        {{-- Approved --}}
-                        <tr>
-                            <td><strong class="text-primary">FP-0005</strong></td>
-                            <td>Genetic Improvement of Drought-Resistant Crop Varieties</td>
-                            <td>Dr. Sarah Njeri</td>
-                            <td><span class="status-badge status-approved">Approved</span></td>
-                            <td class="text-center">
-                                <div class="review-progress justify-content-center">
-                                    <div class="progress-circle completed"><i class="fas fa-check"></i></div>
-                                    <div class="progress-circle completed"><i class="fas fa-check"></i></div>
-                                    <div class="progress-circle completed"><i class="fas fa-check"></i></div>
-                                </div>
-                            </td>
-                            <td>
-                                <button class="btn btn-sm btn-success" onclick="alert('Decision: APPROVED\nAvg Score: 82/100\nAuthor has been notified to upload presentation.')">
-                                    <i class="fas fa-check-circle me-1"></i>View Decision
-                                </button>
-                            </td>
-                        </tr>
+                                <td class="text-center">
+                                    <strong class="fs-5">
+                                        {{ $paper->reviews->count() }}
+                                    </strong>
+                                    <span class="text-muted">/3</span>
+                                </td>
 
-                        {{-- Pending Assignment --}}
-                        <tr>
-                            <td><strong class="text-primary">FP-0006</strong></td>
-                            <td>Soil Conservation Practices in Highland Agriculture</td>
-                            <td>Prof. David Kimani</td>
-                            <td><span class="status-badge status-pending">Pending</span></td>
-                            <td class="text-center">
-                                <strong class="fs-5">0</strong><span class="text-muted">/3</span>
-                            </td>
-                            <td>
-                                <a href="{{ url('/reviewer/fullpapers/6/assign') }}" class="btn btn-sm btn-primary">
-                                    <i class="fas fa-user-plus me-1"></i>Assign Reviewers
-                                </a>
-                            </td>
-                        </tr>
+                                <td>
+                                    @if($paper->status === 'PENDING')
+                                        <a href="{{ route('reviewer.fullpapers.assign',$paper->id) }}"
+                                        class="btn btn-sm btn-primary">
+                                            <i class="fas fa-user-plus me-1"></i>Assign Reviewers
+                                        </a>
+
+                                    @elseif($paper->status === 'under_review')
+                                        <a href="{{ url('/reviewer/fullpapers/'.$paper->id.'/reviews') }}"
+                                        class="btn btn-sm btn-info">
+                                            <i class="fas fa-eye me-1"></i>
+                                            View Reviews ({{ $paper->reviews->count() }}/3)
+                                        </a>
+
+                                    @elseif($paper->status === 'awaiting_decision')
+                                        <a href="{{ url('/reviewer/fullpapers/'.$paper->id.'/decision') }}"
+                                        class="btn btn-sm btn-warning">
+                                            <i class="fas fa-gavel me-1"></i>Make Decision
+                                        </a>
+
+                                    @else
+                                        <button class="btn btn-sm btn-success">
+                                            <i class="fas fa-check-circle me-1"></i>Completed
+                                        </button>
+                                    @endif
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center py-4 text-muted">
+                                    No papers found in your sub-theme.
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>

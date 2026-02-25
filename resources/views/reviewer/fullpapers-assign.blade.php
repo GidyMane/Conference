@@ -59,37 +59,74 @@
                 <i class="fas fa-file-alt me-2"></i>Paper Information
             </h5>
         </div>
+
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-8">
-                    <h6 class="mb-3">Climate-Smart Agriculture Practices in Smallholder Farming Systems</h6>
+
+                    {{-- Paper Title --}}
+                    <h6 class="mb-3">
+                        {{ $paper->abstract->paper_title ?? 'N/A' }}
+                    </h6>
+
                     <div class="row">
                         <div class="col-md-6">
+
+                            {{-- Paper Code --}}
                             <p class="mb-2">
-                                <strong>Paper ID:</strong> 
-                                <span class="text-success">FP-0001</span>
+                                <strong>Paper ID:</strong>
+                                <span class="text-success">
+                                    {{ $paper->full_paper_code ?? 'N/A' }}
+                                </span>
                             </p>
+
+                            {{-- Author --}}
                             <p class="mb-2">
-                                <strong>Author:</strong> Dr. Jane Kamau
+                                <strong>Author:</strong>
+                                {{ $paper->abstract->author_name ?? 'N/A' }}
                             </p>
+
+                            {{-- Email --}}
                             <p class="mb-0">
-                                <strong>Email:</strong> j.kamau@example.com
+                                <strong>Email:</strong>
+                                {{ $paper->abstract->author_email ?? 'N/A' }}
                             </p>
+
                         </div>
+
                         <div class="col-md-6">
+
+                            {{-- Sub Theme --}}
                             <p class="mb-2">
-                                <strong>Sub-Theme:</strong> Climate Change & Agriculture
+                                <strong>Sub-Theme:</strong>
+                                {{ $paper->abstract->subTheme->full_name ?? 'N/A' }}
                             </p>
+
+                            {{-- Submission Date --}}
                             <p class="mb-0">
-                                <strong>Submitted:</strong> Feb 15, 2026
+                                <strong>Submitted:</strong>
+                                {{ $paper->uploaded_at?->format('M d, Y') ?? 'N/A' }}
                             </p>
+
                         </div>
                     </div>
                 </div>
+
+                {{-- Download Button --}}
                 <div class="col-lg-4 text-end">
-                    <button class="btn btn-success" onclick="alert('Download would start here')">
-                        <i class="fas fa-download me-2"></i>Download Paper
-                    </button>
+                    @if($paper->paper_url)
+                        <a href="{{ asset('full-papers/'.$paper->abstract->sub_theme_id.'/'.basename($paper->file_path)) }}"
+                            class="btn btn-success"
+                            target="_blank"
+                            download>
+                                <i class="fas fa-download me-2"></i>
+                                Download Paper
+                        </a>
+                    @else
+                        <button class="btn btn-secondary" disabled>
+                            No File Available
+                        </button>
+                    @endif
                 </div>
             </div>
         </div>
@@ -126,13 +163,16 @@
                         Select from expert pool <span class="text-danger">*</span>
                     </label>
                     
-                    <select class="form-select" required>
+                    <select name="reviewer1" class="form-select" required>
                         <option value="">-- Choose Expert --</option>
-                        <option value="1">Prof. Michael Otieno (m.otieno@kalro.org) - 1/3 papers</option>
-                        <option value="2">Dr. Grace Mwangi (g.mwangi@kalro.org) - 0/3 papers</option>
-                        <option value="3">Dr. Samuel Kariuki (s.kariuki@kalro.org) - 2/3 papers</option>
-                        <option value="4">Prof. Rebecca Njoroge (r.njoroge@kalro.org) - 0/3 papers</option>
-                        <option value="5">Dr. Patrick Wambugu (p.wambugu@kalro.org) - 1/3 papers</option>
+
+                        @foreach($prequalifiedReviewers as $reviewer)
+                            <option value="{{ $reviewer->id }}">
+                                {{ $reviewer->title }} {{ $reviewer->name }}
+                                ({{ $reviewer->email }})
+                                - {{ $reviewer->assigned_count }}/3 papers
+                            </option>
+                        @endforeach
                     </select>
                     
                     <small class="text-muted d-block mt-2">

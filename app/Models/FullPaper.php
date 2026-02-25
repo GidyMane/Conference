@@ -79,4 +79,19 @@ class FullPaper extends Model
                 ->toArray()
             : [];
     }
+
+    public function subTheme()
+    {
+        return $this->belongsTo(SubTheme::class, 'sub_theme_id');
+    }
+
+    public function submittedAbstract()
+    {
+        return $this->belongsTo(SubmittedAbstract::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(ReviewAssignment::class, 'full_paper_id');
+    }
 }

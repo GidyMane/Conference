@@ -80,4 +80,10 @@ class SubmittedAbstract extends Model
         return $this->hasOne(FullPaper::class, 'submitted_abstract_id');
     }
 
+    public function fullPapers()
+    {
+        return $this->hasMany(FullPaper::class);
+    }
+
+
 }

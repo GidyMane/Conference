@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\FullPaper;
+use App\Models\PrequalifiedReviewer;
+use App\Models\ReviewAssignment;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class FullPaperReviewController extends Controller
 {
@@ -11,98 +16,65 @@ class FullPaperReviewController extends Controller
      */
     public function index()
     {
-        $papers = collect([
-            (object)[
-                'id' => 1,
-                'title' => 'AI in Agriculture',
-                'author' => 'John Doe',
-                'review_status' => 'pending_assignment',
-                'abstract' => (object)[
-                    'subTheme' => (object)['name' => 'Technology']
-                ],
-                'assignments' => [],
-                'reviews' => [],
-                'decision' => null,
-            ],
-            (object)[
-                'id' => 2,
-                'title' => 'Climate Change Impact',
-                'author' => 'Jane Smith',
-                'review_status' => 'under_review',
-                'abstract' => (object)[
-                    'subTheme' => (object)['name' => 'Environment']
-                ],
-                'assignments' => [],
-                'reviews' => [],
-                'decision' => null,
-            ],
-            (object)[
-                'id' => 3,
-                'title' => 'Blockchain in Healthcare',
-                'author' => 'Michael Brown',
-                'review_status' => 'awaiting_decision',
-                'abstract' => (object)[
-                    'subTheme' => (object)['name' => 'HealthTech']
-                ],
-                'assignments' => [],
-                'reviews' => [],
-                'decision' => null,
-            ],
-        ]);
+        $reviewerId = auth()->id();
 
+        // Fetch papers in this subtheme
+        $papers = FullPaper::with(['abstract.subTheme'])
+            ->whereHas('abstract.assignments', function ($q) use ($reviewerId) {
+                $q->where('reviewer_id', $reviewerId);
+            })
+            ->latest()
+        ->get();
+
+        // Stats
         $stats = [
-            'total_papers' => 3,
-            'pending_assignment' => 1,
-            'under_review' => 1,
-            'awaiting_decision' => 1,
-            'approved' => 0,
-            'rejected' => 0,
+            'pending_assignment' => $papers->where('status', 'pending_assignment')->count(),
+            'under_review' => $papers->where('status', 'under_review')->count(),
+            'awaiting_decision' => $papers->where('status', 'awaiting_decision')->count(),
+            'completed' => $papers->whereIn('status', ['approved', 'rejected'])->count(),
         ];
 
-        return view('subtheme-leader.fullpapers.index', compact('papers', 'stats'));
+        return view('reviewer.fullpapers-review', compact('papers', 'stats'));
     }
 
     /**
      * Show all reviews for a paper
      */
-    public function showPaperReviews($id)
-    {
-        $paper = (object)[
-            'id' => $id,
-            'title' => 'AI in Agriculture',
-            'abstract' => (object)[
-                'subTheme' => (object)['name' => 'Technology']
-            ],
-            'assignments' => [
-                (object)[
-                    'reviewer' => (object)['name' => 'Dr Alice']
-                ],
-                (object)[
-                    'reviewer' => (object)['name' => 'Prof Bob']
-                ],
-            ],
-            'reviews' => [
-                (object)[
-                    'reviewer' => (object)['name' => 'Dr Alice'],
-                    'score' => 85,
-                    'comments' => 'Very good work'
-                ],
-                (object)[
-                    'reviewer' => (object)['name' => 'Prof Bob'],
-                    'score' => 88,
-                    'comments' => 'Strong methodology'
-                ],
-            ],
-            'decision' => null,
-        ];
+    public function showAssignForm($id)
+{
+    $reviewerId = auth()->id();
 
-        $reviewSummary = [
-            'average_score' => 86.5,
-            'recommendation' => 'Accept with Minor Revisions',
-        ];
+    // ✅ Get the paper FIRST
+    $paper = FullPaper::with(['abstract.subTheme'])
+        ->whereHas('abstract.assignments', function ($q) use ($reviewerId) {
+            $q->where('reviewer_id', $reviewerId);
+        })
+        ->findOrFail($id);
 
-        return view('subtheme-leader.fullpapers.decision', compact('paper', 'reviewSummary'));
-    }
+    // ✅ Get sub_theme_id properly
+    $subThemeId = $paper->abstract->sub_theme_id ?? null;
+
+    // ✅ Fetch prequalified reviewers for that subtheme
+    $prequalifiedReviewers = PrequalifiedReviewer::where('sub_theme_id', $subThemeId)
+        ->withCount([
+            'assignments as assigned_count' => function ($q) {
+                $q->whereIn('status', ['pending', 'started']);
+            }
+        ])
+        ->get()
+        ->filter(function ($reviewer) {
+            return $reviewer->assigned_count < 3;
+        });
+
+    // ✅ Peer authors
+    $peerReviewers = User::where('role', 'author')->get();
+
+    return view('reviewer.fullpapers-assign', compact(
+        'paper',
+        'prequalifiedReviewers',
+        'peerReviewers'
+    ));
+}
 
     /**
      * Show individual review details

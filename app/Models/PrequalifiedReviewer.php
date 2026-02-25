@@ -15,4 +15,14 @@ class PrequalifiedReviewer extends Model
         'area_of_specialization',
         'sub_theme_id',
     ];
+
+    public function subTheme()
+    {
+        return $this->belongsTo(SubTheme::class, 'sub_theme_id');
+    }
+
+    public function assignments()
+    {
+        return $this->hasMany(ReviewAssignment::class, 'prequalified_reviewer_id');
+    }
 }

@@ -19,6 +19,7 @@ use App\Http\Controllers\ConferenceRegistrationController;
 use App\Http\Controllers\ExhibitionRegistrationController;
 use App\Http\Controllers\TermsController; 
 use App\Http\Controllers\AdminRegistrationController; 
+use App\Http\Controllers\FullPaperReviewController;
 
 Route::get('/', [MainController::class, 'index'])->name('index');
 Route::get('/about', [MainController::class, 'about'])->name('about');
@@ -190,14 +191,13 @@ Route::prefix('reviewer')
 // Reviewer/Sub-Theme Leader Routes (NO AUTH)
 Route::prefix('reviewer')->group(function () {
 
-    Route::get('/fullpapers-review', function () {
-        return view('reviewer.fullpapers-review');
-    });
+    Route::get('/fullpapers-review', 
+    [FullPaperReviewController::class, 'index']
+)->name('reviewer.fullpapers.index');
 
-    Route::get('/fullpapers/{id}/assign', function ($id) {
-        return view('reviewer.fullpapers-assign', ['paperId' => $id]);
-    });
-
+    Route::get('/fullpapers/{id}/assign', 
+    [FullPaperReviewController::class, 'showAssignForm']
+)->name('reviewer.fullpapers.assign');
     Route::get('/fullpapers/{id}/reviews', function ($id) {
         return view('reviewer.fullpapers-decision', ['paperId' => $id]);
     });

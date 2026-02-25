@@ -1233,6 +1233,14 @@ class PrequalifiedReviewerSeeder extends Seeder
                 'phone_email' => '0725956963 Peterson.Njeru@kalro.org',
                 'area_of_specialization' => 'Water Harvesting, Conservation and Irrigation Systems',
             ],
+            [
+                'sub_theme_id' => 18,
+                'name' => 'Enola Anne',
+                'title' => 'Ms',
+                'institution' => 'KALRO',
+                'phone_email' => '0798384369 enolaanne89@gmail.com',
+                'area_of_specialization' => 'IT Systems',
+            ],
         ];
 
         foreach ($data as $reviewer) {
