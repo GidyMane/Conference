@@ -114,6 +114,16 @@ Route::prefix('admin')
         Route::get('/fullpapers', [FullPaperController::class, 'index'])->name('fullpapers.index');
 
         Route::post('/users', [ReviewerDashboardController::class, 'store'])->name('users.store');
+                // Users Management 
+        Route::prefix('users')->name('users.')->group(function () {
+            Route::get('/', [ReviewerDashboardController::class, 'index'])->name('index');
+            Route::post('/', [ReviewerDashboardController::class, 'store'])->name('store');
+            Route::get('/{id}', [ReviewerDashboardController::class, 'show'])->name('show');
+            Route::get('/{id}/edit', [ReviewerDashboardController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [ReviewerDashboardController::class, 'update'])->name('update');
+            Route::delete('/{id}', [ReviewerDashboardController::class, 'destroy'])->name('destroy');
+            Route::post('/{id}/reset-password', [ReviewerDashboardController::class, 'resetPassword'])->name('reset-password');
+        });
 
 
         // Reviewer Management
