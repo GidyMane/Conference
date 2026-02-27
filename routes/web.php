@@ -216,8 +216,20 @@ Route::prefix('reviewer')->group(function () {
         return view('reviewer.fullpapers-decision', ['paperId' => $id]);
     });
 
-});
+    // Fully Reviewed Papers — all 3 reviews complete, awaiting leader decision
+    Route::get('/fullpapers-completed',
+        [FullPaperReviewController::class, 'completedReviews']
+    )->name('reviewer.fullpapers.completed');
 
+    Route::get('/fullpapers/{id}/all-reviews',
+        [FullPaperReviewController::class, 'allReviews']
+    )->name('reviewer.fullpapers.all-reviews');
+
+    Route::post('/fullpapers/{id}/final-decision',
+        [FullPaperReviewController::class, 'submitFinalDecision']
+    )->name('reviewer.fullpapers.final-decision');
+
+});
 
 // Admin Routes (NO AUTH)
 Route::prefix('admin')->group(function () {
