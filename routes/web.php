@@ -237,3 +237,8 @@ Route::prefix('admin')->group(function () {
 Route::get('/review/{token}', function ($token) {
     return view('public.review-form', ['token' => $token]);
 });
+
+Route::post(
+    '/reviewer/fullpapers/{id}/assign',
+    [FullPaperReviewController::class, 'assignReviewers']
+)->name('reviewer.fullpapers.assign.submit');

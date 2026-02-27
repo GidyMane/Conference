@@ -8,6 +8,9 @@ use App\Models\PrequalifiedReviewer;
 use App\Models\ReviewAssignment;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use App\Mail\ReviewAssignmentMail;
 
 class FullPaperReviewController extends Controller
 {
@@ -258,5 +261,57 @@ public function showAssignForm($id)
     public function forceReassign(Request $request, $assignmentId)
     {
         return back()->with('success', 'Dummy assignment removed.');
+    }
+
+    public function assignReviewers(Request $request, $paperId)
+    {
+        $request->validate([
+            'reviewer1' => 'required',
+            'reviewer2' => 'required|different:reviewer1',
+            'reviewer3' => 'required|different:reviewer1|different:reviewer2',
+        ]);
+
+        $paper = FullPaper::findOrFail($paperId);
+
+        $assignments = [];
+
+        // Prequalified reviewer
+        $prequalified = PrequalifiedReviewer::find($request->reviewer1);
+
+        $assignments[] = ReviewAssignment::create([
+            'full_paper_id' => $paper->id,
+            'prequalified_reviewer_id' => $prequalified->id,
+            'review_token' => Str::uuid(),
+            'status' => 'pending'
+        ]);
+
+        // Peer reviewers
+        foreach (['reviewer2', 'reviewer3'] as $field) {
+
+            $user = User::find($request->$field);
+
+            $assignments[] = ReviewAssignment::create([
+                'full_paper_id' => $paper->id,
+                'peer_reviewer_id' => $user->id,
+                'review_token' => Str::uuid(),
+                'status' => 'pending'
+            ]);
+        }
+
+        // Send emails
+        foreach ($assignments as $assignment) {
+
+            $email = $assignment->prequalified_reviewer_id
+                ? $assignment->prequalifiedReviewer->email
+                : $assignment->peerReviewer->email;
+
+            Mail::to($email)->send(
+                new ReviewAssignmentMail($assignment)
+            );
+        }
+
+        return redirect()
+            ->route('reviewer.fullpapers.index')
+            ->with('success', 'Reviewers assigned and emails sent.');
     }
 }

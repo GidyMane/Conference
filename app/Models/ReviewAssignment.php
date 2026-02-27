@@ -12,6 +12,7 @@ class ReviewAssignment extends Model
         'peer_reviewer_id',
         'type',
         'status',
+        'review_token', 
     ];
 
     /*
@@ -78,5 +79,10 @@ class ReviewAssignment extends Model
     public function isPeer(): bool
     {
         return $this->type === 'peer';
+    }
+
+    public function paper()
+    {
+        return $this->belongsTo(FullPaper::class, 'full_paper_id');
     }
 }

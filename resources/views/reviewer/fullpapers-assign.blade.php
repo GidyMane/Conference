@@ -145,7 +145,8 @@
     </div>
 
     {{-- Assignment Form --}}
-    <form onsubmit="event.preventDefault(); alert('Reviewers assigned successfully! Emails sent with review links.');">
+    <form method="POST" action="{{ route('reviewer.fullpapers.assign.submit', $paper->id) }}">
+        @csrf
 
         <div class="row">
             
