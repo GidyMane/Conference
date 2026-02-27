@@ -40,7 +40,7 @@ class FullPaperReviewController extends Controller
     /**
      * Show all reviews for a paper
      */
-    public function showAssignForm($id)
+public function showAssignForm($id)
 {
     $reviewerId = auth()->id();
 
@@ -51,23 +51,54 @@ class FullPaperReviewController extends Controller
         })
         ->findOrFail($id);
 
-    // ✅ Get sub_theme_id properly
     $subThemeId = $paper->abstract->sub_theme_id ?? null;
 
-    // ✅ Fetch prequalified reviewers for that subtheme
-    $prequalifiedReviewers = PrequalifiedReviewer::where('sub_theme_id', $subThemeId)
-        ->withCount([
-            'assignments as assigned_count' => function ($q) {
-                $q->whereIn('status', ['pending', 'started']);
-            }
-        ])
-        ->get()
-        ->filter(function ($reviewer) {
-            return $reviewer->assigned_count < 3;
-        });
+    /*
+    |--------------------------------------------------------------------------
+    | 1️⃣ PREQUALIFIED REVIEWERS (MAX 3 ACTIVE)
+    |--------------------------------------------------------------------------
+    */
 
-    // ✅ Peer authors
-    $peerReviewers = User::where('role', 'author')->get();
+    // Get prequalified reviewers already at capacity
+    $prequalifiedAtCapacity = ReviewAssignment::whereNotNull('prequalified_reviewer_id')
+        ->whereIn('status', ['pending', 'started'])
+        ->select('prequalified_reviewer_id')
+        ->groupBy('prequalified_reviewer_id')
+        ->havingRaw('COUNT(*) >= 3')
+        ->pluck('prequalified_reviewer_id');
+
+    $prequalifiedReviewers = PrequalifiedReviewer::where('sub_theme_id', $subThemeId)
+    ->whereNotIn('id', $prequalifiedAtCapacity)
+    ->withCount([
+        'assignments as assigned_count' => function ($q) {
+            $q->whereIn('status', ['pending', 'started']);
+        }
+    ])
+    ->get();
+
+    /*
+    |--------------------------------------------------------------------------
+    | 2️⃣ PEER REVIEWERS (AUTHORS WITH FULL PAPERS, MAX 3 ACTIVE)
+    |--------------------------------------------------------------------------
+    */
+
+    // Peer reviewers already at capacity
+    $peerAtCapacity = ReviewAssignment::whereNotNull('peer_reviewer_id')
+        ->whereIn('status', ['pending', 'started'])
+        ->select('peer_reviewer_id')
+        ->groupBy('peer_reviewer_id')
+        ->havingRaw('COUNT(*) >= 3')
+        ->pluck('peer_reviewer_id');
+
+    $currentAuthorEmail = $paper->abstract->author_email;
+
+    $peerReviewers = User::where('role', 'AUTHOR')
+        ->whereNotIn('id', $peerAtCapacity)
+        ->whereHas('submittedAbstracts.fullPaper')
+        ->where('email', '!=', $currentAuthorEmail)
+        ->select('id', 'full_name', 'email')
+        ->orderBy('full_name')
+        ->get();
 
     return view('reviewer.fullpapers-assign', compact(
         'paper',

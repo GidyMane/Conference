@@ -6,6 +6,8 @@ use App\Models\SubmittedAbstract;
 use App\Models\FullPaper;
 use App\Models\SubTheme;
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Str;
 
 class FullPaperController extends Controller
 {
@@ -54,6 +56,19 @@ class FullPaperController extends Controller
         $file->move($destinationPath, $fileName);
 
         $relativePath = "full-papers/{$abstract->sub_theme_id}/{$fileName}";
+
+        // Create AUTHOR user automatically if not exists
+        $user = User::firstOrCreate(
+            ['email' => $abstract->author_email],
+            [
+                'full_name' => $abstract->author_name,
+                'role' => 'AUTHOR',
+                'password' => null,
+                'is_active' => true,
+                'password_setup_token' => Str::random(64),
+                'password_setup_expires_at' => now()->addDays(14),
+            ]
+        );
 
         FullPaper::updateOrCreate(
             ['submitted_abstract_id' => $abstract->id],

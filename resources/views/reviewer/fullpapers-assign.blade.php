@@ -195,13 +195,14 @@
                         Select peer author <span class="text-danger">*</span>
                     </label>
                     
-                    <select class="form-select" required>
+                    <select name="reviewer2" class="form-select" required>
                         <option value="">-- Choose Peer --</option>
-                        <option value="10">Dr. Peter Mwangi (p.mwangi@example.com)</option>
-                        <option value="11">Prof. John Odhiambo (j.odhiambo@example.com)</option>
-                        <option value="12">Dr. Sarah Njeri (s.njeri@example.com)</option>
-                        <option value="13">Dr. David Kimani (d.kimani@example.com)</option>
-                        <option value="14">Dr. Lucy Wanjiku (l.wanjiku@example.com)</option>
+
+                        @foreach($peerReviewers as $peer)
+                            <option value="{{ $peer->id }}">
+                                {{ $peer->full_name }} ({{ $peer->email }})
+                            </option>
+                        @endforeach
                     </select>
                     
                     <small class="text-muted d-block mt-2">
@@ -224,13 +225,14 @@
                         Select another peer <span class="text-danger">*</span>
                     </label>
                     
-                    <select class="form-select" required>
+                    <select name="reviewer3" class="form-select" required>
                         <option value="">-- Choose Peer --</option>
-                        <option value="10">Dr. Peter Mwangi (p.mwangi@example.com)</option>
-                        <option value="11">Prof. John Odhiambo (j.odhiambo@example.com)</option>
-                        <option value="12">Dr. Sarah Njeri (s.njeri@example.com)</option>
-                        <option value="13">Dr. David Kimani (d.kimani@example.com)</option>
-                        <option value="14">Dr. Lucy Wanjiku (l.wanjiku@example.com)</option>
+
+                        @foreach($peerReviewers as $peer)
+                            <option value="{{ $peer->id }}">
+                                {{ $peer->full_name }} ({{ $peer->email }})
+                            </option>
+                        @endforeach
                     </select>
                     
                     <small class="text-muted d-block mt-2">
@@ -273,4 +275,17 @@
     </form>
 
 </div>
+
+<script>
+document.querySelector('form').addEventListener('submit', function(e) {
+    const r1 = document.querySelector('[name="reviewer1"]').value;
+    const r2 = document.querySelector('[name="reviewer2"]').value;
+    const r3 = document.querySelector('[name="reviewer3"]').value;
+
+    if (r1 === r2 || r1 === r3 || r2 === r3) {
+        e.preventDefault();
+        alert("All 3 reviewers must be different.");
+    }
+});
+</script>
 @endsection

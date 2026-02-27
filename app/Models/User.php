@@ -54,4 +54,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(AbstractReview::class, 'reviewer_id');
     }
+
+    public function submittedAbstracts()
+    {
+        return $this->hasMany(SubmittedAbstract::class, 'author_email', 'email');
+    }
+
+    public function peerReviewAssignments()
+    {
+        return $this->hasMany(ReviewAssignment::class, 'peer_reviewer_id');
+    }
 }

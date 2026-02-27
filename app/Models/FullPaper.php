@@ -94,4 +94,9 @@ class FullPaper extends Model
     {
         return $this->hasMany(ReviewAssignment::class, 'full_paper_id');
     }
+
+    public function reviewAssignments()
+    {
+        return $this->hasMany(ReviewAssignment::class);
+    }
 }

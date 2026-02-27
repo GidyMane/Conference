@@ -25,4 +25,9 @@ class PrequalifiedReviewer extends Model
     {
         return $this->hasMany(ReviewAssignment::class, 'prequalified_reviewer_id');
     }
+
+    public function reviewAssignments()
+    {
+        return $this->hasMany(ReviewAssignment::class, 'prequalified_reviewer_id');
+    }
 }
