@@ -370,14 +370,15 @@
                 <i class="fas fa-check-circle"></i>
                 <span>Completed Reviews</span>
             </a>
-             <a href="{{ url('/reviewer/fullpapers-completed') }}" class="menu-item {{ request()->is('reviewer/fullpapers-completed*') || request()->is('reviewer/fullpapers/*/all-reviews*') ? 'active' : '' }}">
-    <i class="fas fa-clipboard-list"></i>
-    <span>Fully Reviewed Papers</span>
-</a>
             
-            <a href="{{ route('reviewer.fullpapers.index') }}" class="menu-item {{ request()->is('reviewer/fullpapers*') ? 'active' : '' }}">
+            <a href="{{ route('reviewer.fullpapers.index') }}" class="menu-item {{ request()->is('reviewer/fullpapers') || request()->is('reviewer/fullpapers/*') && !request()->is('reviewer/fullpapers/*/all-reviews') ? 'active' : '' }}">
     <i class="fas fa-book-reader"></i>
     <span>Full Papers</span>
+</a>
+
+            <a href="{{ url('/reviewer/fullpapers-completed') }}" class="menu-item {{ request()->is('reviewer/fullpapers-completed') || request()->is('reviewer/fullpapers/*/all-reviews') ? 'active' : '' }}">
+    <i class="fas fa-clipboard-list"></i>
+    <span>Fully Reviewed Papers</span>
 </a>
 
             
