@@ -51,32 +51,6 @@
     .rec-needs_major_revisions { background: #fed7aa; color: #9a3412; }
     .rec-needs_minor_revisions { background: #fef3c7; color: #92400e; }
     .rec-reject { background: #fee2e2; color: #991b1b; }
-    
-    .compliance-checklist {
-        background: #f0fdf4;
-        border-left: 4px solid #16a34a;
-        padding: 20px;
-        border-radius: 8px;
-        margin-bottom: 24px;
-    }
-    .checklist-item {
-        padding: 8px 0;
-        border-bottom: 1px solid #dcfce7;
-    }
-    .checklist-item:last-child { border-bottom: none; }
-    .checklist-icon {
-        width: 20px;
-        height: 20px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        margin-right: 10px;
-        font-size: 12px;
-    }
-    .check-pass { background: #d1fae5; color: #065f46; }
-    .check-fail { background: #fee2e2; color: #991b1b; }
-    .check-warning { background: #fef3c7; color: #92400e; }
 </style>
 
 <div class="container-fluid py-4">
@@ -110,120 +84,6 @@
                     </button>
                 </div>
             </div>
-        </div>
-    </div>
-
-    {{-- Compliance Checklist --}}
-    <div class="compliance-checklist">
-        <h6 class="text-success mb-3">
-            <i class="fas fa-clipboard-check me-2"></i>Submission Guidelines Compliance Review
-        </h6>
-        <p class="small text-muted mb-3">Verify that the paper meets all mandatory requirements before making your decision.</p>
-        
-        <div class="row">
-            <div class="col-md-6">
-                <h6 class="small fw-bold mb-2">Cover & Author Information:</h6>
-                <div class="checklist-item">
-                    <span class="checklist-icon check-pass"><i class="fas fa-check"></i></span>
-                    <span class="small">Title and author name(s) included</span>
-                </div>
-                <div class="checklist-item">
-                    <span class="checklist-icon check-pass"><i class="fas fa-check"></i></span>
-                    <span class="small">Institutional affiliation(s) provided</span>
-                </div>
-                <div class="checklist-item">
-                    <span class="checklist-icon check-pass"><i class="fas fa-check"></i></span>
-                    <span class="small">Complete mailing address(es) included</span>
-                </div>
-                <div class="checklist-item">
-                    <span class="checklist-icon check-pass"><i class="fas fa-check"></i></span>
-                    <span class="small">E-mail addresses provided</span>
-                </div>
-                <div class="checklist-item">
-                    <span class="checklist-icon check-pass"><i class="fas fa-check"></i></span>
-                    <span class="small">Corresponding author indicated</span>
-                </div>
-
-                <h6 class="small fw-bold mt-3 mb-2">Formatting Requirements:</h6>
-                <div class="checklist-item">
-                    <span class="checklist-icon check-pass"><i class="fas fa-check"></i></span>
-                    <span class="small">Paper ≤ 3000 words</span>
-                </div>
-                <div class="checklist-item">
-                    <span class="checklist-icon check-pass"><i class="fas fa-check"></i></span>
-                    <span class="small">British English used</span>
-                </div>
-                <div class="checklist-item">
-                    <span class="checklist-icon check-pass"><i class="fas fa-check"></i></span>
-                    <span class="small">A4, double-spaced, Times New Roman 12</span>
-                </div>
-                <div class="checklist-item">
-                    <span class="checklist-icon check-pass"><i class="fas fa-check"></i></span>
-                    <span class="small">Pages numbered consecutively</span>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <h6 class="small fw-bold mb-2">Required Sections:</h6>
-                <div class="checklist-item">
-                    <span class="checklist-icon check-pass"><i class="fas fa-check"></i></span>
-                    <span class="small">1. Abstract</span>
-                </div>
-                <div class="checklist-item">
-                    <span class="checklist-icon check-pass"><i class="fas fa-check"></i></span>
-                    <span class="small">2. Introduction</span>
-                </div>
-                <div class="checklist-item">
-                    <span class="checklist-icon check-pass"><i class="fas fa-check"></i></span>
-                    <span class="small">3. Materials and Methods</span>
-                </div>
-                <div class="checklist-item">
-                    <span class="checklist-icon check-pass"><i class="fas fa-check"></i></span>
-                    <span class="small">4. Results</span>
-                </div>
-                <div class="checklist-item">
-                    <span class="checklist-icon check-pass"><i class="fas fa-check"></i></span>
-                    <span class="small">5. Discussion</span>
-                </div>
-                <div class="checklist-item">
-                    <span class="checklist-icon check-pass"><i class="fas fa-check"></i></span>
-                    <span class="small">6. Conclusion</span>
-                </div>
-                <div class="checklist-item">
-                    <span class="checklist-icon check-pass"><i class="fas fa-check"></i></span>
-                    <span class="small">7. Recommendations</span>
-                </div>
-                <div class="checklist-item">
-                    <span class="checklist-icon check-pass"><i class="fas fa-check"></i></span>
-                    <span class="small">8. Acknowledgement</span>
-                </div>
-                <div class="checklist-item">
-                    <span class="checklist-icon check-pass"><i class="fas fa-check"></i></span>
-                    <span class="small">9. References</span>
-                </div>
-
-                <h6 class="small fw-bold mt-3 mb-2">Technical Requirements:</h6>
-                <div class="checklist-item">
-                    <span class="checklist-icon check-pass"><i class="fas fa-check"></i></span>
-                    <span class="small">Scientific names italicized properly</span>
-                </div>
-                <div class="checklist-item">
-                    <span class="checklist-icon check-pass"><i class="fas fa-check"></i></span>
-                    <span class="small">Figures/tables properly labeled</span>
-                </div>
-                <div class="checklist-item">
-                    <span class="checklist-icon check-pass"><i class="fas fa-check"></i></span>
-                    <span class="small">References formatted correctly</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="alert alert-info mt-3 mb-0">
-            <small>
-                <i class="fas fa-info-circle me-1"></i>
-                <strong>Note:</strong> This checklist is based on the reviewers' assessment. 
-                You can override any concerns in your decision comments if justified.
-            </small>
         </div>
     </div>
 
@@ -344,25 +204,6 @@
                     This is a well-researched paper that addresses critical water management issues in agricultural settings. The methodology is sound and the results are clearly presented. Minor improvements needed in the references section.
                 </div>
             </div>
-
-            {{-- Section-by-Section Comments (Expandable) --}}
-            <div class="mt-3">
-                <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#reviewer1Details">
-                    <i class="fas fa-eye me-1"></i>View Detailed Section Comments
-                </button>
-                <div class="collapse mt-2" id="reviewer1Details">
-                    <div class="card card-body bg-light">
-                        <p class="mb-2"><strong>Title:</strong> Appropriate and reflects content well.</p>
-                        <p class="mb-2"><strong>Abstract:</strong> Concise and covers all required elements.</p>
-                        <p class="mb-2"><strong>Introduction:</strong> Good background but could strengthen literature review.</p>
-                        <p class="mb-2"><strong>Methods:</strong> Clear methodology with adequate sample size.</p>
-                        <p class="mb-2"><strong>Results:</strong> Well-presented with good visualizations.</p>
-                        <p class="mb-2"><strong>Discussion:</strong> Solid interpretation of findings.</p>
-                        <p class="mb-2"><strong>Conclusions:</strong> Align well with objectives.</p>
-                        <p class="mb-0"><strong>References:</strong> Some citations need formatting corrections.</p>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -442,20 +283,6 @@
                 <h6>Overall Comments</h6>
                 <div class="bg-light p-3 rounded">
                     Good paper with practical applications. The methodology section could be strengthened with more detail on sample sizes. Results are well presented with clear visualizations.
-                </div>
-            </div>
-
-            <div class="mt-3">
-                <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#reviewer2Details">
-                    <i class="fas fa-eye me-1"></i>View Detailed Section Comments
-                </button>
-                <div class="collapse mt-2" id="reviewer2Details">
-                    <div class="card card-body bg-light">
-                        <p class="mb-2"><strong>Title:</strong> Good but could be more specific.</p>
-                        <p class="mb-2"><strong>Methods:</strong> Need more details on sample sizes and data collection procedures.</p>
-                        <p class="mb-2"><strong>Results:</strong> Visualizations are excellent.</p>
-                        <p class="mb-0"><strong>Acknowledgement:</strong> Properly formatted.</p>
-                    </div>
                 </div>
             </div>
         </div>
@@ -539,20 +366,6 @@
                     Solid contribution to water management literature. The paper demonstrates practical applications with good data analysis. Conclusion section could be strengthened.
                 </div>
             </div>
-
-            <div class="mt-3">
-                <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#reviewer3Details">
-                    <i class="fas fa-eye me-1"></i>View Detailed Section Comments
-                </button>
-                <div class="collapse mt-2" id="reviewer3Details">
-                    <div class="card card-body bg-light">
-                        <p class="mb-2"><strong>Materials and Methods:</strong> Well-documented procedures.</p>
-                        <p class="mb-2"><strong>Discussion:</strong> Good contextualization of results.</p>
-                        <p class="mb-2"><strong>Conclusion:</strong> Could be more comprehensive.</p>
-                        <p class="mb-0"><strong>Recommendations:</strong> Practical and actionable.</p>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -597,9 +410,9 @@
                     <textarea name="comments" 
                               class="form-control" 
                               rows="5" 
-                              placeholder="Provide constructive feedback based on reviewers' comments and compliance checklist..."
+                              placeholder="Provide constructive feedback to the author based on the reviewers' comments and your assessment..."
                               required></textarea>
-                    <small class="text-muted">Minimum 20 characters. Include guidance on any required sections that need attention.</small>
+                    <small class="text-muted">Minimum 20 characters. This will be sent directly to the author.</small>
                 </div>
 
                 <div class="alert alert-info">
@@ -608,7 +421,7 @@
                     </h6>
                     <ul class="mb-0 small">
                         <li><strong>If APPROVED:</strong> Author receives email with link to upload presentation materials (PowerPoint/Poster)</li>
-                        <li><strong>If REJECTED:</strong> Author receives email with your comments, reviewers' feedback, and compliance notes</li>
+                        <li><strong>If REJECTED:</strong> Author receives email with your comments and reviewers' feedback</li>
                         <li>Decision is <strong>final</strong> and cannot be changed</li>
                     </ul>
                 </div>
