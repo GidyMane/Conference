@@ -314,4 +314,39 @@ public function showAssignForm($id)
             ->route('reviewer.fullpapers.index')
             ->with('success', 'Reviewers assigned and emails sent.');
     }
+
+    /**
+     * List all papers that have completed all 3 reviews — awaiting leader decision
+     */
+    public function completedReviews()
+    {
+        return view('reviewer.fullpapers-completed');
+    }
+
+    /**
+     * Show all 3 reviews for a specific paper + decision form
+     */
+    public function allReviews($id)
+    {
+        return view('reviewer.fullpapers-all-reviews', ['paperId' => $id]);
+    }
+
+    /**
+     * Sub-theme leader submits final decision (approve / reject)
+     */
+    public function submitFinalDecision(Request $request, $id)
+    {
+        $request->validate([
+            'decision' => 'required|in:approved,rejected',
+            'comments' => 'required|min:30',
+        ]);
+
+        // TODO: persist decision and notify author
+        // FullPaper::findOrFail($id)->update([...]);
+
+        return redirect()
+            ->route('reviewer.fullpapers.completed')
+            ->with('success', 'Decision submitted and author notified successfully.');
+    }
+
 }
