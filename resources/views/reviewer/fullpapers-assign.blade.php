@@ -288,4 +288,26 @@ document.querySelector('form').addEventListener('submit', function(e) {
     }
 });
 </script>
+<script>
+const reviewer2 = document.querySelector('[name="reviewer2"]');
+const reviewer3 = document.querySelector('[name="reviewer3"]');
+
+reviewer2.addEventListener('change', function() {
+    const selectedId = this.value;
+
+    // Loop through Reviewer 3 options
+    for (let option of reviewer3.options) {
+        if(option.value === selectedId) {
+            option.disabled = true; // disable selected reviewer
+        } else {
+            option.disabled = false;
+        }
+    }
+
+    // Reset Reviewer 3 if currently selected option was disabled
+    if(reviewer3.value === selectedId){
+        reviewer3.value = '';
+    }
+});
+</script>
 @endsection
