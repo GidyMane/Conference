@@ -14,7 +14,6 @@ use App\Models\Reviewer;
 use App\Mail\AbstractAssignedMail;
 use App\Mail\AbstractSubmittedSecretariatMail;
 
-
 class AbstractSubmissionController extends Controller
 {
     public function store(Request $request)
@@ -36,6 +35,7 @@ class AbstractSubmissionController extends Controller
 
         DB::transaction(function () use ($request, &$submissionCode, &$abstract, &$reviewerUser) {
 
+            // Retry logic built into generateSubmissionCode
             $submissionCode = SubmittedAbstract::generateSubmissionCode($request->sub_theme);
 
             $abstract = SubmittedAbstract::create([
@@ -60,7 +60,7 @@ class AbstractSubmissionController extends Controller
                 'status' => 'UNDER_REVIEW',
             ]);
 
-            // Find reviewer
+            // Assign reviewer if available
             $reviewer = Reviewer::with('user')
                 ->whereHas('subThemes', fn($q) => $q->where('sub_themes.id', $request->sub_theme))
                 ->first();
@@ -72,9 +72,10 @@ class AbstractSubmissionController extends Controller
                     'assigned_at' => now(),
                 ]);
 
-                $reviewerUser = $reviewer->user; // capture for email later
+                $reviewerUser = $reviewer->user; // for email
             }
 
+            // Save co-authors if provided
             if ($request->has('authors')) {
                 foreach ($request->authors as $order => $author) {
                     AbstractCoAuthor::create([
@@ -89,38 +90,28 @@ class AbstractSubmissionController extends Controller
 
         /* 📧 SEND EMAILS AFTER TRANSACTION */
 
-        // 1. Reviewer email (conditional)
         if ($reviewerUser) {
             try {
                 Mail::to($reviewerUser->email)
                     ->send(new AbstractAssignedMail($reviewerUser, $abstract));
             } catch (\Throwable $e) {
-                \Log::error('Reviewer email failed', [
-                    'error' => $e->getMessage()
-                ]);
+                \Log::error('Reviewer email failed', ['error' => $e->getMessage()]);
             }
         }
 
-        // 2. Author confirmation (always)
         try {
             Mail::to($abstract->author_email)
                 ->send(new AbstractSubmittedMail($abstract));
         } catch (\Throwable $e) {
-            \Log::error('Author confirmation email failed', [
-                'error' => $e->getMessage()
-            ]);
+            \Log::error('Author confirmation email failed', ['error' => $e->getMessage()]);
         }
 
-        // 3. Secretariat / Overall notification (ALWAYS, regardless of subtheme)
         try {
-            Mail::to(config('mail.secretariat_address', 'kalroconference2026.com'))
+            Mail::to(config('mail.secretariat_address', 'kalroconference2026@gmail.com'))
                 ->send(new AbstractSubmittedSecretariatMail($abstract));
         } catch (\Throwable $e) {
-            \Log::error('Secretariat notification email failed', [
-                'error' => $e->getMessage()
-            ]);
+            \Log::error('Secretariat notification email failed', ['error' => $e->getMessage()]);
         }
-
 
         return redirect()->route('abstracts.success', [
             'ref' => $submissionCode

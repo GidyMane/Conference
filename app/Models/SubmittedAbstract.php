@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-
 class SubmittedAbstract extends Model
 {
     use HasFactory;
@@ -35,15 +34,24 @@ class SubmittedAbstract extends Model
         return $this->belongsTo(SubTheme::class);
     }
 
+    // Updated: Generate unique submission code with retry
     public static function generateSubmissionCode($subThemeId)
     {
         $subTheme = SubTheme::findOrFail($subThemeId);
 
-        $count = self::where('sub_theme_id', $subThemeId)->count() + 1;
+        $number = 1;
 
-        $number = str_pad($count, 3, '0', STR_PAD_LEFT);
+        do {
+            $padded = str_pad($number, 3, '0', STR_PAD_LEFT);
+            $submissionCode = "KALROCONF_SUB{$subTheme->code}_{$padded}";
+            
+            // Check database for existing code
+            $exists = self::where('submission_code', $submissionCode)->exists();
+            
+            $number++;
+        } while ($exists);
 
-        return "KALROCONF_SUB{$subTheme->code}_{$number}";
+        return $submissionCode;
     }
 
     public function coAuthors()
@@ -68,11 +76,7 @@ class SubmittedAbstract extends Model
 
     public function latestReview()
     {
-        return $this->hasOne(
-            AbstractReview::class,
-            'abstract_id', //  FK in abstract_reviews
-            'id'           // PK in submitted_abstracts
-        )->latestOfMany();
+        return $this->hasOne(AbstractReview::class, 'abstract_id', 'id')->latestOfMany();
     }
 
     public function fullPaper()
@@ -84,6 +88,4 @@ class SubmittedAbstract extends Model
     {
         return $this->hasMany(FullPaper::class);
     }
-
-
 }
