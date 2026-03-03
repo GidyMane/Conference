@@ -86,4 +86,21 @@ class ReviewerFullpaperController extends Controller
 
         return view('reviewer.fullpapers.show', compact('paper'));
     }
+
+    public function showFinalDecisionForm($paperId)
+    {
+        $paper = FullPaper::with([
+            'abstract',
+            'reviewAssignments.fullPaperReview.prequalifiedReviewer',
+            'reviewAssignments.fullPaperReview.peerReviewer'
+        ])->findOrFail($paperId);
+
+        // Collect all submitted reviews
+        $reviews = $paper->reviewAssignments()
+            ->whereHas('fullPaperReview')
+            ->with('fullPaperReview', 'prequalifiedReviewer', 'peerReviewer')
+            ->get();
+
+        return view('reviewer.fullpapers-decision', compact('paper', 'reviews'));
+    }
 }

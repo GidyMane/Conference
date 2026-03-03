@@ -174,8 +174,18 @@
             </div>
 
             {{-- Review Form --}}
-            <form onsubmit="event.preventDefault(); document.getElementById('successMessage').classList.remove('d-none'); window.scrollTo(0,0);">
-
+            <form method="POST" action="{{ route('review.submit', $assignment) }}">
+                @csrf
+                
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li><i class="fas fa-exclamation-circle me-1"></i>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 {{-- Success Message --}}
                 <div id="successMessage" class="alert alert-success d-none">
                     <h5><i class="fas fa-check-circle me-2"></i>Review Submitted Successfully!</h5>

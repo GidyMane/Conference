@@ -171,7 +171,7 @@
                                             <i class="fas fa-user-plus me-1"></i>Assign Reviewers
                                         </a>
 
-                                    @elseif($paper->status === 'under_review')
+                                    @elseif($paper->status === 'UNDER_REVIEW')
                                         <a href="{{ url('/reviewer/fullpapers/'.$paper->id.'/reviews') }}"
                                         class="btn btn-sm btn-info">
                                             <i class="fas fa-eye me-1"></i>

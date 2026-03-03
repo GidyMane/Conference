@@ -18,6 +18,9 @@ class FullPaper extends Model
         'status',
         'uploaded_at',
         'full_paper_code', // IMPORTANT
+        'final_decision',
+        'leader_comments',
+        'decision_made_at',
     ];
 
     protected $casts = [

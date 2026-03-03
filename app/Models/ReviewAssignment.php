@@ -85,4 +85,9 @@ class ReviewAssignment extends Model
     {
         return $this->belongsTo(FullPaper::class, 'full_paper_id');
     }
+
+    public function fullPaperReview()
+    {
+        return $this->hasOne(FullPaperReview::class, 'review_assignment_id');
+    }
 }

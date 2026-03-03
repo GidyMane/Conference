@@ -208,13 +208,16 @@ Route::prefix('reviewer')->group(function () {
     Route::get('/fullpapers/{id}/assign', 
     [FullPaperReviewController::class, 'showAssignForm']
 )->name('reviewer.fullpapers.assign');
-    Route::get('/fullpapers/{id}/reviews', function ($id) {
-        return view('reviewer.fullpapers-decision', ['paperId' => $id]);
-    });
+    //Route::get('/fullpapers/{id}/reviews', function ($id) {
+        //return view('reviewer.fullpapers-decision', ['paperId' => $id]);
+   // });
 
-    Route::get('/fullpapers/{id}/decision', function ($id) {
-        return view('reviewer.fullpapers-decision', ['paperId' => $id]);
-    });
+    Route::get('/fullpapers/{id}/reviews', [FullPaperReviewController::class, 'showFullPaperReviews'])
+     ->name('reviewer.fullpapers.show-reviews');
+
+    Route::get('/fullpapers/{id}/decision',
+        [FullPaperReviewController::class, 'allReviews']
+    )->name('reviewer.fullpapers.decision');
 
     // Fully Reviewed Papers — all 3 reviews complete, awaiting leader decision
     Route::get('/fullpapers-completed',
@@ -245,12 +248,33 @@ Route::prefix('admin')->group(function () {
 });
 
 
+
 // Public Review Routes
+
+Route::get('/review/success', function () {
+    return view('reviewer.review.success'); // Path: resources/views/reviews/success.blade.php
+})->name('reviewer.review.success');
+
+
 Route::get('/review/{token}', function ($token) {
-    return view('public.review-form', ['token' => $token]);
+
+    $assignment = \App\Models\ReviewAssignment::where('review_token', $token)
+        ->with(['fullPaper.abstract'])
+        ->firstOrFail();
+
+    return view('public.review-form', compact('assignment'));
 });
 
 Route::post(
     '/reviewer/fullpapers/{id}/assign',
     [FullPaperReviewController::class, 'assignReviewers']
 )->name('reviewer.fullpapers.assign.submit');
+
+Route::post('/reviewer/fullpapers/{paper}/submit-review', 
+    [FullPaperReviewController::class, 'submitReview']
+)->name('reviewer.fullpapers.submit-review');
+
+Route::post('/review/{assignment}', 
+    [FullPaperReviewController::class, 'submitReview']
+)->name('review.submit');
+

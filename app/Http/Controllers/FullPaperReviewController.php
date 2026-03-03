@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Mail\ReviewAssignmentMail;
+use App\Models\FullPaperReview;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Mail\FinalDecisionMail;
 
 class FullPaperReviewController extends Controller
 {
@@ -298,6 +301,11 @@ public function showAssignForm($id)
             ]);
         }
 
+        // After creating all 3 assignments
+        $paper->update([
+            'status' => 'under_review',
+        ]);
+
         // Send emails
         foreach ($assignments as $assignment) {
 
@@ -328,7 +336,16 @@ public function showAssignForm($id)
      */
     public function allReviews($id)
     {
-        return view('reviewer.fullpapers-all-reviews', ['paperId' => $id]);
+        $paper = FullPaper::with([
+            'abstract',
+            'reviewAssignments.fullPaperReview'
+        ])->findOrFail($id);
+
+        $reviews = FullPaperReview::whereHas('assignment', function ($q) use ($id) {
+            $q->where('full_paper_id', $id);
+        })->with('assignment')->get();
+
+        return view('reviewer.fullpapers-decision', compact('paper', 'reviews'));
     }
 
     /**
@@ -338,15 +355,131 @@ public function showAssignForm($id)
     {
         $request->validate([
             'decision' => 'required|in:approved,rejected',
-            'comments' => 'required|min:30',
+            'comments' => 'required|min:20',
         ]);
 
-        // TODO: persist decision and notify author
-        // FullPaper::findOrFail($id)->update([...]);
+        $paper = FullPaper::with(['abstract', 'reviewAssignments.fullPaperReview'])->findOrFail($id);
 
-        return redirect()
-            ->route('reviewer.fullpapers.completed')
-            ->with('success', 'Decision submitted and author notified successfully.');
+        // Save decision
+        $paper->update([
+            'status' => strtoupper($request->decision),
+            'final_decision' => $request->decision,
+            'leader_comments' => $request->comments,
+            'decision_made_at' => now(),
+        ]);
+
+        // Gather reviews
+        $reviews = $paper->reviewAssignments->map(fn($a) => $a->fullPaperReview)->filter();
+
+        // Generate PDF
+        $pdf = Pdf::loadView('emails.final_decision_pdf', compact('paper', 'reviews'));
+        $pdfContent = $pdf->output();
+
+        // Send email to author
+        $authorEmail = $paper->abstract->author_email;
+        Mail::to($authorEmail)->send(new FinalDecisionMail($paper, $pdfContent));
+
+        return back()->with('success', 'Decision submitted and author notified.');
     }
 
+    public function submitReview(Request $request, $assignmentId)
+    {
+        $assignment = ReviewAssignment::findOrFail($assignmentId);
+
+        // Prevent double submission
+        if ($assignment->fullPaperReview) {
+            return back()->with('error', 'You have already submitted this review.');
+        }
+
+        // Validation
+        $request->validate([
+            'overall_comments' => 'required|min:50',
+            'recommendation' => 'required|in:accept,needs_minor_revisions,needs_major_revisions,reject',
+            'paper_suitability' => 'required',
+            // Optional: numeric score fields
+            'title_appropriate' => 'required|numeric|min:0|max:2',
+            'title_reflects_content' => 'required|numeric|min:0|max:3',
+            'abstract_word_count' => 'required|numeric|min:0|max:2',
+            'abstract_completeness' => 'required|numeric|min:0|max:3',
+            'intro_background' => 'required|numeric|min:0|max:3',
+            'intro_originality' => 'required|numeric|min:0|max:5',
+            'intro_objectives' => 'required|numeric|min:0|max:2',
+            'methods_replication' => 'required|numeric|min:0|max:10',
+            'methods_design' => 'required|numeric|min:0|max:5',
+            'methods_statistics' => 'required|numeric|min:0|max:5',
+            'methods_ethics' => 'required|numeric|min:0|max:5',
+            'results_insights' => 'required|numeric|min:0|max:5',
+            'results_narrative' => 'required|numeric|min:0|max:5',
+            'results_data_clarity' => 'required|numeric|min:0|max:8',
+            'results_visuals' => 'required|numeric|min:0|max:5',
+            'results_referencing' => 'required|numeric|min:0|max:2',
+            'discussion_context' => 'required|numeric|min:0|max:2',
+            'discussion_objectives' => 'required|numeric|min:0|max:2',
+            'discussion_significance' => 'required|numeric|min:0|max:5',
+            'discussion_theme' => 'required|numeric|min:0|max:2',
+            'discussion_references' => 'required|numeric|min:0|max:4',
+            'conclusion_objectives' => 'required|numeric|min:0|max:2',
+            'conclusion_consistency' => 'required|numeric|min:0|max:5',
+            'conclusion_contribution' => 'required|numeric|min:0|max:3',
+            'acknowledgement_present' => 'required|numeric|min:0|max:1',
+            'references_accuracy' => 'required|numeric|min:0|max:1',
+            'references_balance' => 'required|numeric|min:0|max:1',
+            'references_citation' => 'required|numeric|min:0|max:1',
+            'references_matching' => 'required|numeric|min:0|max:1',
+        ]);
+
+        // Calculate scores
+        $scoreTitle = $request->title_appropriate + $request->title_reflects_content;
+        $scoreAbstract = $request->abstract_word_count + $request->abstract_completeness;
+        $scoreIntroduction = $request->intro_background + $request->intro_originality + $request->intro_objectives;
+        $scoreMethods = $request->methods_replication + $request->methods_design + $request->methods_statistics + $request->methods_ethics;
+        $scoreResults = $request->results_insights + $request->results_narrative + $request->results_data_clarity + $request->results_visuals + $request->results_referencing;
+        $scoreDiscussion = $request->discussion_context + $request->discussion_objectives + $request->discussion_significance + $request->discussion_theme + $request->discussion_references;
+        $scoreConclusion = $request->conclusion_objectives + $request->conclusion_consistency + $request->conclusion_contribution;
+        $scoreReferences = $request->acknowledgement_present + $request->references_accuracy + $request->references_balance + $request->references_citation + $request->references_matching;
+
+        $totalScore = $scoreTitle + $scoreAbstract + $scoreIntroduction + $scoreMethods + $scoreResults + $scoreDiscussion + $scoreConclusion + $scoreReferences;
+
+        // Save review
+        FullPaperReview::create([
+            'review_assignment_id' => $assignment->id,
+            'score_title' => $scoreTitle,
+            'score_abstract' => $scoreAbstract,
+            'score_introduction' => $scoreIntroduction,
+            'score_methods' => $scoreMethods,
+            'score_results' => $scoreResults,
+            'score_discussion' => $scoreDiscussion,
+            'score_conclusion' => $scoreConclusion,
+            'score_references' => $scoreReferences,
+            'total_score' => $totalScore,
+            'recommendation' => $request->recommendation,
+            'presentation_type' => $request->paper_suitability,
+            'overall_comments' => $request->overall_comments,
+            'submitted_at' => now(),
+        ]);
+
+        // Update assignment status
+        $assignment->update(['status' => 'completed']);
+
+        return redirect()->route('reviewer.review.success')
+        ->with([
+            'total_score' => $totalScore,
+            'recommendation' => $request->recommendation,
+        ]);
+    }
+
+    public function showFullPaperReviews($paperId)
+    {
+        $paper = FullPaper::with('submittedAbstract')->findOrFail($paperId);
+
+        // Get all review assignments for this paper with reviewer and review relation
+        $reviews = ReviewAssignment::with(['prequalifiedReviewer', 'peerReviewer', 'fullPaperReview'])
+                    ->where('full_paper_id', $paper->id)
+                    ->get();
+
+        return view('reviewer.fullpapers-decision', [
+            'paper' => $paper,
+            'reviews' => $reviews
+        ]);
+    }
 }
