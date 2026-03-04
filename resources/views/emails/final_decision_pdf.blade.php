@@ -85,6 +85,14 @@
             margin-top: 10px;
             border-radius: 4px;
         }
+        .mini-scores {
+            margin-top: 8px;
+            font-size: 10px;
+        }
+
+        .mini-scores td {
+            padding: 1px 4px;
+        }
     </style>
 </head>
 <body>
@@ -97,6 +105,12 @@
     <p><strong>Final Decision:</strong> 
         <span class="{{ $paper->final_decision === 'approved' ? 'recommendation-approved' : 'recommendation-rejected' }}">
             {{ strtoupper($paper->final_decision) }}
+        </span>
+    </p>
+    <p>
+        <strong>Average Reviewer Score:</strong> 
+        <span style="font-weight:bold; color:#16a34a;">
+            {{ $paper->average_score ?? 'N/A' }}/100
         </span>
     </p>
 
@@ -123,21 +137,29 @@
                 </td>
                 <td class="total-score">
                     {{ $review->total_score ?? '-' }}/100
-                    @if(isset($review->mini_scores) && count($review->mini_scores) > 0)
-                        <table class="mini-scores">
-                            @foreach($review->mini_scores as $criterion => $score)
-                            <tr>
-                                <td>{{ ucwords(str_replace('_', ' ', $criterion)) }}:</td>
-                                <td>{{ $score }}</td>
-                            </tr>
-                            @endforeach
-                        </table>
-                    @endif
+
+                    <table class="mini-scores">
+                        <tr><td>Title:</td><td>{{ $review->score_title }}/5</td></tr>
+                        <tr><td>Abstract:</td><td>{{ $review->score_abstract }}/5</td></tr>
+                        <tr><td>Introduction:</td><td>{{ $review->score_introduction }}/10</td></tr>
+                        <tr><td>Methods:</td><td>{{ $review->score_methods }}/25</td></tr>
+                        <tr><td>Results:</td><td>{{ $review->score_results }}/25</td></tr>
+                        <tr><td>Discussion:</td><td>{{ $review->score_discussion }}/15</td></tr>
+                        <tr><td>Conclusion:</td><td>{{ $review->score_conclusion }}/10</td></tr>
+                        <tr><td>References:</td><td>{{ $review->score_references }}/5</td></tr>
+                    </table>
                 </td>
-                <td class="{{ $review->recommendation === 'approved' ? 'recommendation-approved' : 'recommendation-rejected' }}">
+                <td class="
+                    @if($review->recommendation === 'accept') recommendation-approved
+                    @elseif($review->recommendation === 'reject') recommendation-rejected
+                    @endif
+                ">
                     {{ ucwords(str_replace('_',' ',$review->recommendation)) }}
                 </td>
-                <td>{{ $review->overall_comments }}</td>
+
+                <td>
+                    {{ $review->overall_comments }}
+                </td>
             </tr>
             @endforeach
         </tbody>
