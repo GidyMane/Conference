@@ -71,12 +71,12 @@
             <h5 class="text-success mb-3">{{ $paper->abstract->title }}</h5>
             <div class="row">
                 <div class="col-md-4">
-                    <p class="mb-2"><strong>Paper ID:</strong> {{ $paper->paper_code ?? 'N/A' }}</p>
+                    <p class="mb-2"><strong>Paper ID:</strong> {{ $paper->abstract->submission_code }}</p>
                     <p class="mb-0"><strong>Author:</strong> {{ $paper->abstract->author_name }}</p>
                 </div>
                 <div class="col-md-4">
                     <p class="mb-2"><strong>Email:</strong> {{ $paper->abstract->author_email }}</p>
-                    <p class="mb-0"><strong>Sub-Theme:</strong> {{ $paper->abstract->sub_theme->name ?? 'N/A' }}</p>
+                    <p class="mb-0"><strong>Sub-Theme:</strong> {{ $paper->abstract->subtheme->full_name ?? 'N/A' }}</p>
                 </div>
                 <div class="col-md-4 text-end">
                     <button class="btn btn-outline-success" onclick="alert('Download would start')">

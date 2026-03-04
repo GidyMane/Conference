@@ -360,26 +360,21 @@
                 <span>Pending Reviews</span>
             </a>
             
-<a href="{{ url('/reviewer/fullpapers-review') }}" 
-   class="menu-item {{ request()->is('reviewer/fullpapers-review*') ? 'active' : '' }}">
-    <i class="fas fa-clipboard-check"></i>
-    <span>Review Management</span>
-</a>
+            <a href="{{ url('/reviewer/fullpapers-review') }}" 
+            class="menu-item {{ request()->is('reviewer/fullpapers-review*') ? 'active' : '' }}">
+                <i class="fas fa-clipboard-check"></i>
+                <span>Full Paper Management</span>
+            </a>
             
             <a href="{{ route('reviewer.completed-reviews') }}" class="menu-item {{ request()->is('reviewer/completed*') ? 'active' : '' }}">
                 <i class="fas fa-check-circle"></i>
                 <span>Completed Reviews</span>
             </a>
-            
-            <a href="{{ route('reviewer.fullpapers.index') }}" class="menu-item {{ request()->is('reviewer/fullpapers') || request()->is('reviewer/fullpapers/*') && !request()->is('reviewer/fullpapers/*/all-reviews') ? 'active' : '' }}">
-    <i class="fas fa-book-reader"></i>
-    <span>Full Papers</span>
-</a>
 
             <a href="{{ url('/reviewer/fullpapers-completed') }}" class="menu-item {{ request()->is('reviewer/fullpapers-completed') || request()->is('reviewer/fullpapers/*/all-reviews') ? 'active' : '' }}">
-    <i class="fas fa-clipboard-list"></i>
-    <span>Fully Reviewed Papers</span>
-</a>
+                <i class="fas fa-clipboard-list"></i>
+                <span>Fully Reviewed Papers</span>
+            </a>
 
             
             <div style="margin: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">

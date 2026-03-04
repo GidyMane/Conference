@@ -36,7 +36,7 @@ class FullPaperReviewController extends Controller
         $stats = [
             'pending_assignment' => $papers->where('status', 'PENDING')->count(),
             'under_review' => $papers->where('status', 'UNDER_REVIEW')->count(),
-            'awaiting_decision' => $papers->where('status', 'AWAITING_DECISION')->count(),
+            'total' => $papers->count(),
             'completed' => $papers->whereIn('status', ['APPROVED', 'REJECTED'])->count(),
         ];
 
@@ -337,13 +337,15 @@ public function showAssignForm($id)
     public function allReviews($id)
     {
         $paper = FullPaper::with([
-            'abstract',
+            'abstract.subTheme',
+            'reviewAssignments.prequalifiedReviewer',
+            'reviewAssignments.peerReviewer',
             'reviewAssignments.fullPaperReview'
         ])->findOrFail($id);
 
-        $reviews = FullPaperReview::whereHas('assignment', function ($q) use ($id) {
-            $q->where('full_paper_id', $id);
-        })->with('assignment')->get();
+        // Instead of separate FullPaperReview query,
+        // just use reviewAssignments
+        $reviews = $paper->reviewAssignments;
 
         return view('reviewer.fullpapers-decision', compact('paper', 'reviews'));
     }

@@ -102,4 +102,58 @@ class FullPaper extends Model
     {
         return $this->hasMany(ReviewAssignment::class);
     }
+
+    // Average Score
+    public function getAverageScoreAttribute()
+    {
+        $reviews = $this->reviewAssignments
+            ->pluck('fullPaperReview')
+            ->filter();
+
+        if ($reviews->isEmpty()) {
+            return null;
+        }
+
+        return round($reviews->avg('total_score'), 1);
+    }
+
+    // Count Accept
+    public function getCountAcceptAttribute()
+    {
+        return $this->reviewAssignments
+            ->pluck('fullPaperReview')
+            ->filter()
+            ->where('recommendation', 'accept')
+            ->count();
+    }
+
+    // Count Reject
+    public function getCountRejectAttribute()
+    {
+        return $this->reviewAssignments
+            ->pluck('fullPaperReview')
+            ->filter()
+            ->where('recommendation', 'reject')
+            ->count();
+    }
+
+    // Count Major
+    public function getCountMajorAttribute()
+    {
+        return $this->reviewAssignments
+            ->pluck('fullPaperReview')
+            ->filter()
+            ->where('recommendation', 'needs_major_revisions')
+            ->count();
+    }
+
+    // Count Minor
+    public function getCountMinorAttribute()
+    {
+        return $this->reviewAssignments
+            ->pluck('fullPaperReview')
+            ->filter()
+            ->where('recommendation', 'needs_minor_revisions')
+            ->count();
+    }
 }

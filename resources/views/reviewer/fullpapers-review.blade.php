@@ -104,8 +104,8 @@
         <div class="col-lg-3 col-md-6 mb-3">
             <div class="stat-card danger">
                 <div>
-                    <p>Awaiting Decision</p>
-                    <h3>{{ $stats['awaiting_decision'] ?? 0 }}</h3>
+                    <p>Total</p>
+                    <h3>{{ $stats['total'] ?? 0 }}</h3>
                 </div>
             </div>
         </div>
@@ -150,9 +150,9 @@
                                     </strong>
                                 </td>
 
-                                <td>{{ $paper->title }}</td>
+                                <td>{{ $paper->abstract->paper_title ?? 'N/A' }}</td>
 
-                                <td>{{ $paper->author_name }}</td>
+                                <td>{{ $paper->abstract->author_name ?? 'N/A' }}</td>
 
                                 <td>
                                     <span class="status-badge status-{{ str_replace('_','-',$paper->status) }}">
