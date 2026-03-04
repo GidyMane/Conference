@@ -126,7 +126,7 @@
 
         <!-- Paper Code -->
         <div class="paper-code">
-            {{ $paper->full_paper_code }}
+            {{ $paper->abstract->submission_code }}
         </div>
 
         <!-- Paper Details -->
@@ -140,7 +140,7 @@
                 </tr>
                 <tr>
                     <td>Paper Code:</td>
-                    <td>{{ $paper->full_paper_code }}</td>
+                    <td>{{ $paper->abstract->submission_code }}</td>
                 </tr>
                 <tr>
                     <td>Author:</td>
