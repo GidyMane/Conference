@@ -251,6 +251,11 @@
     }
     .empty-state i { font-size: 64px; margin-bottom: 18px; display: block; opacity: .35; }
     .empty-state h4 { color: #475569; font-size: 20px; margin-bottom: 8px; }
+
+    .sbadge-under-review {
+    background: #1e5a96; /* blue */
+    color: white;
+}
 </style>
 @endsection
 
@@ -259,26 +264,32 @@
 {{-- Page Hero --}}
 <div class="page-hero">
     <h2><i class="fas fa-clipboard-list me-2"></i>Fully Reviewed Papers</h2>
-    <p>Papers that have completed all three reviews (Expert + Peer Reviewer 1 + Peer Reviewer 2) and are ready for your final decision.</p>
+    <p>Papers that have completed all reviews and are ready for your final decision.</p>
 </div>
 
 {{-- Stats --}}
+@php
+$total       = $papers->count();
+$awaiting    = $papers->where('status', 'awaiting')->count();
+$approved    = $papers->where('status', 'APPROVED')->count();
+$rejected    = $papers->where('status', 'REJECTED')->count();
+@endphp
 <div class="stats-grid">
     <div class="stat-tile t-total">
         <div class="stat-icon"><i class="fas fa-layer-group"></i></div>
-        <div class="stat-info"><h3>8</h3><p>Total Ready</p></div>
+        <div class="stat-info"><h3>{{ $total }}</h3><p>Total Ready</p></div>
     </div>
     <div class="stat-tile t-pending">
         <div class="stat-icon"><i class="fas fa-hourglass-half"></i></div>
-        <div class="stat-info"><h3>5</h3><p>Awaiting Decision</p></div>
+        <div class="stat-info"><h3>{{ $awaiting }}</h3><p>Awaiting Decision</p></div>
     </div>
     <div class="stat-tile t-approve">
         <div class="stat-icon"><i class="fas fa-check-double"></i></div>
-        <div class="stat-info"><h3>2</h3><p>Approved</p></div>
+        <div class="stat-info"><h3>{{ $approved }}</h3><p>Approved</p></div>
     </div>
     <div class="stat-tile t-reject">
         <div class="stat-icon"><i class="fas fa-times-circle"></i></div>
-        <div class="stat-info"><h3>1</h3><p>Rejected</p></div>
+        <div class="stat-info"><h3>{{ $rejected }}</h3><p>Rejected</p></div>
     </div>
 </div>
 
@@ -298,10 +309,9 @@
     </select>
     <select id="subthemeFilter" class="form-select" style="width:200px">
         <option value="">All Sub-Themes</option>
-        <option>Water &amp; Agriculture</option>
-        <option>Soil Health</option>
-        <option>Crop Improvement</option>
-        <option>Climate Adaptation</option>
+        @foreach($subthemes as $subtheme)
+            <option value="{{ $subtheme }}">{{ $subtheme }}</option>
+        @endforeach
     </select>
 </div>
 
@@ -309,7 +319,7 @@
 <div class="table-card">
     <div class="table-card-header">
         <h5><i class="fas fa-table me-2 text-primary"></i>Papers Ready for Final Decision</h5>
-        <span class="badge bg-primary">8 papers</span>
+        <span class="badge bg-primary">{{ $total }} papers</span>
     </div>
     <div class="table-responsive">
         <table class="table mb-0" id="papersTable">
@@ -326,247 +336,60 @@
                 </tr>
             </thead>
             <tbody>
-
-                {{-- ── Row 1 ── --}}
-                <tr data-status="awaiting" data-subtheme="Water &amp; Agriculture">
-                    <td><span class="paper-id">FP-0001</span></td>
+                @forelse($papers as $paper)
+                <tr data-status="{{ $paper->status }}" data-subtheme="{{ $paper->sub_theme }}">
+                    <td><span class="paper-id">{{ $paper->abstract->submission_code }}</span></td>
                     <td>
                         <div class="fw-semibold text-dark" style="max-width:280px;line-height:1.4">
-                            Sustainable Water Management Techniques for Crop Production
+                            {{ $paper->abstract->title }}
                         </div>
-                        <small class="text-muted">Dr. Mary Wanjiru</small>
+                        <small class="text-muted">{{ $paper->abstract->author_name }}</small>
                     </td>
-                    <td><span class="subtheme-tag">Water &amp; Agriculture</span></td>
+                    <td><span class="subtheme-tag">{{ $paper->abstract->subtheme->full_name ?? 'N/A' }}</span></td>
                     <td class="text-center">
                         <div class="review-dots justify-content-center">
-                            <div class="rdot done"><i class="fas fa-check"></i>
-                                <span class="rtip">Expert Reviewer · Prof. Otieno · 82/100</span></div>
-                            <div class="rdot done"><i class="fas fa-check"></i>
-                                <span class="rtip">Peer Reviewer 1 · Dr. Mwangi · 75/100</span></div>
-                            <div class="rdot done"><i class="fas fa-check"></i>
-                                <span class="rtip">Peer Reviewer 2 · Dr. Njeri · 77/100</span></div>
+                            @foreach($paper->reviews as $review)
+                                <div class="rdot done"><i class="fas fa-check"></i>
+                                    <span class="rtip">{{ $review->role }} · {{ $review->reviewer_name }} · {{ $review->score }}/100</span>
+                                </div>
+                            @endforeach
                         </div>
                     </td>
-                    <td class="text-center"><span class="score-pill">78/100</span></td>
-                    <td><span class="sbadge sbadge-awaiting">Awaiting Decision</span></td>
-                    <td class="text-muted" style="font-size:13px">Feb 22, 2026</td>
+                    <td class="text-center">
+                        @php
+                            $avgScore = $paper->average_score ?? 0;
+                            $scoreClass = $avgScore >= 80 ? '' : ($avgScore >= 65 ? 'mid' : 'low');
+                        @endphp
+                        <span class="score-pill {{ $scoreClass }}">{{ $avgScore }}/100</span>
+                    </td>
                     <td>
-                        <a href="{{ url('/reviewer/fullpapers/1/all-reviews') }}" class="btn-review-paper">
+                        @php
+                            $statusClass = match(strtoupper($paper->status)) {
+                                'REJECTED'       => 'sbadge-rejected',
+                                'UNDER_REVIEW'   => 'sbadge-under-review',
+                                default          => 'sbadge-awaiting',
+                            };
+                        @endphp
+                        <span class="sbadge {{ $statusClass }}">{{ ucfirst($paper->status) }}</span>
+                    </td>
+                    <td class="text-muted" style="font-size:13px">{{ $paper->updated_at->format('M d, Y') }}</td>
+                    <td>
+                        @if($paper->status === 'awaiting')
+                        <a href="{{ url('/reviewer/fullpapers/'.$paper->id.'/all-reviews') }}" class="btn-review-paper">
                             <i class="fas fa-eye"></i> View Reviews
                         </a>
-                    </td>
-                </tr>
-
-                {{-- ── Row 2 ── --}}
-                <tr data-status="awaiting" data-subtheme="Soil Health">
-                    <td><span class="paper-id">FP-0002</span></td>
-                    <td>
-                        <div class="fw-semibold text-dark" style="max-width:280px;line-height:1.4">
-                            Biochar Applications in Degraded Soil Restoration
-                        </div>
-                        <small class="text-muted">Prof. James Kamau</small>
-                    </td>
-                    <td><span class="subtheme-tag">Soil Health</span></td>
-                    <td class="text-center">
-                        <div class="review-dots justify-content-center">
-                            <div class="rdot done"><i class="fas fa-check"></i>
-                                <span class="rtip">Expert Reviewer · Dr. Achieng · 88/100</span></div>
-                            <div class="rdot done"><i class="fas fa-check"></i>
-                                <span class="rtip">Peer Reviewer 1 · Dr. Koech · 80/100</span></div>
-                            <div class="rdot done"><i class="fas fa-check"></i>
-                                <span class="rtip">Peer Reviewer 2 · Ms. Odhiambo · 84/100</span></div>
-                        </div>
-                    </td>
-                    <td class="text-center"><span class="score-pill">84/100</span></td>
-                    <td><span class="sbadge sbadge-awaiting">Awaiting Decision</span></td>
-                    <td class="text-muted" style="font-size:13px">Feb 20, 2026</td>
-                    <td>
-                        <a href="{{ url('/reviewer/fullpapers/2/all-reviews') }}" class="btn-review-paper">
-                            <i class="fas fa-eye"></i> View Reviews
-                        </a>
-                    </td>
-                </tr>
-
-                {{-- ── Row 3 ── --}}
-                <tr data-status="approved" data-subtheme="Crop Improvement">
-                    <td><span class="paper-id">FP-0003</span></td>
-                    <td>
-                        <div class="fw-semibold text-dark" style="max-width:280px;line-height:1.4">
-                            Genomic Selection in Maize Breeding for Drought Tolerance
-                        </div>
-                        <small class="text-muted">Dr. Alice Muthoni</small>
-                    </td>
-                    <td><span class="subtheme-tag">Crop Improvement</span></td>
-                    <td class="text-center">
-                        <div class="review-dots justify-content-center">
-                            <div class="rdot done"><i class="fas fa-check"></i>
-                                <span class="rtip">Expert Reviewer · Prof. Oloo · 91/100</span></div>
-                            <div class="rdot done"><i class="fas fa-check"></i>
-                                <span class="rtip">Peer Reviewer 1 · Dr. Mutua · 87/100</span></div>
-                            <div class="rdot done"><i class="fas fa-check"></i>
-                                <span class="rtip">Peer Reviewer 2 · Dr. Wamae · 89/100</span></div>
-                        </div>
-                    </td>
-                    <td class="text-center"><span class="score-pill">89/100</span></td>
-                    <td><span class="sbadge sbadge-approved">Approved</span></td>
-                    <td class="text-muted" style="font-size:13px">Feb 18, 2026</td>
-                    <td>
-                        <a href="{{ url('/reviewer/fullpapers/3/all-reviews') }}" class="btn-view-decision">
+                        @else
+                        <a href="{{ url('/reviewer/fullpapers/'.$paper->id.'/all-reviews') }}" class="btn-view-decision">
                             <i class="fas fa-check-circle"></i> View Decision
                         </a>
+                        @endif
                     </td>
                 </tr>
-
-                {{-- ── Row 4 ── --}}
-                <tr data-status="rejected" data-subtheme="Climate Adaptation">
-                    <td><span class="paper-id">FP-0004</span></td>
-                    <td>
-                        <div class="fw-semibold text-dark" style="max-width:280px;line-height:1.4">
-                            Climate-Smart Agriculture Practices in Semi-Arid Kenya
-                        </div>
-                        <small class="text-muted">Mr. Brian Oduya</small>
-                    </td>
-                    <td><span class="subtheme-tag">Climate Adaptation</span></td>
-                    <td class="text-center">
-                        <div class="review-dots justify-content-center">
-                            <div class="rdot done"><i class="fas fa-check"></i>
-                                <span class="rtip">Expert Reviewer · Prof. Njega · 51/100</span></div>
-                            <div class="rdot done"><i class="fas fa-check"></i>
-                                <span class="rtip">Peer Reviewer 1 · Dr. Tanui · 48/100</span></div>
-                            <div class="rdot done"><i class="fas fa-check"></i>
-                                <span class="rtip">Peer Reviewer 2 · Dr. Wekesa · 54/100</span></div>
-                        </div>
-                    </td>
-                    <td class="text-center"><span class="score-pill low">51/100</span></td>
-                    <td><span class="sbadge sbadge-rejected">Rejected</span></td>
-                    <td class="text-muted" style="font-size:13px">Feb 17, 2026</td>
-                    <td>
-                        <a href="{{ url('/reviewer/fullpapers/4/all-reviews') }}" class="btn-view-decision" style="color:#dc2626;border-color:#dc2626">
-                            <i class="fas fa-times-circle"></i> View Decision
-                        </a>
-                    </td>
+                @empty
+                <tr>
+                    <td colspan="8" class="text-center py-5">No papers found.</td>
                 </tr>
-
-                {{-- ── Row 5 ── --}}
-                <tr data-status="awaiting" data-subtheme="Soil Health">
-                    <td><span class="paper-id">FP-0005</span></td>
-                    <td>
-                        <div class="fw-semibold text-dark" style="max-width:280px;line-height:1.4">
-                            Nitrogen Fixation Efficiency of Legume Cover Crops in Western Kenya
-                        </div>
-                        <small class="text-muted">Dr. Rachel Simiyu</small>
-                    </td>
-                    <td><span class="subtheme-tag">Soil Health</span></td>
-                    <td class="text-center">
-                        <div class="review-dots justify-content-center">
-                            <div class="rdot done"><i class="fas fa-check"></i>
-                                <span class="rtip">Expert Reviewer · Dr. Kirui · 73/100</span></div>
-                            <div class="rdot done"><i class="fas fa-check"></i>
-                                <span class="rtip">Peer Reviewer 1 · Ms. Chebet · 70/100</span></div>
-                            <div class="rdot done"><i class="fas fa-check"></i>
-                                <span class="rtip">Peer Reviewer 2 · Dr. Nderitu · 68/100</span></div>
-                        </div>
-                    </td>
-                    <td class="text-center"><span class="score-pill mid">70/100</span></td>
-                    <td><span class="sbadge sbadge-awaiting">Awaiting Decision</span></td>
-                    <td class="text-muted" style="font-size:13px">Feb 24, 2026</td>
-                    <td>
-                        <a href="{{ url('/reviewer/fullpapers/5/all-reviews') }}" class="btn-review-paper">
-                            <i class="fas fa-eye"></i> View Reviews
-                        </a>
-                    </td>
-                </tr>
-
-                {{-- ── Row 6 ── --}}
-                <tr data-status="awaiting" data-subtheme="Water &amp; Agriculture">
-                    <td><span class="paper-id">FP-0006</span></td>
-                    <td>
-                        <div class="fw-semibold text-dark" style="max-width:280px;line-height:1.4">
-                            Rainwater Harvesting Innovations for Smallholder Farmers
-                        </div>
-                        <small class="text-muted">Eng. Samuel Ndegwa</small>
-                    </td>
-                    <td><span class="subtheme-tag">Water &amp; Agriculture</span></td>
-                    <td class="text-center">
-                        <div class="review-dots justify-content-center">
-                            <div class="rdot done"><i class="fas fa-check"></i>
-                                <span class="rtip">Expert Reviewer · Prof. Kariuki · 79/100</span></div>
-                            <div class="rdot done"><i class="fas fa-check"></i>
-                                <span class="rtip">Peer Reviewer 1 · Dr. Oginga · 76/100</span></div>
-                            <div class="rdot done"><i class="fas fa-check"></i>
-                                <span class="rtip">Peer Reviewer 2 · Dr. Maina · 81/100</span></div>
-                        </div>
-                    </td>
-                    <td class="text-center"><span class="score-pill">79/100</span></td>
-                    <td><span class="sbadge sbadge-awaiting">Awaiting Decision</span></td>
-                    <td class="text-muted" style="font-size:13px">Feb 23, 2026</td>
-                    <td>
-                        <a href="{{ url('/reviewer/fullpapers/6/all-reviews') }}" class="btn-review-paper">
-                            <i class="fas fa-eye"></i> View Reviews
-                        </a>
-                    </td>
-                </tr>
-
-                {{-- ── Row 7 ── --}}
-                <tr data-status="awaiting" data-subtheme="Crop Improvement">
-                    <td><span class="paper-id">FP-0007</span></td>
-                    <td>
-                        <div class="fw-semibold text-dark" style="max-width:280px;line-height:1.4">
-                            Integrated Pest Management for Tomato Production in Smallholder Systems
-                        </div>
-                        <small class="text-muted">Dr. Grace Adhiambo</small>
-                    </td>
-                    <td><span class="subtheme-tag">Crop Improvement</span></td>
-                    <td class="text-center">
-                        <div class="review-dots justify-content-center">
-                            <div class="rdot done"><i class="fas fa-check"></i>
-                                <span class="rtip">Expert Reviewer · Dr. Mwenda · 85/100</span></div>
-                            <div class="rdot done"><i class="fas fa-check"></i>
-                                <span class="rtip">Peer Reviewer 1 · Mr. Kioni · 82/100</span></div>
-                            <div class="rdot done"><i class="fas fa-check"></i>
-                                <span class="rtip">Peer Reviewer 2 · Dr. Onyango · 80/100</span></div>
-                        </div>
-                    </td>
-                    <td class="text-center"><span class="score-pill">82/100</span></td>
-                    <td><span class="sbadge sbadge-awaiting">Awaiting Decision</span></td>
-                    <td class="text-muted" style="font-size:13px">Feb 25, 2026</td>
-                    <td>
-                        <a href="{{ url('/reviewer/fullpapers/7/all-reviews') }}" class="btn-review-paper">
-                            <i class="fas fa-eye"></i> View Reviews
-                        </a>
-                    </td>
-                </tr>
-
-                {{-- ── Row 8 ── --}}
-                <tr data-status="approved" data-subtheme="Climate Adaptation">
-                    <td><span class="paper-id">FP-0008</span></td>
-                    <td>
-                        <div class="fw-semibold text-dark" style="max-width:280px;line-height:1.4">
-                            Digital Tools for Real-Time Crop Monitoring and Advisory Systems
-                        </div>
-                        <small class="text-muted">Ms. Faith Kibet</small>
-                    </td>
-                    <td><span class="subtheme-tag">Climate Adaptation</span></td>
-                    <td class="text-center">
-                        <div class="review-dots justify-content-center">
-                            <div class="rdot done"><i class="fas fa-check"></i>
-                                <span class="rtip">Expert Reviewer · Prof. Muiruri · 90/100</span></div>
-                            <div class="rdot done"><i class="fas fa-check"></i>
-                                <span class="rtip">Peer Reviewer 1 · Dr. Barasa · 88/100</span></div>
-                            <div class="rdot done"><i class="fas fa-check"></i>
-                                <span class="rtip">Peer Reviewer 2 · Dr. Chege · 92/100</span></div>
-                        </div>
-                    </td>
-                    <td class="text-center"><span class="score-pill">90/100</span></td>
-                    <td><span class="sbadge sbadge-approved">Approved</span></td>
-                    <td class="text-muted" style="font-size:13px">Feb 16, 2026</td>
-                    <td>
-                        <a href="{{ url('/reviewer/fullpapers/8/all-reviews') }}" class="btn-view-decision">
-                            <i class="fas fa-check-circle"></i> View Decision
-                        </a>
-                    </td>
-                </tr>
-
+                @endforelse
             </tbody>
         </table>
     </div>

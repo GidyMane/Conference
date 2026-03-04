@@ -328,7 +328,15 @@ public function showAssignForm($id)
      */
     public function completedReviews()
     {
-        return view('reviewer.fullpapers-completed');
+        // Get only papers with final decision 'approved' or 'rejected'
+        $papers = \App\Models\FullPaper::with('reviews', 'abstract', 'abstract.subtheme')
+            ->whereIn('status', ['approved', 'rejected']) // <-- filter here
+            ->get();
+
+        // Get unique sub-themes for the filter dropdown
+        $subthemes = $papers->pluck('sub_theme')->unique();
+
+        return view('reviewer.fullpapers-completed', compact('papers', 'subthemes'));
     }
 
     /**

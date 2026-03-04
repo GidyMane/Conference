@@ -5,48 +5,15 @@
 
 @section('content')
 <style>
-    .review-summary-card {
-        background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-        border-left: 5px solid #3b82f6;
-        border-radius: 12px;
-        padding: 24px;
-        margin-bottom: 24px;
-    }
-    .review-card {
-        border-radius: 12px;
-        overflow: hidden;
-        margin-bottom: 24px;
-        box-shadow: 0 4px 12px rgba(0,0,0,.1);
-    }
-    .review-header {
-        background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
-        color: white;
-        padding: 16px 20px;
-    }
-    .review-body {
-        padding: 24px;
-        background: white;
-    }
-    .score-display {
-        font-size: 48px;
-        font-weight: 700;
-        color: #16a34a;
-    }
-    .section-score-row {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px 0;
-        border-bottom: 1px dashed #e5e7eb;
-    }
+    /* --- existing styles --- */
+    .review-summary-card { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 5px solid #3b82f6; border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+    .review-card { border-radius: 12px; overflow: hidden; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,.1); }
+    .review-header { background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: white; padding: 16px 20px; }
+    .review-body { padding: 24px; background: white; }
+    .score-display { font-size: 48px; font-weight: 700; color: #16a34a; }
+    .section-score-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed #e5e7eb; }
     .section-score-row:last-child { border-bottom: none; }
-    
-    .recommendation-badge {
-        padding: 8px 16px;
-        border-radius: 20px;
-        font-weight: 700;
-        text-transform: uppercase;
-        font-size: 13px;
-    }
+    .recommendation-badge { padding: 8px 16px; border-radius: 20px; font-weight: 700; text-transform: uppercase; font-size: 13px; }
     .rec-accept { background: #d1fae5; color: #065f46; }
     .rec-needs_major_revisions { background: #fed7aa; color: #9a3412; }
     .rec-needs_minor_revisions { background: #fef3c7; color: #92400e; }
@@ -54,7 +21,7 @@
 </style>
 
 <div class="container-fluid py-4">
-    
+
     {{-- Breadcrumb --}}
     <nav aria-label="breadcrumb" class="mb-3">
         <ol class="breadcrumb">
@@ -134,7 +101,6 @@
                     <div>
                         <h6 class="mb-1"><i class="fas fa-user-circle me-2"></i> {{ $reviewerName }}</h6>
                         <small>
-                            {{ $assignment->isPrequalified() ? 'Prequalified Reviewer' : 'Peer Reviewer' }} · 
                             @if($review && $review->submitted_at)
                                 Submitted {{ $review->submitted_at->format('M d, Y') }}
                             @else
@@ -192,9 +158,10 @@
     @endforeach
 
     @php
-        // Count submitted reviews
         $submittedCount = $reviews->filter(fn($a) => $a->fullPaperReview?->submitted_at)->count();
         $allReviewed = $submittedCount === $reviews->count();
+        $decisionMade = !is_null($paper->final_decision);
+        $disableForm = !$allReviewed || $decisionMade;
     @endphp
 
     {{-- Decision Form --}}
@@ -205,18 +172,22 @@
             </h5>
         </div>
         <div class="card-body">
-            @if(!$allReviewed)
+            @if($disableForm && !$decisionMade)
                 <div class="alert alert-info">
                     <i class="fas fa-info-circle me-2"></i>
                     Final decision cannot be made until all reviewers have submitted their reviews.
                     ({{ $submittedCount }}/{{ $reviews->count() }} submitted)
                 </div>
+            @elseif($decisionMade)
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle me-2"></i>
+                    Final decision has already been made: <strong>{{ strtoupper($paper->final_decision) }}</strong>
+                </div>
             @endif
 
             <form method="POST" action="{{ route('reviewer.fullpapers.final-decision', $paper->id) }}">
                 @csrf
-                {{-- Disable form fields if not all reviews submitted --}}
-                <fieldset @if(!$allReviewed) disabled @endif>
+                <fieldset @if($disableForm) disabled @endif>
                     <div class="mb-4">
                         <label class="form-label fw-bold">Decision <span class="text-danger">*</span></label>
                         <div class="row">
@@ -260,4 +231,6 @@
             </form>
         </div>
     </div>
+
+</div>
 @endsection

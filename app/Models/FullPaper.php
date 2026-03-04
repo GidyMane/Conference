@@ -156,4 +156,6 @@ class FullPaper extends Model
             ->where('recommendation', 'needs_minor_revisions')
             ->count();
     }
+
+
 }
