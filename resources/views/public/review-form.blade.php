@@ -109,22 +109,27 @@
                     <h5><i class="fas fa-info-circle me-2"></i>Paper Details</h5>
                 </div>
                 <div class="section-body">
-                    <h6 class="text-success mb-3">Sustainable Water Management Techniques for Crop Production</h6>
+
+                    <h6 class="text-success mb-3">{{ $assignment->fullPaper->abstract->title }}</h6>
+
                     <div class="row">
                         <div class="col-md-6">
-                            <p class="mb-2"><strong>Submission ID:</strong> SUB45-003</p>
-                            <p class="mb-2"><strong>Paper ID:</strong> FP-0003</p>
-                            <p class="mb-0"><strong>Author:</strong> Dr. Mary Wanjiru</p>
+                            <p class="mb-2"><strong>Submission ID:</strong> {{ $assignment->fullPaper->abstract->submission_code }}</p>
+                            <p class="mb-2"><strong>Paper ID:</strong> {{ $assignment->fullPaper->full_paper_code }}</p>
+                            <p class="mb-0"><strong>Author:</strong> {{ $assignment->fullPaper->abstract->author_name }}</p>
                         </div>
                         <div class="col-md-6">
-                            <p class="mb-2"><strong>Sub-Theme:</strong> Water & Agriculture</p>
-                            <p class="mb-0"><strong>Your Role:</strong> Prequalified Reviewer</p>
+                            <p class="mb-2"><strong>Sub-Theme:</strong> {{ $assignment->fullPaper->abstract->subtheme->full_name ?? '-' }}</p>
+                            <p class="mb-0"><strong>Your Role:</strong> 
+                                {{ $assignment->prequalifiedReviewer ? 'Prequalified Reviewer' : 'Peer Reviewer' }}
+                            </p>
                         </div>
                     </div>
+
                     <div class="mt-3">
-                        <button class="btn btn-success" onclick="alert('Download would start')">
+                        <a href="{{ asset('full-papers/' . $assignment->fullPaper->file_path) }}" class="btn btn-success" target="_blank">
                             <i class="fas fa-download me-1"></i>Download Full Paper PDF
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
