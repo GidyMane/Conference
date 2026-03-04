@@ -381,7 +381,9 @@ public function showAssignForm($id)
         $authorEmail = $paper->abstract->author_email;
         Mail::to($authorEmail)->send(new FinalDecisionMail($paper, $pdfContent));
 
-        return back()->with('success', 'Decision submitted and author notified.');
+        // Redirect to full papers review page with success message
+        return redirect('/reviewer/fullpapers-review')
+            ->with('success', 'Decision submitted and author notified.');
     }
 
     public function submitReview(Request $request, $assignmentId)
