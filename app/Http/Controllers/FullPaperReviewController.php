@@ -34,10 +34,10 @@ class FullPaperReviewController extends Controller
 
         // Stats
         $stats = [
-            'pending_assignment' => $papers->where('status', 'pending_assignment')->count(),
-            'under_review' => $papers->where('status', 'under_review')->count(),
-            'awaiting_decision' => $papers->where('status', 'awaiting_decision')->count(),
-            'completed' => $papers->whereIn('status', ['approved', 'rejected'])->count(),
+            'pending_assignment' => $papers->where('status', 'PENDING')->count(),
+            'under_review' => $papers->where('status', 'UNDER_REVIEW')->count(),
+            'awaiting_decision' => $papers->where('status', 'AWAITING_DECISION')->count(),
+            'completed' => $papers->whereIn('status', ['APPROVED', 'REJECTED'])->count(),
         ];
 
         return view('reviewer.fullpapers-review', compact('papers', 'stats'));

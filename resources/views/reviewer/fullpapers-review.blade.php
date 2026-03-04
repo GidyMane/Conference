@@ -87,31 +87,34 @@
             <div class="stat-card warning">
                 <div>
                     <p>Pending Assignment</p>
-                    <h3>3</h3>
+                    <h3>{{ $stats['pending_assignment'] ?? 0 }}</h3>
                 </div>
             </div>
         </div>
+
         <div class="col-lg-3 col-md-6 mb-3">
             <div class="stat-card primary">
                 <div>
                     <p>Under Review</p>
-                    <h3>5</h3>
+                    <h3>{{ $stats['under_review'] ?? 0 }}</h3>
                 </div>
             </div>
         </div>
+
         <div class="col-lg-3 col-md-6 mb-3">
             <div class="stat-card danger">
                 <div>
                     <p>Awaiting Decision</p>
-                    <h3>2</h3>
+                    <h3>{{ $stats['awaiting_decision'] ?? 0 }}</h3>
                 </div>
             </div>
         </div>
+
         <div class="col-lg-3 col-md-6 mb-3">
             <div class="stat-card success">
                 <div>
                     <p>Completed</p>
-                    <h3>12</h3>
+                    <h3>{{ $stats['completed'] ?? 0 }}</h3>
                 </div>
             </div>
         </div>
