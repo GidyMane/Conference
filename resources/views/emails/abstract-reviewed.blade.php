@@ -426,7 +426,7 @@
                 we are sorry to let you know that your abstract has not been selected for this
                 year's conference programme. We understand this may be disappointing, and we
                 want you to know that this decision reflects the highly competitive nature of
-                the selection process — it is not a reflection of your dedication or the
+                the selection process it is not a reflection of your dedication or the
                 significance of your research.
             </p>
 
@@ -450,7 +450,7 @@
             <div class="encouragement-box">
                 <strong>💡 A note of encouragement</strong>
                 Many researchers whose work has gone on to make a lasting impact have faced setbacks
-                along the way. Please do not be discouraged — every piece of feedback is an
+                along the way. Please do not be discouraged every piece of feedback is an
                 opportunity to refine and strengthen your research. We warmly invite you to
                 use these comments, keep building on your work, and consider submitting to
                 future KALRO scientific events. We would genuinely love to see you back.
@@ -483,7 +483,7 @@
          FOOTER
     ══════════════════════════════════════ --}}
     <div class="footer">
-        <p>This is an automated message — please do not reply directly to this email.</p>
+        <p>This is an automated message please do not reply directly to this email.</p>
         <p>© {{ date('Y') }} 2nd KALRO Scientific Conference and Exhibition. All rights reserved.</p>
     </div>
 
