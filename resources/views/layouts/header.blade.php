@@ -217,7 +217,7 @@
                             </li>
                             <li>
                                 <a class="dropdown-item {{ Request::is('conference/register') ? 'active' : '' }}"
-                                   href="/conference/register">
+                                   href="#">
                                    <i class="fas fa-user-plus me-1"></i> Register as Participant
                                 </a>
                             </li>
@@ -247,7 +247,7 @@
                 </ul>
 
                 <div class="d-flex">
-                    <a href="/conference/register" class="btn btn-warning btn-sm">
+                    <a href="#" class="btn btn-warning btn-sm">
                         <i class="fas fa-user-plus me-1"></i> Register Now
                     </a>
                 </div>
