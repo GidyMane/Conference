@@ -223,7 +223,7 @@
                             </li>
                             <li>
                                 <a class="dropdown-item {{ Request::is('exhibition/register') ? 'active' : '' }}"
-                                   href="/exhibition/register">
+                                   href="#">
                                    <i class="fas fa-handshake me-1"></i> Become an Exhibitor
                                 </a>
                             </li>
