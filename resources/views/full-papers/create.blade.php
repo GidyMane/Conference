@@ -91,6 +91,16 @@
             margin: 1rem 0;
             border-radius: 5px;
         }
+        .author-removal-notice {
+            background: #fff1f2;
+            border-left: 4px solid #e11d48;
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+        .author-removal-notice strong {
+            color: #be123c;
+        }
         .hero {
             background: linear-gradient(135deg, #158532 0%, #0d5c23 100%);
             color: white;
@@ -100,6 +110,26 @@
         .theme-title {
             font-size: 1.5rem;
             font-weight: 600;
+        }
+        .acknowledgement-box {
+            background: #fef9ec;
+            border: 2px solid #f59e0b;
+            border-radius: 8px;
+            padding: 16px 18px;
+            margin-bottom: 16px;
+        }
+        .acknowledgement-box .form-check-label {
+            font-weight: 600;
+            color: #78350f;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .acknowledgement-box .form-check-input {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            cursor: pointer;
+            accent-color: #d97706;
         }
     </style>
 </head>
@@ -149,6 +179,12 @@
                     <strong><i class="fas fa-exclamation-triangle me-2"></i>Important:</strong> 
                     Abstracts and full papers must align with one of the conference sub-themes. 
                     Authors will participate in peer review and mentorship.
+                </div>
+
+                <!-- Author Removal Notice -->
+                <div class="author-removal-notice">
+                    <strong><i class="fas fa-user-slash me-2"></i>Author Anonymisation Required:</strong>
+                    Kindly <strong>remove / delete ALL author details and affiliation</strong> from the paper before uploading it. This is required to ensure a fair, double-blind peer review process.
                 </div>
 
                 <div class="guidelines-section">
@@ -312,6 +348,22 @@
                 <div id="progressText" class="text-center mt-2">0%</div>
             </div>
 
+            {{-- Author Removal Acknowledgement --}}
+            <div id="acknowledgementBox" class="acknowledgement-box" style="display:none;">
+                <div class="form-check d-flex align-items-start gap-2">
+                    <input class="form-check-input flex-shrink-0"
+                           type="checkbox"
+                           name="author_removal_acknowledged"
+                           id="authorRemovalAck"
+                           value="1"
+                           required>
+                    <label class="form-check-label" for="authorRemovalAck">
+                        <i class="fas fa-user-slash me-1 text-warning"></i>
+                        I acknowledge that I have removed all author details and affiliation from the attached paper.
+                    </label>
+                </div>
+            </div>
+
             <button id="submitBtn" class="btn btn-success submit-btn">
                 <i class="fas fa-paper-plane me-2"></i>Submit Paper
             </button>
@@ -369,6 +421,12 @@
                         References formatted correctly with examples provided
                     </label>
                 </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="check8">
+                    <label class="form-check-label" for="check8">
+                        All author details and affiliation have been removed from the paper
+                    </label>
+                </div>
             </div>
         </div>
     </div>
@@ -384,6 +442,7 @@ $(function () {
     const fileInput = $('#full_paper');
     const fileInfo = $('#fileInfo');
     const submitBtn = $('#submitBtn');
+    const acknowledgementBox = $('#acknowledgementBox');
 
     uploadArea.on('click', () => fileInput.click());
 
@@ -407,6 +466,7 @@ $(function () {
             </div>
         `);
 
+        acknowledgementBox.show();
         submitBtn.show();
     });
 });
