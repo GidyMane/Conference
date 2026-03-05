@@ -130,7 +130,7 @@
         display: inline-block;
     }
 
-    .status.pending {
+    .status.resubmit {
         background: #fff3cd;
         color: #856404;
     }
@@ -593,6 +593,16 @@
                                id="rejectCheckbox" value="REJECTED">
                         <label class="form-check-label text-danger fw-semibold" for="rejectCheckbox">
                             <i class="fas fa-times me-1"></i> Reject
+                        </label>
+                    </div>
+
+                    <div class="form-check mt-2">
+                        <input class="form-check-input decision-checkbox"
+                            type="checkbox"
+                            id="resubmitCheckbox"
+                            value="RESUBMIT">
+                        <label class="form-check-label text-warning fw-semibold" for="resubmitCheckbox">
+                            <i class="fas fa-redo me-1"></i> Request Resubmission
                         </label>
                     </div>
 

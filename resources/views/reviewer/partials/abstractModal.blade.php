@@ -135,6 +135,16 @@
                     </label>
                 </div>
 
+                <div class="form-check mt-2">
+                    <input class="form-check-input decision-checkbox"
+                        type="checkbox"
+                        id="resubmitCheckbox"
+                        value="RESUBMIT">
+                    <label class="form-check-label text-warning fw-semibold" for="resubmitCheckbox">
+                        <i class="fas fa-redo me-1"></i> Request Resubmission
+                    </label>
+                </div>
+
 
                     <small id="reviewLockedMsg" class="text-muted d-none mt-2">
                         <i class="fas fa-lock me-1"></i> This abstract has already been reviewed.
@@ -170,26 +180,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const commentField = document.getElementById('reviewComment');
     const approveCheckbox = document.getElementById('approveCheckbox');
     const rejectCheckbox = document.getElementById('rejectCheckbox');
+    const resubmitCheckbox = document.getElementById('resubmitCheckbox');
     const sendBtn = document.getElementById('sendFeedbackBtn');
     const lockMsg = document.getElementById('reviewLockedMsg');
 
-    // Ensure only one checkbox is checked at a time
-    document.querySelectorAll('.decision-checkbox').forEach(cb => {
+    const decisionCheckboxes = document.querySelectorAll('.decision-checkbox');
+
+    /* Ensure only one decision can be selected */
+    decisionCheckboxes.forEach(cb => {
         cb.addEventListener('change', () => {
             if (cb.checked) {
-                document.querySelectorAll('.decision-checkbox').forEach(other => {
+                decisionCheckboxes.forEach(other => {
                     if (other !== cb) other.checked = false;
                 });
             }
         });
     });
 
-    // Open modal and populate fields
+    /* Open modal and populate abstract details */
     document.querySelectorAll('.view-abstract').forEach(btn => {
+
         btn.addEventListener('click', () => {
+
             const d = btn.dataset;
 
-            // Helper to set text
             const setText = (id, value) => {
                 const el = document.getElementById(id);
                 if (el) el.textContent = value || '—';
@@ -214,46 +228,65 @@ document.addEventListener('DOMContentLoaded', () => {
 
             document.getElementById('reviewAbstractId').value = d.id;
 
-            // Lock fields if already reviewed
+            /* If already reviewed lock fields */
             if (d.reviewComment || d.reviewDecision) {
+
                 commentField.value = d.reviewComment || '';
                 commentField.disabled = true;
 
                 approveCheckbox.checked = d.reviewDecision === 'APPROVED';
                 rejectCheckbox.checked = d.reviewDecision === 'REJECTED';
+                resubmitCheckbox.checked = d.reviewDecision === 'RESUBMIT';
 
                 approveCheckbox.disabled = true;
                 rejectCheckbox.disabled = true;
+                resubmitCheckbox.disabled = true;
+
                 sendBtn.style.display = 'none';
                 lockMsg.classList.remove('d-none');
+
             } else {
+
                 commentField.disabled = false;
                 commentField.value = '';
+
                 approveCheckbox.checked = false;
                 rejectCheckbox.checked = false;
+                resubmitCheckbox.checked = false;
+
                 approveCheckbox.disabled = false;
                 rejectCheckbox.disabled = false;
+                resubmitCheckbox.disabled = false;
+
                 sendBtn.style.display = 'inline-block';
                 lockMsg.classList.add('d-none');
             }
 
-            // Show existing review wrapper if present
-            document.getElementById('existingReviewWrapper').classList.toggle('d-none', !d.reviewComment);
+            /* Show existing review */
+            document.getElementById('existingReviewWrapper')
+                .classList.toggle('d-none', !d.reviewComment);
         });
     });
 
-    // Submit review
+    /* Submit Review */
     sendBtn.addEventListener('click', function() {
+
         const abstractId = document.getElementById('reviewAbstractId').value;
         const comment = commentField.value;
-        const decision = approveCheckbox.checked
-            ? 'APPROVED'
-            : rejectCheckbox.checked
-            ? 'REJECTED'
-            : '';
+
+        const decision =
+            approveCheckbox.checked ? 'APPROVED' :
+            rejectCheckbox.checked ? 'REJECTED' :
+            resubmitCheckbox.checked ? 'RESUBMIT' :
+            '';
 
         if (!decision) {
             alert('Please select a review decision.');
+            return;
+        }
+
+        if (!comment.trim()) {
+            alert('Please provide reviewer comments.');
             return;
         }
 
@@ -261,7 +294,8 @@ document.addEventListener('DOMContentLoaded', () => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                'X-CSRF-TOKEN': document
+                    .querySelector('meta[name="csrf-token"]').content
             },
             body: JSON.stringify({
                 abstract_id: abstractId,
@@ -270,12 +304,13 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         })
         .then(async res => {
-            const text = await res.text(); // get raw text
+
+            const text = await res.text();
+
             let data;
             try {
-                data = JSON.parse(text); // try to parse JSON
+                data = JSON.parse(text);
             } catch {
-                // if not JSON, treat it as server error
                 throw new Error(text || 'Unknown server error');
             }
 
@@ -285,13 +320,13 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 alert(data.message || 'Something went wrong.');
             }
+
         })
         .catch(err => {
             console.error(err);
             alert('An error occurred while submitting your review: ' + err.message);
         });
     });
-
 
 });
 </script>

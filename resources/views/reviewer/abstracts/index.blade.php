@@ -141,7 +141,7 @@
 
                                 $statusMap = [
                                     'pending' => ['Pending', 'bg-warning'],
-                                    'reviewed' => ['Reviewed', 'bg-primary'],
+                                    'resubmit' => ['Resubmit', 'bg-info'],
                                     'approved' => ['Approved', 'bg-success'],
                                     'rejected' => ['Rejected', 'bg-danger'],
                                 ];

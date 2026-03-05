@@ -28,7 +28,7 @@ class ReviewerAbstractController extends Controller
         // --- Filters ---
         $statusMap = [
             'pending'  => 'UNDER_REVIEW',
-            'reviewed' => ['APPROVED', 'REJECTED'], // multiple statuses
+            'resubmit' => ['RESUBMIT'], // multiple statuses
             'approved' => 'APPROVED',
             'rejected' => 'REJECTED',
         ];

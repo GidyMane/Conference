@@ -8,6 +8,7 @@ use App\Models\AbstractReview;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AbstractReviewedMail;
 use Illuminate\Support\Facades\URL;
+use App\Mail\AbstractResubmitMail;
 
 class AbstractsController extends Controller
 {
@@ -15,7 +16,7 @@ class AbstractsController extends Controller
     {
         $request->validate([
             'abstract_id' => 'required|exists:submitted_abstracts,id',
-            'decision' => 'required|in:APPROVED,REJECTED',
+            'decision' => 'required|in:APPROVED,REJECTED,RESUBMIT',
             'comment' => 'required|string',
         ]);
 
@@ -47,8 +48,16 @@ class AbstractsController extends Controller
             }
 
             // Send email
-            Mail::to($abstract->author_email)
-                ->send(new AbstractReviewedMail($abstract, $request->comment, $uploadUrl));
+            if ($request->decision === 'RESUBMIT') {
+                Mail::to($abstract->author_email)
+                    ->send(new AbstractResubmitMail($abstract, $request->comment));
+
+            } else {
+
+                Mail::to($abstract->author_email)
+                    ->send(new AbstractReviewedMail($abstract, $request->comment, $uploadUrl));
+
+            }
 
             return response()->json([
                 'status' => 'success',
