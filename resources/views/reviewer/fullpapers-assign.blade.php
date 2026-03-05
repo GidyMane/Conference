@@ -79,18 +79,14 @@
                                     {{ $paper->full_paper_code ?? 'N/A' }}
                                 </span>
                             </p>
-
-                            {{-- Author --}}
-                            <p class="mb-2">
-                                <strong>Author:</strong>
-                                {{ $paper->abstract->author_name ?? 'N/A' }}
-                            </p>
-
-                            {{-- Email --}}
+                            
+                            {{-- Submission Date --}}
                             <p class="mb-0">
-                                <strong>Email:</strong>
-                                {{ $paper->abstract->author_email ?? 'N/A' }}
+                                <strong>Submitted:</strong>
+                                {{ $paper->uploaded_at?->format('M d, Y') ?? 'N/A' }}
                             </p>
+
+
 
                         </div>
 
@@ -102,11 +98,7 @@
                                 {{ $paper->abstract->subTheme->full_name ?? 'N/A' }}
                             </p>
 
-                            {{-- Submission Date --}}
-                            <p class="mb-0">
-                                <strong>Submitted:</strong>
-                                {{ $paper->uploaded_at?->format('M d, Y') ?? 'N/A' }}
-                            </p>
+
 
                         </div>
                     </div>

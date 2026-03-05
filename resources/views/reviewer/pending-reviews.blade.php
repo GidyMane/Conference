@@ -363,7 +363,6 @@
                     <tr>
                         <th>Submission ID</th>
                         <th>Title</th>
-                        <th>Author</th>
                         <th>Status</th>
                         <th>Assigned Date</th>
                         <th>Actions</th>
@@ -374,7 +373,6 @@
                     <tr>
                         <td><strong class="text-primary">{{ $assignment->submission_code }}</strong></td>
                         <td>{{ Str::limit($assignment->paper_title, 50) }}</td>
-                        <td>{{ $assignment->author_name }}</td>
                         <td>
                             <span class="status-badge {{ strtolower(str_replace('_', '-', $assignment->abstract_status)) }}">
                                 {{ ucfirst(str_replace('_', ' ', $assignment->abstract_status)) }}

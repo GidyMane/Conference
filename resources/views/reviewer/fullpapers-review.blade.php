@@ -135,7 +135,6 @@
                         <tr>
                             <th width="100">Paper ID</th>
                             <th>Title</th>
-                            <th width="150">Author</th>
                             <th width="140">Status</th>
                             <th width="120" class="text-center">Reviews</th>
                             <th width="250">Actions</th>
@@ -151,8 +150,6 @@
                                 </td>
 
                                 <td>{{ $paper->abstract->paper_title ?? 'N/A' }}</td>
-
-                                <td>{{ $paper->abstract->author_name ?? 'N/A' }}</td>
 
                                 <td>
                                     <span class="status-badge status-{{ str_replace('_','-',$paper->status) }}">

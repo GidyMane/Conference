@@ -118,7 +118,6 @@
                 <tr>
                     <th>Submission ID</th>
                     <th>Title</th>
-                    <th>Author</th>
                     <th>Status</th>
                     <th>Assigned Date</th>
                     <th>Actions</th>
@@ -130,7 +129,6 @@
                     <tr>
                         <td><strong>{{ $abstract->submission_code }}</strong></td>
                         <td>{{ $abstract->paper_title }}</td>
-                        <td>{{ $abstract->author_name }}</td>
 
                         {{-- Status --}}
                         <td>

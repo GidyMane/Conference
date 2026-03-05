@@ -24,42 +24,21 @@
                             <p><strong><i class="fas fa-hashtag me-2"></i>Submission Code:</strong>
                                 <span id="modalCode" class="text-primary fw-bold"></span>
                             </p>
-                            <p><strong><i class="fas fa-user me-2"></i>Author:</strong>
-                                <span id="modalAuthor"></span>
-                            </p>
-                            <p><strong><i class="fas fa-envelope me-2"></i>Email:</strong>
-                                <span id="modalEmail"></span>
-                            </p>
-                            <p><strong><i class="fas fa-phone me-2"></i>Phone:</strong>
-                                <span id="modalPhone"></span>
-                            </p>
-                        </div>
-
-                        <div class="col-md-6">
                             <p><strong><i class="fas fa-building me-2"></i>Organisation:</strong>
                                 <span id="modalOrg"></span>
                             </p>
                             <p><strong><i class="fas fa-tag me-2"></i>Sub-Theme:</strong>
                                 <span id="modalTheme" class="badge bg-secondary"></span>
                             </p>
+                        </div>
+
+                        <div class="col-md-6">
+
                             <p><strong><i class="fas fa-circle me-2"></i>Status:</strong>
                                 <span id="modalStatus"></span>
                             </p>
                             <p><strong><i class="fas fa-calendar me-2"></i>Submitted:</strong>
                                 <span id="modalCreated"></span>
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="row mt-2">
-                        <div class="col-md-6">
-                            <p><strong><i class="fas fa-user-check me-2"></i>Last Reviewed By:</strong>
-                                <span id="modalReviewedBy">—</span>
-                            </p>
-                        </div>
-                        <div class="col-md-6">
-                            <p><strong><i class="fas fa-calendar-check me-2"></i>Last Review Date:</strong>
-                                <span id="modalReviewedAt">—</span>
                             </p>
                         </div>
                     </div>
