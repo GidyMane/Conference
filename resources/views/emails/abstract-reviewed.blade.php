@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abstract Review Outcome</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background-color: #f0f4f0;
@@ -31,7 +27,6 @@
         .header {
             padding: 36px 32px 28px;
             text-align: center;
-            position: relative;
         }
         .header.approved {
             background: linear-gradient(135deg, #1a7a3c 0%, #158532 60%, #0f6626 100%);
@@ -58,7 +53,6 @@
             font-size: 13px;
             font-weight: normal;
             color: rgba(255,255,255,0.8);
-            letter-spacing: 0.3px;
             font-family: Arial, sans-serif;
             font-style: italic;
         }
@@ -89,20 +83,18 @@
             padding: 36px 36px 28px;
             background: #ffffff;
         }
-
         .greeting {
             font-size: 17px;
             margin-bottom: 18px;
             color: #1a1a1a;
         }
-
         .body p {
             font-size: 15px;
             color: #3d3d3d;
             margin-bottom: 16px;
         }
 
-        /* ── PAPER DETAILS CARD ── */
+        /* ── DETAILS CARD ── */
         .details-card {
             background: #f7faf7;
             border: 1px solid #d4e8d4;
@@ -119,19 +111,14 @@
             margin-bottom: 14px;
             font-family: Arial, sans-serif;
         }
-        .details-card table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+        .details-card table { width: 100%; border-collapse: collapse; }
         .details-card table td {
             padding: 6px 0;
             font-size: 14px;
             vertical-align: top;
             border-bottom: 1px solid #eaf3ea;
         }
-        .details-card table tr:last-child td {
-            border-bottom: none;
-        }
+        .details-card table tr:last-child td { border-bottom: none; }
         .details-card table td:first-child {
             color: #777;
             width: 145px;
@@ -152,9 +139,7 @@
         }
 
         /* ── FEEDBACK TOGGLE ── */
-        .feedback-section {
-            margin: 24px 0;
-        }
+        .feedback-section { margin: 24px 0; }
         .feedback-section .feedback-label {
             font-size: 11px;
             text-transform: uppercase;
@@ -166,10 +151,7 @@
         .feedback-section .feedback-label.approved { color: #158532; }
         .feedback-section .feedback-label.rejected  { color: #5a6e5e; }
 
-        details.feedback-toggle {
-            border-radius: 8px;
-            overflow: hidden;
-        }
+        details.feedback-toggle { border-radius: 8px; overflow: hidden; }
         details.feedback-toggle summary {
             cursor: pointer;
             padding: 13px 18px;
@@ -189,27 +171,20 @@
             border: 1px solid #c3e6cb;
             border-radius: 8px;
         }
-        details.feedback-toggle[open].approved summary {
-            border-radius: 8px 8px 0 0;
-        }
+        details.feedback-toggle[open].approved summary { border-radius: 8px 8px 0 0; }
         details.feedback-toggle.rejected summary {
             background-color: #f0f4f1;
             color: #3d5242;
             border: 1px solid #c2d4c5;
             border-radius: 8px;
         }
-        details.feedback-toggle[open].rejected summary {
-            border-radius: 8px 8px 0 0;
-        }
+        details.feedback-toggle[open].rejected summary { border-radius: 8px 8px 0 0; }
         details.feedback-toggle summary .chevron {
             margin-left: auto;
-            font-style: normal;
             font-size: 11px;
             transition: transform 0.2s ease;
         }
-        details.feedback-toggle[open] summary .chevron {
-            transform: rotate(180deg);
-        }
+        details.feedback-toggle[open] summary .chevron { transform: rotate(180deg); }
         .feedback-body {
             padding: 16px 18px;
             font-size: 14px;
@@ -232,9 +207,7 @@
         }
 
         /* ── CTA BUTTON ── */
-        .cta-wrap {
-            margin: 26px 0 10px;
-        }
+        .cta-wrap { margin: 26px 0 10px; }
         .cta-button {
             display: inline-block;
             padding: 13px 28px;
@@ -245,28 +218,19 @@
             font-size: 15px;
             font-weight: bold;
             font-family: Arial, sans-serif;
-            letter-spacing: 0.3px;
         }
 
-        /* ── ENCOURAGEMENT BOX (rejection only) ── */
+        /* ── ENCOURAGEMENT BOX ── */
         .encouragement-box {
             background: #fdfbf0;
             border-left: 4px solid #d4a017;
             border-radius: 0 6px 6px 0;
-            padding: 16px 18px;
+            padding: 14px 18px;
             margin: 22px 0;
             font-size: 14px;
             color: #4a3c00;
             font-family: Arial, sans-serif;
             line-height: 1.7;
-        }
-        .encouragement-box strong {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #7a5c00;
         }
 
         /* ── SIGN OFF ── */
@@ -313,7 +277,7 @@
     <div class="header {{ $abstract->status === 'REJECTED' ? 'rejected' : 'approved' }}">
         <div class="logo-line">2nd KALRO Scientific Conference and Exhibition</div>
         <h1>Abstract Review Outcome</h1>
-        <h2>"Innovating towards Resilient Agri-food Systems for Climate Action, Food Security and Sustainable Livelihoods"</h2>
+        <h2>"Innovations for Sustainable Agri-food Systems, Climate Change Resilience and Improved Livelihoods"</h2>
         <div class="status-badge {{ $abstract->status === 'REJECTED' ? 'rejected' : 'approved' }}">
             @if($abstract->status === 'REJECTED')
                 Not Accepted
@@ -397,10 +361,10 @@
             ───────────────────────────────── --}}
 
             <p>
-                Thank you for submitting your abstract to the
-                <strong>2nd KALRO Scientific Conference and Exhibition</strong>.
-                We truly appreciate the time, thought, and dedication you have put into your work,
-                and we are genuinely grateful that you chose to share it with us.
+                Thank you for submitting your abstract for the <strong>KALRO (SEPD) Conference</strong>.
+                After careful review, we regret to inform you that your submission
+                <strong>{{ $abstract->submission_code }}</strong> has not met the required criteria
+                due to the following reason:
             </p>
 
             <div class="details-card">
@@ -421,21 +385,6 @@
                 </table>
             </div>
 
-            <p>
-                After thorough and careful consideration by the conference scientific committee,
-                we are sorry to let you know that your abstract has not been selected for this
-                year's conference programme. We understand this may be disappointing, and we
-                want you to know that this decision reflects the highly competitive nature of
-                the selection process it is not a reflection of your dedication or the
-                significance of your research.
-            </p>
-
-            <p>
-                To support your growth and help you strengthen your work for future submissions,
-                the reviewers have shared some specific observations. We hope you find their
-                feedback constructive and encouraging:
-            </p>
-
             <div class="feedback-section">
                 <div class="feedback-label rejected">Reviewer Comments</div>
                 <details class="feedback-toggle rejected">
@@ -448,12 +397,7 @@
             </div>
 
             <div class="encouragement-box">
-                <strong>💡 A note of encouragement</strong>
-                Many researchers whose work has gone on to make a lasting impact have faced setbacks
-                along the way. Please do not be discouraged every piece of feedback is an
-                opportunity to refine and strengthen your research. We warmly invite you to
-                use these comments, keep building on your work, and consider submitting to
-                future KALRO scientific events. We would genuinely love to see you back.
+                💡 However, we encourage you to refine your abstract and resubmit it.
             </div>
 
         @endif
@@ -461,15 +405,12 @@
         <hr class="divider">
 
         <p>
-            If you have any questions or need further clarification, please reach out to us at
-            <a href="mailto:kalroconference2026@gmail.com">kalroconference2026@gmail.com</a>.
-            Please include your submission code in all correspondence so we can assist you promptly.
+            If you have any questions, please contact us at
+            <a href="mailto:kalroconference2026@gmail.com">kalroconference2026@gmail.com</a>
+            and include your submission code in all correspondence.
         </p>
 
-        <p>
-            Thank you once again for your valuable contribution to agricultural science
-            and to the 2nd KALRO Scientific Conference and Exhibition.
-        </p>
+        <p>Thank you for your interest in the 2nd KALRO Scientific Conference and Exhibition.</p>
 
         <div class="signoff">
             Warm regards,
@@ -483,7 +424,7 @@
          FOOTER
     ══════════════════════════════════════ --}}
     <div class="footer">
-        <p>This is an automated message please do not reply directly to this email.</p>
+        <p>This is an automated message — please do not reply directly to this email.</p>
         <p>© {{ date('Y') }} 2nd KALRO Scientific Conference and Exhibition. All rights reserved.</p>
     </div>
 
