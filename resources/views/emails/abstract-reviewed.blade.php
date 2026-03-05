@@ -313,7 +313,7 @@
     <div class="header {{ $abstract->status === 'REJECTED' ? 'rejected' : 'approved' }}">
         <div class="logo-line">2nd KALRO Scientific Conference and Exhibition</div>
         <h1>Abstract Review Outcome</h1>
-        <h2>"Innovations for Sustainable Agri-food Systems, Climate Change Resilience and Improved Livelihoods"</h2>
+        <h2>"Innovating towards Resilient Agri-food Systems for Climate Action, Food Security and Sustainable Livelihoods"</h2>
         <div class="status-badge {{ $abstract->status === 'REJECTED' ? 'rejected' : 'approved' }}">
             @if($abstract->status === 'REJECTED')
                 Not Accepted
