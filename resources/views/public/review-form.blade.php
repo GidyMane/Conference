@@ -88,6 +88,44 @@
             color: #f59e0b;
             width: 20px;
         }
+        .author-removal-notice {
+            background: #fff1f2;
+            border-left: 4px solid #e11d48;
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+        }
+        .author-removal-notice .notice-title {
+            color: #be123c;
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+        .author-removal-notice .notice-body {
+            color: #4b0d1a;
+            font-size: 14px;
+            margin: 0;
+        }
+        .acknowledgement-box {
+            background: #fef9ec;
+            border: 2px solid #f59e0b;
+            border-radius: 10px;
+            padding: 18px 20px;
+            margin-bottom: 20px;
+        }
+        .acknowledgement-box .form-check-label {
+            font-weight: 600;
+            color: #78350f;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .acknowledgement-box .form-check-input {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            cursor: pointer;
+            accent-color: #d97706;
+        }
     </style>
 </head>
 <body>
@@ -132,6 +170,16 @@
                         </a>
                     </div>
                 </div>
+            </div>
+
+            {{-- Author Removal Notice --}}
+            <div class="author-removal-notice">
+                <div class="notice-title">
+                    <i class="fas fa-exclamation-circle me-2"></i>Important: Author Anonymisation Required
+                </div>
+                <p class="notice-body">
+                    Kindly <strong>remove / delete ALL author details and affiliation</strong> from the paper before uploading it. This ensures a fair, double-blind review process.
+                </p>
             </div>
 
             {{-- Submission Requirements Checklist --}}
@@ -508,7 +556,23 @@
                             </ul>
                         </div>
 
-                        <button type="submit" class="btn btn-success btn-lg w-100">
+                        {{-- Author Removal Acknowledgement --}}
+                        <div class="acknowledgement-box">
+                            <div class="form-check d-flex align-items-start gap-2">
+                                <input class="form-check-input flex-shrink-0" 
+                                       type="checkbox" 
+                                       name="author_removal_acknowledged" 
+                                       id="authorRemovalAck" 
+                                       value="1"
+                                       required>
+                                <label class="form-check-label" for="authorRemovalAck">
+                                    <i class="fas fa-user-slash me-1 text-warning"></i>
+                                    I acknowledge that I have removed all author details and affiliation from the attached paper.
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-success btn-lg w-100" id="submitBtn">
                             <i class="fas fa-paper-plane me-2"></i>Submit Review
                         </button>
                     </div>
