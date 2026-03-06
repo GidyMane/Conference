@@ -90,6 +90,7 @@ Route::prefix('reviewer')->name('reviewer.')->group(function () {
         ->name('password.update');
 });
 
+
 /*
 |--------------------------------------------------------------------------
 | ADMIN PROTECTED ROUTES
@@ -110,6 +111,9 @@ Route::prefix('admin')
             Route::get('/', [AdminController::class, 'abstracts'])->name('index');
             Route::post('/review', [AbstractsController::class, 'review'])->name('review');
         });
+
+        Route::post('/temp-reviewers', [ReviewerAuthController::class, 'storeTempReviewer'])
+        ->name('temp-reviewers.store');
 
         // Full Papers
         Route::get('/fullpapers', [FullPaperController::class, 'index'])->name('fullpapers.index');

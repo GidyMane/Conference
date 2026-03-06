@@ -8,13 +8,25 @@
 <div class="page-header">
     <div class="d-flex justify-content-between align-items-center">
         <div>
-            <h1>My Assigned Abstracts</h1>
+            <h1>
+            @if(Auth::user()->role === 'TEMP_REVIEWER')
+                Abstracts in Your Sub-theme
+            @else
+                My Assigned Abstracts
+            @endif
+            </h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
                         <a href="{{ route('reviewer.dashboard') }}">Dashboard</a>
                     </li>
-                    <li class="breadcrumb-item active">My Abstracts</li>
+                    <li class="breadcrumb-item active">
+                    @if(Auth::user()->role === 'TEMP_REVIEWER')
+                        Abstracts in Your Sub-theme
+                    @else
+                        My Assigned Abstracts
+                    @endif
+                    </li>
                 </ol>
             </nav>
 
@@ -108,7 +120,13 @@
 <!-- Abstracts Table -->
 <div class="card">
     <div class="card-header">
-        <h5 class="mb-0"><i class="fas fa-list me-2"></i>My Assigned Abstracts</h5>
+        <h5>
+        @if(Auth::user()->role === 'TEMP_REVIEWER')
+            Abstracts in Your Sub-theme
+        @else
+            My Assigned Abstracts
+        @endif
+        </h5>
     </div>
 
     <div class="card-body">

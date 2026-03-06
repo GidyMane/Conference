@@ -17,11 +17,91 @@ class ReviewsController extends Controller
     /**
      * Show pending reviews
      */
-    public function pendingReviews(Request $request)
-    {
-        $user = auth()->user(); // logged-in reviewer
+public function pendingReviews(Request $request)
+{
+    $user = auth()->user();
 
-        // Base query: abstracts assigned to this reviewer
+    /*
+    |--------------------------------------------------------------------------
+    | TEMP REVIEWER
+    |--------------------------------------------------------------------------
+    | Show all abstracts in the reviewer's subthemes
+    */
+    if ($user->role === 'TEMP_REVIEWER') {
+
+        $reviewer = Reviewer::where('user_id', $user->id)->first();
+
+        $subThemeIds = $reviewer
+            ? $reviewer->subThemes->pluck('id')
+            : collect([]);
+
+        $pendingReviews = DB::table('submitted_abstracts')
+            ->leftJoin('sub_themes', 'sub_themes.id', '=', 'submitted_abstracts.sub_theme_id')
+            ->leftJoin('abstract_reviews', function ($join) {
+                $join->on('abstract_reviews.abstract_id', '=', 'submitted_abstracts.id')
+                    ->whereRaw('abstract_reviews.id = (
+                        SELECT MAX(id) FROM abstract_reviews AS ar 
+                        WHERE ar.abstract_id = submitted_abstracts.id
+                    )');
+            })
+            ->select(
+                DB::raw('NULL as assignment_id'),
+                DB::raw('submitted_abstracts.created_at as assigned_at'),
+                'submitted_abstracts.id as abstract_id',
+                'submitted_abstracts.submission_code',
+                'submitted_abstracts.paper_title',
+                'submitted_abstracts.author_name',
+                'submitted_abstracts.author_email',
+                'submitted_abstracts.author_phone',
+                'submitted_abstracts.organisation',
+                'submitted_abstracts.abstract_text',
+                'submitted_abstracts.keywords',
+                'submitted_abstracts.status as abstract_status',
+                'sub_themes.full_name as subtheme_name',
+                'abstract_reviews.comment as review_comment',
+                'abstract_reviews.decision as review_decision',
+                'abstract_reviews.created_at as review_created_at',
+                'abstract_reviews.reviewer_id as review_reviewer_id'
+            )
+            ->whereIn('submitted_abstracts.sub_theme_id', $subThemeIds);
+
+        if ($request->filled('date_from')) {
+            $pendingReviews->whereDate('submitted_abstracts.created_at', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $pendingReviews->whereDate('submitted_abstracts.created_at', '<=', $request->date_to);
+        }
+
+        if ($request->filled('status')) {
+            $pendingReviews->where('submitted_abstracts.status', $request->status);
+        } else {
+            $pendingReviews->where('submitted_abstracts.status', 'UNDER_REVIEW');
+        }
+
+        $pendingReviews = $pendingReviews
+            ->orderBy('submitted_abstracts.created_at', 'desc')
+            ->paginate(15)
+            ->withQueryString();
+
+        $stats = [
+            'pending' => SubmittedAbstract::whereIn('sub_theme_id', $subThemeIds)
+                ->where('status', 'PENDING')
+                ->count(),
+
+            'under_review' => SubmittedAbstract::whereIn('sub_theme_id', $subThemeIds)
+                ->where('status', 'UNDER_REVIEW')
+                ->count(),
+        ];
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | NORMAL REVIEWER (EXISTING LOGIC - UNCHANGED)
+    |--------------------------------------------------------------------------
+    */
+    else {
+
         $pendingReviews = DB::table('abstract_assignments')
             ->join('submitted_abstracts', 'submitted_abstracts.id', '=', 'abstract_assignments.abstract_id')
             ->leftJoin('sub_themes', 'sub_themes.id', '=', 'submitted_abstracts.sub_theme_id')
@@ -53,17 +133,17 @@ class ReviewsController extends Controller
             )
             ->where('abstract_assignments.reviewer_id', $user->id);
 
-        // Optional filters
         if ($request->filled('date_from')) {
             $pendingReviews->whereDate('abstract_assignments.assigned_at', '>=', $request->date_from);
         }
+
         if ($request->filled('date_to')) {
             $pendingReviews->whereDate('abstract_assignments.assigned_at', '<=', $request->date_to);
         }
+
         if ($request->filled('status')) {
             $pendingReviews->where('submitted_abstracts.status', $request->status);
         } else {
-            // Default to UNDER_REVIEW only
             $pendingReviews->where('submitted_abstracts.status', 'UNDER_REVIEW');
         }
 
@@ -72,7 +152,6 @@ class ReviewsController extends Controller
             ->paginate(15)
             ->withQueryString();
 
-        // Stats: count by status
         $stats = [
             'pending' => DB::table('abstract_assignments')
                 ->join('submitted_abstracts', 'submitted_abstracts.id', '=', 'abstract_assignments.abstract_id')
@@ -86,22 +165,53 @@ class ReviewsController extends Controller
                 ->where('submitted_abstracts.status', 'UNDER_REVIEW')
                 ->count(),
         ];
-
-        return view('reviewer.pending-reviews', compact('pendingReviews', 'stats'));
     }
+
+    return view('reviewer.pending-reviews', compact('pendingReviews', 'stats'));
+}
 
 
 
     /**
      * Show completed reviews
      */
-    public function completedReviews(Request $request)
-    {
-        $user = auth()->user();
+public function completedReviews(Request $request)
+{
+    $user = auth()->user();
 
-        $completedReviews = AbstractReview::with([
-                'abstract.subTheme'
-            ])
+    if ($user->role === 'TEMP_REVIEWER') {
+
+        $reviewer = Reviewer::where('user_id', $user->id)->first();
+
+        $subThemeIds = $reviewer
+            ? $reviewer->subThemes->pluck('id')
+            : collect([]);
+
+        $completedReviews = AbstractReview::with(['abstract.subTheme'])
+            ->whereHas('abstract', function ($q) use ($subThemeIds) {
+                $q->whereIn('sub_theme_id', $subThemeIds)
+                  ->whereIn('status', ['APPROVED','REJECTED']);
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(15);
+
+        $stats = [
+            'approved' => AbstractReview::whereHas('abstract', function ($q) use ($subThemeIds) {
+                $q->whereIn('sub_theme_id', $subThemeIds);
+            })->where('decision', 'APPROVED')->count(),
+
+            'rejected' => AbstractReview::whereHas('abstract', function ($q) use ($subThemeIds) {
+                $q->whereIn('sub_theme_id', $subThemeIds);
+            })->where('decision', 'REJECTED')->count(),
+
+            'needs_revision' => AbstractReview::whereHas('abstract', function ($q) use ($subThemeIds) {
+                $q->whereIn('sub_theme_id', $subThemeIds);
+            })->where('decision', 'NEEDS_REVISION')->count(),
+        ];
+
+    } else {
+
+        $completedReviews = AbstractReview::with(['abstract.subTheme'])
             ->where('reviewer_id', $user->id)
             ->whereIn('decision', ['APPROVED', 'REJECTED'])
             ->whereHas('abstract', function ($q) {
@@ -110,7 +220,6 @@ class ReviewsController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
-        // Stats
         $stats = [
             'approved' => AbstractReview::where('reviewer_id', $user->id)
                 ->where('decision', 'APPROVED')
@@ -124,9 +233,10 @@ class ReviewsController extends Controller
                 ->where('decision', 'NEEDS_REVISION')
                 ->count(),
         ];
-
-        return view('reviewer.completed-reviews', compact('completedReviews', 'stats'));
     }
+
+    return view('reviewer.completed-reviews', compact('completedReviews', 'stats'));
+}
 
     /**
      * Dummy submit review

@@ -19,6 +19,9 @@
             <button class="btn btn-kalro-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
                 <i class="fas fa-plus me-2"></i>Add New User
             </button>
+            <button class="btn btn-warning ms-2" data-bs-toggle="modal" data-bs-target="#addTempReviewerModal">
+                <i class="fas fa-user-clock me-2"></i>Temp Reviewer
+            </button>
         </div>
     </div>
 </div>
@@ -286,6 +289,72 @@
             </form>
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="addTempReviewerModal" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+
+<div class="modal-header">
+<h5 class="modal-title">Create Temporary Reviewer</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+
+<form method="POST" action="{{ route('admin.temp-reviewers.store') }}">
+@csrf
+
+<div class="modal-body">
+
+<div class="mb-3">
+<label class="form-label">Full Name</label>
+<input type="text" name="full_name" class="form-control" required>
+</div>
+
+<div class="mb-3">
+<label class="form-label">Email</label>
+<input type="email" name="email" class="form-control" required>
+</div>
+
+<div class="mb-3">
+<label class="form-label">Sub Theme</label>
+<select name="sub_theme_id" class="form-select" required>
+<option value="">Select Sub Theme</option>
+
+@foreach($subthemes as $sub)
+<option value="{{ $sub->id }}">
+{{ $sub->full_name }}
+</option>
+@endforeach
+
+</select>
+</div>
+
+<div class="mb-3">
+<label class="form-label">Access Duration</label>
+<select name="expires_days" class="form-select">
+
+<option value="7">7 Days</option>
+<option value="14">14 Days</option>
+<option value="30">30 Days</option>
+<option value="60">60 Days</option>
+<option value="90">90 Days</option>
+
+</select>
+</div>
+
+</div>
+
+<div class="modal-footer">
+<button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+<button type="submit" class="btn btn-warning">
+<i class="fas fa-save me-2"></i>Create Temp Reviewer
+</button>
+</div>
+
+</form>
+
+</div>
+</div>
 </div>
 
 <!-- Edit User Modal -->

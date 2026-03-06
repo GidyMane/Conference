@@ -238,7 +238,7 @@
             color: white;
         }
 
-        .badge-reviewed {
+        .badge-resubmit {
             background: #6c757d;
             color: white;
         }
@@ -354,16 +354,12 @@
                 <i class="fas fa-file-alt"></i>
                 <span>My Abstracts</span>
             </a>
-            
+
+            @if(Auth::user()->role !== 'TEMP_REVIEWER')
+
             <a href="{{ route('reviewer.pending-reviews') }}" class="menu-item {{ request()->is('reviewer/pending*') ? 'active' : '' }}">
                 <i class="fas fa-clock"></i>
                 <span>Pending Reviews</span>
-            </a>
-            
-            <a href="{{ url('/reviewer/fullpapers-review') }}" 
-            class="menu-item {{ request()->is('reviewer/fullpapers-review*') ? 'active' : '' }}">
-                <i class="fas fa-clipboard-check"></i>
-                <span>Full Paper Management</span>
             </a>
             
             <a href="{{ route('reviewer.completed-reviews') }}" class="menu-item {{ request()->is('reviewer/completed*') ? 'active' : '' }}">
@@ -371,10 +367,20 @@
                 <span>Completed Reviews</span>
             </a>
 
-            <a href="{{ url('/reviewer/fullpapers-completed') }}" class="menu-item {{ request()->is('reviewer/fullpapers-completed') || request()->is('reviewer/fullpapers/*/all-reviews') ? 'active' : '' }}">
+            <a href="{{ url('/reviewer/fullpapers-review') }}" 
+            class="menu-item {{ request()->is('reviewer/fullpapers-review*') ? 'active' : '' }}">
+                <i class="fas fa-clipboard-check"></i>
+                <span>Full Paper Management</span>
+            </a>
+
+            <a href="{{ url('/reviewer/fullpapers-completed') }}" 
+            class="menu-item {{ request()->is('reviewer/fullpapers-completed') || request()->is('reviewer/fullpapers/*/all-reviews') ? 'active' : '' }}">
                 <i class="fas fa-clipboard-list"></i>
                 <span>Fully Reviewed Papers</span>
             </a>
+
+
+            @endif
 
             
             <div style="margin: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">

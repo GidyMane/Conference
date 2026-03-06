@@ -35,14 +35,21 @@
                         <p class="mb-1">
                             <strong>Assigned Sub-theme:</strong>
                             <span class="badge bg-light text-primary fw-semibold">
-                                @if(Auth::user()->reviewer && Auth::user()->reviewer->subThemes->isNotEmpty())
-                                    @foreach(Auth::user()->reviewer->subThemes as $subtheme)
+                                @php $user = Auth::user(); @endphp
+
+                                @if($user->role === 'TEMP_REVIEWER' && $user->tempReviewer && $user->tempReviewer->subTheme)
+                                    {{ $user->tempReviewer->subTheme->form_field_value }}
+
+                                @elseif($user->reviewer && $user->reviewer->subThemes->isNotEmpty())
+
+                                    @foreach($user->reviewer->subThemes as $subtheme)
                                         {{ $subtheme->form_field_value }}@if(!$loop->last), @endif
                                     @endforeach
+
                                 @else
                                     Not Assigned
                                 @endif
-                            </span>
+                                                            </span>
                         </p>
                     </div>
                 </div>

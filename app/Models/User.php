@@ -64,4 +64,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ReviewAssignment::class, 'peer_reviewer_id');
     }
+
+    public function tempReviewer()
+    {
+        return $this->hasOne(TempReviewer::class);
+    }
 }

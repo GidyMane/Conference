@@ -16,14 +16,38 @@ class ReviewerAbstractController extends Controller
      */
     public function index(Request $request)
     {
-        $userId = auth()->id();
+        $user = auth()->user();
+        $userId = $user->id;
 
-        // Base query: abstracts assigned to this reviewer
+        // Base query
         $query = SubmittedAbstract::with([
-            'subtheme',
+            'subTheme',
             'assignments' => fn($q) => $q->where('reviewer_id', $userId),
             'latestReview'
-        ])->whereHas('assignments', fn($q) => $q->where('reviewer_id', $userId));
+        ]);
+
+        /**
+         * NORMAL REVIEWER
+         * Only abstracts assigned to them
+         */
+        if ($user->role === 'REVIEWER') {
+
+            $query->whereHas('assignments', function ($q) use ($userId) {
+                $q->where('reviewer_id', $userId);
+            });
+
+        }
+
+        /**
+         * TEMP REVIEWER
+         * Can see ALL abstracts within their subtheme
+         */
+        if ($user->role === 'TEMP_REVIEWER') {
+
+            $subThemeId = optional($user->tempReviewer)->sub_theme_id;
+
+            $query->where('sub_theme_id', $subThemeId);
+        }
 
         // --- Filters ---
         $statusMap = [
@@ -56,20 +80,34 @@ class ReviewerAbstractController extends Controller
         }
 
         // --- Sorting ---
+        // --- Sorting ---
         $sort = $request->get('sort', 'newest');
 
         if ($sort === 'oldest') {
-            $query->join('abstract_assignments', 'submitted_abstracts.id', '=', 'abstract_assignments.abstract_id')
-                ->where('abstract_assignments.reviewer_id', $userId)
-                ->orderBy('abstract_assignments.created_at', 'asc')
-                ->select('submitted_abstracts.*');
+
+            if ($user->role === 'TEMP_REVIEWER') {
+                $query->orderBy('created_at', 'asc');
+            } else {
+                $query->join('abstract_assignments', 'submitted_abstracts.id', '=', 'abstract_assignments.abstract_id')
+                    ->where('abstract_assignments.reviewer_id', $userId)
+                    ->orderBy('abstract_assignments.created_at', 'asc')
+                    ->select('submitted_abstracts.*');
+            }
+
         } elseif ($sort === 'deadline') {
+
             $query->orderBy('review_deadline', 'asc');
+
         } else { // newest
-            $query->join('abstract_assignments', 'submitted_abstracts.id', '=', 'abstract_assignments.abstract_id')
-                ->where('abstract_assignments.reviewer_id', $userId)
-                ->orderBy('abstract_assignments.created_at', 'desc')
-                ->select('submitted_abstracts.*');
+
+            if ($user->role === 'TEMP_REVIEWER') {
+                $query->orderBy('created_at', 'desc');
+            } else {
+                $query->join('abstract_assignments', 'submitted_abstracts.id', '=', 'abstract_assignments.abstract_id')
+                    ->where('abstract_assignments.reviewer_id', $userId)
+                    ->orderBy('abstract_assignments.created_at', 'desc')
+                    ->select('submitted_abstracts.*');
+            }
         }
 
         // Get filtered & sorted abstracts
@@ -102,6 +140,8 @@ class ReviewerAbstractController extends Controller
             'abstracts', 'statusCounts', 'upcomingDeadlines', 'reviewerStats'
         ));
     }
+
+    
 
     /**
      * Show a single abstract.

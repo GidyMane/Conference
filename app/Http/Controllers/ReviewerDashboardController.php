@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Models\Reviewer;
 use Illuminate\Support\Facades\DB;
+use App\Models\SubmittedAbstract;
+use App\Models\AbstractAssignment;
+use App\Models\AbstractReview;
 
 class ReviewerDashboardController extends Controller
 {
@@ -18,77 +21,95 @@ class ReviewerDashboardController extends Controller
     {
         $user = auth()->user();
 
-        if ($user->password_setup_token !== null) {
-            return redirect()->route('reviewer.password.change');
-        }
+        /**
+         * STEP 1: Determine abstracts visible to the reviewer
+         */
+        if ($user->role === 'TEMP_REVIEWER') {
+            // TEMP_REVIEWER: abstracts in their subtheme
+            $subThemeId = $user->tempReviewer->sub_theme_id ?? null;
 
-        $reviewer = $user->reviewer;
+            $abstractsQuery = SubmittedAbstract::where('sub_theme_id', $subThemeId);
 
-        // =============================
-        // FETCH ASSIGNED ABSTRACTS
-        // =============================
-        $assignedAbstractsQuery = \App\Models\SubmittedAbstract::query()
-            ->where('status', 'UNDER_REVIEW')
-            ->whereHas('assignments', function ($q) use ($user) {
+            // Pending = UNDER_REVIEW in that subtheme
+            $pendingReviewsCount = (clone $abstractsQuery)
+                ->where('status', 'UNDER_REVIEW')
+                ->count();
+
+            // Completed reviews = APPROVED, REJECTED, NEEDS_REVISION
+            $completedReviewsCount = (clone $abstractsQuery)
+                ->whereIn('status', ['APPROVED', 'REJECTED', 'REVIEWED'])
+                ->count();
+
+            // Stats for decisions (based on reviews in this subtheme)
+            $approved = AbstractReview::whereHas('abstract', function ($q) use ($subThemeId) {
+                    $q->where('sub_theme_id', $subThemeId);
+                })
+                ->where('decision', 'APPROVED')
+                ->count();
+
+            $rejected = AbstractReview::whereHas('abstract', function ($q) use ($subThemeId) {
+                    $q->where('sub_theme_id', $subThemeId);
+                })
+                ->where('decision', 'REJECTED')
+                ->count();
+
+            $needsRevision = AbstractReview::whereHas('abstract', function ($q) use ($subThemeId) {
+                    $q->where('sub_theme_id', $subThemeId);
+                })
+                ->where('decision', 'NEEDS_REVISION')
+                ->count();
+
+            $totalAssigned = $pendingReviewsCount + $completedReviewsCount;
+            $completionRate = $totalAssigned > 0
+                ? round(($completedReviewsCount / $totalAssigned) * 100)
+                : 0;
+
+        } else {
+            // Regular reviewer: abstracts assigned to them
+            $abstractsQuery = SubmittedAbstract::whereHas('assignments', function ($q) use ($user) {
                 $q->where('reviewer_id', $user->id);
             });
 
-        // =============================
-        // STATS
-        // =============================
+            $abstractIds = $abstractsQuery->pluck('id');
+
+            $reviewQuery = AbstractReview::where('reviewer_id', $user->id)
+                ->whereIn('abstract_id', $abstractIds);
+
+            $totalAssigned = $abstractIds->count();
+            $completedReviewsCount = $reviewQuery->count();
+            $pendingReviewsCount = max($totalAssigned - $completedReviewsCount, 0);
+
+            $approved = (clone $reviewQuery)->where('decision', 'APPROVED')->count();
+            $rejected = (clone $reviewQuery)->where('decision', 'REJECTED')->count();
+            $needsRevision = (clone $reviewQuery)->where('decision', 'NEEDS_REVISION')->count();
+            $completionRate = $totalAssigned > 0
+                ? round(($completedReviewsCount / $totalAssigned) * 100)
+                : 0;
+        }
+
         $stats = [
-            'total_assigned' => \App\Models\AbstractAssignment::where(
-                                    'reviewer_id',
-                                    auth()->id()
-                                )->count(),
-
-            'pending_review' => \App\Models\SubmittedAbstract::whereHas('assignments', function ($q) use ($user) {
-                $q->where('reviewer_id', $user->id);
-            })->where('status', 'UNDER_REVIEW')->count(),
-
-            'completed' => \App\Models\AbstractReview::where('reviewer_id', $user->id)->count(),
-
-            'approved' => \App\Models\AbstractReview::where('reviewer_id', $user->id)
-                ->where('decision', 'APPROVED')->count(),
-
-            'rejected' => \App\Models\AbstractReview::where('reviewer_id', $user->id)
-                ->where('decision', 'REJECTED')->count(),
-                
+            'total_assigned' => $totalAssigned,
+            'pending_review' => $pendingReviewsCount,
+            'completed' => $completedReviewsCount,
+            'approved' => $approved,
+            'rejected' => $rejected,
+            'needs_revision' => $needsRevision,
+            'completion_rate' => $completionRate,
         ];
 
-        $stats['completion_rate'] = $stats['total_assigned'] > 0
-            ? round(($stats['completed'] / $stats['total_assigned']) * 100)
-            : 0;
-
-        // =============================
-        // RECENT ASSIGNED (LATEST FIRST)
-        // =============================
-        /*$recentAbstracts = \App\Models\SubmittedAbstract::with('subTheme')
-            ->where('status', 'UNDER_REVIEW')
-            ->whereHas('assignments', function ($q) use ($user) {
-                $q->where('reviewer_id', $user->id);
-            })
-            ->latest('updated_at')
-            ->take(5)
-            ->get();*/
-            
-        $recentAbstracts = \App\Models\SubmittedAbstract::with([
-                'subTheme',
-                'latestReview' => function ($q) use ($user) {
-                    $q->where('reviewer_id', $user->id);
-                }
-            ])
-            ->where('status', 'UNDER_REVIEW')
-            ->whereHas('assignments', function ($q) use ($user) {
-                $q->where('reviewer_id', $user->id);
-            })
-            ->latest('updated_at')
-            ->take(5)
+        /**
+         * STEP 2: Recent abstracts
+         */
+        $recentAbstracts = (clone $abstractsQuery)
+            ->with(['subTheme', 'latestReview'])
+            ->latest()
+            ->limit(5)
             ->get();
-        return view('reviewer.dashboard', compact(
-            'stats',
-            'recentAbstracts'
-        ));
+
+        return view('reviewer.dashboard', [
+            'stats' => $stats,
+            'recentAbstracts' => $recentAbstracts
+        ]);
     }
 
 
