@@ -361,11 +361,25 @@
             ───────────────────────────────── --}}
 
             <p>
-                Thank you for submitting your abstract for the <strong>KALRO (SEPD) Conference</strong>.
+                Thank you for submitting your abstract for the <strong>2nd KALRO Scientific Conference and Exhibition</strong>.
                 After careful review, we regret to inform you that your submission
                 <strong>{{ $abstract->submission_code }}</strong> has not met the required criteria
                 due to the following reason:
             </p>
+             <div class="feedback-section">
+                <div class="feedback-label rejected">Reviewer Comments</div>
+                <details class="feedback-toggle rejected">
+                    <summary>
+                        <span>💬 Read feedback from the reviewer</span>
+                        <span class="chevron">▼</span>
+                    </summary>
+                    <div class="feedback-body rejected">{{ $comment }}</div>
+                </details>
+            </div>
+
+            <div class="encouragement-box">
+                💡 However, we encourage you to refine your abstract and resubmit it.
+            </div>
 
             <div class="details-card">
                 <div class="card-title">Submission Details</div>
@@ -385,20 +399,7 @@
                 </table>
             </div>
 
-            <div class="feedback-section">
-                <div class="feedback-label rejected">Reviewer Comments</div>
-                <details class="feedback-toggle rejected">
-                    <summary>
-                        <span>💬 Read feedback from the reviewer</span>
-                        <span class="chevron">▼</span>
-                    </summary>
-                    <div class="feedback-body rejected">{{ $comment }}</div>
-                </details>
-            </div>
-
-            <div class="encouragement-box">
-                💡 However, we encourage you to refine your abstract and resubmit it.
-            </div>
+           
 
         @endif
 
