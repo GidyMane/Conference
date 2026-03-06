@@ -179,8 +179,13 @@
         }
 
         /* Badges */
-        .badge-resubmit {
+        .badge-pending {
             background: #ffc107;
+            color: #fff;
+        }
+
+        .badge-resubmit {
+            background: #ff6a07ff;
             color: #fff;
         }
 
