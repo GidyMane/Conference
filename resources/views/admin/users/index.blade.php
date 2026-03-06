@@ -167,17 +167,25 @@
                                 </span>
                             </td>
 
-                            <td>
-                                @if($user->reviewer && $user->reviewer->subThemes->isNotEmpty())
-                                    @foreach($user->reviewer->subThemes as $subTheme)
-                                        <span class="badge bg-secondary me-1">
-                                            {{ $subTheme->form_field_value }}
-                                        </span>
-                                    @endforeach
-                                @else
-                                    <span class="text-muted">-</span>
-                                @endif
-                            </td>
+                    <td>
+                        @if($user->role === 'TEMP_REVIEWER' && $user->tempReviewer && $user->tempReviewer->subTheme)
+            
+                            <span class="badge bg-secondary me-1">
+                                {{ $user->tempReviewer->subTheme->form_field_value }}
+                            </span>
+
+                        @elseif($user->reviewer && $user->reviewer->subThemes->isNotEmpty())
+
+                            @foreach($user->reviewer->subThemes as $subTheme)
+                                <span class="badge bg-secondary me-1">
+                                    {{ $subTheme->form_field_value }}
+                                </span>
+                            @endforeach
+
+                        @else
+                            <span class="text-muted">-</span>
+                        @endif
+                    </td>
 
                             <td>
                                 @if($user->role === 'REVIEWER')
