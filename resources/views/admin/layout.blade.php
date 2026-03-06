@@ -319,11 +319,6 @@
                 <i class="fas fa-store"></i>
                 <span>Manage Exhibitions</span>
             </a>
-                        <a href="{{ url('/admin/fullpapers/assignment') }}" 
-   class="menu-item {{ request()->is('admin/fullpapers/assignment*') ? 'active' : '' }}">
-    <i class="fas fa-user-check"></i>
-    <span>Assign Reviewers</span>
-</a>
             
             <a href="{{route('admin.reviewers.create')}}" class="menu-item {{ request()->routeIs('admin.reviewers.*') ? 'active' : '' }}">
                 <i class="fas fa-user-shield"></i>
