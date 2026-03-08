@@ -90,6 +90,17 @@
             color: #006400;
             text-decoration: none;
         }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            background: #1a5f3a;
+            color: white !important;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            margin: 10px 5px;
+        }
     </style>
 </head>
 <body>
@@ -123,6 +134,22 @@
         </div>
 
         <p>Attached is a PDF containing all reviewer scores and comments.</p>
+
+        @if($paper->final_decision === 'approved')
+
+            <p>
+            Upload your presentation materials here:
+            </p>
+
+            <div style="text-align:center; margin-top:20px;">
+
+                <a href="{{ url('/presentation/upload/'.$paper->id) }}" class="btn">
+                Upload Presentation
+                </a>
+            </div>
+            
+
+        @endif
 
         <p>Best regards,<br>
            <strong>Conference Committee</strong><br>

@@ -157,5 +157,10 @@ class FullPaper extends Model
             ->count();
     }
 
+    public function presentationUpload()
+    {
+        return $this->hasOne(PresentationUpload::class);
+    }
+
 
 }

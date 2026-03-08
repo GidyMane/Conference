@@ -20,6 +20,7 @@ use App\Http\Controllers\ExhibitionRegistrationController;
 use App\Http\Controllers\TermsController; 
 use App\Http\Controllers\AdminRegistrationController; 
 use App\Http\Controllers\FullPaperReviewController;
+use App\Http\Controllers\PresentationUploadController;
 
 Route::get('/', [MainController::class, 'index'])->name('index');
 Route::get('/about', [MainController::class, 'about'])->name('about');
@@ -282,10 +283,26 @@ Route::post('/review/{assignment}',
     [FullPaperReviewController::class, 'submitReview']
 )->name('review.submit');
 
-Route::get('/presentation-upload', function() {
-    return view('powerpoint.presentation-upload');
-});
+//Route::get('/presentation-upload', function() {
+//    return view('powerpoint.presentation-upload');
+//});
 
-Route::get('/presentation-success', function() {
-    return view('powerpoint.presentation-upload-success');
+//Route::get('/presentation-success', function() {
+//    return view('powerpoint.presentation-upload-success');
+//});
+
+Route::prefix('presentation')->group(function () {
+
+    Route::get('/upload/{paper}',
+        [PresentationUploadController::class, 'showUploadForm']
+    )->name('fullpaper.presentation.upload');
+
+    Route::post('/upload/{paper}',
+        [PresentationUploadController::class, 'upload']
+    )->name('fullpaper.presentation.submit');
+
+    Route::get('/success/{paper}',
+        [PresentationUploadController::class, 'success']
+    )->name('presentation.success');
+
 });

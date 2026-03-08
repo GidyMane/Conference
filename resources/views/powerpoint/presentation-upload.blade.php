@@ -217,14 +217,14 @@
         <div class="submission-info">
             <div class="row">
                 <div class="col-md-6">
-                    <p><strong>Paper ID:</strong> FP-0005</p>
-                    <p><strong>Submission Code:</strong> SUB45-014</p>
-                    <p><strong>Author:</strong> Dr. Sarah Njeri</p>
+                    <p><strong>Paper ID:</strong> FP-{{ str_pad($fullPaper->id, 4, '0', STR_PAD_LEFT) }} </p>
+                    <p><strong>Submission Code:</strong> {{ $fullPaper->abstract->submission_code ?? 'N/A' }}</p>
+                    <p><strong>Author:</strong> {{ $fullPaper->abstract->author_name ?? 'N/A' }}</p>
                 </div>
                 <div class="col-md-6">
-                    <p><strong>Title:</strong> Genetic Improvement of Drought-Resistant Crop Varieties</p>
-                    <p><strong>Decision:</strong> <span class="badge bg-success">APPROVED</span></p>
-                    <p><strong>Presentation Type:</strong> <span class="badge bg-primary">Oral Presentation</span></p>
+                    <p><strong>Title:</strong> {{ $fullPaper->abstract->paper_title ?? 'N/A' }}</p>
+                    <p><strong>Decision:</strong> <span class="badge bg-success">{{ $fullPaper->status }}</span></p>
+                    <p><strong>Presentation Type:</strong> <span class="badge bg-primary">{{ $fullPaper->abstract->presentation_preferencepresentation_type ?? 'Oral Presentation' }}</span></p>
                 </div>
             </div>
         </div>
@@ -260,11 +260,9 @@
             </div>
         @endif
 
-        <form id="uploadForm" 
-              method="POST" 
-              action="#" 
-              enctype="multipart/form-data"
-              onsubmit="return handleSubmit(event);">
+        <form method="POST"
+            action="{{ route('fullpaper.presentation.submit', $fullPaper->id) }}"
+            enctype="multipart/form-data">
             @csrf
 
             <!-- PowerPoint Upload Section -->
