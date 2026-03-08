@@ -282,3 +282,10 @@ Route::post('/review/{assignment}',
     [FullPaperReviewController::class, 'submitReview']
 )->name('review.submit');
 
+Route::get('/presentation-upload', function() {
+    return view('powerpoint.presentation-upload');
+});
+
+Route::get('/presentation-success', function() {
+    return view('powerpoint.presentation-upload-success');
+});
