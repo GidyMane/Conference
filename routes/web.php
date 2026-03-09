@@ -211,7 +211,7 @@ Route::prefix('reviewer')
     // View presentation materials
     Route::get('/fullpapers/{id}/materials',
         [PresentationUploadController::class, 'viewMaterials']
-    )->name('reviewer.fullpapers.materials');
+    )->name('fullpapers.materials');
 
 
         
