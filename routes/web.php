@@ -118,6 +118,14 @@ Route::prefix('admin')
 
         // Full Papers
         Route::get('/fullpapers', [FullPaperController::class, 'index'])->name('fullpapers.index');
+           // View presentation materials
+        Route::get('/fullpapers/{id}/materials', function($id) {
+        // In production: fetch full paper with materials
+        // $fullPaper = FullPaper::with(['abstract', 'presentationMaterials'])->findOrFail($id);
+        // return view('admin.fullpapers.materials', compact('fullPaper'));
+        
+        return view('admin.presentation-materials');
+    })->name('fullpapers.materials');
 
         Route::post('/users', [ReviewerDashboardController::class, 'store'])->name('users.store');
                 // Users Management 
@@ -198,6 +206,19 @@ Route::prefix('reviewer')
             Route::get('/{id}/download/{type}', [ReviewerFullPaperController::class, 'download'])->name('download');
             Route::get('/{id}/supplementary', [ReviewerFullPaperController::class, 'supplementary'])->name('supplementary');
         });
+
+         
+    // View presentation materials
+        Route::get('/fullpapers/{id}/materials', function($id) {
+        // In production: fetch full paper with materials
+        // $fullPaper = FullPaper::with(['abstract', 'presentationMaterials'])->findOrFail($id);
+        // return view('reviewer.fullpapers-materials', compact('fullPaper'));
+        
+        return view('reviewer.presentation-materials');
+        })->name('fullpapers.materials');
+
+
+        
 });
 
 
@@ -305,4 +326,13 @@ Route::prefix('presentation')->group(function () {
         [PresentationUploadController::class, 'success']
     )->name('presentation.success');
 
+});
+
+
+Route::get('/test/admin-materials', function() {
+    return view('admin.fullpapers.materials');
+});
+
+Route::get('/test/reviewer-materials', function() {
+    return view('reviewer.fullpapers-materials');
 });

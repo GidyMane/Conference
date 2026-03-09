@@ -279,6 +279,13 @@
                             >
                                 <i class="fas fa-eye"></i>
                             </button>
+                             @if(isset($paper->has_presentation_materials) && $paper->has_presentation_materials)
+            <a href="{{ route('admin.fullpapers.materials', $paper->id) }}" 
+               class="btn btn-success">
+                <i class="fas fa-file-powerpoint"></i>
+            </a>
+        @endif
+    </div>
                         </td>
                     </tr>
                     @empty

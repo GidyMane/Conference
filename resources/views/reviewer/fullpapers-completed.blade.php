@@ -383,6 +383,9 @@ $rejected    = $papers->where('status', 'REJECTED')->count();
                             <i class="fas fa-check-circle"></i> View Decision
                         </a>
                         @endif
+                         <a href="{{ url('/reviewer/presentation-materials/'.$paper->id) }}" class="btn-view-material">
+            <i class="fas fa-file-alt"></i> View Material
+        </a>
                     </td>
                 </tr>
                 @empty
