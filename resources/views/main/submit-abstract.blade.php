@@ -352,9 +352,8 @@
                                         <div class="form-floating">
                                             <select class="form-select" id="presentation_preference" name="presentation_preference">
                                                 <option value="" selected>No preference</option>
-                                                <option value="oral">Oral Presentation</option>
+                                                <option value="powerpoint">PowerPoint Presentation</option>
                                                 <option value="poster">Poster Presentation</option>
-                                                <!-- <option value="either">Either Oral or Poster</option> -->
                                             </select>
                                             <label for="presentation_preference">Presentation Preference</label>
                                         </div>

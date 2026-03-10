@@ -217,6 +217,23 @@
     }
     .btn-view-decision:hover { background: var(--green); color: white; }
 
+    .btn-view-material {
+        margin-top: 5px;
+        background: white;
+        color: var(--blue);
+        border: 2px solid var(--blue);
+        padding: 6px 14px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: all .2s;
+    }
+    .btn-view-material:hover { background: var(--blue); color: white; }
+
     /* ── Score Pill ── */
     .score-pill {
         display: inline-flex;
@@ -379,13 +396,22 @@ $rejected    = $papers->where('status', 'REJECTED')->count();
                             <i class="fas fa-eye"></i> View Reviews
                         </a>
                         @else
-                        <a href="{{ url('/reviewer/fullpapers/'.$paper->id.'/all-reviews') }}" class="btn-view-decision">
-                            <i class="fas fa-check-circle"></i> View Decision
-                        </a>
+                        <div class="row">
+                            <div class="col">
+                                <a href="{{ url('/reviewer/fullpapers/'.$paper->id.'/all-reviews') }}" class="btn-view-decision">
+                                    <i class="fas fa-check-circle"></i> View Decision
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="{{ route('reviewer.fullpapers.materials', $paper->id) }}" class="btn btn-view-material">
+                                    <i class="fas fa-file-alt"></i> View Material
+                                </a>
+                            </div>
+                        </div>
+
+
                         @endif
-                         <a href="{{ url('/reviewer/presentation-materials/'.$paper->id) }}" class="btn-view-material">
-            <i class="fas fa-file-alt"></i> View Material
-        </a>
+
                     </td>
                 </tr>
                 @empty

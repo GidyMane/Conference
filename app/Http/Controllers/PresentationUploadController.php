@@ -140,4 +140,93 @@ class PresentationUploadController extends Controller
         return view('powerpoint.presentation-upload-success', compact('fullPaper'));
     }
 
+    public function viewMaterials($id)
+    {
+        $fullPaper = FullPaper::with(['abstract.subTheme','presentationUpload'])->findOrFail($id);
+
+        $upload = PresentationUpload::where('full_paper_id', $id)->first();
+
+        $powerpoint = null;
+        $poster = null;
+        $supportingDocs = [];
+        $activities = [];
+
+        if ($upload) {
+
+            if ($upload->powerpoint_file) {
+                $powerpoint = (object)[
+                    'original_name' => basename($upload->powerpoint_file),
+                    'download_url' => asset('storage/'.$upload->powerpoint_file),
+                    'size' => 'File'
+                ];
+
+                $activities[] = [
+                    'icon' => 'fa-upload',
+                    'color' => 'text-primary',
+                    'title' => 'PowerPoint uploaded',
+                    'description' => basename($upload->powerpoint_file),
+                    'time' => $upload->created_at
+                ];
+            }
+
+            if ($upload->poster_file) {
+                $poster = (object)[
+                    'original_name' => basename($upload->poster_file),
+                    'download_url' => asset('storage/'.$upload->poster_file),
+                    'size' => 'File'
+                ];
+
+                $activities[] = [
+                    'icon' => 'fa-upload',
+                    'color' => 'text-primary',
+                    'title' => 'Poster uploaded',
+                    'description' => basename($upload->poster_file),
+                    'time' => $upload->created_at
+                ];
+            }
+
+            if ($upload->supporting_documents) {
+
+                foreach ($upload->supporting_documents as $index => $doc) {
+                    $supportingDocs[] = (object)[
+                        'id' => $index+1,
+                        'original_name' => basename($doc),
+                        'download_url' => asset('storage/'.$doc),
+                        'size' => 'File'
+                    ];
+                }
+
+                $activities[] = [
+                    'icon' => 'fa-upload',
+                    'color' => 'text-primary',
+                    'title' => count($upload->supporting_documents).' supporting documents uploaded',
+                    'description' => null,
+                    'time' => $upload->created_at
+                ];
+            }
+        }
+
+        // Paper approval log
+        if ($fullPaper->status === 'approved') {
+            $activities[] = [
+                'icon' => 'fa-check-circle',
+                'color' => 'text-success',
+                'title' => 'Paper approved for presentation',
+                'description' => null,
+                'time' => $fullPaper->updated_at
+            ];
+        }
+
+        // Sort newest first
+        usort($activities, fn($a,$b) => $b['time'] <=> $a['time']);
+
+        return view('reviewer.presentation-materials', compact(
+            'fullPaper',
+            'powerpoint',
+            'poster',
+            'supportingDocs',
+            'activities'
+        ));
+    }
+
 }

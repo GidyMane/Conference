@@ -234,9 +234,6 @@
                 </div>
                 <hr class="my-3">
                 <div class="d-flex justify-content-center gap-2">
-                    <button class="btn btn-preview" onclick="previewFile('powerpoint')">
-                        <i class="fas fa-eye me-2"></i>Preview
-                    </button>
                     <a href="{{ $powerpoint->download_url ?? '#' }}" 
                        class="btn btn-download"
                        onclick="trackDownload('powerpoint', event)">
@@ -267,9 +264,6 @@
                 </div>
                 <hr class="my-3">
                 <div class="d-flex justify-content-center gap-2">
-                    <button class="btn btn-preview" onclick="previewFile('poster')">
-                        <i class="fas fa-eye me-2"></i>Preview
-                    </button>
                     <a href="{{ $poster->download_url ?? '#' }}" 
                        class="btn btn-download"
                        onclick="trackDownload('poster', event)">
@@ -331,7 +325,7 @@
                         <div>
                             <a href="{{ $doc->download_url ?? '#' }}" 
                                class="btn btn-sm btn-download"
-                               onclick="trackDownload('supporting_{{ $doc->id }}', event)">
+                               onclick="trackDownload('supporting_{{ $loop->index }}', event)">
                                 <i class="fas fa-download"></i>
                             </a>
                         </div>
@@ -343,12 +337,6 @@
     </div>
     @endif
 
-    {{-- Download All Button --}}
-    <div class="text-center mt-4">
-        <button class="btn btn-lg" style="background: #1e5a96; color: white;" onclick="downloadAll()">
-            <i class="fas fa-download me-2"></i>Download All Materials (ZIP)
-        </button>
-    </div>
 
     @else
 
@@ -366,56 +354,52 @@
 
     @endif
 
-    {{-- Activity Log --}}
-    <div class="card mt-4">
-        <div class="card-header bg-white">
-            <h5 class="mb-0">
-                <i class="fas fa-history me-2"></i>Activity Log
-            </h5>
-        </div>
-        <div class="card-body">
-            <div class="list-group list-group-flush">
-                <div class="list-group-item border-0">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <i class="fas fa-upload text-primary me-2"></i>
-                            <strong>PowerPoint uploaded</strong>
-                            <p class="mb-0 small text-muted ms-4">Drought_Resistant_Crops_Presentation.pptx</p>
-                        </div>
-                        <small class="text-muted">Feb 28, 2026 - 2:34 PM</small>
-                    </div>
+{{-- Activity Log --}}
+<div class="card mt-4">
+    <div class="card-header bg-white">
+        <h5 class="mb-0">
+            <i class="fas fa-history me-2"></i>Activity Log
+        </h5>
+    </div>
+
+    <div class="card-body">
+        <div class="list-group list-group-flush">
+
+        @forelse($activities as $activity)
+
+        <div class="list-group-item border-0">
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+                    <i class="fas {{ $activity['icon'] }} {{ $activity['color'] }} me-2"></i>
+
+                    <strong>{{ $activity['title'] }}</strong>
+
+                    @if($activity['description'])
+                        <p class="mb-0 small text-muted ms-4">
+                            {{ $activity['description'] }}
+                        </p>
+                    @endif
                 </div>
-                <div class="list-group-item border-0">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <i class="fas fa-upload text-primary me-2"></i>
-                            <strong>Poster uploaded</strong>
-                            <p class="mb-0 small text-muted ms-4">Research_Poster_Drought_Crops.pdf</p>
-                        </div>
-                        <small class="text-muted">Feb 28, 2026 - 2:35 PM</small>
-                    </div>
-                </div>
-                <div class="list-group-item border-0">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <i class="fas fa-upload text-primary me-2"></i>
-                            <strong>3 supporting documents uploaded</strong>
-                        </div>
-                        <small class="text-muted">Feb 28, 2026 - 2:37 PM</small>
-                    </div>
-                </div>
-                <div class="list-group-item border-0">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <i class="fas fa-check-circle text-info me-2"></i>
-                            <strong>Paper approved for presentation</strong>
-                        </div>
-                        <small class="text-muted">Feb 25, 2026 - 10:15 AM</small>
-                    </div>
-                </div>
+
+                <small class="text-muted">
+                    {{ \Carbon\Carbon::parse($activity['time'])->format('M d, Y - h:i A') }}
+                </small>
+
             </div>
         </div>
+
+        @empty
+
+        <div class="text-center text-muted py-3">
+            No activity recorded yet.
+        </div>
+
+        @endforelse
+
+        </div>
     </div>
+</div>
 
 </div>
 

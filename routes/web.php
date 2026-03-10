@@ -209,13 +209,9 @@ Route::prefix('reviewer')
 
          
     // View presentation materials
-        Route::get('/fullpapers/{id}/materials', function($id) {
-        // In production: fetch full paper with materials
-        // $fullPaper = FullPaper::with(['abstract', 'presentationMaterials'])->findOrFail($id);
-        // return view('reviewer.fullpapers-materials', compact('fullPaper'));
-        
-        return view('reviewer.presentation-materials');
-        })->name('fullpapers.materials');
+    Route::get('/fullpapers/{id}/materials',
+        [PresentationUploadController::class, 'viewMaterials']
+    )->name('fullpapers.materials');
 
 
         
@@ -334,5 +330,5 @@ Route::get('/test/admin-materials', function() {
 });
 
 Route::get('/test/reviewer-materials', function() {
-    return view('reviewer.fullpapers-materials');
+    return view('reviewer.presentation-materials');
 });
