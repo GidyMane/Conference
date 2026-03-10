@@ -157,6 +157,27 @@
             </table>
         </div>
 
+        <!-- Conflict of Interest Notice -->
+        <div class="info-box">
+            <h3>⚖️ Conflict of Interest</h3>
+            <p>
+                To maintain the integrity of the peer-review process, reviewers are required to
+                disclose any potential <strong>conflict of interest</strong>.
+            </p>
+
+            <p>
+    If you recognize the author(s) of this paper or become aware of any circumstance
+    that may compromise your ability to provide an objective and impartial review,
+    please notify the conference secretariat promptly by emailing
+    <strong>kalroconference2026@gmail.com</strong>.
+</p>
+
+            <p>
+                Kindly include the <strong>paper code</strong> in your email and briefly indicate the
+                nature of the conflict so that the paper can be reassigned to another reviewer.
+            </p>
+        </div>
+
         <!-- Action Buttons -->
         <div style="text-align:center; margin-top:20px;">
             <a href="{{ $downloadLink }}" class="btn">
