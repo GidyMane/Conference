@@ -1241,6 +1241,23 @@ class PrequalifiedReviewerSeeder extends Seeder
                 'phone_email' => '0798384369 enolaanne89@gmail.com',
                 'area_of_specialization' => 'IT Systems',
             ],
+            [
+                'sub_theme_id' => 18,
+                'name' => 'Dev 1',
+                'title' => 'Mr.',
+                'institution' => 'Independent Researcher',
+                'phone_email' => '0700000000 murage@empserve.org',
+                'area_of_specialization' => 'Test Subtheme for Developer',
+            ],
+            [
+                'sub_theme_id' => 18,
+                'name' => 'Dev 2',
+                'title' => 'Mr.',
+                'institution' => 'Independent Researcher',
+                'phone_email' => '0700000001 muragegideon2811@gmail.com',
+                'area_of_specialization' => 'Test Subtheme for Developer',
+            ],
+
         ];
 
         foreach ($data as $reviewer) {

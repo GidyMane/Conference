@@ -23,6 +23,7 @@ class AdminController extends Controller
             'UNDER_REVIEW' => 'Under Review',
             'APPROVED' => 'Approved',
             'REJECTED' => 'Rejected',
+            'RESUBMIT' => 'Resubmit',
         ];
 
         $query = SubmittedAbstract::with(['subTheme', 'latestReview']);
