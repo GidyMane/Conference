@@ -87,7 +87,7 @@
             Please log in to your reviewer dashboard to submit your review.
         </p>
 
-        <a href="{{ route('reviewer.dashboard') }}" class="btn">
+        <a href="{{ route('reviewer.login') }}" class="btn">
             Review Abstract
         </a>
 

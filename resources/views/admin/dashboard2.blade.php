@@ -221,16 +221,15 @@ if (statusCtx) {
     new Chart(statusCtx, {
         type: 'doughnut',
         data: {
-            labels: ['Pending', 'Under Review', 'Approved', 'Rejected', 'Resubmit'],
+            labels: ['Under Review', 'Approved', 'Rejected', 'Resubmit'],
             datasets: [{
                 data: [
-                    {{ $metrics['pendingCount'] ?? 0 }},
                     {{ $metrics['reviewCount'] ?? 0 }},
                     {{ $metrics['approvedCount'] ?? 0 }},
                     {{ $metrics['disapprovedCount'] ?? 0 }},
                     {{ $metrics['resubmitCount'] ?? 0 }}
                 ],
-                backgroundColor: ['#ffc107', '#17a2b8', '#28a745', '#dc3545', '#dc6a35ff']
+                backgroundColor: ['#17a2b8', '#28a745', '#dc3545', '#dc6a35ff']
             }]
         },
         options: {
