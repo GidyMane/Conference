@@ -125,11 +125,7 @@
                         </div>
                     </div>
 
-                    <div class="mt-3">
-                        <a href="{{ asset('full-papers/' . $assignment->fullPaper->file_path) }}" class="btn btn-success" target="_blank">
-                            <i class="fas fa-download me-1"></i>Download Full Paper PDF
-                        </a>
-                    </div>
+                  
                 </div>
             </div>
 
