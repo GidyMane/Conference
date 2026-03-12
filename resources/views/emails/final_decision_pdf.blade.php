@@ -68,6 +68,9 @@
 
         .recommendation-approved { color: #16a34a; font-weight: bold; }
         .recommendation-rejected { color: #dc2626; font-weight: bold; }
+        .recommendation-accept_with_minor_revisions { color: #f59e0b; font-weight: bold; }
+        .recommendation-accept_with_major_revisions { color: #f97316; font-weight: bold; }
+        .recommendation-not_approved { color: #dc2626; font-weight: bold; }
 
         .section-header {
             background-color: #158532;
@@ -85,14 +88,6 @@
             margin-top: 10px;
             border-radius: 4px;
         }
-        .mini-scores {
-            margin-top: 8px;
-            font-size: 10px;
-        }
-
-        .mini-scores td {
-            padding: 1px 4px;
-        }
     </style>
 </head>
 <body>
@@ -100,13 +95,24 @@
     <h2>2nd KALRO Scientific Conference & Exhibition</h2>
     <h3>Full Paper Review Summary</h3>
 
-    <p><strong>Paper:</strong> {{ $paper->abstract->title }}</p>
-    <p><strong>Author:</strong> {{ $paper->abstract->author_name }} ({{ $paper->abstract->author_email }})</p>
-    <p><strong>Final Decision:</strong> 
-        <span class="{{ $paper->final_decision === 'approved' ? 'recommendation-approved' : 'recommendation-rejected' }}">
-            {{ strtoupper($paper->final_decision) }}
+    <p><strong>Paper Title:</strong> {{ $paper->abstract->title }}</p>
+    <p><strong>Paper ID:</strong> {{ $paper->abstract->submission_code }}</p>
+    <p><strong>Sub-Theme:</strong> {{ $paper->abstract->subtheme->full_name ?? 'N/A' }}</p>
+    
+    <p><strong>Sub-Theme Leader Decision:</strong> 
+        <span class="recommendation-{{ $paper->final_decision }}">
+            {{ strtoupper(str_replace('_', ' ', $paper->final_decision)) }}
         </span>
     </p>
+
+    @if($paper->presentation_type)
+    <p><strong>Recommended Presentation Format:</strong> 
+        <span style="font-weight:bold; color:#16a34a;">
+            {{ ucwords(str_replace('_', ' ', $paper->presentation_type)) }}
+        </span>
+    </p>
+    @endif
+    
     <p>
         <strong>Average Reviewer Score:</strong> 
         <span style="font-weight:bold; color:#16a34a;">
@@ -114,56 +120,53 @@
         </span>
     </p>
 
-    <div class="section-header">Leader Comments</div>
+    <div class="section-header">Sub-Theme Leader Comments</div>
     <div class="leader-comments">
-        {{ $paper->leader_comments }}
+        {{ $paper->leader_comments ?? 'No comments provided.' }}
     </div>
 
-    <div class="section-header">Reviewer Scores & Comments</div>
+    <div class="section-header">Reviewer Scores & Detailed Comments</div>
     <table>
         <thead>
             <tr>
-                <th>Reviewer</th>
-                <th>Total Score</th>
-                <th>Recommendation</th>
-                <th>Comments</th>
+                <th width="20%">Reviewer</th>
+                <th width="20%">Total Score</th>
+                <th width="60%">Overall Comments</th>
             </tr>
         </thead>
         <tbody>
             @foreach($reviews as $review)
             <tr>
                 <td class="reviewer-name">
-                    {{ $review->assignment->prequalifiedReviewer->name ?? $review->assignment->peerReviewer->full_name }}
+                    {{ $review->assignment->prequalifiedReviewer->name ?? $review->assignment->peerReviewer->full_name ?? 'Reviewer ' . $loop->iteration }}
                 </td>
                 <td class="total-score">
                     {{ $review->total_score ?? '-' }}/100
 
                     <table class="mini-scores">
-                        <tr><td>Title:</td><td>{{ $review->score_title }}/5</td></tr>
-                        <tr><td>Abstract:</td><td>{{ $review->score_abstract }}/5</td></tr>
-                        <tr><td>Introduction:</td><td>{{ $review->score_introduction }}/10</td></tr>
-                        <tr><td>Methods:</td><td>{{ $review->score_methods }}/25</td></tr>
-                        <tr><td>Results:</td><td>{{ $review->score_results }}/25</td></tr>
-                        <tr><td>Discussion:</td><td>{{ $review->score_discussion }}/15</td></tr>
-                        <tr><td>Conclusion:</td><td>{{ $review->score_conclusion }}/10</td></tr>
-                        <tr><td>References:</td><td>{{ $review->score_references }}/5</td></tr>
+                        <tr><td>Title:</td><td>{{ $review->score_title ?? '-' }}/5</td></tr>
+                        <tr><td>Abstract:</td><td>{{ $review->score_abstract ?? '-' }}/5</td></tr>
+                        <tr><td>Introduction:</td><td>{{ $review->score_introduction ?? '-' }}/10</td></tr>
+                        <tr><td>Methods:</td><td>{{ $review->score_methods ?? '-' }}/25</td></tr>
+                        <tr><td>Results:</td><td>{{ $review->score_results ?? '-' }}/25</td></tr>
+                        <tr><td>Discussion:</td><td>{{ $review->score_discussion ?? '-' }}/15</td></tr>
+                        <tr><td>Conclusion:</td><td>{{ $review->score_conclusion ?? '-' }}/10</td></tr>
+                        <tr><td>References:</td><td>{{ $review->score_references ?? '-' }}/5</td></tr>
                     </table>
-                </td>
-                <td class="
-                    @if($review->recommendation === 'accept') recommendation-approved
-                    @elseif($review->recommendation === 'reject') recommendation-rejected
-                    @endif
-                ">
-                    {{ ucwords(str_replace('_',' ',$review->recommendation)) }}
                 </td>
 
                 <td>
-                    {{ $review->overall_comments }}
+                    {{ $review->overall_comments ?? 'No comments provided.' }}
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
+
+    <div style="margin-top: 30px; text-align: center; font-size: 10px; color: #666;">
+        <p>Generated on {{ now()->format('F j, Y \a\t g:i A') }}</p>
+        <p>© {{ date('Y') }} 2nd KALRO Scientific Conference & Exhibition</p>
+    </div>
 
 </body>
 </html>
