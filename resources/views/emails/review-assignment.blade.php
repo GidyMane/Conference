@@ -115,7 +115,7 @@
 
     <div class="content">
 
-        <h2>You have been selected as a reviewer</h2>
+        <h2>You have been assigned as a reviewer</h2>
 
         <p>Hello,</p>
 
@@ -142,10 +142,7 @@
                     <td>Paper Code:</td>
                     <td>{{ $paper->abstract->submission_code }}</td>
                 </tr>
-                <tr>
-                    <td>Author:</td>
-                    <td>{{ $paper->abstract->author_name }}</td>
-                </tr>
+                
                 <tr>
                     <td>Submission Date:</td>
                     <td>{{ $paper->uploaded_at?->format('F j, Y') }}</td>
