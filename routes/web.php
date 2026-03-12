@@ -332,3 +332,7 @@ Route::get('/test/admin-materials', function() {
 Route::get('/test/reviewer-materials', function() {
     return view('reviewer.presentation-materials');
 });
+
+Route::get('/login', function () {
+    return redirect()->route('reviewer.login');
+})->name('login');

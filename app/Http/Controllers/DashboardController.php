@@ -27,6 +27,7 @@ class DashboardController extends Controller
             'fullPaperCount'   => FullPaper::count(),
             'registrationCount'  => ConferenceRegistration::count(),
             'exhibitionCount'    => ExhibitionRegistration::count(),
+            'resubmitCount'  => SubmittedAbstract::where('status', 'resubmit')->count(),
         ];
 
         // 🔹 Sub-theme distribution (REAL DATA)

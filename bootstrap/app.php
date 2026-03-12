@@ -29,26 +29,30 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => AdminOnly::class,
             'reviewer' => ReviewerOnly::class,
         ]);
+
+        $middleware->append(\App\Http\Middleware\PreventBackHistory::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+
         // 🔄 Handle expired session (419)
-    $exceptions->render(function (TokenMismatchException $e, $request) {
+        $exceptions->render(function (TokenMismatchException $e, $request) {
 
-        if ($request->is('admin/*')) {
-            return redirect()->route('admin.login')
+            if ($request->is('admin/*')) {
+                return redirect()->route('admin.login')
+                    ->with('error', 'Session expired. Please login again.');
+            }
+
+            if ($request->is('reviewer/*')) {
+                return redirect()->route('reviewer.login')
+                    ->with('error', 'Session expired. Please login again.');
+            }
+
+            return redirect()->route('login')
                 ->with('error', 'Session expired. Please login again.');
-        }
+        });
 
-        if ($request->is('reviewer/*')) {
-            return redirect()->route('reviewer.login')
-                ->with('error', 'Session expired. Please login again.');
-        }
-
-        return redirect()->route('login');
-    });
-
-    // 🔐 Handle unauthenticated users
-    $exceptions->render(function (AuthenticationException $e, $request) {
+        // 🔐 Handle unauthenticated users
+        $exceptions->render(function (AuthenticationException $e, $request) {
 
             if ($request->is('admin/*')) {
                 return redirect()->route('admin.login');
@@ -60,4 +64,5 @@ return Application::configure(basePath: dirname(__DIR__))
 
             return redirect()->route('login');
         });
+
     })->create();
