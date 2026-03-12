@@ -165,7 +165,7 @@
             <p>
     If you recognize the author(s) of this paper or become aware of any circumstance
     that may compromise your ability to provide an objective and impartial review,
-    please notify the conference secretariat promptly by emailing
+    please notify the conference secretariat promptly by replying to this email or contacting us at
     <strong>kalroconference2026@gmail.com</strong>.
 </p>
 
