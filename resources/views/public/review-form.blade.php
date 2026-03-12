@@ -200,11 +200,11 @@
                     <div class="section-body">
                         <div class="criteria-row">
                             <label class="fw-bold">Title is appropriate for conference themes (Max: 2) <span class="text-danger">*</span></label>
-                            <input type="number" name="title_appropriate" class="form-control score-input mt-2" min="0" max="2" value="0" required>
+                            <input type="number" name="title_appropriate" class="form-control score-input mt-2" min="0" max="2"  required>
                         </div>
                         <div class="criteria-row">
                             <label class="fw-bold">Reflects manuscript contents (Max: 3) <span class="text-danger">*</span></label>
-                            <input type="number" name="title_reflects_content" class="form-control score-input mt-2" min="0" max="3" value="0" required>
+                            <input type="number" name="title_reflects_content" class="form-control score-input mt-2" min="0" max="3"  required>
                         </div>
                         <div class="mt-3">
                             <label class="form-label fw-bold">Reviewer Comments: <span class="text-danger">*</span></label>
@@ -226,11 +226,11 @@
                     <div class="section-body">
                         <div class="criteria-row">
                             <label class="fw-bold">Abstract is not more than 300 words (Max: 2) <span class="text-danger">*</span></label>
-                            <input type="number" name="abstract_word_count" class="form-control score-input mt-2" min="0" max="2" value="0" required>
+                            <input type="number" name="abstract_word_count" class="form-control score-input mt-2" min="0" max="2"  required>
                         </div>
                         <div class="criteria-row">
                             <label class="fw-bold">Includes scope, methodology, findings, conclusions (Max: 3) <span class="text-danger">*</span></label>
-                            <input type="number" name="abstract_completeness" class="form-control score-input mt-2" min="0" max="3" value="0" required>
+                            <input type="number" name="abstract_completeness" class="form-control score-input mt-2" min="0" max="3"  required>
                         </div>
                         <div class="mt-3">
                             <label class="form-label fw-bold">Reviewer Comments: <span class="text-danger">*</span></label>
@@ -252,15 +252,15 @@
                     <div class="section-body">
                         <div class="criteria-row">
                             <label class="fw-bold">Explains background, gaps, recent literature (Max: 3) <span class="text-danger">*</span></label>
-                            <input type="number" name="intro_background" class="form-control score-input mt-2" min="0" max="3" value="0" required>
+                            <input type="number" name="intro_background" class="form-control score-input mt-2" min="0" max="3"  required>
                         </div>
                         <div class="criteria-row">
                             <label class="fw-bold">Demonstrates originality, novelty, importance (Max: 5) <span class="text-danger">*</span></label>
-                            <input type="number" name="intro_originality" class="form-control score-input mt-2" min="0" max="5" value="0" required>
+                            <input type="number" name="intro_originality" class="form-control score-input mt-2" min="0" max="5"  required>
                         </div>
                         <div class="criteria-row">
                             <label class="fw-bold">States the research objectives (Max: 2) <span class="text-danger">*</span></label>
-                            <input type="number" name="intro_objectives" class="form-control score-input mt-2" min="0" max="2" value="0" required>
+                            <input type="number" name="intro_objectives" class="form-control score-input mt-2" min="0" max="2"  required>
                         </div>
                         <div class="mt-3">
                             <label class="form-label fw-bold">Reviewer Comments: <span class="text-danger">*</span></label>
@@ -282,19 +282,19 @@
                     <div class="section-body">
                         <div class="criteria-row">
                             <label class="fw-bold">Detail for replication, good sample size (Max: 10) <span class="text-danger">*</span></label>
-                            <input type="number" name="methods_replication" class="form-control score-input mt-2" min="0" max="10" value="0" required>
+                            <input type="number" name="methods_replication" class="form-control score-input mt-2" min="0" max="10"  required>
                         </div>
                         <div class="criteria-row">
                             <label class="fw-bold">Design tests hypothesis rigorously (Max: 5) <span class="text-danger">*</span></label>
-                            <input type="number" name="methods_design" class="form-control score-input mt-2" min="0" max="5" value="0" required>
+                            <input type="number" name="methods_design" class="form-control score-input mt-2" min="0" max="5"  required>
                         </div>
                         <div class="criteria-row">
                             <label class="fw-bold">Appropriate statistical techniques (Max: 5) <span class="text-danger">*</span></label>
-                            <input type="number" name="methods_statistics" class="form-control score-input mt-2" min="0" max="5" value="0" required>
+                            <input type="number" name="methods_statistics" class="form-control score-input mt-2" min="0" max="5"  required>
                         </div>
                         <div class="criteria-row">
                             <label class="fw-bold">Follows ethical standards (Max: 5) <span class="text-danger">*</span></label>
-                            <input type="number" name="methods_ethics" class="form-control score-input mt-2" min="0" max="5" value="0" required>
+                            <input type="number" name="methods_ethics" class="form-control score-input mt-2" min="0" max="5"  required>
                         </div>
                         <div class="mt-3">
                             <label class="form-label fw-bold">Reviewer Comments: <span class="text-danger">*</span></label>
@@ -316,23 +316,23 @@
                     <div class="section-body">
                         <div class="criteria-row">
                             <label class="fw-bold">Demonstrates new insights (Max: 5) <span class="text-danger">*</span></label>
-                            <input type="number" name="results_insights" class="form-control score-input mt-2" min="0" max="5" value="0" required>
+                            <input type="number" name="results_insights" class="form-control score-input mt-2" min="0" max="5"  required>
                         </div>
                         <div class="criteria-row">
                             <label class="fw-bold">Good narrative/reporting (Max: 5) <span class="text-danger">*</span></label>
-                            <input type="number" name="results_narrative" class="form-control score-input mt-2" min="0" max="5" value="0" required>
+                            <input type="number" name="results_narrative" class="form-control score-input mt-2" min="0" max="5"  required>
                         </div>
                         <div class="criteria-row">
                             <label class="fw-bold">Clear data, stats explained (Max: 8) <span class="text-danger">*</span></label>
-                            <input type="number" name="results_data_clarity" class="form-control score-input mt-2" min="0" max="8" value="0" required>
+                            <input type="number" name="results_data_clarity" class="form-control score-input mt-2" min="0" max="8"  required>
                         </div>
                         <div class="criteria-row">
                             <label class="fw-bold">Data presented clearly, readable visuals (Max: 5) <span class="text-danger">*</span></label>
-                            <input type="number" name="results_visuals" class="form-control score-input mt-2" min="0" max="5" value="0" required>
+                            <input type="number" name="results_visuals" class="form-control score-input mt-2" min="0" max="5"  required>
                         </div>
                         <div class="criteria-row">
                             <label class="fw-bold">Proper referencing (Max: 2) <span class="text-danger">*</span></label>
-                            <input type="number" name="results_referencing" class="form-control score-input mt-2" min="0" max="2" value="0" required>
+                            <input type="number" name="results_referencing" class="form-control score-input mt-2" min="0" max="2"  required>
                         </div>
                         <div class="mt-3">
                             <label class="form-label fw-bold">Reviewer Comments: <span class="text-danger">*</span></label>
@@ -354,23 +354,23 @@
                     <div class="section-body">
                         <div class="criteria-row">
                             <label class="fw-bold">Puts results into context (Max: 2) <span class="text-danger">*</span></label>
-                            <input type="number" name="discussion_context" class="form-control score-input mt-2" min="0" max="2" value="0" required>
+                            <input type="number" name="discussion_context" class="form-control score-input mt-2" min="0" max="2"  required>
                         </div>
                         <div class="criteria-row">
                             <label class="fw-bold">Meets objectives, interprets well (Max: 2) <span class="text-danger">*</span></label>
-                            <input type="number" name="discussion_objectives" class="form-control score-input mt-2" min="0" max="2" value="0" required>
+                            <input type="number" name="discussion_objectives" class="form-control score-input mt-2" min="0" max="2"  required>
                         </div>
                         <div class="criteria-row">
                             <label class="fw-bold">Discusses significance and extends knowledge (Max: 5) <span class="text-danger">*</span></label>
-                            <input type="number" name="discussion_significance" class="form-control score-input mt-2" min="0" max="5" value="0" required>
+                            <input type="number" name="discussion_significance" class="form-control score-input mt-2" min="0" max="5"  required>
                         </div>
                         <div class="criteria-row">
                             <label class="fw-bold">Aligns with conference theme (Max: 2) <span class="text-danger">*</span></label>
-                            <input type="number" name="discussion_theme" class="form-control score-input mt-2" min="0" max="2" value="0" required>
+                            <input type="number" name="discussion_theme" class="form-control score-input mt-2" min="0" max="2"  required>
                         </div>
                         <div class="criteria-row">
                             <label class="fw-bold">Recent references (Max: 4) <span class="text-danger">*</span></label>
-                            <input type="number" name="discussion_references" class="form-control score-input mt-2" min="0" max="4" value="0" required>
+                            <input type="number" name="discussion_references" class="form-control score-input mt-2" min="0" max="4"  required>
                         </div>
                         <div class="mt-3">
                             <label class="form-label fw-bold">Reviewer Comments: <span class="text-danger">*</span></label>
@@ -392,15 +392,15 @@
                     <div class="section-body">
                         <div class="criteria-row">
                             <label class="fw-bold">Reflects objectives (Max: 2) <span class="text-danger">*</span></label>
-                            <input type="number" name="conclusion_objectives" class="form-control score-input mt-2" min="0" max="2" value="0" required>
+                            <input type="number" name="conclusion_objectives" class="form-control score-input mt-2" min="0" max="2"  required>
                         </div>
                         <div class="criteria-row">
                             <label class="fw-bold">Consistent with arguments (Max: 5) <span class="text-danger">*</span></label>
-                            <input type="number" name="conclusion_consistency" class="form-control score-input mt-2" min="0" max="5" value="0" required>
+                            <input type="number" name="conclusion_consistency" class="form-control score-input mt-2" min="0" max="5"  required>
                         </div>
                         <div class="criteria-row">
                             <label class="fw-bold">States contribution to science/theme (Max: 3) <span class="text-danger">*</span></label>
-                            <input type="number" name="conclusion_contribution" class="form-control score-input mt-2" min="0" max="3" value="0" required>
+                            <input type="number" name="conclusion_contribution" class="form-control score-input mt-2" min="0" max="3"  required>
                         </div>
                         <div class="mt-3">
                             <label class="form-label fw-bold">Reviewer Comments: <span class="text-danger">*</span></label>
@@ -422,23 +422,23 @@
                     <div class="section-body">
                         <div class="criteria-row">
                             <label class="fw-bold">Acknowledgement section present and appropriate (Max: 1) <span class="text-danger">*</span></label>
-                            <input type="number" name="acknowledgement_present" class="form-control score-input mt-2" min="0" max="1" value="0" required>
+                            <input type="number" name="acknowledgement_present" class="form-control score-input mt-2" min="0" max="1"  required>
                         </div>
                         <div class="criteria-row">
                             <label class="fw-bold">References accurate, relevant, retrievable (Max: 1) <span class="text-danger">*</span></label>
-                            <input type="number" name="references_accuracy" class="form-control score-input mt-2" min="0" max="1" value="0" required>
+                            <input type="number" name="references_accuracy" class="form-control score-input mt-2" min="0" max="1"  required>
                         </div>
                         <div class="criteria-row">
                             <label class="fw-bold">Balanced, fair, avoids self-citation (Max: 1) <span class="text-danger">*</span></label>
-                            <input type="number" name="references_balance" class="form-control score-input mt-2" min="0" max="1" value="0" required>
+                            <input type="number" name="references_balance" class="form-control score-input mt-2" min="0" max="1"  required>
                         </div>
                         <div class="criteria-row">
                             <label class="fw-bold">Cited and listed correctly (Max: 1) <span class="text-danger">*</span></label>
-                            <input type="number" name="references_citation" class="form-control score-input mt-2" min="0" max="1" value="0" required>
+                            <input type="number" name="references_citation" class="form-control score-input mt-2" min="0" max="1"  required>
                         </div>
                         <div class="criteria-row">
                             <label class="fw-bold">All references match between text and list (Max: 1) <span class="text-danger">*</span></label>
-                            <input type="number" name="references_matching" class="form-control score-input mt-2" min="0" max="1" value="0" required>
+                            <input type="number" name="references_matching" class="form-control score-input mt-2" min="0" max="1"  required>
                         </div>
                         <div class="mt-3">
                             <label class="form-label fw-bold">Reviewer Comments: <span class="text-danger">*</span></label>
