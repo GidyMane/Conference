@@ -116,7 +116,6 @@
                         <div class="col-md-6">
                             <p class="mb-2"><strong>Submission ID:</strong> {{ $assignment->fullPaper->abstract->submission_code }}</p>
                             <p class="mb-2"><strong>Paper ID:</strong> {{ $assignment->fullPaper->full_paper_code }}</p>
-                            <p class="mb-0"><strong>Author:</strong> {{ $assignment->fullPaper->abstract->author_name }}</p>
                         </div>
                         <div class="col-md-6">
                             <p class="mb-2"><strong>Sub-Theme:</strong> {{ $assignment->fullPaper->abstract->subtheme->full_name ?? '-' }}</p>
@@ -191,11 +190,6 @@
                         </ul>
                     </div>
                 @endif
-                {{-- Success Message --}}
-                <div id="successMessage" class="alert alert-success d-none">
-                    <h5><i class="fas fa-check-circle me-2"></i>Review Submitted Successfully!</h5>
-                    <p class="mb-0">Thank you for your review. Your total score: <strong id="finalScore">0</strong>/100</p>
-                </div>
 
                 {{-- ═════════════════════════════════════════════════════════
                     SECTION 1: TITLE (5 points)
@@ -209,16 +203,16 @@
                     </div>
                     <div class="section-body">
                         <div class="criteria-row">
-                            <label class="fw-bold">Title is appropriate for conference themes (Max: 2)</label>
+                            <label class="fw-bold">Title is appropriate for conference themes (Max: 2) <span class="text-danger">*</span></label>
                             <input type="number" name="title_appropriate" class="form-control score-input mt-2" min="0" max="2" value="0" required>
                         </div>
                         <div class="criteria-row">
-                            <label class="fw-bold">Reflects manuscript contents (Max: 3)</label>
+                            <label class="fw-bold">Reflects manuscript contents (Max: 3) <span class="text-danger">*</span></label>
                             <input type="number" name="title_reflects_content" class="form-control score-input mt-2" min="0" max="3" value="0" required>
                         </div>
                         <div class="mt-3">
-                            <label class="form-label fw-bold">Reviewer Comments:</label>
-                            <textarea name="title_comments" class="form-control" rows="2" placeholder="Optional feedback on title..."></textarea>
+                            <label class="form-label fw-bold">Reviewer Comments: <span class="text-danger">*</span></label>
+                            <textarea name="title_comments" class="form-control" rows="2" placeholder="Provide feedback on title..." required></textarea>
                         </div>
                     </div>
                 </div>
@@ -235,16 +229,16 @@
                     </div>
                     <div class="section-body">
                         <div class="criteria-row">
-                            <label class="fw-bold">Abstract is not more than 300 words (Max: 2)</label>
+                            <label class="fw-bold">Abstract is not more than 300 words (Max: 2) <span class="text-danger">*</span></label>
                             <input type="number" name="abstract_word_count" class="form-control score-input mt-2" min="0" max="2" value="0" required>
                         </div>
                         <div class="criteria-row">
-                            <label class="fw-bold">Includes scope, methodology, findings, conclusions (Max: 3)</label>
+                            <label class="fw-bold">Includes scope, methodology, findings, conclusions (Max: 3) <span class="text-danger">*</span></label>
                             <input type="number" name="abstract_completeness" class="form-control score-input mt-2" min="0" max="3" value="0" required>
                         </div>
                         <div class="mt-3">
-                            <label class="form-label fw-bold">Reviewer Comments:</label>
-                            <textarea name="abstract_comments" class="form-control" rows="2" placeholder="Optional feedback on abstract..."></textarea>
+                            <label class="form-label fw-bold">Reviewer Comments: <span class="text-danger">*</span></label>
+                            <textarea name="abstract_comments" class="form-control" rows="2" placeholder="Provide feedback on abstract..." required></textarea>
                         </div>
                     </div>
                 </div>
@@ -261,20 +255,20 @@
                     </div>
                     <div class="section-body">
                         <div class="criteria-row">
-                            <label class="fw-bold">Explains background, gaps, recent literature (Max: 3)</label>
+                            <label class="fw-bold">Explains background, gaps, recent literature (Max: 3) <span class="text-danger">*</span></label>
                             <input type="number" name="intro_background" class="form-control score-input mt-2" min="0" max="3" value="0" required>
                         </div>
                         <div class="criteria-row">
-                            <label class="fw-bold">Demonstrates originality, novelty, importance (Max: 5)</label>
+                            <label class="fw-bold">Demonstrates originality, novelty, importance (Max: 5) <span class="text-danger">*</span></label>
                             <input type="number" name="intro_originality" class="form-control score-input mt-2" min="0" max="5" value="0" required>
                         </div>
                         <div class="criteria-row">
-                            <label class="fw-bold">States the research objectives (Max: 2)</label>
+                            <label class="fw-bold">States the research objectives (Max: 2) <span class="text-danger">*</span></label>
                             <input type="number" name="intro_objectives" class="form-control score-input mt-2" min="0" max="2" value="0" required>
                         </div>
                         <div class="mt-3">
-                            <label class="form-label fw-bold">Reviewer Comments:</label>
-                            <textarea name="intro_comments" class="form-control" rows="2" placeholder="Optional feedback on introduction..."></textarea>
+                            <label class="form-label fw-bold">Reviewer Comments: <span class="text-danger">*</span></label>
+                            <textarea name="intro_comments" class="form-control" rows="2" placeholder="Provide feedback on introduction..." required></textarea>
                         </div>
                     </div>
                 </div>
@@ -291,24 +285,24 @@
                     </div>
                     <div class="section-body">
                         <div class="criteria-row">
-                            <label class="fw-bold">Detail for replication, good sample size (Max: 10)</label>
+                            <label class="fw-bold">Detail for replication, good sample size (Max: 10) <span class="text-danger">*</span></label>
                             <input type="number" name="methods_replication" class="form-control score-input mt-2" min="0" max="10" value="0" required>
                         </div>
                         <div class="criteria-row">
-                            <label class="fw-bold">Design tests hypothesis rigorously (Max: 5)</label>
+                            <label class="fw-bold">Design tests hypothesis rigorously (Max: 5) <span class="text-danger">*</span></label>
                             <input type="number" name="methods_design" class="form-control score-input mt-2" min="0" max="5" value="0" required>
                         </div>
                         <div class="criteria-row">
-                            <label class="fw-bold">Appropriate statistical techniques (Max: 5)</label>
+                            <label class="fw-bold">Appropriate statistical techniques (Max: 5) <span class="text-danger">*</span></label>
                             <input type="number" name="methods_statistics" class="form-control score-input mt-2" min="0" max="5" value="0" required>
                         </div>
                         <div class="criteria-row">
-                            <label class="fw-bold">Follows ethical standards (Max: 5)</label>
+                            <label class="fw-bold">Follows ethical standards (Max: 5) <span class="text-danger">*</span></label>
                             <input type="number" name="methods_ethics" class="form-control score-input mt-2" min="0" max="5" value="0" required>
                         </div>
                         <div class="mt-3">
-                            <label class="form-label fw-bold">Reviewer Comments:</label>
-                            <textarea name="methods_comments" class="form-control" rows="2" placeholder="Optional feedback on methodology..."></textarea>
+                            <label class="form-label fw-bold">Reviewer Comments: <span class="text-danger">*</span></label>
+                            <textarea name="methods_comments" class="form-control" rows="2" placeholder="Provide feedback on methodology..." required></textarea>
                         </div>
                     </div>
                 </div>
@@ -325,28 +319,28 @@
                     </div>
                     <div class="section-body">
                         <div class="criteria-row">
-                            <label class="fw-bold">Demonstrates new insights (Max: 5)</label>
+                            <label class="fw-bold">Demonstrates new insights (Max: 5) <span class="text-danger">*</span></label>
                             <input type="number" name="results_insights" class="form-control score-input mt-2" min="0" max="5" value="0" required>
                         </div>
                         <div class="criteria-row">
-                            <label class="fw-bold">Good narrative/reporting (Max: 5)</label>
+                            <label class="fw-bold">Good narrative/reporting (Max: 5) <span class="text-danger">*</span></label>
                             <input type="number" name="results_narrative" class="form-control score-input mt-2" min="0" max="5" value="0" required>
                         </div>
                         <div class="criteria-row">
-                            <label class="fw-bold">Clear data, stats explained (Max: 8)</label>
+                            <label class="fw-bold">Clear data, stats explained (Max: 8) <span class="text-danger">*</span></label>
                             <input type="number" name="results_data_clarity" class="form-control score-input mt-2" min="0" max="8" value="0" required>
                         </div>
                         <div class="criteria-row">
-                            <label class="fw-bold">Data presented clearly, readable visuals (Max: 5)</label>
+                            <label class="fw-bold">Data presented clearly, readable visuals (Max: 5) <span class="text-danger">*</span></label>
                             <input type="number" name="results_visuals" class="form-control score-input mt-2" min="0" max="5" value="0" required>
                         </div>
                         <div class="criteria-row">
-                            <label class="fw-bold">Proper referencing (Max: 2)</label>
+                            <label class="fw-bold">Proper referencing (Max: 2) <span class="text-danger">*</span></label>
                             <input type="number" name="results_referencing" class="form-control score-input mt-2" min="0" max="2" value="0" required>
                         </div>
                         <div class="mt-3">
-                            <label class="form-label fw-bold">Reviewer Comments:</label>
-                            <textarea name="results_comments" class="form-control" rows="2" placeholder="Optional feedback on results..."></textarea>
+                            <label class="form-label fw-bold">Reviewer Comments: <span class="text-danger">*</span></label>
+                            <textarea name="results_comments" class="form-control" rows="2" placeholder="Provide feedback on results..." required></textarea>
                         </div>
                     </div>
                 </div>
@@ -363,28 +357,28 @@
                     </div>
                     <div class="section-body">
                         <div class="criteria-row">
-                            <label class="fw-bold">Puts results into context (Max: 2)</label>
+                            <label class="fw-bold">Puts results into context (Max: 2) <span class="text-danger">*</span></label>
                             <input type="number" name="discussion_context" class="form-control score-input mt-2" min="0" max="2" value="0" required>
                         </div>
                         <div class="criteria-row">
-                            <label class="fw-bold">Meets objectives, interprets well (Max: 2)</label>
+                            <label class="fw-bold">Meets objectives, interprets well (Max: 2) <span class="text-danger">*</span></label>
                             <input type="number" name="discussion_objectives" class="form-control score-input mt-2" min="0" max="2" value="0" required>
                         </div>
                         <div class="criteria-row">
-                            <label class="fw-bold">Discusses significance and extends knowledge (Max: 5)</label>
+                            <label class="fw-bold">Discusses significance and extends knowledge (Max: 5) <span class="text-danger">*</span></label>
                             <input type="number" name="discussion_significance" class="form-control score-input mt-2" min="0" max="5" value="0" required>
                         </div>
                         <div class="criteria-row">
-                            <label class="fw-bold">Aligns with conference theme (Max: 2)</label>
+                            <label class="fw-bold">Aligns with conference theme (Max: 2) <span class="text-danger">*</span></label>
                             <input type="number" name="discussion_theme" class="form-control score-input mt-2" min="0" max="2" value="0" required>
                         </div>
                         <div class="criteria-row">
-                            <label class="fw-bold">Recent references (Max: 4)</label>
+                            <label class="fw-bold">Recent references (Max: 4) <span class="text-danger">*</span></label>
                             <input type="number" name="discussion_references" class="form-control score-input mt-2" min="0" max="4" value="0" required>
                         </div>
                         <div class="mt-3">
-                            <label class="form-label fw-bold">Reviewer Comments:</label>
-                            <textarea name="discussion_comments" class="form-control" rows="2" placeholder="Optional feedback on discussion..."></textarea>
+                            <label class="form-label fw-bold">Reviewer Comments: <span class="text-danger">*</span></label>
+                            <textarea name="discussion_comments" class="form-control" rows="2" placeholder="Provide feedback on discussion..." required></textarea>
                         </div>
                     </div>
                 </div>
@@ -401,20 +395,20 @@
                     </div>
                     <div class="section-body">
                         <div class="criteria-row">
-                            <label class="fw-bold">Reflects objectives (Max: 2)</label>
+                            <label class="fw-bold">Reflects objectives (Max: 2) <span class="text-danger">*</span></label>
                             <input type="number" name="conclusion_objectives" class="form-control score-input mt-2" min="0" max="2" value="0" required>
                         </div>
                         <div class="criteria-row">
-                            <label class="fw-bold">Consistent with arguments (Max: 5)</label>
+                            <label class="fw-bold">Consistent with arguments (Max: 5) <span class="text-danger">*</span></label>
                             <input type="number" name="conclusion_consistency" class="form-control score-input mt-2" min="0" max="5" value="0" required>
                         </div>
                         <div class="criteria-row">
-                            <label class="fw-bold">States contribution to science/theme (Max: 3)</label>
+                            <label class="fw-bold">States contribution to science/theme (Max: 3) <span class="text-danger">*</span></label>
                             <input type="number" name="conclusion_contribution" class="form-control score-input mt-2" min="0" max="3" value="0" required>
                         </div>
                         <div class="mt-3">
-                            <label class="form-label fw-bold">Reviewer Comments:</label>
-                            <textarea name="conclusion_comments" class="form-control" rows="2" placeholder="Optional feedback on conclusions and recommendations..."></textarea>
+                            <label class="form-label fw-bold">Reviewer Comments: <span class="text-danger">*</span></label>
+                            <textarea name="conclusion_comments" class="form-control" rows="2" placeholder="Provide feedback on conclusions and recommendations..." required></textarea>
                         </div>
                     </div>
                 </div>
@@ -431,28 +425,28 @@
                     </div>
                     <div class="section-body">
                         <div class="criteria-row">
-                            <label class="fw-bold">Acknowledgement section present and appropriate (Max: 1)</label>
+                            <label class="fw-bold">Acknowledgement section present and appropriate (Max: 1) <span class="text-danger">*</span></label>
                             <input type="number" name="acknowledgement_present" class="form-control score-input mt-2" min="0" max="1" value="0" required>
                         </div>
                         <div class="criteria-row">
-                            <label class="fw-bold">References accurate, relevant, retrievable (Max: 1)</label>
+                            <label class="fw-bold">References accurate, relevant, retrievable (Max: 1) <span class="text-danger">*</span></label>
                             <input type="number" name="references_accuracy" class="form-control score-input mt-2" min="0" max="1" value="0" required>
                         </div>
                         <div class="criteria-row">
-                            <label class="fw-bold">Balanced, fair, avoids self-citation (Max: 1)</label>
+                            <label class="fw-bold">Balanced, fair, avoids self-citation (Max: 1) <span class="text-danger">*</span></label>
                             <input type="number" name="references_balance" class="form-control score-input mt-2" min="0" max="1" value="0" required>
                         </div>
                         <div class="criteria-row">
-                            <label class="fw-bold">Cited and listed correctly (Max: 1)</label>
+                            <label class="fw-bold">Cited and listed correctly (Max: 1) <span class="text-danger">*</span></label>
                             <input type="number" name="references_citation" class="form-control score-input mt-2" min="0" max="1" value="0" required>
                         </div>
                         <div class="criteria-row">
-                            <label class="fw-bold">All references match between text and list (Max: 1)</label>
+                            <label class="fw-bold">All references match between text and list (Max: 1) <span class="text-danger">*</span></label>
                             <input type="number" name="references_matching" class="form-control score-input mt-2" min="0" max="1" value="0" required>
                         </div>
                         <div class="mt-3">
-                            <label class="form-label fw-bold">Reviewer Comments:</label>
-                            <textarea name="references_comments" class="form-control" rows="2" placeholder="Optional feedback on acknowledgement and references..."></textarea>
+                            <label class="form-label fw-bold">Reviewer Comments: <span class="text-danger">*</span></label>
+                            <textarea name="references_comments" class="form-control" rows="2" placeholder="Provide feedback on acknowledgement and references..." required></textarea>
                         </div>
                     </div>
                 </div>
@@ -473,6 +467,7 @@
                                       class="form-control" 
                                       rows="5" 
                                       required 
+                                      minlength="50"
                                       placeholder="Provide comprehensive feedback covering all 9 required sections: Abstract, Introduction, Materials and Methods, Results, Discussion, Conclusion, Recommendations, Acknowledgement, and References. Also comment on the presence of all author information (names, affiliations, addresses, emails, corresponding author)."></textarea>
                             <small class="text-muted">Minimum 50 characters required. Ensure you address section completeness.</small>
                         </div>
@@ -489,20 +484,20 @@
                         </div>
 
                         <div class="mb-4">
-                            <label class="form-label fw-bold">Paper Suitability <span class="text-danger">*</span></label>
+                            <label class="form-label fw-bold">Presentation Format <span class="text-danger">*</span></label>
                             <select name="paper_suitability" class="form-select" required>
-                                <option value="">-- Select Presentation Type --</option>
-                                <option value="oral_presentation">🎤 Oral Presentation</option>
-                                <option value="poster_presentation">📊 Poster Presentation</option>
-                                <option value="conference_powerpoint_presentation">📽️ Conference PowerPoint Presentation</option>
+                                <option value="">-- Select Presentation Format --</option>
+                                <option value="powerpoint">📊 PowerPoint Presentation</option>
+                                <option value="poster">📋 Poster Presentation</option>
                             </select>
+                            <small class="text-muted">Select the most appropriate format for presenting this paper at the conference.</small>
                         </div>
 
                         <div class="alert alert-info">
                             <strong><i class="fas fa-info-circle me-2"></i>Before submitting:</strong>
                             <ul class="mb-0 small">
                                 <li>Verify all 8 sections have been scored</li>
-                                <li>Confirm paper includes all 9 required sections</li>
+                                <li>Confirm all comment fields are completed</li>
                                 <li>Check that author information is complete</li>
                                 <li>Ensure your comments address any missing sections or requirements</li>
                             </ul>
@@ -546,7 +541,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const scoreInputs = document.querySelectorAll('.score-input');
     const totalDisplay = document.getElementById('totalScore');
-    const finalScore = document.getElementById('finalScore');
     
     scoreInputs.forEach(input => {
         input.addEventListener('input', calculateTotal);
@@ -558,7 +552,6 @@ document.addEventListener('DOMContentLoaded', () => {
             total += parseInt(input.value) || 0;
         });
         totalDisplay.textContent = total;
-        finalScore.textContent = total;
     }
     
     // Initialize calculation
