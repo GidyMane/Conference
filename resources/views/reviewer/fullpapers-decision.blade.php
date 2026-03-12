@@ -18,6 +18,9 @@
     .rec-needs_major_revisions { background: #fed7aa; color: #9a3412; }
     .rec-needs_minor_revisions { background: #fef3c7; color: #92400e; }
     .rec-reject { background: #fee2e2; color: #991b1b; }
+    .rec-not_approved { background: #fee2e2; color: #991b1b; }
+    .rec-accept_with_minor_revisions { background: #fef3c7; color: #92400e; }
+    .rec-accept_with_major_revisions { background: #fed7aa; color: #9a3412; }
 </style>
 
 <div class="container-fluid py-4">
@@ -37,18 +40,13 @@
         <div class="card-body">
             <h5 class="text-success mb-3">{{ $paper->abstract->title }}</h5>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <p class="mb-2"><strong>Paper ID:</strong> {{ $paper->abstract->submission_code }}</p>
-                    <p class="mb-0"><strong>Author:</strong> {{ $paper->abstract->author_name }}</p>
-                </div>
-                <div class="col-md-4">
-                    <p class="mb-2"><strong>Email:</strong> {{ $paper->abstract->author_email }}</p>
                     <p class="mb-0"><strong>Sub-Theme:</strong> {{ $paper->abstract->subtheme->full_name ?? 'N/A' }}</p>
                 </div>
-                <div class="col-md-4 text-end">
-                    <button class="btn btn-outline-success" onclick="alert('Download would start')">
-                        <i class="fas fa-download me-1"></i>Download Paper
-                    </button>
+                <div class="col-md-6">
+                    <p class="mb-2"><strong>Total Reviews:</strong> {{ $reviews->count() }}</p>
+                    <p class="mb-0"><strong>Submitted Reviews:</strong> {{ $reviews->filter(fn($a) => $a->fullPaperReview?->submitted_at)->count() }}/{{ $reviews->count() }}</p>
                 </div>
             </div>
         </div>
@@ -140,7 +138,7 @@
                             {{ ucwords(str_replace('_', ' ', $review->recommendation)) }}
                         </span>
                         @if($review->presentation_type)
-                            <span class="ms-3"><i class="fas fa-presentation me-1"></i> {{ $review->presentation_type }}</span>
+                            <span class="ms-3"><i class="fas fa-presentation me-1"></i> {{ ucwords(str_replace('_', ' ', $review->presentation_type)) }}</span>
                         @endif
                     @else
                         <span class="text-muted">Review not submitted yet.</span>
@@ -181,43 +179,63 @@
             @elseif($decisionMade)
                 <div class="alert alert-success">
                     <i class="fas fa-check-circle me-2"></i>
-                    Final decision has already been made: <strong>{{ strtoupper($paper->final_decision) }}</strong>
+                    Final decision has already been made: <strong>{{ strtoupper(str_replace('_', ' ', $paper->final_decision)) }}</strong>
                 </div>
             @endif
 
             <form method="POST" action="{{ route('reviewer.fullpapers.final-decision', $paper->id) }}">
                 @csrf
                 <fieldset @if($disableForm) disabled @endif>
+                    
                     <div class="mb-4">
-                        <label class="form-label fw-bold">Decision <span class="text-danger">*</span></label>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-check p-3 border rounded mb-2">
-                                    <input class="form-check-input" type="radio" name="decision" id="approve" value="approved" required>
-                                    <label class="form-check-label fw-bold text-success" for="approve">
-                                        <i class="fas fa-check-circle me-2"></i>APPROVE
-                                        <br><small class="text-muted fw-normal">Paper is accepted for the conference</small>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-check p-3 border rounded">
-                                    <input class="form-check-input" type="radio" name="decision" id="reject" value="rejected" required>
-                                    <label class="form-check-label fw-bold text-danger" for="reject">
-                                        <i class="fas fa-times-circle me-2"></i>REJECT
-                                        <br><small class="text-muted fw-normal">Paper will not be presented</small>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
+                        <label class="form-label fw-bold">Final Decision <span class="text-danger">*</span></label>
+                        <select name="decision" class="form-select form-select-lg" required>
+                            <option value="">-- Select Decision --</option>
+                            <option value="accept">✓ Accept</option>
+                            <option value="accept_with_minor_revisions">⚠ Accept with Minor Revisions</option>
+                            <option value="accept_with_major_revisions">⚠ Accept with Major Revisions</option>
+                            <option value="not_approved">✗ Not Approved</option>
+                        </select>
+                        <small class="text-muted">
+                            This decision is final and will determine if the paper is accepted for the conference.
+                        </small>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Recommended Presentation Format <span class="text-danger">*</span></label>
+                        <select name="presentation_type" class="form-select" required>
+                            <option value="">-- Select Format --</option>
+                            <option value="powerpoint">📊 PowerPoint Presentation</option>
+                            <option value="poster">📋 Poster Presentation</option>
+                        </select>
+                        <small class="text-muted">
+                            Select the most appropriate format for presenting this paper at the conference.
+                        </small>
                     </div>
 
                     <div class="mb-4">
                         <label class="form-label fw-bold">Comments to Author <span class="text-danger">*</span></label>
-                        <textarea name="comments" class="form-control" rows="5"
-                                placeholder="Provide constructive feedback to the author..."
-                                required></textarea>
-                        <small class="text-muted">Minimum 20 characters. This will be sent directly to the author.</small>
+                        <textarea name="comments" 
+                                  class="form-control" 
+                                  rows="5"
+                                  minlength="20"
+                                  placeholder="Provide constructive feedback based on reviewers' comments and your assessment..."
+                                  required></textarea>
+                        <small class="text-muted">
+                            Minimum 20 characters. This will be sent directly to the author along with your decision.
+                        </small>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <h6 class="alert-heading">
+                            <i class="fas fa-info-circle me-2"></i>What Happens Next?
+                        </h6>
+                        <ul class="mb-0 small">
+                            <li><strong>If ACCEPTED:</strong> Author receives email with link to upload presentation materials (PowerPoint/Poster)</li>
+                            <li><strong>If ACCEPTED WITH REVISIONS:</strong> Author receives email with revision requirements and resubmission instructions</li>
+                            <li><strong>If NOT APPROVED:</strong> Author receives email with your comments and reviewers' feedback</li>
+                            <li>Decision is <strong>final</strong> and cannot be changed after submission</li>
+                        </ul>
                     </div>
 
                     <div class="d-flex gap-2">
