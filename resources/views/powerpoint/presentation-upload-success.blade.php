@@ -127,7 +127,19 @@
         <!-- Uploaded Files Summary -->
         <div class="uploaded-files">
             <h6 class="mb-3"><i class="fas fa-check-circle text-success me-2"></i>Files Uploaded</h6>
-            
+            {{-- Revised Full Paper --}}
+            @if($fullPaper->presentationUpload && $fullPaper->presentationUpload->revised_fullpaper)
+            <div class="file-item">
+                <div class="file-icon" style="background:#dcfce7;color:#166534">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <p class="mb-0 fw-bold">Full Paper</p>
+                    <small class="text-muted">{{ basename($fullPaper->presentationUpload->revised_fullpaper) }}</small>
+                </div>
+                <i class="fas fa-check-circle text-success"></i>
+            </div>
+            @endif
             @if(session('uploaded_powerpoint'))
             <div class="file-item">
                 <div class="file-icon icon-ppt">

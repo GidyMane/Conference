@@ -11,6 +11,7 @@ class PresentationUpload extends Model
         'powerpoint_file',
         'poster_file',
         'supporting_documents',
+        'revised_fullpaper',
         'uploaded_at'
     ];
 

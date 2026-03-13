@@ -30,106 +30,62 @@ class PresentationUploadController extends Controller
         }
 
         $request->validate([
-            'powerpoint_file' => 'nullable|mimes:ppt,pptx|max:20480',
-            'poster_file' => 'nullable|mimes:pdf,jpg,jpeg,png|max:10240',
+            'revised_fullpaper' => 'required|mimes:pdf,doc,docx|max:15360',
+            'powerpoint_file'   => 'nullable|mimes:ppt,pptx|max:20480',
+            'poster_file'       => 'nullable|mimes:pdf,jpg,jpeg,png|max:10240',
             'supporting_docs.*' => 'nullable|mimes:pdf,doc,docx,zip|max:15360'
         ]);
 
-        if (!$request->hasFile('powerpoint_file') && !$request->hasFile('poster_file')) {
-            return back()->withErrors('Upload at least a PowerPoint OR Poster.');
-        }
-
         $uploadedFiles = [];
 
-        /*
-        |--------------------------------------------------------------------------
-        | PowerPoint
-        |--------------------------------------------------------------------------
-        */
+        // Revised Full Paper
+        if ($request->hasFile('revised_fullpaper')) {
+            $file = $request->file('revised_fullpaper');
+            $name = 'revised_' . time() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('presentations/revised', $name, 'public');
+            $uploadedFiles['revised_fullpaper'] = $path;
+        }
 
+        // PowerPoint
         if ($request->hasFile('powerpoint_file')) {
-
             $file = $request->file('powerpoint_file');
-
             $name = 'ppt_' . time() . '.' . $file->getClientOriginalExtension();
-
-            $path = $file->storeAs(
-                'presentations/ppt',
-                $name,
-                'public'
-            );
-
-            $uploadedFiles['powerpoint'] = $path;
+            $path = $file->storeAs('presentations/ppt', $name, 'public');
+            $uploadedFiles['powerpoint_file'] = $path;
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | Poster
-        |--------------------------------------------------------------------------
-        */
-
+        // Poster
         if ($request->hasFile('poster_file')) {
-
             $file = $request->file('poster_file');
-
             $name = 'poster_' . time() . '.' . $file->getClientOriginalExtension();
-
-            $path = $file->storeAs(
-                'presentations/posters',
-                $name,
-                'public'
-            );
-
-            $uploadedFiles['poster'] = $path;
+            $path = $file->storeAs('presentations/posters', $name, 'public');
+            $uploadedFiles['poster_file'] = $path;
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | Supporting Docs
-        |--------------------------------------------------------------------------
-        */
-
+        // Supporting Documents
         $docs = [];
-
         if ($request->hasFile('supporting_docs')) {
-
             foreach ($request->file('supporting_docs') as $doc) {
-
                 $name = time().'_'.$doc->getClientOriginalName();
-
-                $path = $doc->storeAs(
-                    'presentations/docs',
-                    $name,
-                    'public'
-                );
-
+                $path = $doc->storeAs('presentations/docs', $name, 'public');
                 $docs[] = $path;
             }
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | Save to database
-        |--------------------------------------------------------------------------
-        */
-
+        // Save or update
         PresentationUpload::updateOrCreate(
             ['full_paper_id' => $paper->id],
             [
-                'powerpoint_file' => $uploadedFiles['powerpoint'] ?? null,
-                'poster_file' => $uploadedFiles['poster'] ?? null,
+                'revised_fullpaper' => $uploadedFiles['revised_fullpaper'] ?? null,
+                'powerpoint_file'   => $uploadedFiles['powerpoint_file'] ?? null,
+                'poster_file'       => $uploadedFiles['poster_file'] ?? null,
                 'supporting_documents' => $docs,
-                'uploaded_at' => now()
+                'uploaded_at'       => now()
             ]
         );
 
-        return redirect()
-            ->route('presentation.success', $paper->id)
-            ->with([
-                'uploaded_powerpoint' => $uploadedFiles['powerpoint'] ?? null,
-                'uploaded_poster' => $uploadedFiles['poster'] ?? null,
-                'uploaded_docs_count' => count($docs)
-            ]);
+        return redirect()->route('presentation.success', $paper->id)
+                         ->with('message', 'Presentation files uploaded successfully.');
     }
 
 
@@ -150,6 +106,23 @@ class PresentationUploadController extends Controller
         $poster = null;
         $supportingDocs = [];
         $activities = [];
+        $revised = null;
+
+        if ($upload && $upload->revised_fullpaper) {
+            $revised = (object)[
+                'original_name' => basename($upload->revised_fullpaper),
+                'download_url' => asset('storage/'.$upload->revised_fullpaper),
+                'size' => 'File'
+            ];
+
+            $activities[] = [
+                'icon' => 'fa-upload',
+                'color' => 'text-primary',
+                'title' => 'Revised full paper uploaded',
+                'description' => basename($upload->revised_fullpaper),
+                'time' => $upload->created_at
+            ];
+        }
 
         if ($upload) {
 
@@ -225,6 +198,7 @@ class PresentationUploadController extends Controller
             'powerpoint',
             'poster',
             'supportingDocs',
+            'revised', 
             'activities'
         ));
     }

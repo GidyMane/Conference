@@ -210,9 +210,38 @@
     </div>
 
     {{-- Materials Section --}}
-    @if(($powerpoint ?? true) || ($poster ?? true) || ($supportingDocs ?? true))
+    @if(($powerpoint ?? true) || ($poster ?? true) || ($supportingDocs ?? true) || ($revised ?? true))
 
     <div class="row">
+        {{-- Revised Full Paper --}}
+        @if($revised ?? false)
+        <div class="col-md-6 mb-4">
+            <div class="file-card">
+                <div class="text-center">
+                    <div class="file-icon-container icon-docs mx-auto">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h5 class="mb-2">Revised Full Paper</h5>
+                    <p class="text-muted mb-1">{{ $revised->original_name }}</p>
+                    <div class="file-meta">
+                        <i class="fas fa-hdd me-1"></i>{{ $revised->size }}
+                        <span class="mx-2">•</span>
+                        <span class="status-badge status-uploaded">
+                            <i class="fas fa-check-circle me-1"></i>Uploaded
+                        </span>
+                    </div>
+                </div>
+                <hr class="my-3">
+                <div class="d-flex justify-content-center gap-2">
+                    <a href="{{ $revised->download_url }}" 
+                    class="btn btn-download"
+                    onclick="trackDownload('revised_fullpaper', event)">
+                        <i class="fas fa-download me-2"></i>Download
+                    </a>
+                </div>
+            </div>
+        </div>
+        @endif
         
         {{-- PowerPoint Presentation --}}
         @if($powerpoint ?? true)
