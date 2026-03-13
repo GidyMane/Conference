@@ -364,7 +364,8 @@ public function showAssignForm($id)
     public function submitFinalDecision(Request $request, $id)
     {
         $request->validate([
-            'decision' => 'required|in:approved,rejected',
+            'decision' => 'required|in:approved,not_approved,approved_with_minor_revisions,approved_with_major_revisions',
+            'presentation_type' => 'required|in:powerpoint,poster',
             'comments' => 'required|min:20',
         ]);
 
@@ -372,8 +373,9 @@ public function showAssignForm($id)
 
         // Save decision
         $paper->update([
-            'status' => strtoupper($request->decision),
+            'status' => $request->decision === 'not_approved' ? 'REJECTED' : 'APPROVED',
             'final_decision' => $request->decision,
+            'presentation_type' => $request->presentation_type,
             'leader_comments' => $request->comments,
             'decision_made_at' => now(),
         ]);

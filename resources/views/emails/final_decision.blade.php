@@ -117,13 +117,13 @@
     <div class="content">
         <p>Dear {{ $paper->abstract->author_name }},</p>
 
-        <p>Your paper titled "<strong>{{ $paper->abstract->title }}</strong>" has received a final decision.</p>
+        <p>Your paper titled "<strong>{{ $paper->abstract->paper_title }}</strong>" has received a final decision.</p>
 
         <div class="details">
             <p class="decision">
                 <strong>Decision:</strong>
                 <span class="{{ $paper->final_decision === 'rejected' ? 'rejected' : 'approved' }}">
-                    {{ strtoupper($paper->final_decision) }}
+                    {{ strtoupper(str_replace('_',' ',$paper->final_decision)) }}
                 </span>
             </p>
 
@@ -135,20 +135,16 @@
 
         <p>Attached is a PDF containing all reviewer scores and comments.</p>
 
-        @if($paper->final_decision === 'approved')
-
+        @if(in_array($paper->final_decision, ['approved', 'approved_with_minor_revisions', 'approved_with_major_revisions']))
             <p>
-            Upload your presentation materials here:
+                Upload your presentation materials here:
             </p>
 
             <div style="text-align:center; margin-top:20px;">
-
                 <a href="{{ url('/presentation/upload/'.$paper->id) }}" class="btn">
-                Upload Presentation
+                    Upload Presentation
                 </a>
             </div>
-            
-
         @endif
 
         <p>Best regards,<br>

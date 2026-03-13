@@ -221,7 +221,7 @@ Route::prefix('reviewer')
 
 
 // Reviewer/Sub-Theme Leader Routes (NO AUTH)
-Route::prefix('reviewer')->group(function () {
+Route::prefix('reviewer')->middleware(['auth','reviewer'])->group(function () {
 
     Route::get('/fullpapers-review', 
     [FullPaperReviewController::class, 'index']
