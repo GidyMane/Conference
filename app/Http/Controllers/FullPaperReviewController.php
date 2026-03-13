@@ -496,4 +496,15 @@ public function showAssignForm($id)
             'reviews' => $reviews
         ]);
     }
+
+    public function adminCompletedReviews()
+    {
+    $papers = \App\Models\FullPaper::with('reviews', 'abstract', 'abstract.subtheme')
+        ->whereIn('status', ['approved', 'rejected'])
+        ->get();
+
+    $subthemes = $papers->pluck('sub_theme')->unique();
+
+    return view('admin.fullpapers.completed', compact('papers', 'subthemes'));
+    }
 }

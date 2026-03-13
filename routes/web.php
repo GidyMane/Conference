@@ -118,7 +118,7 @@ Route::prefix('admin')
 
         // Full Papers
         Route::get('/fullpapers', [FullPaperController::class, 'index'])->name('fullpapers.index');
-        Route::get('/fullpapers/completed', [FullPaperReviewController::class, 'completedReviews'])->name('fullpapers.completed');
+        Route::get('/fullpapers/completed', [FullPaperReviewController::class, 'adminCompletedReviews'])->name('fullpapers.completed');
 
            // View presentation materials
         Route::get('/fullpapers/{id}/materials', function($id) {
