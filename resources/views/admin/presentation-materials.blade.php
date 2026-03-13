@@ -200,13 +200,42 @@
     </div>
 </div>
 
-{{-- Materials Section --}}
-@if(($powerpoint ?? true) || ($poster ?? true) || ($supportingDocs ?? true))
+    {{-- Materials Section --}}
+    @if(($powerpoint ?? true) || ($poster ?? true) || ($supportingDocs ?? true) || ($revised ?? true))
 
-<div class="row">
-    
-    {{-- PowerPoint Presentation --}}
-    @if($powerpoint ?? true)
+    <div class="row">
+        {{-- Revised Full Paper --}}
+        @if($revised ?? false)
+        <div class="col-md-6 mb-4">
+            <div class="file-card">
+                <div class="text-center">
+                    <div class="file-icon-container icon-docs mx-auto">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h5 class="mb-2">Revised Full Paper</h5>
+                    <p class="text-muted mb-1">{{ $revised->original_name }}</p>
+                    <div class="file-meta">
+                        <i class="fas fa-hdd me-1"></i>{{ $revised->size }}
+                        <span class="mx-2">•</span>
+                        <span class="status-badge status-uploaded">
+                            <i class="fas fa-check-circle me-1"></i>Uploaded
+                        </span>
+                    </div>
+                </div>
+                <hr class="my-3">
+                <div class="d-flex justify-content-center gap-2">
+                    <a href="{{ $revised->download_url }}" 
+                    class="btn btn-download"
+                    onclick="trackDownload('revised_fullpaper', event)">
+                        <i class="fas fa-download me-2"></i>Download
+                    </a>
+                </div>
+            </div>
+        </div>
+        @endif
+        
+            {{-- PowerPoint Presentation --}}
+    @if(isset($powerpoint) && $powerpoint)
     <div class="col-md-6 mb-4">
         <div class="file-card">
             <div class="text-center">
@@ -214,9 +243,9 @@
                     <i class="fas fa-file-powerpoint"></i>
                 </div>
                 <h5 class="mb-2">PowerPoint Presentation</h5>
-                <p class="text-muted mb-1">{{ $powerpoint->original_name ?? 'Drought_Resistant_Crops_Presentation.pptx' }}</p>
+                <p class="text-muted mb-1">{{ $powerpoint->original_name }}</p>
                 <div class="file-meta">
-                    <i class="fas fa-hdd me-1"></i>{{ $powerpoint->size ?? '3.2 MB' }}
+                    <i class="fas fa-hdd me-1"></i>{{ $powerpoint->size }}
                     <span class="mx-2">•</span>
                     <span class="status-badge status-uploaded">
                         <i class="fas fa-check-circle me-1"></i>Uploaded
@@ -225,10 +254,7 @@
             </div>
             <hr class="my-3">
             <div class="d-flex justify-content-center gap-2">
-                <button class="btn btn-preview" onclick="previewFile('powerpoint')">
-                    <i class="fas fa-eye me-2"></i>Preview
-                </button>
-                <a href="{{ $powerpoint->download_url ?? '#' }}" 
+                <a href="{{ $powerpoint->download_url }}" 
                    class="btn btn-download"
                    onclick="trackDownload('powerpoint', event)">
                     <i class="fas fa-download me-2"></i>Download
@@ -239,7 +265,7 @@
     @endif
 
     {{-- Poster --}}
-    @if($poster ?? true)
+    @if(isset($poster) && $poster)
     <div class="col-md-6 mb-4">
         <div class="file-card">
             <div class="text-center">
@@ -247,9 +273,9 @@
                     <i class="fas fa-image"></i>
                 </div>
                 <h5 class="mb-2">Research Poster</h5>
-                <p class="text-muted mb-1">{{ $poster->original_name ?? 'Research_Poster_Drought_Crops.pdf' }}</p>
+                <p class="text-muted mb-1">{{ $poster->original_name }}</p>
                 <div class="file-meta">
-                    <i class="fas fa-hdd me-1"></i>{{ $poster->size ?? '2.1 MB' }}
+                    <i class="fas fa-hdd me-1"></i>{{ $poster->size }}
                     <span class="mx-2">•</span>
                     <span class="status-badge status-uploaded">
                         <i class="fas fa-check-circle me-1"></i>Uploaded
@@ -258,10 +284,7 @@
             </div>
             <hr class="my-3">
             <div class="d-flex justify-content-center gap-2">
-                <button class="btn btn-preview" onclick="previewFile('poster')">
-                    <i class="fas fa-eye me-2"></i>Preview
-                </button>
-                <a href="{{ $poster->download_url ?? '#' }}" 
+                <a href="{{ $poster->download_url }}" 
                    class="btn btn-download"
                    onclick="trackDownload('poster', event)">
                     <i class="fas fa-download me-2"></i>Download
@@ -271,139 +294,130 @@
     </div>
     @endif
 
-</div>
-
-{{-- Supporting Documents --}}
-@if($supportingDocs ?? true)
-<div class="card">
-    <div class="card-header">
-        <h5 class="card-title mb-0">
-            <i class="fas fa-paperclip me-2"></i>Supporting Documents
-        </h5>
     </div>
-    <div class="card-body">
-        <div class="row">
-            {{-- Demo supporting docs --}}
-            @php
-                $demoDocs = $supportingDocs ?? [
-                    (object)[
-                        'id' => 1,
-                        'original_name' => 'Supplementary_Data_Analysis.pdf',
-                        'size' => '1.8 MB',
-                        'type' => 'PDF Document'
-                    ],
-                    (object)[
-                        'id' => 2,
-                        'original_name' => 'Research_Methodology_Details.docx',
-                        'size' => '856 KB',
-                        'type' => 'Word Document'
-                    ],
-                    (object)[
-                        'id' => 3,
-                        'original_name' => 'Dataset_Raw_Figures.zip',
-                        'size' => '5.2 MB',
-                        'type' => 'ZIP Archive'
-                    ]
-                ];
-            @endphp
 
-            @foreach($demoDocs as $doc)
-            <div class="col-md-6 mb-3">
-                <div class="d-flex align-items-center p-3 border rounded" style="background: #fafafa;">
-                    <div class="file-icon-container icon-docs me-3" style="width: 50px; height: 50px; font-size: 24px;">
-                        <i class="fas fa-file-alt"></i>
-                    </div>
-                    <div class="flex-grow-1">
-                        <h6 class="mb-1">{{ $doc->original_name }}</h6>
-                        <small class="text-muted">
-                            {{ $doc->type ?? 'Document' }} • {{ $doc->size }}
-                        </small>
-                    </div>
-                    <div>
-                        <a href="{{ $doc->download_url ?? '#' }}" 
-                           class="btn btn-sm btn-download"
-                           onclick="trackDownload('supporting_{{ $doc->id }}', event)">
-                            <i class="fas fa-download"></i>
-                        </a>
+    {{-- Supporting Documents --}}
+    @if($supportingDocs ?? true)
+    <div class="card">
+        <div class="card-header bg-white">
+            <h5 class="mb-0">
+                <i class="fas fa-paperclip me-2"></i>Supporting Documents
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                {{-- Demo supporting docs --}}
+                @php
+                    $demoDocs = $supportingDocs ?? [
+                        (object)[
+                            'id' => 1,
+                            'original_name' => 'Supplementary_Data_Analysis.pdf',
+                            'size' => '1.8 MB',
+                            'type' => 'PDF Document'
+                        ],
+                        (object)[
+                            'id' => 2,
+                            'original_name' => 'Research_Methodology_Details.docx',
+                            'size' => '856 KB',
+                            'type' => 'Word Document'
+                        ],
+                        (object)[
+                            'id' => 3,
+                            'original_name' => 'Dataset_Raw_Figures.zip',
+                            'size' => '5.2 MB',
+                            'type' => 'ZIP Archive'
+                        ]
+                    ];
+                @endphp
+
+                @foreach($demoDocs as $doc)
+                <div class="col-md-6 mb-3">
+                    <div class="d-flex align-items-center p-3 border rounded" style="background: #fafafa;">
+                        <div class="file-icon-container icon-docs me-3" style="width: 50px; height: 50px; font-size: 24px;">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">{{ $doc->original_name }}</h6>
+                            <small class="text-muted">
+                                {{ $doc->type ?? 'Document' }} • {{ $doc->size }}
+                            </small>
+                        </div>
+                        <div>
+                            <a href="{{ $doc->download_url ?? '#' }}" 
+                               class="btn btn-sm btn-download"
+                               onclick="trackDownload('supporting_{{ $loop->index }}', event)">
+                                <i class="fas fa-download"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
+                @endforeach
             </div>
-            @endforeach
         </div>
     </div>
-</div>
-@endif
+    @endif
 
-{{-- Download All Button --}}
-<div class="text-center mt-4">
-    <button class="btn btn-lg" style="background: #1a5f3a; color: white;" onclick="downloadAll()">
-        <i class="fas fa-download me-2"></i>Download All Materials (ZIP)
-    </button>
-</div>
 
-@else
+    @else
 
-{{-- No Materials Uploaded --}}
-<div class="card">
-    <div class="card-body">
-        <div class="no-materials">
-            <i class="fas fa-inbox"></i>
-            <h4>No Presentation Materials Uploaded</h4>
-            <p class="text-muted">The author has not yet uploaded any presentation materials for this paper.</p>
-            <p class="small text-muted">Materials are typically uploaded after paper approval.</p>
+    {{-- No Materials Uploaded --}}
+    <div class="card">
+        <div class="card-body">
+            <div class="no-materials">
+                <i class="fas fa-inbox"></i>
+                <h4>No Presentation Materials Uploaded</h4>
+                <p class="text-muted">The author has not yet uploaded any presentation materials for this paper.</p>
+                <p class="small text-muted">Materials are typically uploaded after paper approval.</p>
+            </div>
         </div>
     </div>
-</div>
 
-@endif
+    @endif
+
 
 {{-- Activity Log --}}
 <div class="card mt-4">
-    <div class="card-header">
-        <h5 class="card-title mb-0">
+    <div class="card-header bg-white">
+        <h5 class="mb-0">
             <i class="fas fa-history me-2"></i>Activity Log
         </h5>
     </div>
+
     <div class="card-body">
         <div class="list-group list-group-flush">
-            <div class="list-group-item">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <i class="fas fa-upload text-success me-2"></i>
-                        <strong>PowerPoint uploaded</strong>
-                        <p class="mb-0 small text-muted ms-4">Drought_Resistant_Crops_Presentation.pptx</p>
-                    </div>
-                    <small class="text-muted">Feb 28, 2026 - 2:34 PM</small>
+
+        @forelse($activities as $activity)
+
+        <div class="list-group-item border-0">
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+                    <i class="fas {{ $activity['icon'] }} {{ $activity['color'] }} me-2"></i>
+
+                    <strong>{{ $activity['title'] }}</strong>
+
+                    @if($activity['description'])
+                        <p class="mb-0 small text-muted ms-4">
+                            {{ $activity['description'] }}
+                        </p>
+                    @endif
                 </div>
+
+                <small class="text-muted">
+                    {{ \Carbon\Carbon::parse($activity['time'])->format('M d, Y - h:i A') }}
+                </small>
+
             </div>
-            <div class="list-group-item">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <i class="fas fa-upload text-success me-2"></i>
-                        <strong>Poster uploaded</strong>
-                        <p class="mb-0 small text-muted ms-4">Research_Poster_Drought_Crops.pdf</p>
-                    </div>
-                    <small class="text-muted">Feb 28, 2026 - 2:35 PM</small>
-                </div>
-            </div>
-            <div class="list-group-item">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <i class="fas fa-upload text-success me-2"></i>
-                        <strong>3 supporting documents uploaded</strong>
-                    </div>
-                    <small class="text-muted">Feb 28, 2026 - 2:37 PM</small>
-                </div>
-            </div>
-            <div class="list-group-item">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <i class="fas fa-check-circle text-info me-2"></i>
-                        <strong>Paper approved for presentation</strong>
-                    </div>
-                    <small class="text-muted">Feb 25, 2026 - 10:15 AM</small>
-                </div>
-            </div>
+        </div>
+
+        @empty
+
+        <div class="text-center text-muted py-3">
+            No activity recorded yet.
+        </div>
+
+        @endforelse
+
         </div>
     </div>
 </div>
