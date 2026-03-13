@@ -390,13 +390,12 @@ $rejected = $papers->whereIn('status', ['REJECTED','not_approved'])->count();
                     <td class="text-muted" style="font-size:13px">{{ $paper->updated_at->format('M d, Y') }}</td>
                     <td>
                         @if($paper->status === 'awaiting')
-                            {{-- Admin can view the reviews but not make the decision --}}
-                            <a href="{{ url('/reviewer/fullpapers/'.$paper->id.'/all-reviews') }}" class="btn-view-reviews">
+                            <a href="{{ route('admin.fullpapers.all-reviews', $paper->id) }}" class="btn-view-reviews">
                                 <i class="fas fa-eye"></i> View Reviews
                             </a>
                         @else
                             <div class="d-flex flex-column" style="gap:6px">
-                                <a href="{{ url('/reviewer/fullpapers/'.$paper->id.'/all-reviews') }}" class="btn-view-decision">
+                                <a href="{{ route('admin.fullpapers.all-reviews', $paper->id) }}" class="btn-view-decision">
                                     <i class="fas fa-check-circle"></i> View Decision
                                 </a>
                                 <a href="{{ route('admin.fullpapers.materials', $paper->id) }}" class="btn-view-material">

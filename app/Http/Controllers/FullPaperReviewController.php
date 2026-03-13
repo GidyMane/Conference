@@ -498,7 +498,7 @@ public function showAssignForm($id)
     }
 
     public function adminCompletedReviews()
-    {
+{
     $papers = \App\Models\FullPaper::with('reviews', 'abstract', 'abstract.subtheme')
         ->whereIn('status', ['approved', 'rejected'])
         ->get();
@@ -506,5 +506,19 @@ public function showAssignForm($id)
     $subthemes = $papers->pluck('sub_theme')->unique();
 
     return view('admin.fullpapers.completed', compact('papers', 'subthemes'));
-    }
+}
+
+public function adminAllReviews($id)
+{
+    $paper = FullPaper::with([
+        'abstract.subTheme',
+        'reviewAssignments.prequalifiedReviewer',
+        'reviewAssignments.peerReviewer',
+        'reviewAssignments.fullPaperReview'
+    ])->findOrFail($id);
+
+    $reviews = $paper->reviewAssignments;
+
+    return view('admin.fullpapers.all-reviews', compact('paper', 'reviews'));
+}
 }

@@ -119,16 +119,12 @@ Route::prefix('admin')
         // Full Papers
         Route::get('/fullpapers', [FullPaperController::class, 'index'])->name('fullpapers.index');
         Route::get('/fullpapers/completed', [FullPaperReviewController::class, 'adminCompletedReviews'])->name('fullpapers.completed');
-
-           // View presentation materials
-        Route::get('/fullpapers/{id}/materials', function($id) {
-        // In production: fetch full paper with materials
-        // $fullPaper = FullPaper::with(['abstract', 'presentationMaterials'])->findOrFail($id);
-        // return view('admin.fullpapers.materials', compact('fullPaper'));
         
-        return view('admin.presentation-materials');
-    })->name('fullpapers.materials');
-
+        Route::get('/fullpapers/{id}/all-reviews', [FullPaperReviewController::class, 'adminAllReviews'])->name('fullpapers.all-reviews');
+        Route::get('/fullpapers/{id}/materials',   [PresentationUploadController::class, 'adminViewMaterials'])->name('fullpapers.materials');
+        
+           // View presentation materials
+        
         Route::post('/users', [ReviewerDashboardController::class, 'store'])->name('users.store');
                 // Users Management 
         Route::prefix('users')->name('users.')->group(function () {
