@@ -118,6 +118,8 @@ Route::prefix('admin')
 
         // Full Papers
         Route::get('/fullpapers', [FullPaperController::class, 'index'])->name('fullpapers.index');
+        Route::get('/fullpapers/completed', [FullPaperReviewController::class, 'completedReviews'])->name('fullpapers.completed');
+
            // View presentation materials
         Route::get('/fullpapers/{id}/materials', function($id) {
         // In production: fetch full paper with materials
@@ -138,7 +140,6 @@ Route::prefix('admin')
             Route::delete('/{id}', [ReviewerDashboardController::class, 'destroy'])->name('destroy');
             Route::post('/{id}/reset-password', [ReviewerDashboardController::class, 'resetPassword'])->name('reset-password');
         });
-
 
         // Reviewer Management
         Route::prefix('reviewers')->name('reviewers.')->group(function () {

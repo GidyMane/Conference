@@ -6,16 +6,16 @@
 @section('styles')
 <style>
     :root {
-        --blue: #1e5a96;
-        --dark-blue: #143d66;
-        --green: #16a34a;
+        --green: #2d8a3e;
+        --dark-green: #1f6129;
+        --light-green: #e8f5e9;
         --amber: #d97706;
         --red: #dc2626;
     }
 
     /* ── Header ── */
     .page-hero {
-        background: linear-gradient(135deg, var(--dark-blue) 0%, #1e5a96 60%, #2563eb 100%);
+        background: linear-gradient(135deg, var(--dark-green) 0%, #2d8a3e 60%, #16a34a 100%);
         border-radius: 16px;
         padding: 32px 36px;
         color: white;
@@ -57,9 +57,9 @@
         transition: transform .2s, box-shadow .2s;
     }
     .stat-tile:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,.1); }
-    .stat-tile.t-total  { border-top-color: var(--blue); }
+    .stat-tile.t-total  { border-top-color: var(--green); }
     .stat-tile.t-pending{ border-top-color: var(--amber); }
-    .stat-tile.t-approve{ border-top-color: var(--green); }
+    .stat-tile.t-approve{ border-top-color: #16a34a; }
     .stat-tile.t-reject { border-top-color: var(--red); }
 
     .stat-icon {
@@ -69,9 +69,9 @@
         font-size: 22px;
         flex-shrink: 0;
     }
-    .t-total  .stat-icon { background: #dbeafe; color: var(--blue); }
+    .t-total  .stat-icon { background: var(--light-green); color: var(--green); }
     .t-pending .stat-icon { background: #fef3c7; color: var(--amber); }
-    .t-approve .stat-icon { background: #d1fae5; color: var(--green); }
+    .t-approve .stat-icon { background: #d1fae5; color: #16a34a; }
     .t-reject .stat-icon  { background: #fee2e2; color: var(--red); }
 
     .stat-info h3 { font-size: 32px; font-weight: 700; margin: 0; color: #1e293b; }
@@ -97,8 +97,8 @@
     }
     .filter-bar .form-control:focus,
     .filter-bar .form-select:focus {
-        border-color: var(--blue);
-        box-shadow: 0 0 0 3px rgba(30,90,150,.12);
+        border-color: var(--green);
+        box-shadow: 0 0 0 3px rgba(45,138,62,.12);
     }
 
     /* ── Table Card ── */
@@ -118,17 +118,17 @@
     .table-card-header h5 { font-weight: 700; color: #1e293b; margin: 0; font-size: 16px; }
 
     .table thead th {
-        background: #f8fafc;
-        color: #475569;
+        background: var(--green);
+        color: white;
         font-size: 11px;
         text-transform: uppercase;
         letter-spacing: .07em;
         font-weight: 700;
         padding: 14px 16px;
-        border-bottom: 2px solid #e2e8f0;
+        border-bottom: none;
     }
     .table tbody tr { transition: background .15s; }
-    .table tbody tr:hover { background: #f8faff; }
+    .table tbody tr:hover { background: #f0fdf4; }
     .table tbody td { padding: 14px 16px; vertical-align: middle; font-size: 14px; border-bottom: 1px solid #f1f5f9; }
 
     /* ── Paper ID ── */
@@ -136,8 +136,8 @@
         font-family: monospace;
         font-size: 13px;
         font-weight: 700;
-        color: var(--blue);
-        background: #eff6ff;
+        color: var(--green);
+        background: var(--light-green);
         padding: 3px 8px;
         border-radius: 5px;
         white-space: nowrap;
@@ -180,13 +180,14 @@
         text-transform: uppercase;
         letter-spacing: .04em;
     }
-    .sbadge-awaiting { background: #fef3c7; color: #92400e; }
-    .sbadge-approved  { background: #d1fae5; color: #065f46; }
-    .sbadge-rejected  { background: #fee2e2; color: #991b1b; }
+    .sbadge-awaiting     { background: #fef3c7; color: #92400e; }
+    .sbadge-approved     { background: #d1fae5; color: #065f46; }
+    .sbadge-rejected     { background: #fee2e2; color: #991b1b; }
+    .sbadge-under-review { background: var(--green); color: white; }
 
-    /* ── Action Button ── */
-    .btn-review-paper {
-        background: linear-gradient(135deg, var(--blue) 0%, #2563eb 100%);
+    /* ── Action Buttons ── */
+    .btn-view-reviews {
+        background: linear-gradient(135deg, var(--green) 0%, #16a34a 100%);
         color: white;
         border: none;
         padding: 7px 16px;
@@ -199,7 +200,7 @@
         gap: 6px;
         transition: opacity .2s, transform .15s;
     }
-    .btn-review-paper:hover { color: white; opacity: .88; transform: translateY(-1px); }
+    .btn-view-reviews:hover { color: white; opacity: .88; transform: translateY(-1px); }
 
     .btn-view-decision {
         background: white;
@@ -218,10 +219,9 @@
     .btn-view-decision:hover { background: var(--green); color: white; }
 
     .btn-view-material {
-        margin-top: 5px;
         background: white;
-        color: var(--blue);
-        border: 2px solid var(--blue);
+        color: #1e5a96;
+        border: 2px solid #1e5a96;
         padding: 6px 14px;
         border-radius: 8px;
         font-size: 13px;
@@ -231,8 +231,9 @@
         align-items: center;
         gap: 6px;
         transition: all .2s;
+        margin-top: 6px;
     }
-    .btn-view-material:hover { background: var(--blue); color: white; }
+    .btn-view-material:hover { background: #1e5a96; color: white; }
 
     /* ── Score Pill ── */
     .score-pill {
@@ -253,8 +254,8 @@
     /* ── Sub-theme tag ── */
     .subtheme-tag {
         font-size: 11px;
-        background: #eff6ff;
-        color: #1e40af;
+        background: var(--light-green);
+        color: var(--dark-green);
         border-radius: 5px;
         padding: 2px 8px;
         font-weight: 600;
@@ -268,11 +269,6 @@
     }
     .empty-state i { font-size: 64px; margin-bottom: 18px; display: block; opacity: .35; }
     .empty-state h4 { color: #475569; font-size: 20px; margin-bottom: 8px; }
-
-    .sbadge-under-review {
-    background: #1e5a96; /* blue */
-    color: white;
-}
 </style>
 @endsection
 
@@ -281,16 +277,17 @@
 {{-- Page Hero --}}
 <div class="page-hero">
     <h2><i class="fas fa-clipboard-list me-2"></i>Fully Reviewed Papers</h2>
-    <p>Papers that have completed all reviews and are ready for your final decision.</p>
+    <p>Papers that have completed all reviews and are ready for a final decision.</p>
 </div>
 
 {{-- Stats --}}
 @php
-$total       = $papers->count();
-$awaiting    = $papers->where('status', 'awaiting')->count();
-$approved    = $papers->where('status', 'APPROVED')->count();
-$rejected    = $papers->where('status', 'REJECTED')->count();
+$total    = $papers->count();
+$awaiting = $papers->where('status', 'awaiting')->count();
+$approved = $papers->whereIn('status', ['APPROVED','approved'])->count();
+$rejected = $papers->whereIn('status', ['REJECTED','not_approved'])->count();
 @endphp
+
 <div class="stats-grid">
     <div class="stat-tile t-total">
         <div class="stat-icon"><i class="fas fa-layer-group"></i></div>
@@ -335,8 +332,8 @@ $rejected    = $papers->where('status', 'REJECTED')->count();
 {{-- Papers Table --}}
 <div class="table-card">
     <div class="table-card-header">
-        <h5><i class="fas fa-table me-2 text-primary"></i>Papers Ready for Final Decision</h5>
-        <span class="badge bg-primary">{{ $total }} papers</span>
+        <h5><i class="fas fa-table me-2 text-success"></i>Papers Ready for Final Decision</h5>
+        <span class="badge bg-success">{{ $total }} papers</span>
     </div>
     <div class="table-responsive">
         <table class="table mb-0" id="papersTable">
@@ -349,7 +346,7 @@ $rejected    = $papers->where('status', 'REJECTED')->count();
                     <th class="text-center">Avg. Score</th>
                     <th>Status</th>
                     <th>Last Review</th>
-                    <th>Action</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -374,7 +371,7 @@ $rejected    = $papers->where('status', 'REJECTED')->count();
                     </td>
                     <td class="text-center">
                         @php
-                            $avgScore = $paper->average_score ?? 0;
+                            $avgScore   = $paper->average_score ?? 0;
                             $scoreClass = $avgScore >= 80 ? '' : ($avgScore >= 65 ? 'mid' : 'low');
                         @endphp
                         <span class="score-pill {{ $scoreClass }}">{{ $avgScore }}/100</span>
@@ -382,9 +379,10 @@ $rejected    = $papers->where('status', 'REJECTED')->count();
                     <td>
                         @php
                             $statusClass = match(strtoupper($paper->status)) {
-                                'REJECTED'       => 'sbadge-rejected',
-                                'UNDER_REVIEW'   => 'sbadge-under-review',
-                                default          => 'sbadge-awaiting',
+                                'APPROVED'     => 'sbadge-approved',
+                                'REJECTED','NOT_APPROVED' => 'sbadge-rejected',
+                                'UNDER_REVIEW' => 'sbadge-under-review',
+                                default        => 'sbadge-awaiting',
                             };
                         @endphp
                         <span class="sbadge {{ $statusClass }}">{{ ucfirst($paper->status) }}</span>
@@ -392,31 +390,25 @@ $rejected    = $papers->where('status', 'REJECTED')->count();
                     <td class="text-muted" style="font-size:13px">{{ $paper->updated_at->format('M d, Y') }}</td>
                     <td>
                         @if($paper->status === 'awaiting')
-                        <a href="{{ url('/reviewer/fullpapers/'.$paper->id.'/all-reviews') }}" class="btn-review-paper">
-                            <i class="fas fa-eye"></i> View Reviews
-                        </a>
+                            {{-- Admin can view the reviews but not make the decision --}}
+                            <a href="{{ url('/reviewer/fullpapers/'.$paper->id.'/all-reviews') }}" class="btn-view-reviews">
+                                <i class="fas fa-eye"></i> View Reviews
+                            </a>
                         @else
-                        <div class="row">
-                            <div class="col">
+                            <div class="d-flex flex-column" style="gap:6px">
                                 <a href="{{ url('/reviewer/fullpapers/'.$paper->id.'/all-reviews') }}" class="btn-view-decision">
                                     <i class="fas fa-check-circle"></i> View Decision
                                 </a>
-                            </div>
-                            <div class="col">
-                                <a href="{{ route('admin.fullpapers.materials', $paper->id) }}" class="btn btn-view-material">
-                                    <i class="fas fa-file-alt"></i> View Material
+                                <a href="{{ route('admin.fullpapers.materials', $paper->id) }}" class="btn-view-material">
+                                    <i class="fas fa-file-alt"></i> View Materials
                                 </a>
                             </div>
-                        </div>
-
-
                         @endif
-
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="8" class="text-center py-5">No papers found.</td>
+                    <td colspan="8" class="text-center py-5 text-muted">No fully reviewed papers found.</td>
                 </tr>
                 @endforelse
             </tbody>
@@ -429,13 +421,13 @@ $rejected    = $papers->where('status', 'REJECTED')->count();
     </div>
 </div>
 
-{{-- Info tip --}}
-<div class="alert alert-info d-flex gap-3 align-items-start mt-4" style="border-radius:12px">
-    <i class="fas fa-lightbulb fa-lg mt-1 flex-shrink-0"></i>
+{{-- Tip --}}
+<div class="alert alert-success d-flex gap-3 align-items-start mt-4" style="border-radius:12px; border-left: 4px solid #2d8a3e;">
+    <i class="fas fa-lightbulb fa-lg mt-1 flex-shrink-0 text-success"></i>
     <div>
-        <strong>Tip:</strong> Hover over the review dots <span class="rdot done d-inline-flex" style="width:20px;height:20px;font-size:10px;vertical-align:middle;cursor:default"><i class="fas fa-check"></i></span>
-        to quickly see the reviewer name and score without opening the full detail page.
-        Click <strong>"View Reviews"</strong> to read each reviewer's full comments and submit your decision.
+        <strong>Tip:</strong> Hover over the review dots
+        <span class="rdot done d-inline-flex" style="width:20px;height:20px;font-size:10px;vertical-align:middle;cursor:default"><i class="fas fa-check"></i></span>
+        to quickly see reviewer name and score. Once a decision has been made, use <strong>"View Materials"</strong> to access the author's uploaded presentation files.
     </div>
 </div>
 
@@ -443,11 +435,11 @@ $rejected    = $papers->where('status', 'REJECTED')->count();
 
 @section('scripts')
 <script>
-(function() {
-    const searchInput   = document.getElementById('searchInput');
-    const statusFilter  = document.getElementById('statusFilter');
+(function () {
+    const searchInput    = document.getElementById('searchInput');
+    const statusFilter   = document.getElementById('statusFilter');
     const subthemeFilter = document.getElementById('subthemeFilter');
-    const tbody = document.querySelector('#papersTable tbody');
+    const tbody   = document.querySelector('#papersTable tbody');
     const emptyMsg = document.getElementById('emptyMsg');
 
     function applyFilters() {
@@ -457,13 +449,13 @@ $rejected    = $papers->where('status', 'REJECTED')->count();
         let visible = 0;
 
         tbody.querySelectorAll('tr').forEach(row => {
-            const text    = row.textContent.toLowerCase();
-            const rowSt   = (row.dataset.status || '').toLowerCase();
-            const rowSub  = (row.dataset.subtheme || '').toLowerCase();
+            const text   = row.textContent.toLowerCase();
+            const rowSt  = (row.dataset.status  || '').toLowerCase();
+            const rowSub = (row.dataset.subtheme || '').toLowerCase();
 
             const matchQ   = !q   || text.includes(q);
             const matchSt  = !st  || rowSt.includes(st);
-            const matchSub = !sub || rowSub.includes(sub.toLowerCase());
+            const matchSub = !sub || rowSub.includes(sub);
 
             const show = matchQ && matchSt && matchSub;
             row.style.display = show ? '' : 'none';
