@@ -189,7 +189,7 @@
                     <div class="col-md-6">
                         <p class="mb-2"><strong>Sub-Theme:</strong> {{ $fullPaper->abstract->subTheme->full_name ?? 'Crop Science' }}</p>
                         <p class="mb-2"><strong>Decision:</strong> <span class="badge bg-success">APPROVED</span></p>
-                        <p class="mb-0"><strong>Presentation Type:</strong> <span class="badge bg-info">Oral Presentation</span></p>
+                        <p class="mb-0"><strong>Presentation Type:</strong> <span class="badge bg-info">{{$fullPaper->presentation_type}}</span></p>
                     </div>
                 </div>
             </div>
@@ -243,65 +243,65 @@
         </div>
         @endif
         
-        {{-- PowerPoint Presentation --}}
-        @if($powerpoint ?? true)
-        <div class="col-md-6 mb-4">
-            <div class="file-card">
-                <div class="text-center">
-                    <div class="file-icon-container icon-powerpoint mx-auto">
-                        <i class="fas fa-file-powerpoint"></i>
-                    </div>
-                    <h5 class="mb-2">PowerPoint Presentation</h5>
-                    <p class="text-muted mb-1">{{ $powerpoint->original_name ?? 'Drought_Resistant_Crops_Presentation.pptx' }}</p>
-                    <div class="file-meta">
-                        <i class="fas fa-hdd me-1"></i>{{ $powerpoint->size ?? '3.2 MB' }}
-                        <span class="mx-2">•</span>
-                        <span class="status-badge status-uploaded">
-                            <i class="fas fa-check-circle me-1"></i>Uploaded
-                        </span>
-                    </div>
+            {{-- PowerPoint Presentation --}}
+    @if(isset($powerpoint) && $powerpoint)
+    <div class="col-md-6 mb-4">
+        <div class="file-card">
+            <div class="text-center">
+                <div class="file-icon-container icon-powerpoint mx-auto">
+                    <i class="fas fa-file-powerpoint"></i>
                 </div>
-                <hr class="my-3">
-                <div class="d-flex justify-content-center gap-2">
-                    <a href="{{ $powerpoint->download_url ?? '#' }}" 
-                       class="btn btn-download"
-                       onclick="trackDownload('powerpoint', event)">
-                        <i class="fas fa-download me-2"></i>Download
-                    </a>
+                <h5 class="mb-2">PowerPoint Presentation</h5>
+                <p class="text-muted mb-1">{{ $powerpoint->original_name }}</p>
+                <div class="file-meta">
+                    <i class="fas fa-hdd me-1"></i>{{ $powerpoint->size }}
+                    <span class="mx-2">•</span>
+                    <span class="status-badge status-uploaded">
+                        <i class="fas fa-check-circle me-1"></i>Uploaded
+                    </span>
                 </div>
             </div>
+            <hr class="my-3">
+            <div class="d-flex justify-content-center gap-2">
+                <a href="{{ $powerpoint->download_url }}" 
+                   class="btn btn-download"
+                   onclick="trackDownload('powerpoint', event)">
+                    <i class="fas fa-download me-2"></i>Download
+                </a>
+            </div>
         </div>
-        @endif
+    </div>
+    @endif
 
-        {{-- Poster --}}
-        @if($poster ?? true)
-        <div class="col-md-6 mb-4">
-            <div class="file-card">
-                <div class="text-center">
-                    <div class="file-icon-container icon-poster mx-auto">
-                        <i class="fas fa-image"></i>
-                    </div>
-                    <h5 class="mb-2">Research Poster</h5>
-                    <p class="text-muted mb-1">{{ $poster->original_name ?? 'Research_Poster_Drought_Crops.pdf' }}</p>
-                    <div class="file-meta">
-                        <i class="fas fa-hdd me-1"></i>{{ $poster->size ?? '2.1 MB' }}
-                        <span class="mx-2">•</span>
-                        <span class="status-badge status-uploaded">
-                            <i class="fas fa-check-circle me-1"></i>Uploaded
-                        </span>
-                    </div>
+    {{-- Poster --}}
+    @if(isset($poster) && $poster)
+    <div class="col-md-6 mb-4">
+        <div class="file-card">
+            <div class="text-center">
+                <div class="file-icon-container icon-poster mx-auto">
+                    <i class="fas fa-image"></i>
                 </div>
-                <hr class="my-3">
-                <div class="d-flex justify-content-center gap-2">
-                    <a href="{{ $poster->download_url ?? '#' }}" 
-                       class="btn btn-download"
-                       onclick="trackDownload('poster', event)">
-                        <i class="fas fa-download me-2"></i>Download
-                    </a>
+                <h5 class="mb-2">Research Poster</h5>
+                <p class="text-muted mb-1">{{ $poster->original_name }}</p>
+                <div class="file-meta">
+                    <i class="fas fa-hdd me-1"></i>{{ $poster->size }}
+                    <span class="mx-2">•</span>
+                    <span class="status-badge status-uploaded">
+                        <i class="fas fa-check-circle me-1"></i>Uploaded
+                    </span>
                 </div>
             </div>
+            <hr class="my-3">
+            <div class="d-flex justify-content-center gap-2">
+                <a href="{{ $poster->download_url }}" 
+                   class="btn btn-download"
+                   onclick="trackDownload('poster', event)">
+                    <i class="fas fa-download me-2"></i>Download
+                </a>
+            </div>
         </div>
-        @endif
+    </div>
+    @endif
 
     </div>
 
