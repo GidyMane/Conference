@@ -309,6 +309,12 @@
                 <i class="fas fa-file-pdf"></i>
                 <span>Manage Full Papers</span>
             </a>
+            <a href="{{ url('/reviewer/fullpapers-completed') }}" 
+            class="menu-item {{ request()->is('reviewer/fullpapers-completed') || request()->is('reviewer/fullpapers/*/all-reviews') ? 'active' : '' }}">
+                <i class="fas fa-clipboard-list"></i>
+                <span>Fully Reviewed Papers</span>
+            </a>           
+
             
             <a href="{{route('admin.registrations.index')}}" class="menu-item {{ request()->routeIs('admin.registrations.*') ? 'active' : '' }}">
                 <i class="fas fa-users"></i>
