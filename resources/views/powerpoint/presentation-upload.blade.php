@@ -265,6 +265,54 @@
             enctype="multipart/form-data">
             @csrf
 
+            <!-- Revised Full Paper Upload Section -->
+            <div class="upload-section">
+                <div class="d-flex align-items-start">
+                    <div class="section-icon me-3" style="background:#dcfce7;color:#166534;">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h6 class="text-success mb-2">
+                            Revised Full Paper
+                            <span class="file-type-badge badge-required">Required</span>
+                        </h6>
+
+                        <div class="alert alert-warning mb-3">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <strong>Important — Before uploading your revised full paper, please ensure the document includes all of the following author details:</strong>
+                            <ul class="mb-0 mt-2 small">
+                                <li>Full name(s) of all authors</li>
+                                <li>Email address(es)</li>
+                                <li>Institution / affiliation(s)</li>
+                                <li>Corresponding author clearly indicated</li>
+                            </ul>
+                        </div>
+
+                        <input type="file"
+                               id="revised_fullpaper"
+                               name="revised_fullpaper"
+                               class="d-none"
+                               accept=".pdf,.doc,.docx">
+
+                        <div id="revisedPaperUploadArea" class="upload-area">
+                            <i class="fas fa-cloud-upload-alt fa-3x mb-3 text-muted"></i>
+                            <h6>Click to Upload Revised Full Paper</h6>
+                            <p class="text-muted mb-0">or drag and drop here</p>
+                            <small class="text-muted d-block mt-2">PDF, DOC, DOCX • Max 15MB</small>
+                        </div>
+
+                        <div id="revisedPaperFileInfo" class="file-info">
+                            <i class="fas fa-file-alt text-success fa-2x mb-2"></i>
+                            <p class="mb-1"><strong id="revisedPaperFileName"></strong></p>
+                            <p class="mb-0 small text-muted">Size: <span id="revisedPaperFileSize"></span></p>
+                            <button type="button" class="btn btn-sm btn-outline-danger mt-2" onclick="removeRevisedPaper()">
+                                <i class="fas fa-times me-1"></i>Remove File
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- PowerPoint Upload Section -->
             <div class="upload-section">
                 <div class="d-flex align-items-start">
@@ -393,7 +441,8 @@
                         <i class="fas fa-exclamation-circle me-2"></i>Before Submitting
                     </h6>
                     <ul class="mb-0 small">
-                        <li>Ensure you have uploaded <strong>at least ONE</strong> file (PowerPoint OR Poster)</li>
+                        <li>Ensure you have uploaded the <strong>Revised Full Paper</strong> (required)</li>
+                        <li>Ensure you have uploaded <strong>at least ONE</strong> presentation file (PowerPoint OR Poster)</li>
                         <li>Check that all file sizes are within the allowed limits</li>
                         <li>Verify that your files are complete and not corrupted</li>
                         <li>You can update your materials later if needed before the deadline</li>
@@ -439,6 +488,11 @@ $(function () {
     const docsUploadArea = $('#docsUploadArea');
     const docsFileInput = $('#supporting_docs');
     const docsFileInfo = $('#docsFileInfo');
+
+    // Revised Full Paper
+    const revisedPaperUploadArea = $('#revisedPaperUploadArea');
+    const revisedPaperFileInput = $('#revised_fullpaper');
+    const revisedPaperFileInfo = $('#revisedPaperFileInfo');
 
     const submitBtn = $('#submitBtn');
 
@@ -517,12 +571,36 @@ $(function () {
         checkSubmitButton();
     });
 
+    // Revised Full Paper handlers
+    revisedPaperUploadArea.on('click', () => revisedPaperFileInput.click());
+
+    revisedPaperUploadArea.on('dragover', e => {
+        e.preventDefault();
+        revisedPaperUploadArea.addClass('active');
+    });
+
+    revisedPaperUploadArea.on('dragleave drop', () => {
+        revisedPaperUploadArea.removeClass('active');
+    });
+
+    revisedPaperFileInput.on('change', function() {
+        const file = this.files[0];
+        if (!file) return;
+
+        $('#revisedPaperFileName').text(file.name);
+        $('#revisedPaperFileSize').text((file.size / 1048576).toFixed(2) + ' MB');
+        revisedPaperFileInfo.addClass('show');
+        revisedPaperUploadArea.hide();
+        checkSubmitButton();
+    });
+
     // Check if submit button should be enabled
     function checkSubmitButton() {
         const hasPPT = pptFileInput[0].files.length > 0;
         const hasPoster = posterFileInput[0].files.length > 0;
+        const hasRevisedPaper = revisedPaperFileInput[0].files.length > 0;
         
-        if (hasPPT || hasPoster) {
+        if (hasRevisedPaper && (hasPPT || hasPoster)) {
             submitBtn.prop('disabled', false);
         } else {
             submitBtn.prop('disabled', true);
@@ -550,6 +628,13 @@ $(function () {
         docsUploadArea.show();
     };
 
+    window.removeRevisedPaper = function() {
+        revisedPaperFileInput.val('');
+        revisedPaperFileInfo.removeClass('show');
+        revisedPaperUploadArea.show();
+        checkSubmitButton();
+    };
+
     // Drag and drop for all areas
     $('.upload-area').on('drop', function(e) {
         e.preventDefault();
@@ -565,6 +650,9 @@ $(function () {
         } else if (targetId === 'docsUploadArea' && files.length > 0) {
             docsFileInput[0].files = files;
             docsFileInput.trigger('change');
+        } else if (targetId === 'revisedPaperUploadArea' && files.length > 0) {
+            revisedPaperFileInput[0].files = files;
+            revisedPaperFileInput.trigger('change');
         }
     });
 });
