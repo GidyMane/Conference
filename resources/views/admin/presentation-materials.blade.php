@@ -1,4 +1,4 @@
-@extends('layouts.admin-layout')
+@extends('admin.layout')
 
 @section('title', 'View Presentation Materials')
 
@@ -180,7 +180,7 @@
                 <div class="col-md-6">
                     <p class="mb-2"><strong>Sub-Theme:</strong> {{ $fullPaper->abstract->subTheme->full_name ?? 'Crop Science' }}</p>
                     <p class="mb-2"><strong>Decision:</strong> <span class="badge bg-success">APPROVED</span></p>
-                    <p class="mb-0"><strong>Presentation Type:</strong> <span class="badge bg-primary">Oral Presentation</span></p>
+                    <p class="mb-0"><strong>Presentation Type:</strong> <span class="badge bg-primary">{{$fullPaper->presentation_type}}</span></p>
                 </div>
             </div>
         </div>

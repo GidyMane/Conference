@@ -295,7 +295,7 @@ class PresentationUploadController extends Controller
 
     usort($activities, fn($a, $b) => $b['time'] <=> $a['time']);
 
-    return view('admin.fullpapers.materials', compact(
+    return view('admin.presentation-materials', compact(
         'fullPaper',
         'powerpoint',
         'poster',
