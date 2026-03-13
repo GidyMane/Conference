@@ -19,6 +19,7 @@ class FullPaper extends Model
         'uploaded_at',
         'full_paper_code', // IMPORTANT
         'final_decision',
+        'presentation_type',
         'leader_comments',
         'decision_made_at',
     ];

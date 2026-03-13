@@ -191,9 +191,9 @@
                         <label class="form-label fw-bold">Final Decision <span class="text-danger">*</span></label>
                         <select name="decision" class="form-select form-select-lg" required>
                             <option value="">-- Select Decision --</option>
-                            <option value="accept">✓ Accept</option>
-                            <option value="accept_with_minor_revisions">⚠ Accept with Minor Revisions</option>
-                            <option value="accept_with_major_revisions">⚠ Accept with Major Revisions</option>
+                            <option value="approved">✓ Accept</option>
+                            <option value="approved_with_minor_revisions">⚠ Accept with Minor Revisions</option>
+                            <option value="approved_with_major_revisions">⚠ Accept with Major Revisions</option>
                             <option value="not_approved">✗ Not Approved</option>
                         </select>
                         <small class="text-muted">

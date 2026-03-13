@@ -123,7 +123,7 @@
             <p class="decision">
                 <strong>Decision:</strong>
                 <span class="{{ $paper->final_decision === 'rejected' ? 'rejected' : 'approved' }}">
-                    {{ strtoupper($paper->final_decision) }}
+                    {{ strtoupper(str_replace('_',' ',$paper->final_decision)) }}
                 </span>
             </p>
 
