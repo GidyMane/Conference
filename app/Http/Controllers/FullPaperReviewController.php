@@ -456,21 +456,90 @@ public function showAssignForm($id)
 
         // Save review
         FullPaperReview::create([
-            'review_assignment_id' => $assignment->id,
-            'score_title' => $scoreTitle,
-            'score_abstract' => $scoreAbstract,
-            'score_introduction' => $scoreIntroduction,
-            'score_methods' => $scoreMethods,
-            'score_results' => $scoreResults,
-            'score_discussion' => $scoreDiscussion,
-            'score_conclusion' => $scoreConclusion,
-            'score_references' => $scoreReferences,
-            'total_score' => $totalScore,
-            'recommendation' => $request->recommendation,
-            'presentation_type' => $request->paper_suitability,
-            'overall_comments' => $request->overall_comments,
-            'submitted_at' => now(),
-        ]);
+
+        'review_assignment_id' => $assignment->id,
+
+        /*
+        |--------------------------------------------------------------------------
+        | SECTION TOTALS
+        |--------------------------------------------------------------------------
+        */
+
+        'score_title' => $scoreTitle,
+        'score_abstract' => $scoreAbstract,
+        'score_introduction' => $scoreIntroduction,
+        'score_methods' => $scoreMethods,
+        'score_results' => $scoreResults,
+        'score_discussion' => $scoreDiscussion,
+        'score_conclusion' => $scoreConclusion,
+        'score_references' => $scoreReferences,
+
+        /*
+        |--------------------------------------------------------------------------
+        | INDIVIDUAL SCORES
+        |--------------------------------------------------------------------------
+        */
+
+        'title_appropriate' => $request->title_appropriate,
+        'title_reflects_content' => $request->title_reflects_content,
+
+        'abstract_word_count' => $request->abstract_word_count,
+        'abstract_completeness' => $request->abstract_completeness,
+
+        'intro_background' => $request->intro_background,
+        'intro_originality' => $request->intro_originality,
+        'intro_objectives' => $request->intro_objectives,
+
+        'methods_replication' => $request->methods_replication,
+        'methods_design' => $request->methods_design,
+        'methods_statistics' => $request->methods_statistics,
+        'methods_ethics' => $request->methods_ethics,
+
+        'results_insights' => $request->results_insights,
+        'results_narrative' => $request->results_narrative,
+        'results_data_clarity' => $request->results_data_clarity,
+        'results_visuals' => $request->results_visuals,
+        'results_referencing' => $request->results_referencing,
+
+        'discussion_context' => $request->discussion_context,
+        'discussion_objectives' => $request->discussion_objectives,
+        'discussion_significance' => $request->discussion_significance,
+        'discussion_theme' => $request->discussion_theme,
+        'discussion_references' => $request->discussion_references,
+
+        'conclusion_objectives' => $request->conclusion_objectives,
+        'conclusion_consistency' => $request->conclusion_consistency,
+        'conclusion_contribution' => $request->conclusion_contribution,
+
+        'acknowledgement_present' => $request->acknowledgement_present,
+        'references_accuracy' => $request->references_accuracy,
+        'references_balance' => $request->references_balance,
+        'references_citation' => $request->references_citation,
+        'references_matching' => $request->references_matching,
+
+        /*
+        |--------------------------------------------------------------------------
+        | COMMENTS
+        |--------------------------------------------------------------------------
+        */
+
+        'title_comments' => $request->title_comments,
+        'abstract_comments' => $request->abstract_comments,
+        'introduction_comments' => $request->intro_comments,
+        'methods_comments' => $request->methods_comments,
+        'results_comments' => $request->results_comments,
+        'discussion_comments' => $request->discussion_comments,
+        'conclusion_comments' => $request->conclusion_comments,
+        'references_comments' => $request->references_comments,
+
+        'overall_comments' => $request->overall_comments,
+
+        'recommendation' => $request->recommendation,
+        'presentation_type' => $request->paper_suitability,
+
+        'total_score' => $totalScore,
+        'submitted_at' => now(),
+    ]);
 
         // Update assignment status
         $assignment->update(['status' => 'completed']);
