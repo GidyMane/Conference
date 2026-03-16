@@ -22,6 +22,9 @@
             <button class="btn btn-warning ms-2" data-bs-toggle="modal" data-bs-target="#addTempReviewerModal">
                 <i class="fas fa-user-clock me-2"></i>Temp Reviewer
             </button>
+            <button class="btn btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#extendTempReviewerModal">
+                <i class="fas fa-user-clock me-2"></i>Extend
+            </button>
         </div>
     </div>
 </div>
@@ -364,6 +367,67 @@
 <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
 <button type="submit" class="btn btn-warning">
 <i class="fas fa-save me-2"></i>Create Temp Reviewer
+</button>
+</div>
+
+</form>
+
+</div>
+</div>
+</div>
+
+
+<div class="modal fade" id="extendTempReviewerModal" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+
+<div class="modal-header">
+<h5 class="modal-title">Extend Temporary Reviewer</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+
+<form method="POST" action="{{ route('admin.temp-reviewers.extend') }}">
+@csrf
+
+<div class="modal-body">
+
+<div class="mb-3">
+<label class="form-label">Temp Reviewer</label>
+<select name="user_id" class="form-select" required>
+<option value="">Select Temp Reviewer</option>
+
+
+@forelse($users as $user)
+@if($user->role === 'TEMP_REVIEWER')
+<option value="{{ $user->id }}">
+{{ $user->full_name }}
+</option>
+@endif
+@endforeach
+
+
+</select>
+</div>
+
+<div class="mb-3">
+<label class="form-label">Extend Duration</label>
+<select name="expires_days" class="form-select">
+
+<option value="7">7 Days</option>
+<option value="14">14 Days</option>
+<option value="30">30 Days</option>
+<option value="60">60 Days</option>
+<option value="90">90 Days</option>
+
+</select>
+</div>
+
+</div>
+
+<div class="modal-footer">
+<button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+<button type="submit" class="btn btn-warning">
+<i class="fas fa-save me-2"></i>Extend Temp Reviewer
 </button>
 </div>
 

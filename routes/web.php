@@ -116,6 +116,9 @@ Route::prefix('admin')
         Route::post('/temp-reviewers', [ReviewerAuthController::class, 'storeTempReviewer'])
         ->name('temp-reviewers.store');
 
+        Route::post('/temp-reviewers/extend', [ReviewerAuthController::class, 'extendTempReviewer'])
+        ->name('temp-reviewers.extend');
+
         // Full Papers
         Route::get('/fullpapers', [FullPaperController::class, 'index'])->name('fullpapers.index');
         Route::get('/fullpapers/completed', [FullPaperReviewController::class, 'adminCompletedReviews'])->name('fullpapers.completed');

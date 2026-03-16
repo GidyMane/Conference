@@ -161,4 +161,35 @@ public function storeTempReviewer(Request $request)
         return back()->with('warning', 'Temporary reviewer created but email failed. Please check logs.');
     }
 }
+
+public function extendTempReviewer(Request $request)
+{
+    $validated = $request->validate([
+        'user_id' => 'required|exists:users,id',
+        'expires_days' => 'required|integer|min:1|max:365',
+    ]);
+
+    // Get user
+    $user = User::findOrFail($validated['user_id']);
+
+    if ($user->role !== 'TEMP_REVIEWER') {
+        return back()->with('error', 'Selected user is not a temporary reviewer.');
+    }
+
+    $tempReviewer = $user->tempReviewer;
+
+    if (!$tempReviewer) {
+        return back()->with('error', 'Temporary reviewer record not found.');
+    }
+
+    // Extend expiry properly
+    $baseDate = $tempReviewer->expires_at > now()
+        ? $tempReviewer->expires_at
+        : now();
+
+    $tempReviewer->expires_at = $baseDate->addDays((int)$validated['expires_days']);
+    $tempReviewer->save();
+
+    return back()->with('success', 'Temporary reviewer extended successfully.');
+}
 }
