@@ -121,7 +121,7 @@
                 <div class="col-lg-8 col-md-7 col-12">
                     <marquee behavior="scroll" direction="left" scrollamount="3">
                         <i class="fas fa-bullhorn me-2"></i> 
-                        Call for Papers Now Open! Submit your research abstracts before <b>13th March 2026.</b>
+                        Call for Papers Now Open! Submit your research abstracts before <b>27th March 2026.</b>
                     </marquee>
                 </div>
                 <div class="col-lg-4 col-md-5 col-12 text-end">
