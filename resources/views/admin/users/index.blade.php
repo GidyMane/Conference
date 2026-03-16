@@ -141,6 +141,7 @@
                         <th>Sub-theme</th>
                         <th>Assigned</th>
                         <th>Completed</th>
+                        <th>Expiry date</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -151,10 +152,7 @@
 
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <div class="user-avatar me-2"
-                                        style="width: 35px; height: 35px; font-size: 14px;">
-                                        {{ strtoupper(substr($user->full_name, 0, 1)) }}
-                                    </div>
+
                                     <strong>{{ $user->full_name }}</strong>
                                 </div>
                             </td>
@@ -166,6 +164,8 @@
                                     {{ ucfirst(strtolower($user->role)) }}
                                 </span>
                             </td>
+
+                            
 
                     <td>
                         @if($user->role === 'TEMP_REVIEWER' && $user->tempReviewer && $user->tempReviewer->subTheme)
@@ -208,9 +208,17 @@
                             </td>
 
                             <td>
+                                @if($user->tempReviewer)
+                                    {{ \Carbon\Carbon::parse($user->tempReviewer->expires_at)->format('d M Y') }}
+                                @else
+                                    <span class="text-muted">-</span>
+                                @endif
+                            </td>
+
+                            <td>
                                 @if($user->is_active)
                                     <div class="btn-group btn-group-sm">
-                                        @if($user->role === 'REVIEWER')
+                                        @if($user->role === 'REVIEWER' || $user->role === 'TEMP_REVIEWER')
                                             </button>
                                             <button class="btn btn-warning" onclick="resetPassword({{ $user->id }})" title="Reset Password">
                                                 <i class="fas fa-key"></i>
