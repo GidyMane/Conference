@@ -233,12 +233,12 @@
 
                             <li class="mb-3">
                                 <strong>Abstract Submission:</strong><br>
-                                <span class="text-success">Deadline: March 13, 2026</span>
+                                <span class="text-success">Deadline: March 27, 2026</span>
                             </li>
 
                             <li class="mb-3">
                                 <strong>Full Paper Submission:</strong><br>
-                                <span class="text-success">27th March 2026</span>
+                                <span class="text-success">10th April 2026</span>
                             </li>
 
                             <li class="mb-3">
