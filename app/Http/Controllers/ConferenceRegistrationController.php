@@ -102,9 +102,8 @@ class ConferenceRegistrationController extends Controller
         return back()->with('success', 'Registration submitted. Awaiting payment verification.');
     }
 
-    public function storeGroup(Request $request)
+public function storeGroup(Request $request)
 {
-    // Basic validation
     $request->validate([
         'coordinatorFirstName' => 'required',
         'coordinatorLastName' => 'required',
@@ -132,16 +131,18 @@ class ConferenceRegistrationController extends Controller
         'phone_number' => $request->coordinatorPhoneNumber,
         'institution' => $request->coordinatorInstitution,
         'group_count' => $request->groupCount,
-        'total_fee' => 0, // calculate later if needed
-        'currency' => 'KES',
+        'total_fee' => 0, // will update after members
+        'currency' => 'KES', // optionally make dynamic
         'payment_method' => $request->groupPaymentMethod,
         'transaction_id' => $request->groupTransactionId,
         'payment_proof_path' => $paymentProofPath,
     ]);
 
+    $totalFee = 0;
+
     // Create group members
     foreach ($request->members as $member) {
-        $group->members()->create([
+        $memberRecord = $group->members()->create([
             'first_name' => $member['firstName'],
             'last_name' => $member['lastName'],
             'email' => $member['email'],
@@ -152,10 +153,15 @@ class ConferenceRegistrationController extends Controller
             'presenter' => $member['presenter'] ?? 'no',
             'paper_ref_code' => $member['paperRefCode'] ?? null,
             'student_id' => $member['studentId'] ?? null,
-            'fee' => $member['fee'] ?? 0,         // add this
-            'currency' => $member['currency'] ?? 'KES',  // add this
+            'fee' => $member['fee'] ?? 0,
+            'currency' => $member['currency'] ?? 'KES',
         ]);
+
+        $totalFee += $memberRecord->fee;
     }
+
+    // Update the group's total fee
+    $group->update(['total_fee' => $totalFee]);
 
     return back()->with('success', 'Group registration submitted successfully!');
 }

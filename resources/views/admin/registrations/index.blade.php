@@ -212,4 +212,76 @@
     </div>
 </div>
 
+{{-- GROUP REGISTRATIONS TABLE --}}
+<div class="card shadow-sm mt-5">
+    <div class="card-body">
+
+        <h4 class="mb-4">Group Registrations</h4>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Coordinator</th>
+                        <th>Institution</th>
+                        <th>Members</th>
+                        <th>Total Fee</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th width="80">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($groupRegistrations as $group)
+                        <tr>
+                            <td><strong>#{{ $group->id }}</strong></td>
+                            <td>
+                                <strong>{{ $group->first_name }} {{ $group->last_name }}</strong><br>
+                                <small class="text-muted">{{ $group->email }}</small>
+                            </td>
+                            <td>{{ $group->institution }}</td>
+                            <td>
+                                <ul class="mb-0">
+                                    @foreach($group->members as $member)
+                                        <li>{{ $member->first_name }} {{ $member->last_name }} ({{ $member->category ?? '-' }})</li>
+                                    @endforeach
+                                </ul>
+                            </td>
+                            <td>{{ $group->currency }} {{ number_format($group->total_fee, 2) }}</td>
+                            <td>
+                                @if($group->payment_status === 'approved')
+                                    <span class="badge bg-success">Approved</span>
+                                @elseif($group->payment_status === 'rejected')
+                                    <span class="badge bg-danger">Rejected</span>
+                                @else
+                                    <span class="badge bg-warning text-dark">Pending</span>
+                                @endif
+                            </td>
+                            <td>{{ $group->created_at->format('M d, Y') }}</td>
+                            <td>
+                                <a href="{{ route('admin.groupRegistrations.show', $group->id) }}"
+                                   class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="9" class="text-center text-muted py-4">
+                                No group registrations found.
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-3">
+            {{ $groupRegistrations->withQueryString()->links() }}
+        </div>
+
+    </div>
+</div>
+
 @endsection

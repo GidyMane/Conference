@@ -22,7 +22,11 @@ class GroupMember extends Model
         'paper_ref_code',
         'student_id',
         'fee',
-        'currency'
+        'currency',
+        'payment_status',
+        'ticket_number',   
+        'verified_by',    
+        'verified_at'  
     ];
 
     // Relationship to the group

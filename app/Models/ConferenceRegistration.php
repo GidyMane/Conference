@@ -26,6 +26,11 @@ class ConferenceRegistration extends Model
         'payment_method',
         'transaction_id',
         'payment_proof_path',
+        'payment_status',
+        'ticket_number',
+        'verified_by',
+        'verified_at',
+        'rejection_reason',
     ];
 
     protected $casts = [

@@ -21,6 +21,8 @@ class GroupRegistration extends Model
         'currency',
         'transaction_id',
         'payment_proof_path', 
+        'payment_status',
+        'rejection_reason',
     ];
 
     public function members()

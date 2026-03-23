@@ -171,6 +171,24 @@ Route::prefix('admin')
             Route::get('/{id}/download-proof', [ExhibitionRegistrationController::class, 'downloadProof'])->name('downloadProof');
             Route::post('/{id}/resend-email', [ExhibitionRegistrationController::class, 'resendApprovalEmail'])->name('resend-email');
         });
+
+
+
+                // Group registrations
+        Route::prefix('group-registrations')->name('groupRegistrations.')->group(function () {
+            Route::get('/{id}', [AdminRegistrationController::class, 'showGroup'])
+                ->name('show');
+
+            Route::post('/{id}/approve', [AdminRegistrationController::class, 'approveGroup'])
+                ->name('approve');
+
+            Route::post('/{id}/reject', [AdminRegistrationController::class, 'rejectGroup'])
+                ->name('reject');
+
+            Route::get('/{id}/download-proof', [AdminRegistrationController::class, 'downloadGroupProof'])
+                ->name('downloadProof');
+        });
+
 });
 
 /*

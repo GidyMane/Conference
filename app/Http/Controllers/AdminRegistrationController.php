@@ -5,10 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\ConferenceRegistration;
 use App\Mail\RegistrationApprovedMail;
 use App\Mail\RegistrationRejectedMail;
+use App\Mail\GroupMemberApprovedMail;
+use App\Mail\GroupRegistrationRejectedMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Models\GroupRegistration;
+use App\Models\GroupMember;
 
 
 class AdminRegistrationController extends Controller
@@ -16,29 +20,20 @@ class AdminRegistrationController extends Controller
 
     public function index(Request $request)
     {
-        $query = ConferenceRegistration::query();
+        // Individual registrations
+        $registrations = ConferenceRegistration::query();
 
-        /*
-        |--------------------------------------------------------------------------
-        | FILTERS
-        |--------------------------------------------------------------------------
-        */
-
-        // Filter by payment status
         if ($request->filled('payment_status')) {
-            $query->where('payment_status', $request->payment_status);
+            $registrations->where('payment_status', $request->payment_status);
         }
 
-        // Filter by platform
         if ($request->filled('platform')) {
-            $query->where('platform', $request->platform);
+            $registrations->where('platform', $request->platform);
         }
 
-        // Search by name or email
         if ($request->filled('search')) {
             $search = $request->search;
-
-            $query->where(function ($q) use ($search) {
+            $registrations->where(function ($q) use ($search) {
                 $q->where('first_name', 'like', "%{$search}%")
                 ->orWhere('last_name', 'like', "%{$search}%")
                 ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$search}%"])
@@ -46,30 +41,22 @@ class AdminRegistrationController extends Controller
             });
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | PAGINATION
-        |--------------------------------------------------------------------------
-        */
+        $registrations = $registrations->latest()->paginate(10);
 
-        $registrations = $query
-            ->latest()
-            ->paginate(10);
-
-        /*
-        |--------------------------------------------------------------------------
-        | STATISTICS (IMPORTANT: NOT FILTERED)
-        |--------------------------------------------------------------------------
-        */
+        // Group registrations
+        $groupRegistrations = GroupRegistration::with('members')->latest()->paginate(10);
 
         $stats = [
-            'total'     => ConferenceRegistration::count(),
-            'approved'  => ConferenceRegistration::where('payment_status', 'approved')->count(),
-            'pending'   => ConferenceRegistration::where('payment_status', 'pending')->count(),
-            'rejected'  => ConferenceRegistration::where('payment_status', 'rejected')->count(),
+            'total' => ConferenceRegistration::count() + GroupRegistration::count(),
+            'approved' => ConferenceRegistration::where('payment_status', 'approved')->count() +
+                        GroupRegistration::where('payment_status', 'approved')->count(),
+            'pending' => ConferenceRegistration::where('payment_status', 'pending')->count() +
+                        GroupRegistration::where('payment_status', 'pending')->count(),
+            'rejected' => ConferenceRegistration::where('payment_status', 'rejected')->count() +
+                        GroupRegistration::where('payment_status', 'rejected')->count(),
         ];
 
-        return view('admin.registrations.index', compact('registrations', 'stats'));
+        return view('admin.registrations.index', compact('registrations', 'groupRegistrations', 'stats'));
     }
 
     public function show($id)
@@ -78,72 +65,70 @@ class AdminRegistrationController extends Controller
         return view('admin.registrations.show', compact('registration'));
     }
 
-    public function approve($id)
-    {
-        return DB::transaction(function () use ($id) {
-            $registration = ConferenceRegistration::findOrFail($id);
+public function approve($id)
+{
+    return DB::transaction(function () use ($id) {
+        $registration = ConferenceRegistration::findOrFail($id);
 
-            // Check if already approved
-            if ($registration->payment_status === ConferenceRegistration::STATUS_APPROVED) {
-                return back()->with('error', 'Registration already approved.');
-            }
+        if ($registration->payment_status === ConferenceRegistration::STATUS_APPROVED) {
+            return back()->with('error', 'Registration already approved.');
+        }
 
-            // Generate Ticket Number
-            $lastTicket = ConferenceRegistration::whereNotNull('ticket_number')
-                ->where('payment_status', ConferenceRegistration::STATUS_APPROVED)
-                ->orderByDesc('id')
-                ->first();
+        // Generate ticket number
+        $lastTicket = ConferenceRegistration::whereNotNull('ticket_number')
+            ->where('payment_status', ConferenceRegistration::STATUS_APPROVED)
+            ->orderByDesc('id')
+            ->first();
 
-            $nextNumber = $lastTicket ? intval(substr($lastTicket->ticket_number, -4)) + 1 : 1;
-            $ticketNumber = 'KALRO_' . date('Y') . '_' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
+        $nextNumber = $lastTicket ? intval(substr($lastTicket->ticket_number, -4)) + 1 : 1;
+        $ticketNumber = 'KALRO_' . date('Y') . '_' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
 
-            $registration->update([
-                'payment_status' => ConferenceRegistration::STATUS_APPROVED,
-                'ticket_number' => $ticketNumber,
-                'verified_by' => auth()->id(),
-                'verified_at' => now(),
-            ]);
-
-            try {
-                Mail::to($registration->email)->send(new RegistrationApprovedMail($registration));
-            } catch (\Exception $e) {
-                \Log::error('Failed to send approval email: ' . $e->getMessage());
-            }
-
-            return back()->with('success', 'Registration approved successfully. Ticket: ' . $ticketNumber);
-        });
-    }
-
-    public function reject(Request $request, $id)
-    {
-        $request->validate([
-            'reason' => 'required|string|min:10|max:500'
+        $registration->update([
+            'payment_status' => ConferenceRegistration::STATUS_APPROVED,
+            'ticket_number' => $ticketNumber,
+            'verified_by' => auth()->id(),
+            'verified_at' => now(),
         ]);
 
-        return DB::transaction(function () use ($request, $id) {
-            $registration = ConferenceRegistration::findOrFail($id);
+        try {
+            Mail::to($registration->email)->send(new RegistrationApprovedMail($registration));
+        } catch (\Exception $e) {
+            \Log::error('Failed to send approval email: ' . $e->getMessage());
+        }
 
-            // Check if already processed
-            if ($registration->payment_status !== ConferenceRegistration::STATUS_PENDING) {
-                return back()->with('error', 'Only pending registrations can be rejected.');
-            }
+        return back()->with('success', 'Registration approved successfully. Ticket: ' . $ticketNumber);
+    });
+}
 
-            $registration->update([
-                'payment_status' => ConferenceRegistration::STATUS_REJECTED,
-                'rejection_reason' => $request->reason,
-                'verified_by' => auth()->id(),
-                'verified_at' => now(),
-            ]);
+public function reject(Request $request, $id)
+{
+    $request->validate([
+        'reason' => 'required|string|min:10|max:500'
+    ]);
 
-            try {
-                Mail::to($registration->email)->send(new RegistrationRejectedMail($registration));
-            } catch (\Exception $e) {
-                \Log::error('Failed to send rejection email: ' . $e->getMessage());
-            }
+    return DB::transaction(function () use ($request, $id) {
+        $registration = ConferenceRegistration::findOrFail($id);
 
-            return back()->with('success', 'Registration rejected and notification sent.');
-        });
-    }
+        if ($registration->payment_status !== ConferenceRegistration::STATUS_PENDING) {
+            return back()->with('error', 'Only pending registrations can be rejected.');
+        }
+
+        $registration->update([
+            'payment_status' => ConferenceRegistration::STATUS_REJECTED,
+            'rejection_reason' => $request->reason,
+            'verified_by' => auth()->id(),
+            'verified_at' => now(),
+        ]);
+
+        try {
+            Mail::to($registration->email)->send(new RegistrationRejectedMail($registration));
+        } catch (\Exception $e) {
+            \Log::error('Failed to send rejection email: ' . $e->getMessage());
+        }
+
+        return back()->with('success', 'Registration rejected and notification sent.');
+    });
+}
 
     public function downloadProof($id, $type)
     {
@@ -158,5 +143,131 @@ class AdminRegistrationController extends Controller
         }
 
         return Storage::disk('public')->download($path);
+    }
+
+    public function showGroup($id)
+    {
+        // Load the group along with its members
+        $group = GroupRegistration::with('members')->findOrFail($id);
+
+        return view('admin.registrations.groupshow', compact('group'));
+    }
+
+public function approveGroup($id)
+{
+    // Find the group
+    $group = GroupRegistration::findOrFail($id);
+
+    if ($group->payment_status === 'approved') {
+        return back()->with('error', 'Group already approved.');
+    }
+
+    // Start transaction to update group and members
+    DB::transaction(function () use ($group) {
+
+        // Approve the group
+        $group->update([
+            'payment_status' => 'approved',
+            'verified_by' => auth()->id(),
+            'verified_at' => now(),
+        ]);
+
+        // Fetch members fresh from DB
+        $members = $group->members()->get();
+
+        // Get last ticket globally to increment numbers
+        $lastTicket = GroupMember::whereNotNull('ticket_number')
+            ->orderByDesc('id')
+            ->first();
+
+        $nextNumber = $lastTicket ? intval(substr($lastTicket->ticket_number, -4)) + 1 : 1;
+
+        // Assign ticket numbers to each member
+        foreach ($members as $member) {
+            // Ticket format: KALRO_CONF{Year}_{GroupID}_{0001}
+            $ticketNumber = 'KALRO_CONF' . date('Y') . '_G' . $group->id . '_' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
+
+            $member->update([
+                'payment_status' => 'approved',
+                'ticket_number' => $ticketNumber,
+                'verified_by' => auth()->id(),
+                'verified_at' => now(),
+            ]);
+
+            $nextNumber++;
+        }
+    });
+
+    // Send emails AFTER transaction commits
+    $members = GroupMember::where('group_registration_id', $group->id)->get();
+
+    foreach ($members as $member) {
+        if ($member->email) {
+            \Log::info('Sending approval email to member ID: ' . $member->id . ', email: ' . $member->email);
+            try {
+                Mail::to($member->email)->send(new GroupMemberApprovedMail($member));
+            } catch (\Exception $e) {
+                \Log::error('Failed to send email to member ID: ' . $member->id . ': ' . $e->getMessage());
+            }
+        } else {
+            \Log::warning('Member ID ' . $member->id . ' has no email, skipping mail.');
+        }
+    }
+
+    return back()->with('success', 'Group approved, tickets generated, and emails sent.');
+}
+    // Reject a group registration
+public function rejectGroup(Request $request, $id)
+{
+    $request->validate([
+        'reason' => 'required|string|min:10|max:500'
+    ]);
+
+    return DB::transaction(function () use ($request, $id) {
+        $group = GroupRegistration::with('members')->findOrFail($id);
+
+        if ($group->payment_status !== 'pending') {
+            return back()->with('error', 'Only pending group registrations can be rejected.');
+        }
+
+        // Update each member
+        foreach ($group->members as $member) {
+            $member->update([
+                'payment_status' => 'rejected',
+                'rejection_reason' => $request->reason,
+                'verified_by' => auth()->id(),
+                'verified_at' => now(),
+            ]);
+        }
+
+        // Update group
+        $group->update([
+            'payment_status' => 'rejected',
+            'rejection_reason' => $request->reason,
+            'verified_by' => auth()->id(),
+            'verified_at' => now(),
+        ]);
+
+        // Send email only to the coordinator
+        try {
+            Mail::to($group->email)->send(new GroupRegistrationRejectedMail($group));
+        } catch (\Exception $e) {
+            \Log::error('Failed to send group rejection email: ' . $e->getMessage());
+        }
+
+        return back()->with('success', 'Group registration rejected and coordinator notified.');
+    });
+}
+
+    // Download group payment proof
+    public function downloadGroupProof($id)
+    {
+        $group = GroupRegistration::findOrFail($id);
+
+        if (!$group->payment_proof_path || !Storage::disk('public')->exists($group->payment_proof_path)) {
+            return back()->with('error', 'Payment proof not found.');
+        }
+
+        return Storage::disk('public')->download($group->payment_proof_path);
     }
 }
