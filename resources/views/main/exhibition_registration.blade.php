@@ -25,7 +25,14 @@
                     <div class="step active" data-step="1">
                         <div class="step-circle">
                             <div class="step-number">1</div>
-                            <div class="step-icon"><i class="bi bi-building"></i></div>
+                            <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="3" y="7" width="18" height="14" rx="1.5" stroke="currentColor" stroke-width="1.8" fill="none"/>
+  <path d="M3 7l9-4 9 4" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="none"/>
+  <rect x="9" y="13" width="3" height="4" rx=".5" fill="currentColor" opacity=".5"/>
+  <rect x="12" y="13" width="3" height="4" rx=".5" fill="currentColor" opacity=".5"/>
+  <rect x="7" y="10" width="2.5" height="2" rx=".4" fill="currentColor" opacity=".6"/>
+  <rect x="14.5" y="10" width="2.5" height="2" rx=".4" fill="currentColor" opacity=".6"/>
+</svg></div>
                         </div>
                         <div class="step-label">Organization</div>
                     </div>
@@ -33,7 +40,12 @@
                     <div class="step" data-step="2">
                         <div class="step-circle">
                             <div class="step-number">2</div>
-                            <div class="step-icon"><i class="bi bi-shop"></i></div>
+                            <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M3 9h18l-1.5 9a1.5 1.5 0 01-1.5 1.3H5.9A1.5 1.5 0 014.4 18L3 9z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/>
+  <path d="M3 9L5 4h14l2 5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="none"/>
+  <path d="M9 9v1a3 3 0 006 0V9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  <rect x="10" y="14" width="4" height="4" rx=".6" fill="currentColor" opacity=".5"/>
+</svg></div>
                         </div>
                         <div class="step-label">Booth Details</div>
                     </div>
@@ -41,7 +53,13 @@
                     <div class="step" data-step="3">
                         <div class="step-circle">
                             <div class="step-number">3</div>
-                            <div class="step-icon"><i class="bi bi-credit-card"></i></div>
+                            <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.8" fill="none"/>
+  <path d="M2 10h20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <rect x="5" y="14" width="5" height="2" rx=".5" fill="currentColor" opacity=".6"/>
+  <rect x="12" y="14" width="3" height="2" rx=".5" fill="currentColor" opacity=".4"/>
+  <rect x="16" y="14" width="3" height="2" rx=".5" fill="currentColor" opacity=".4"/>
+</svg></div>
                         </div>
                         <div class="step-label">Payment</div>
                     </div>
@@ -49,7 +67,11 @@
                     <div class="step" data-step="4">
                         <div class="step-circle">
                             <div class="step-number">4</div>
-                            <div class="step-icon"><i class="bi bi-person-circle"></i></div>
+                            <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.8" fill="none"/>
+  <circle cx="12" cy="7" r="2" fill="currentColor" opacity=".4"/>
+  <path d="M4 20c0-4.418 3.582-8 8-8s8 3.582 8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+</svg></div>
                         </div>
                         <div class="step-label">Contact</div>
                     </div>
@@ -88,7 +110,14 @@
                         <!-- Step 1: Organization Information -->
                         <div class="form-step active" data-step="1" style="display: block !important;">
                             <div class="step-header">
-                                <div class="step-icon-large"><i class="bi bi-building"></i></div>
+                                <div class="step-icon-large"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="3" y="7" width="18" height="14" rx="1.5" stroke="currentColor" stroke-width="1.8" fill="none"/>
+  <path d="M3 7l9-4 9 4" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="none"/>
+  <rect x="9" y="13" width="3" height="4" rx=".5" fill="currentColor" opacity=".5"/>
+  <rect x="12" y="13" width="3" height="4" rx=".5" fill="currentColor" opacity=".5"/>
+  <rect x="7" y="10" width="2.5" height="2" rx=".4" fill="currentColor" opacity=".6"/>
+  <rect x="14.5" y="10" width="2.5" height="2" rx=".4" fill="currentColor" opacity=".6"/>
+</svg></div>
                                 <h2 class="step-title">Organization Information</h2>
                                 <p class="step-description">Tell us about your organization and what you'll be exhibiting</p>
                             </div>
@@ -147,7 +176,12 @@
                         <!-- Step 2: Booth Details -->
                         <div class="form-step" data-step="2">
                             <div class="step-header">
-                                <div class="step-icon-large"><i class="bi bi-shop"></i></div>
+                                <div class="step-icon-large"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M3 9h18l-1.5 9a1.5 1.5 0 01-1.5 1.3H5.9A1.5 1.5 0 014.4 18L3 9z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/>
+  <path d="M3 9L5 4h14l2 5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="none"/>
+  <path d="M9 9v1a3 3 0 006 0V9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  <rect x="10" y="14" width="4" height="4" rx=".6" fill="currentColor" opacity=".5"/>
+</svg></div>
                                 <h2 class="step-title">Customize Your Exhibition Booth</h2>
                                 <p class="step-description">Choose your booth quantity and select your preferred package inclusions.</p>
                             </div>
@@ -270,7 +304,13 @@
                         <!-- Step 3: Payment -->
                         <div class="form-step" data-step="3">
                             <div class="step-header">
-                                <div class="step-icon-large"><i class="bi bi-credit-card"></i></div>
+                                <div class="step-icon-large"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.8" fill="none"/>
+  <path d="M2 10h20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <rect x="5" y="14" width="5" height="2" rx=".5" fill="currentColor" opacity=".6"/>
+  <rect x="12" y="14" width="3" height="2" rx=".5" fill="currentColor" opacity=".4"/>
+  <rect x="16" y="14" width="3" height="2" rx=".5" fill="currentColor" opacity=".4"/>
+</svg></div>
                                 <h2 class="step-title">Payment Information</h2>
                                 <p class="step-description">Complete your payment to secure your booth</p>
                             </div>
@@ -426,7 +466,11 @@
                         <!-- Step 4: Contact Information -->
                         <div class="form-step" data-step="4">
                             <div class="step-header">
-                                <div class="step-icon-large"><i class="bi bi-person-circle"></i></div>
+                                <div class="step-icon-large"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.8" fill="none"/>
+  <circle cx="12" cy="7" r="2" fill="currentColor" opacity=".4"/>
+  <path d="M4 20c0-4.418 3.582-8 8-8s8 3.582 8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+</svg></div>
                                 <h2 class="step-title">Contact Information</h2>
                                 <p class="step-description">Who should we contact regarding this exhibition?</p>
                             </div>
@@ -569,12 +613,13 @@
 /* PROGRESS */
 .progress-steps { display: flex; align-items: center; justify-content: center; position: relative; padding: 0 20px; max-width: 900px; margin: 0 auto; }
 .step { display: flex; flex-direction: column; align-items: center; gap: .5rem; position: relative; z-index: 2; flex: 0 0 auto; }
-.step-circle { width: 55px; height: 55px; border-radius: 50%; background: white; border: 3px solid var(--border-color); display: flex; align-items: center; justify-content: center; position: relative; transition: all .4s ease; box-shadow: 0 3px 8px rgba(0,0,0,.08); }
-.step-number { position: absolute; font-weight: 700; font-size: .75rem; color: var(--text-muted); top: -6px; right: -6px; width: 20px; height: 20px; background: white; border: 2px solid var(--border-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all .4s ease; }
-.step-icon { opacity: 0; transform: scale(0); transition: all .4s ease; }
-.step-icon i { font-size: 1.5rem; color: var(--kalro-primary); }
-.step.active .step-circle, .step.completed .step-circle { background: var(--kalro-gradient); border-color: var(--kalro-primary); transform: scale(1.05); box-shadow: 0 6px 15px rgba(26,95,58,.25); }
-.step.active .step-number, .step.completed .step-number { background: var(--kalro-gradient); border-color: var(--kalro-primary); color: white; }
+.step-circle { width: 60px; height: 60px; border-radius: 16px; background: white; border: 2.5px solid var(--border-color); display: flex; align-items: center; justify-content: center; position: relative; transition: all .4s ease; box-shadow: 0 3px 10px rgba(0,0,0,.07); }
+.step-number { position: absolute; font-weight: 800; font-size: .65rem; color: var(--text-muted); top: -8px; right: -8px; width: 20px; height: 20px; background: white; border: 2px solid var(--border-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all .4s ease; letter-spacing: 0; }
+.step-icon { opacity: 0; transform: scale(0); transition: all .4s ease; display:flex; align-items:center; justify-content:center; }
+.step-icon svg { width: 26px; height: 26px; color: var(--kalro-primary); }
+.step.active .step-icon svg, .step.completed .step-icon svg { color: white; }
+.step.active .step-circle, .step.completed .step-circle { background: var(--kalro-gradient); border-color: var(--kalro-primary); transform: scale(1.08); box-shadow: 0 8px 20px rgba(26,95,58,.3); border-radius: 18px; }
+.step.active .step-number, .step.completed .step-number { background: var(--kalro-primary); border-color: var(--kalro-primary); color: white; font-weight: 800; }
 .step.active .step-icon, .step.completed .step-icon { opacity: 1; transform: scale(1); }
 .step.active .step-icon i, .step.completed .step-icon i { color: white; }
 .step-label { font-size: .8rem; font-weight: 600; color: var(--text-muted); text-align: center; transition: all .3s ease; }
@@ -589,8 +634,8 @@
 .form-step.active { display: block !important; }
 @keyframes fadeSlideIn { from { opacity:0; transform:translateX(30px); } to { opacity:1; transform:translateX(0); } }
 .step-header { text-align: center; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--kalro-light); }
-.step-icon-large { width: 70px; height: 70px; border-radius: 16px; background: var(--kalro-gradient); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 1rem; box-shadow: 0 8px 20px rgba(26,95,58,.2); }
-.step-icon-large i { font-size: 2rem; color: white; }
+.step-icon-large { width: 76px; height: 76px; border-radius: 20px; background: var(--kalro-gradient); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; box-shadow: 0 8px 24px rgba(26,95,58,.25); }
+.step-icon-large svg { width: 38px; height: 38px; color: white; }
 .step-title { font-size: 1.65rem; font-weight: 700; color: var(--text-dark); margin-bottom: .5rem; }
 .step-description { font-size: .95rem; color: var(--text-muted); margin: 0; }
 .step-content { margin-bottom: 2rem; }
