@@ -78,6 +78,14 @@
 
                 <p><strong>Total Fee:</strong> {{ $group->currency }} {{ number_format($group->total_fee, 2) }}</p>
                 <p><strong>Transaction ID:</strong> {{ $group->transaction_id ?? '—' }}</p>
+                <p>
+                    @if($group->payment_status === 'rejected')
+                        @if($group->rejection_reason)
+                            <br>
+                            <small class="text-danger"><strong>Reason:</strong> {{ $group->rejection_reason }}</small>
+                        @endif
+                    @endif
+                </p>
 
             </div>
         </div>
