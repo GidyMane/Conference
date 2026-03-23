@@ -531,7 +531,7 @@
                         </div>
                     </div>
 
-                    <form id="groupForm" action="#" method="POST" enctype="multipart/form-data">
+                    <form id="groupForm" action="{{ route('conference.register.group') }}" method="POST" enctype="multipart/form-data">
                         {{-- TODO: change action to {{ route('conference.register.group') }} once route is defined --}}
                         @csrf
                         <input type="hidden" name="registrationMode" value="group">
@@ -1719,6 +1719,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <label class="form-label">First Name <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" name="members[${i}][firstName]"
                                    oninput="updateMemberSubtitle(${i})" required>
+                            <input type="hidden" name="members[${i}][fee]" id="memberFeeInput${i}" value="0">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Last Name <span class="text-danger">*</span></label>
@@ -1879,15 +1880,28 @@ document.addEventListener('DOMContentLoaded', function() {
         const category    = document.querySelector(`[name="members[${i}][category]"]`)?.value;
         const nationality = document.querySelector(`[name="members[${i}][nationality]"]`)?.value;
         const badge       = document.getElementById(`memberFeeBadge${i}`);
+        const hiddenInput = document.getElementById(`memberFeeInput${i}`);
 
-        if (platform && category && nationality) {
-            const fee = getFee(platform, category, nationality);
-            if (badge) badge.textContent = fee ? `Fee: ${formatFee(fee)}` : 'Fee: Not applicable';
-        } else {
+        if (!platform || !category || !nationality) {
             if (badge) badge.textContent = 'Fee: —';
+            if (hiddenInput) hiddenInput.value = 0;
+            recalcGroupTotal();
+            return;
         }
+
+        const feeObj = getFee(platform, category, nationality);
+
+        if (feeObj) {
+            if (badge) badge.textContent = `Fee: ${formatFee(feeObj)}`;
+            if (hiddenInput) hiddenInput.value = feeObj.amount; // numeric value
+        } else {
+            if (badge) badge.textContent = 'Fee: Not applicable';
+            if (hiddenInput) hiddenInput.value = 0;
+        }
+
         recalcGroupTotal();
     };
+
 
     function recalcGroupTotal() {
         const count   = parseInt(document.getElementById('groupCount')?.value) || 0;

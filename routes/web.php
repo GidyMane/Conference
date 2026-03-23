@@ -336,3 +336,7 @@ Route::get('/test/reviewer-materials', function() {
 Route::get('/login', function () {
     return redirect()->route('reviewer.login');
 })->name('login');
+
+Route::post('/conference/group-register', [ConferenceRegistrationController::class, 'storeGroup'])
+    ->name('conference.register.group');
+    
