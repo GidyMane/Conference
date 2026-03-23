@@ -175,16 +175,16 @@ public function approveGroup($id)
         // Fetch members fresh from DB
         $members = $group->members()->get();
 
-        // Get last ticket globally to increment numbers
-        $lastTicket = GroupMember::whereNotNull('ticket_number')
+        $lastTicket = GroupMember::where('group_registration_id', $group->id)
+            ->whereNotNull('ticket_number')
             ->orderByDesc('id')
             ->first();
 
-        $nextNumber = $lastTicket ? intval(substr($lastTicket->ticket_number, -4)) + 1 : 1;
+        $nextNumber = $lastTicket 
+            ? intval(substr($lastTicket->ticket_number, -4)) + 1 
+            : 1;
 
-        // Assign ticket numbers to each member
         foreach ($members as $member) {
-            // Ticket format: KALRO_CONF{Year}_{GroupID}_{0001}
             $ticketNumber = 'KALRO_CONF' . date('Y') . '_G' . $group->id . '_' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
 
             $member->update([
