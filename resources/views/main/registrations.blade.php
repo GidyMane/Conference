@@ -203,8 +203,8 @@
                                         <label for="nationality" class="form-label">Nationality <span class="text-danger">*</span></label>
                                         <select class="form-select form-select-lg" id="nationality" name="nationality" required>
                                             <option value="">Select Nationality</option>
-                                            <option value="east_african" {{ old('nationality') == 'east_african' ? 'selected' : '' }}>East African</option>
-                                            <option value="non_east_african" {{ old('nationality') == 'non_east_african' ? 'selected' : '' }}>Non-East African</option>
+                                            <option value="local_eac" {{ old('nationality') == 'local_eac' ? 'selected' : '' }}>Local &amp; EAC</option>
+                                            <option value="international" {{ old('nationality') == 'international' ? 'selected' : '' }}>International</option>
                                         </select>
                                     </div>
                                 </div>
@@ -238,7 +238,7 @@
                                                 <div class="card-content">
                                                     <div class="icon-wrapper"><i class="bi bi-building"></i></div>
                                                     <div class="text-content">
-                                                        <h5>Physical Attendance</h5>
+                                                        <h5>Physical Participation</h5>
                                                         <p>Join us in person at the venue</p>
                                                     </div>
                                                     <div class="check-indicator"><i class="bi bi-check-circle-fill"></i></div>
@@ -249,7 +249,7 @@
                                                 <div class="card-content">
                                                     <div class="icon-wrapper"><i class="bi bi-laptop"></i></div>
                                                     <div class="text-content">
-                                                        <h5>Virtual Attendance</h5>
+                                                        <h5>Virtual Participation</h5>
                                                         <p>Participate online via video conference</p>
                                                     </div>
                                                     <div class="check-indicator"><i class="bi bi-check-circle-fill"></i></div>
@@ -263,10 +263,13 @@
                                         <label for="category" class="form-label fw-bold">Registration Category <span class="text-danger">*</span></label>
                                         <select class="form-select form-select-lg" id="category" name="category" required>
                                             <option value="">Select Your Category</option>
+                                            <option value="scientists_professionals" {{ old('category') == 'scientists_professionals' ? 'selected' : '' }}>Scientists / Professionals</option>
                                             <option value="student" {{ old('category') == 'student' ? 'selected' : '' }}>Student (Valid Student ID Required)</option>
-                                            <option value="professional" {{ old('category') == 'professional' ? 'selected' : '' }}>Professional/Researcher</option>
-                                            <option value="kalro_staff" {{ old('category') == 'kalro_staff' ? 'selected' : '' }}>Organizing Team</option>
                                         </select>
+                                        <small class="text-muted mt-1 d-block">
+                                            <i class="bi bi-info-circle me-1"></i>
+                                            Physical Participation fee is the same for all categories (KES 15,000 / USD 150 early bird).
+                                        </small>
                                     </div>
 
                                     <!-- Student ID Upload -->
@@ -527,12 +530,11 @@
                         </div>
                         <div class="step" data-step="g3">
                             <div class="step-number">3</div>
-                            <div class="step-label">Summary & Pay</div>
+                            <div class="step-label">Summary &amp; Pay</div>
                         </div>
                     </div>
 
                     <form id="groupForm" action="{{ route('conference.register.group') }}" method="POST" enctype="multipart/form-data">
-                        {{-- TODO: change action to {{ route('conference.register.group') }} once route is defined --}}
                         @csrf
                         <input type="hidden" name="registrationMode" value="group">
 
@@ -654,7 +656,7 @@
                                     <i class="bi bi-arrow-left me-2"></i> Back
                                 </button>
                                 <button type="button" class="btn btn-primary btn-lg" id="groupStep2Next">
-                                    Review & Pay <i class="bi bi-arrow-right ms-2"></i>
+                                    Review &amp; Pay <i class="bi bi-arrow-right ms-2"></i>
                                 </button>
                             </div>
                         </div>
@@ -663,7 +665,7 @@
                         <div class="form-card group-section" data-gsection="3" style="display:none;">
                             <div class="section-header">
                                 <h3 class="section-title">
-                                    <i class="bi bi-credit-card me-2"></i>Summary & Payment
+                                    <i class="bi bi-credit-card me-2"></i>Summary &amp; Payment
                                 </h3>
                                 <p class="section-subtitle">Review your group registration and complete the payment</p>
                             </div>
@@ -684,10 +686,8 @@
                                                 <th>Fee</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="groupSummaryTableBody">
-                                        </tbody>
-                                        <tfoot id="groupSummaryTableFoot">
-                                        </tfoot>
+                                        <tbody id="groupSummaryTableBody"></tbody>
+                                        <tfoot id="groupSummaryTableFoot"></tfoot>
                                     </table>
                                 </div>
                             </div>
@@ -724,30 +724,12 @@
                                             <h5>Bank Transfer Details</h5>
                                         </div>
                                         <div class="details-body">
-                                            <div class="detail-item">
-                                                <span class="label">Account Name:</span>
-                                                <span class="value">KALRO EAAPP</span>
-                                            </div>
-                                            <div class="detail-item highlight">
-                                                <span class="label">Account Number:</span>
-                                                <span class="value">1116139030</span>
-                                            </div>
-                                            <div class="detail-item">
-                                                <span class="label">Bank Name:</span>
-                                                <span class="value">KCB Ltd</span>
-                                            </div>
-                                            <div class="detail-item">
-                                                <span class="label">Bank Branch:</span>
-                                                <span class="value">K.I.C.C</span>
-                                            </div>
-                                            <div class="detail-item">
-                                                <span class="label">Bank Code:</span>
-                                                <span class="value">01104</span>
-                                            </div>
-                                            <div class="detail-item">
-                                                <span class="label">Swift Code:</span>
-                                                <span class="value">KCBLKENX</span>
-                                            </div>
+                                            <div class="detail-item"><span class="label">Account Name:</span><span class="value">KALRO EAAPP</span></div>
+                                            <div class="detail-item highlight"><span class="label">Account Number:</span><span class="value">1116139030</span></div>
+                                            <div class="detail-item"><span class="label">Bank Name:</span><span class="value">KCB Ltd</span></div>
+                                            <div class="detail-item"><span class="label">Bank Branch:</span><span class="value">K.I.C.C</span></div>
+                                            <div class="detail-item"><span class="label">Bank Code:</span><span class="value">01104</span></div>
+                                            <div class="detail-item"><span class="label">Swift Code:</span><span class="value">KCBLKENX</span></div>
                                         </div>
                                     </div>
 
@@ -757,14 +739,8 @@
                                             <h5>M-Pesa Payment Details</h5>
                                         </div>
                                         <div class="details-body">
-                                            <div class="detail-item highlight">
-                                                <span class="label">Paybill Number:</span>
-                                                <span class="value">522522</span>
-                                            </div>
-                                            <div class="detail-item highlight">
-                                                <span class="label">Account Number:</span>
-                                                <span class="value">1116139030</span>
-                                            </div>
+                                            <div class="detail-item highlight"><span class="label">Paybill Number:</span><span class="value">522522</span></div>
+                                            <div class="detail-item highlight"><span class="label">Account Number:</span><span class="value">1116139030</span></div>
                                             <div class="payment-steps">
                                                 <p class="mb-2"><strong>Payment Steps:</strong></p>
                                                 <ol class="mb-0">
@@ -933,7 +909,6 @@
     box-shadow: 0 8px 32px rgba(26,95,58,.18);
     transform: translateY(-3px);
 }
-/* SVG illustration container */
 .mode-card-illustration {
     flex-shrink: 0;
     width: 72px; height: 72px;
@@ -948,7 +923,6 @@
     background: var(--kalro-primary);
     color: white;
 }
-/* Text block */
 .mode-card-text { flex: 1; }
 .mode-card-text h5 { font-weight: 700; font-size: 1.1rem; color: var(--text-dark); margin: 0 0 .4rem 0; transition: color .3s; }
 .mode-card-text p  { font-size: .875rem; color: var(--text-muted); margin: 0 0 .85rem 0; line-height: 1.5; transition: color .3s; }
@@ -968,8 +942,6 @@
     color: var(--kalro-primary); font-weight: 700; font-size: .75rem;
 }
 .mode-card input:checked ~ .mode-card-content .mode-features li { color: #374151; }
-.mode-card input:checked ~ .mode-card-content .mode-features li::before { color: var(--kalro-primary); }
-/* Radio dot selector */
 .mode-card-selector {
     flex-shrink: 0;
     width: 22px; height: 22px;
@@ -991,7 +963,6 @@
     background: var(--kalro-primary);
 }
 .mode-card input:checked ~ .mode-card-content .mode-radio-dot { background: white; }
-/* Confirm button */
 .mode-confirm-btn {
     min-width: 200px;
     padding: 1rem 2.5rem;
@@ -1188,8 +1159,6 @@
 .member-card.collapsed .member-toggle-icon { transform: rotate(-90deg); }
 .member-card-body { padding: 1.5rem; }
 .member-card.collapsed .member-card-body { display: none; }
-
-/* Fee badge inside member header */
 .member-fee-badge {
     display: inline-flex; align-items: center; gap: .4rem;
     padding: .25rem .75rem; border-radius: 100px;
@@ -1368,19 +1337,45 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     // ================================================================
-    // HELPERS
+    // HELPERS & FEE TABLE
     // ================================================================
     const EARLY_BIRD_DEADLINE = new Date('2026-04-10T23:59:59');
     const isEarlyBird = () => new Date() <= EARLY_BIRD_DEADLINE;
     const pad = n => String(n).padStart(2, '0');
 
+    /**
+     * FEE TABLE — exactly as per the Registration Fees screenshot:
+     *
+     * Rows:
+     *   Virtual Participation – Scientists/Professionals  | Local & EAC: 2000 early / 3000 std  | Intl: 50 early / 60 std
+     *   Virtual Participation – Students                  | Local & EAC: 1000 early / 1500 std  | Intl: 25 early / 30 std
+     *   Physical Participation (all categories)           | Local & EAC: 15000 early / 18000 std | Intl: 150 early / 200 std
+     *
+     * Nationality values: 'local_eac' | 'international'
+     * Platform values:    'virtual'   | 'physical'
+     * Category values:    'scientists_professionals' | 'student'
+     */
     const FEE_TABLE = {
         virtual: {
-            professional: { east_african: { early: 2000, standard: 3000, currency: 'KES' }, non_east_african: { early: 50,    standard: 60,   currency: 'USD' } },
-            student:       { east_african: { early: 1000, standard: 1500, currency: 'KES' }, non_east_african: { early: 25,    standard: 30,   currency: 'USD' } },
+            scientists_professionals: {
+                local_eac:     { early: 2000,  standard: 3000,  currency: 'KES' },
+                international: { early: 50,    standard: 60,    currency: 'USD' },
+            },
+            student: {
+                local_eac:     { early: 1000,  standard: 1500,  currency: 'KES' },
+                international: { early: 25,    standard: 30,    currency: 'USD' },
+            },
         },
         physical: {
-            kalro_staff:   { east_african: { early: 15000, standard: 18000, currency: 'KES' }, non_east_african: { early: 150, standard: 200, currency: 'USD' } },
+            // Physical Participation has a single rate for all categories
+            scientists_professionals: {
+                local_eac:     { early: 15000, standard: 18000, currency: 'KES' },
+                international: { early: 150,   standard: 200,   currency: 'USD' },
+            },
+            student: {
+                local_eac:     { early: 15000, standard: 18000, currency: 'KES' },
+                international: { early: 150,   standard: 200,   currency: 'USD' },
+            },
         },
     };
 
@@ -1405,6 +1400,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!banner) return;
         const early = isEarlyBird();
         const deadline = EARLY_BIRD_DEADLINE;
+
         function getTimeParts() {
             const diff = deadline - new Date();
             if (diff <= 0) return [0,0,0,0];
@@ -1416,13 +1412,33 @@ document.addEventListener('DOMContentLoaded', function() {
             ];
         }
         const [d,h,m,s] = getTimeParts();
+
+        // Price rows exactly matching the screenshot table
         const priceRows = `
-            <div class="eb-price-row"><span class="eb-price-label">🌍 Virtual – Professional (EAC)</span><span class="eb-price-amount">${early ? 'KES 2,000' : 'KES 3,000'}</span></div>
-            <div class="eb-price-row"><span class="eb-price-label">🌐 Virtual – Professional (Intl)</span><span class="eb-price-amount">${early ? 'USD 50' : 'USD 60'}</span></div>
-            <div class="eb-price-row"><span class="eb-price-label">🎓 Virtual – Student (EAC)</span><span class="eb-price-amount">${early ? 'KES 1,000' : 'KES 1,500'}</span></div>
-            <div class="eb-price-row"><span class="eb-price-label">🎓 Virtual – Student (Intl)</span><span class="eb-price-amount">${early ? 'USD 25' : 'USD 30'}</span></div>
-            <div class="eb-price-row"><span class="eb-price-label">🏢 Physical – Org. Team (EAC)</span><span class="eb-price-amount">${early ? 'KES 15,000' : 'KES 18,000'}</span></div>
-            <div class="eb-price-row"><span class="eb-price-label">🏢 Physical – Org. Team (Intl)</span><span class="eb-price-amount">${early ? 'USD 150' : 'USD 200'}</span></div>`;
+            <div class="eb-price-row">
+                <span class="eb-price-label">🖥️ Virtual – Scientists/Professionals (Local &amp; EAC)</span>
+                <span class="eb-price-amount">${early ? 'KES 2,000' : 'KES 3,000'}</span>
+            </div>
+            <div class="eb-price-row">
+                <span class="eb-price-label">🖥️ Virtual – Scientists/Professionals (International)</span>
+                <span class="eb-price-amount">${early ? 'USD 50' : 'USD 60'}</span>
+            </div>
+            <div class="eb-price-row">
+                <span class="eb-price-label">🎓 Virtual – Students (Local &amp; EAC)</span>
+                <span class="eb-price-amount">${early ? 'KES 1,000' : 'KES 1,500'}</span>
+            </div>
+            <div class="eb-price-row">
+                <span class="eb-price-label">🎓 Virtual – Students (International)</span>
+                <span class="eb-price-amount">${early ? 'USD 25' : 'USD 30'}</span>
+            </div>
+            <div class="eb-price-row">
+                <span class="eb-price-label">🏢 Physical Participation (Local &amp; EAC)</span>
+                <span class="eb-price-amount">${early ? 'KES 15,000' : 'KES 18,000'}</span>
+            </div>
+            <div class="eb-price-row">
+                <span class="eb-price-label">🏢 Physical Participation (International)</span>
+                <span class="eb-price-amount">${early ? 'USD 150' : 'USD 200'}</span>
+            </div>`;
 
         if (early) {
             banner.className = 'is-early';
@@ -1583,15 +1599,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const fee = getFee(platform, category, nationality);
             if (!fee) {
-                if (platform === 'virtual' && category === 'kalro_staff') feeSelect.innerHTML = '<option value="">Virtual attendance not available for Organizing Team</option>';
-                else if (platform === 'physical' && category !== 'kalro_staff') feeSelect.innerHTML = '<option value="">Physical attendance is for Organizing Team only</option>';
+                feeSelect.innerHTML = '<option value="">No fee applicable for this combination</option>';
                 return;
             }
             if (feeCurrencyInput) feeCurrencyInput.value = fee.currency;
             const eb = isEarlyBird();
             const opt = document.createElement('option');
             opt.value = fee.amount;
-            opt.textContent = `${fee.currency} ${fee.amount.toLocaleString()}${eb ? ' (Early Bird – by 10 Apr)' : ' (Standard Rate)'}`;
+            opt.textContent = `${fee.currency} ${fee.amount.toLocaleString()}${eb ? ' (Early Bird – by 10 Apr 2026)' : ' (Standard Rate)'}`;
             opt.selected = true;
             feeSelect.appendChild(opt);
         }
@@ -1601,7 +1616,7 @@ document.addEventListener('DOMContentLoaded', function() {
         categorySelect?.addEventListener('change', function() {
             studentIdUpload.style.display = this.value === 'student' ? 'block' : 'none';
             if (studentIdInput) studentIdInput.required = (this.value === 'student');
-            if (this.value !== 'student') { if(studentIdInput) studentIdInput.value = ''; }
+            if (this.value !== 'student' && studentIdInput) studentIdInput.value = '';
             calculateFee();
         });
 
@@ -1653,7 +1668,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (groupCount < 50) { groupCount++; groupCountDisplay.textContent = groupCount; groupCountInput.value = groupCount; }
         });
 
-        // Group step navigation
         const gSections = groupForm.querySelectorAll('.group-section');
         const gSteps    = groupForm.querySelectorAll('.progress-steps .step');
 
@@ -1680,7 +1694,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         document.getElementById('groupStep3Back')?.addEventListener('click', () => showGSection(2));
 
-        // Payment method toggle for group
         document.querySelectorAll('input[name="groupPaymentMethod"]').forEach(r => {
             r.addEventListener('change', function() {
                 document.getElementById('groupBankDetails').style.display  = this.value === 'bank'  ? 'block' : 'none';
@@ -1740,17 +1753,17 @@ document.addEventListener('DOMContentLoaded', function() {
                             <select class="form-select" name="members[${i}][nationality]"
                                     onchange="recalcMemberFee(${i})" required>
                                 <option value="">Select</option>
-                                <option value="east_african">East African</option>
-                                <option value="non_east_african">Non-East African</option>
+                                <option value="local_eac">Local &amp; EAC</option>
+                                <option value="international">International</option>
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Attendance <span class="text-danger">*</span></label>
+                            <label class="form-label">Attendance Type <span class="text-danger">*</span></label>
                             <select class="form-select" name="members[${i}][platform]"
                                     onchange="recalcMemberFee(${i})" required>
                                 <option value="">Select</option>
-                                <option value="virtual">Virtual</option>
-                                <option value="physical">Physical</option>
+                                <option value="virtual">Virtual Participation</option>
+                                <option value="physical">Physical Participation</option>
                             </select>
                         </div>
                         <div class="col-md-6">
@@ -1758,9 +1771,8 @@ document.addEventListener('DOMContentLoaded', function() {
                             <select class="form-select" name="members[${i}][category]"
                                     onchange="recalcMemberFee(${i}); toggleMemberStudentId(${i})" required>
                                 <option value="">Select</option>
+                                <option value="scientists_professionals">Scientists / Professionals</option>
                                 <option value="student">Student</option>
-                                <option value="professional">Professional/Researcher</option>
-                                <option value="kalro_staff">Organizing Team</option>
                             </select>
                         </div>
                         <div class="col-12">
@@ -1890,18 +1902,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const feeObj = getFee(platform, category, nationality);
-
         if (feeObj) {
             if (badge) badge.textContent = `Fee: ${formatFee(feeObj)}`;
-            if (hiddenInput) hiddenInput.value = feeObj.amount; // numeric value
+            if (hiddenInput) hiddenInput.value = feeObj.amount;
         } else {
-            if (badge) badge.textContent = 'Fee: Not applicable';
+            if (badge) badge.textContent = 'Fee: N/A';
             if (hiddenInput) hiddenInput.value = 0;
         }
 
         recalcGroupTotal();
     };
-
 
     function recalcGroupTotal() {
         const count   = parseInt(document.getElementById('groupCount')?.value) || 0;
@@ -1911,7 +1921,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let totalKES = 0, totalUSD = 0;
         let rows = '';
-        let allComplete = true;
 
         for (let i = 1; i <= count; i++) {
             const fn = document.querySelector(`[name="members[${i}][firstName]"]`)?.value || `Member ${i}`;
@@ -1919,8 +1928,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const platform    = document.querySelector(`[name="members[${i}][platform]"]`)?.value;
             const category    = document.querySelector(`[name="members[${i}][category]"]`)?.value;
             const nationality = document.querySelector(`[name="members[${i}][nationality]"]`)?.value;
-
-            if (!platform || !category || !nationality) { allComplete = false; continue; }
+            if (!platform || !category || !nationality) continue;
             const fee = getFee(platform, category, nationality);
             if (!fee) continue;
 
@@ -1960,11 +1968,14 @@ document.addEventListener('DOMContentLoaded', function() {
         let totalKES = 0, totalUSD = 0;
         let rows = '';
 
+        const catLabels  = { scientists_professionals: 'Scientists/Professionals', student: 'Student' };
+        const platLabels = { virtual: 'Virtual', physical: 'Physical' };
+
         for (let i = 1; i <= count; i++) {
-            const fn = document.querySelector(`[name="members[${i}][firstName]"]`)?.value || '—';
-            const ln = document.querySelector(`[name="members[${i}][lastName]"]`)?.value || '';
-            const platform    = document.querySelector(`[name="members[${i}][platform]"]`)?.value || '—';
-            const category    = document.querySelector(`[name="members[${i}][category]"]`)?.value || '—';
+            const fn          = document.querySelector(`[name="members[${i}][firstName]"]`)?.value || '—';
+            const ln          = document.querySelector(`[name="members[${i}][lastName]"]`)?.value || '';
+            const platform    = document.querySelector(`[name="members[${i}][platform]"]`)?.value || '';
+            const category    = document.querySelector(`[name="members[${i}][category]"]`)?.value || '';
             const nationality = document.querySelector(`[name="members[${i}][nationality]"]`)?.value;
             const presenter   = document.querySelector(`input[name="members[${i}][presenter]"]:checked`)?.value || 'no';
             const paperRef    = document.querySelector(`[name="members[${i}][paperRefCode]"]`)?.value || '—';
@@ -1975,8 +1986,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 else totalUSD += fee.amount;
             }
 
-            const catLabel = { student: 'Student', professional: 'Professional', kalro_staff: 'Org. Team' }[category] || category;
-            const platLabel = { virtual: 'Virtual', physical: 'Physical' }[platform] || platform;
             const presenterBadge = presenter === 'yes'
                 ? `<span class="badge-presenter"><i class="bi bi-mic-fill me-1"></i>Presenter</span>`
                 : `<span class="badge-attendee">Attendee</span>`;
@@ -1984,8 +1993,8 @@ document.addEventListener('DOMContentLoaded', function() {
             rows += `<tr>
                 <td>${i}</td>
                 <td>${fn} ${ln}</td>
-                <td>${catLabel}</td>
-                <td>${platLabel}</td>
+                <td>${catLabels[category] || category || '—'}</td>
+                <td>${platLabels[platform] || platform || '—'}</td>
                 <td>${presenterBadge}</td>
                 <td style="font-size:.78rem;color:#6b7280;">${presenter === 'yes' ? paperRef : '—'}</td>
                 <td style="font-weight:700;color:#0d3d25;">${formatFee(fee)}</td>
@@ -1994,14 +2003,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         tbody.innerHTML = rows;
 
-        let footContent = '<tr>';
-        footContent += '<td colspan="6" style="text-align:right;">Total</td>';
         let totalStr = '';
         if (totalKES > 0) totalStr += `KES ${totalKES.toLocaleString()}`;
         if (totalKES > 0 && totalUSD > 0) totalStr += ' + ';
         if (totalUSD > 0) totalStr += `USD ${totalUSD.toLocaleString()}`;
-        footContent += `<td>${totalStr || '—'}</td></tr>`;
-        tfoot.innerHTML = footContent;
+
+        tfoot.innerHTML = `<tr>
+            <td colspan="6" style="text-align:right;">Total</td>
+            <td>${totalStr || '—'}</td>
+        </tr>`;
     }
 
 });
