@@ -31,7 +31,7 @@
                         <a href="/submit-abstract" class="btn btn-success btn-lg">
                             Submit Abstract <i class="fas fa-arrow-right ms-2"></i>
                         </a>
-                        <a href="#" class="btn btn-outline-light btn-lg">
+                        <a href="/conference/register" class="btn btn-outline-light btn-lg">
                             Register as Participant
                         </a>
                     </div>
@@ -47,7 +47,7 @@
                         Learn from experts, network with peers, and participate in impactful discussions.
                     </p>
 
-                    <a href="#" class="btn btn-primary btn-lg mt-3">
+                    <a href="/conference/register" class="btn btn-primary btn-lg mt-3">
                         Register as Participant <i class="fas fa-users ms-2"></i>
                     </a>
                 </div>
@@ -63,7 +63,7 @@
                     </p>
 
                     <div class="d-flex justify-content-center gap-3 flex-wrap mt-3">
-                        <a href="#" class="btn btn-warning btn-lg">
+                        <a href="/exhibition/register" class="btn btn-warning btn-lg">
                             Register as Exhibitor <i class="fas fa-store ms-2"></i>
                         </a>
 
@@ -165,7 +165,7 @@
                 Conference Participant
             </a>
 
-            <a href="#" class="btn btn-warning">
+            <a href="/exhibition/register" class="btn btn-warning">
                 Become an Exhibitor
             </a>
         </div>
@@ -206,7 +206,7 @@
                             Submit Abstract
                         </a>
 
-                        <a href="#" class="btn btn-primary btn-lg">
+                        <a href="/conference/register" class="btn btn-primary btn-lg">
                             Register
                         </a>
 
@@ -312,7 +312,7 @@
                         <i class="fas fa-users fa-3x text-primary mb-3"></i>
                         <h4 class="fw-bold">Conference Participant</h4>
                         <p>Learn from experts, network, and join discussions.</p>
-                        <a href="#" class="btn btn-primary btn-lg w-100">
+                        <a href="/conference/register" class="btn btn-primary btn-lg w-100">
                             Register Now
                         </a>
                     </div>
@@ -326,7 +326,7 @@
                         <i class="fas fa-store fa-3x text-warning mb-3"></i>
                         <h4 class="fw-bold">Exhibitor</h4>
                         <p>Showcase your products and connect with professionals.</p>
-                        <a href="#" class="btn btn-warning btn-lg w-100">
+                        <a href="/exhibition/register" class="btn btn-warning btn-lg w-100">
                             Become an Exhibitor
                         </a>
                     </div>
