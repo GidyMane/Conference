@@ -113,9 +113,13 @@ class ExhibitionRegistrationController extends Controller
                 ]);
 
         } catch (\Exception $e) {
-    DB::rollBack();
-    dd($e->getMessage());
-}
+            DB::rollBack();
+            \Log::error('Registration failed: ' . $e->getMessage());
+            
+            return back()
+                ->withInput()
+                ->with('error', 'Registration failed. Please try again.');
+        }
     }
 
     /**

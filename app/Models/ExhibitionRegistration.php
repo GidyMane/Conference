@@ -81,7 +81,7 @@ class ExhibitionRegistration extends Model
     {
         return $this->registration_type === 'with_meals' 
             ? 'Premium Package (With Meals)' 
-            : 'Standard Package (Without Meals)';
+            : 'Standard Package (With Meals)';
     }
 
     /**

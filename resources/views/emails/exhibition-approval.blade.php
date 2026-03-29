@@ -183,7 +183,6 @@
                     <li><strong>Setup Time:</strong> You can begin setting up your booth from 7:00 AM on the conference day</li>
                     <li><strong>Booth Size:</strong> Standard booth size is 3m x 3m (includes table, 2 chairs, and power outlet)</li>
                     <li><strong>Exhibitor Badges:</strong> You'll receive {{ $registration->booth_count * 2 }} exhibitor badges (2 per booth)</li>
-                    <li><strong>Catering:</strong> {{ $registration->registration_type === 'with_meals' ? 'Meals are included for all team members' : 'Meals are not included in your package' }}</li>
                 </ul>
             </div>
             
