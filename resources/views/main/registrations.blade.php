@@ -203,8 +203,8 @@
                                         <label for="nationality" class="form-label">Nationality <span class="text-danger">*</span></label>
                                         <select class="form-select form-select-lg" id="nationality" name="nationality" required>
                                             <option value="">Select Nationality</option>
-                                            <option value="local_eac" {{ old('nationality') == 'local_eac' ? 'selected' : '' }}>Local &amp; EAC</option>
-                                            <option value="international" {{ old('nationality') == 'international' ? 'selected' : '' }}>International</option>
+                                            <option value="east_african" {{ old('nationality') == 'east_african' ? 'selected' : '' }}>Local &amp; EAC</option>
+                                            <option value="non_east_african" {{ old('nationality') == 'non_east_african' ? 'selected' : '' }}>International</option>
                                         </select>
                                     </div>
                                 </div>
@@ -263,7 +263,7 @@
                                         <label for="category" class="form-label fw-bold">Registration Category <span class="text-danger">*</span></label>
                                         <select class="form-select form-select-lg" id="category" name="category" required>
                                             <option value="">Select Your Category</option>
-                                            <option value="scientists_professionals" {{ old('category') == 'scientists_professionals' ? 'selected' : '' }}>Scientists / Professionals</option>
+                                            <option value="professional" {{ old('category') == 'professional' ? 'selected' : '' }}>Scientists / Professionals</option>
                                             <option value="student" {{ old('category') == 'student' ? 'selected' : '' }}>Student (Valid Student ID Required)</option>
                                         </select>
                                         <small class="text-muted mt-1 d-block">
@@ -1351,30 +1351,30 @@ document.addEventListener('DOMContentLoaded', function() {
      *   Virtual Participation – Students                  | Local & EAC: 1000 early / 1500 std  | Intl: 25 early / 30 std
      *   Physical Participation (all categories)           | Local & EAC: 15000 early / 18000 std | Intl: 150 early / 200 std
      *
-     * Nationality values: 'local_eac' | 'international'
+     * Nationality values: 'east_african' | 'non_east_african'
      * Platform values:    'virtual'   | 'physical'
-     * Category values:    'scientists_professionals' | 'student'
+     * Category values:    'professional' | 'student'
      */
     const FEE_TABLE = {
         virtual: {
-            scientists_professionals: {
-                local_eac:     { early: 2000,  standard: 3000,  currency: 'KES' },
-                international: { early: 50,    standard: 60,    currency: 'USD' },
+            professional: {
+                east_african:     { early: 2000,  standard: 3000,  currency: 'KES' },
+                non_east_african: { early: 50,    standard: 60,    currency: 'USD' },
             },
             student: {
-                local_eac:     { early: 1000,  standard: 1500,  currency: 'KES' },
-                international: { early: 25,    standard: 30,    currency: 'USD' },
+                east_african:     { early: 1000,  standard: 1500,  currency: 'KES' },
+                non_east_african: { early: 25,    standard: 30,    currency: 'USD' },
             },
         },
         physical: {
             // Physical Participation has a single rate for all categories
-            scientists_professionals: {
-                local_eac:     { early: 15000, standard: 18000, currency: 'KES' },
-                international: { early: 150,   standard: 200,   currency: 'USD' },
+            professional: {
+                east_african:     { early: 15000, standard: 18000, currency: 'KES' },
+                non_east_african: { early: 150,   standard: 200,   currency: 'USD' },
             },
             student: {
-                local_eac:     { early: 15000, standard: 18000, currency: 'KES' },
-                international: { early: 150,   standard: 200,   currency: 'USD' },
+                east_african:     { early: 15000, standard: 18000, currency: 'KES' },
+                non_east_african: { early: 150,   standard: 200,   currency: 'USD' },
             },
         },
     };
@@ -1753,8 +1753,8 @@ document.addEventListener('DOMContentLoaded', function() {
                             <select class="form-select" name="members[${i}][nationality]"
                                     onchange="recalcMemberFee(${i})" required>
                                 <option value="">Select</option>
-                                <option value="local_eac">Local &amp; EAC</option>
-                                <option value="international">International</option>
+                                <option value="east_african">Local &amp; EAC</option>
+                                <option value="non_east_african">International</option>
                             </select>
                         </div>
                         <div class="col-md-6">
@@ -1771,7 +1771,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <select class="form-select" name="members[${i}][category]"
                                     onchange="recalcMemberFee(${i}); toggleMemberStudentId(${i})" required>
                                 <option value="">Select</option>
-                                <option value="scientists_professionals">Scientists / Professionals</option>
+                                <option value="professional">Scientists / Professionals</option>
                                 <option value="student">Student</option>
                             </select>
                         </div>
@@ -1968,7 +1968,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let totalKES = 0, totalUSD = 0;
         let rows = '';
 
-        const catLabels  = { scientists_professionals: 'Scientists/Professionals', student: 'Student' };
+        const catLabels  = { professional: 'Scientists/Professionals', student: 'Student' };
         const platLabels = { virtual: 'Virtual', physical: 'Physical' };
 
         for (let i = 1; i <= count; i++) {

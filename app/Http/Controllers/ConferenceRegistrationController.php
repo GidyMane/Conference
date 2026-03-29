@@ -30,7 +30,7 @@ class ConferenceRegistrationController extends Controller
             'phonePrefix' => 'required',
             'phoneNumber' => 'required',
             'institution' => 'required',
-            //'country' => 'required',
+            'country' => 'required',
             'nationality' => 'required|in:east_african,non_east_african',
 
             // ======================
@@ -87,7 +87,7 @@ class ConferenceRegistrationController extends Controller
             'phone_prefix' => $request->phonePrefix,
             'phone_number' => $request->phoneNumber,
             'institution' => $request->institution,
-            //'country' => $request->country,
+            'country' => $request->country,
             'nationality' => $request->nationality,
             'platform' => $request->platform,
             'category' => $request->category,
