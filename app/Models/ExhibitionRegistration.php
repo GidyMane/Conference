@@ -18,6 +18,7 @@ class ExhibitionRegistration extends Model
         'benefits',
         'booth_count',
         'registration_type',
+        'target_audience',
         'total_amount',
         'payment_method',
         'receipt_number',

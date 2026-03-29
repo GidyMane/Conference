@@ -27,14 +27,16 @@ class ExhibitionRegistrationController extends Controller
      */
     public function processRegistration(Request $request)
     {
+
         // Validate the request
         $validated = $request->validate([
             'organizationName' => 'required|string|max:255',
             'aboutExhibition' => 'required|string|min:50',
             'benefits' => 'required|string|min:50',
             'boothCount' => 'required|integer|min:1|max:10',
-            'registrationType' => 'required|in:with_meals,without_meals',
-            'calculatedTotal' => 'required|numeric|min:18000',
+            'registrationType' => 'required|in:standard,own_tent',
+            'targetAudience' => 'required|string|min:5',
+            'calculatedTotal' => 'required|numeric',
             'paymentMethod' => 'required|in:bank,mpesa',
             'receiptNumber' => 'required|string|max:255',
             'paymentProof' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
@@ -60,15 +62,14 @@ class ExhibitionRegistrationController extends Controller
             }
 
             // Calculate expected amount based on booth count and type
-            $pricePerBooth = $validated['registrationType'] === 'with_meals' ? 25000 : 18000;
+            $pricePerBooth = match ($validated['registrationType']) {
+                'standard' => 10000,
+                'own_tent' => 5000,
+            };
             $expectedTotal = $validated['boothCount'] * $pricePerBooth;
 
             // Verify the calculated total matches
-            if ($validated['calculatedTotal'] != $expectedTotal) {
-                return back()
-                    ->withInput()
-                    ->withErrors(['calculatedTotal' => 'The calculated total does not match the expected amount.']);
-            }
+
 
             // Save to database
             $registration = ExhibitionRegistration::create([
@@ -77,6 +78,7 @@ class ExhibitionRegistrationController extends Controller
                 'about_exhibition' => $validated['aboutExhibition'],
                 'benefits' => $validated['benefits'],
                 'booth_count' => $validated['boothCount'],
+                'target_audience' => $validated['targetAudience'],
                 'registration_type' => $validated['registrationType'],
                 'total_amount' => $expectedTotal,
                 'payment_method' => $validated['paymentMethod'],
@@ -111,13 +113,9 @@ class ExhibitionRegistrationController extends Controller
                 ]);
 
         } catch (\Exception $e) {
-            DB::rollBack();
-            \Log::error('Registration failed: ' . $e->getMessage());
-            
-            return back()
-                ->withInput()
-                ->with('error', 'Registration failed. Please try again.');
-        }
+    DB::rollBack();
+    dd($e->getMessage());
+}
     }
 
     /**
@@ -415,7 +413,7 @@ public function index(Request $request)
                     $registration->contact_email,
                     $registration->contact_phone,
                     $registration->booth_count,
-                    $registration->registration_type === 'with_meals' ? 'Premium' : 'Standard',
+                    $registration->registration_type === 'standard' ? 'Standard Booth' : 'Own Tent',
                     $registration->total_amount,
                     $registration->payment_method === 'bank' ? 'Bank Transfer' : 'M-Pesa',
                     ucfirst($registration->payment_status),

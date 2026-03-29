@@ -135,7 +135,8 @@
 
                                             <!-- Standard Booth -->
                                             <label class="package-card">
-                                                <input type="radio" name="registrationType" value="booth" id="typeBooth" {{ old('registrationType', 'booth') == 'booth' ? 'checked' : '' }} required>
+                                                <input type="radio" name="registrationType" value="standard" id="typeBooth"
+                                                    {{ old('registrationType', 'standard') == 'standard' ? 'checked' : '' }} required>
                                                 <div class="package-content">
                                                     <div class="package-badge">Most Popular</div>
                                                     <div class="package-icon">
@@ -166,7 +167,8 @@
 
                                             <!-- Own Tent -->
                                             <label class="package-card">
-                                                <input type="radio" name="registrationType" value="own_tent" id="typeOwnTent" {{ old('registrationType') == 'own_tent' ? 'checked' : '' }}>
+                                                <input type="radio" name="registrationType" value="own_tent" id="typeOwnTent"
+                                                    {{ old('registrationType') == 'own_tent' ? 'checked' : '' }}>
                                                 <div class="package-content">
                                                     <div class="package-icon">
                                                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="34" height="34">
