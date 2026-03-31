@@ -63,6 +63,9 @@
                 <h6>About Exhibition:</h6>
                 <p class="text-muted">{{ $registration->about_exhibition }}</p>
 
+                <h6>Target Audience:</h6>
+                <p class="text-muted">{{ $registration->target_audience }}</p>
+
                 <h6>Benefits to Attendees:</h6>
                 <p class="text-muted">{{ $registration->benefits }}</p>
 
