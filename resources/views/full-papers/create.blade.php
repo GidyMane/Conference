@@ -349,20 +349,32 @@
             </div>
 
             {{-- Author Removal Acknowledgement --}}
-            <div id="acknowledgementBox" class="acknowledgement-box" style="display:none;">
-                <div class="form-check d-flex align-items-start gap-2">
-                    <input class="form-check-input flex-shrink-0"
-                           type="checkbox"
-                           name="author_removal_acknowledged"
-                           id="authorRemovalAck"
-                           value="1"
-                           required>
-                    <label class="form-check-label" for="authorRemovalAck">
-                        <i class="fas fa-user-slash me-1 text-warning"></i>
-                        I acknowledge that I have removed all author details and affiliation from the attached paper.
-                    </label>
-                </div>
-            </div>
+           <div id="acknowledgementBox" class="acknowledgement-box" style="display:none;">
+    <div class="form-check d-flex align-items-start gap-2 mb-2">
+        <input class="form-check-input flex-shrink-0"
+               type="checkbox"
+               name="author_removal_acknowledged"
+               id="authorRemovalAck"
+               value="1"
+               required>
+        <label class="form-check-label" for="authorRemovalAck">
+            <i class="fas fa-user-slash me-1 text-warning"></i>
+            I acknowledge that I have removed all author details and affiliation from the attached paper.
+        </label>
+    </div>
+    <div class="form-check d-flex align-items-start gap-2">
+        <input class="form-check-input flex-shrink-0"
+               type="checkbox"
+               name="peer_review_acknowledged"
+               id="peerReviewAck"
+               value="1"
+               required>
+        <label class="form-check-label" for="peerReviewAck">
+            <i class="fas fa-users me-1 text-warning"></i>
+            I agree to participate in the blind peer review process and to review papers submitted by other authors as required.
+        </label>
+    </div>
+</div>
 
             <button id="submitBtn" class="btn btn-success submit-btn">
                 <i class="fas fa-paper-plane me-2"></i>Submit Paper
