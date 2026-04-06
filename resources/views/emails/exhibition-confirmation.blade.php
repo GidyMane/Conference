@@ -201,12 +201,6 @@
                 <li><strong>Step 4:</strong> We'll send detailed exhibition guidelines closer to the date</li>
             </ul>
             
-            <div style="text-align: center;">
-                <a href="{{ route('exhibition.register.form') }}" class="button">
-                    View Registration Status
-                </a>
-            </div>
-            
             <p style="margin-top: 25px;">
                 <strong>Need to make changes?</strong> Please contact our exhibition team directly.
             </p>
