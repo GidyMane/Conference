@@ -248,8 +248,9 @@
 
                 <div class="d-flex">
                     <a href="/conference/register" class="btn btn-warning btn-sm">
-                        <i class="fas fa-user-plus me-1"></i> Register Now
+                        <i class="fas fa-user-plus me-1"></i> Participant Registration
                     </a>
+                    
                 </div>
 
             </div>
