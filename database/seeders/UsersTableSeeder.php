@@ -10,32 +10,49 @@ class UsersTableSeeder extends Seeder
 {
     public function run(): void
     {
-        User::create([
-            'full_name' => 'System Administrator',
-            'email' => 'enolaomukamani@gmail.com',
-            'password' => Hash::make('Jucordan.01!'),
-            'role' => 'ADMIN',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'enolaomukamani@gmail.com'],
+            [
+                'full_name' => 'System Administrator',
+                'password' => Hash::make('Jucordan.01!'),
+                'role' => 'ADMIN',
+            ]
+        );
 
-        User::create([
-            'full_name' => 'System Administrator',
-            'email' => 'fredah.maina@kalro.org',
-            'password' => Hash::make('Password@123'),
-            'role' => 'ADMIN',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'fredah.maina@kalro.org'],
+            [
+                'full_name' => 'System Administrator',
+                'password' => Hash::make('Password@123'),
+                'role' => 'ADMIN',
+            ]
+        );
 
-        User::create([
-            'full_name' => 'System Administrator',
-            'email' => 'nancy.wele@kalro.org',
-            'password' => Hash::make('Password@123'),
-            'role' => 'ADMIN',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'nancy.wele@kalro.org'],
+            [
+                'full_name' => 'System Administrator',
+                'password' => Hash::make('Password@123'),
+                'role' => 'ADMIN',
+            ]
+        );
 
-        User::create([
-            'full_name' => 'System Administrator',
-            'email' => 'peter.nduati@kalro.org',
-            'password' => Hash::make('Password@123'),
-            'role' => 'ADMIN',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'peter.nduati@kalro.org'],
+            [
+                'full_name' => 'System Administrator',
+                'password' => Hash::make('Password@123'),
+                'role' => 'ADMIN',
+            ]
+        );
+
+        User::updateOrCreate(
+            ['email' => 'stephen.nzioka@kalro.org'],
+            [
+                'full_name' => 'System Administrator',
+                'password' => Hash::make('Password@123'),
+                'role' => 'ADMIN',
+            ]
+        );
     }
 }
