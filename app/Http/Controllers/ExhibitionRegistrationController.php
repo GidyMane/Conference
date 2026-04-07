@@ -290,16 +290,31 @@ public function index(Request $request)
     /**
      * Admin: Download payment proof
      */
-    public function downloadProof($id)
-    {
-        $registration = ExhibitionRegistration::findOrFail($id);
-        
-        if (!$registration->payment_proof_path || !Storage::disk('public')->exists($registration->payment_proof_path)) {
-            return back()->with('error', 'Payment proof file not found.');
-        }
+public function downloadProof($id)
+{
+    $registration = ExhibitionRegistration::findOrFail($id);
 
-        return Storage::disk('public')->download($registration->payment_proof_path);
+    if (
+        !$registration->payment_proof_path ||
+        !Storage::disk('public')->exists($registration->payment_proof_path)
+    ) {
+        return back()->with('error', 'Payment proof file not found.');
     }
+
+    // Get file extension
+    $extension = pathinfo($registration->payment_proof_path, PATHINFO_EXTENSION);
+
+    // Clean reference number (extra safety)
+    $reference = preg_replace('/[^A-Za-z0-9_\-]/', '', $registration->reference_number);
+
+    // Final filename format
+    $fileName = "PAYMENT_PROOF-{$reference}.{$extension}";
+
+    return Storage::disk('public')->download(
+        $registration->payment_proof_path,
+        $fileName
+    );
+}
 
     /**
      * Admin: Resend approval email

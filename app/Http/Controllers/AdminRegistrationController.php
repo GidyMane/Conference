@@ -142,7 +142,20 @@ public function reject(Request $request, $id)
             return back()->with('error', 'File not found.');
         }
 
-        return Storage::disk('public')->download($path);
+        // File extension
+        $extension = pathinfo($path, PATHINFO_EXTENSION);
+
+        // Clean name (remove spaces/special chars)
+        $fullName = $registration->first_name . '_' . $registration->last_name;
+        $fullName = preg_replace('/[^A-Za-z0-9_]/', '', str_replace(' ', '_', $fullName));
+
+        // Prefix
+        $prefix = $type === 'payment' ? 'PAYMENT_PROOF' : 'STUDENT_PROOF';
+
+        // Use registration ID
+        $fileName = "{$prefix}-{$fullName}-REG_{$registration->id}.{$extension}";
+
+        return Storage::disk('public')->download($path, $fileName);
     }
 
     public function showGroup($id)
@@ -260,14 +273,32 @@ public function rejectGroup(Request $request, $id)
 }
 
     // Download group payment proof
-    public function downloadGroupProof($id)
-    {
-        $group = GroupRegistration::findOrFail($id);
+public function downloadGroupProof($id)
+{
+    $group = GroupRegistration::findOrFail($id);
 
-        if (!$group->payment_proof_path || !Storage::disk('public')->exists($group->payment_proof_path)) {
-            return back()->with('error', 'Payment proof not found.');
-        }
-
-        return Storage::disk('public')->download($group->payment_proof_path);
+    if (!$group->payment_proof_path || !Storage::disk('public')->exists($group->payment_proof_path)) {
+        return back()->with('error', 'Payment proof not found.');
     }
+
+    // File extension
+    $extension = pathinfo($group->payment_proof_path, PATHINFO_EXTENSION);
+
+    // Coordinator name
+    $fullName = $group->first_name . '_' . $group->last_name;
+
+    // Clean name
+    $fullName = preg_replace('/[^A-Za-z0-9_]/', '', str_replace(' ', '_', $fullName));
+
+    // Optional: limit length
+    $fullName = substr($fullName, 0, 25);
+
+    // Create reference
+    $ref = 'KALRO_' . date('Y') . '_' . str_pad($group->id, 4, '0', STR_PAD_LEFT);
+
+    // Final filename
+    $fileName = "PAYMENT-{$fullName}-{$ref}.{$extension}";
+
+    return Storage::disk('public')->download($group->payment_proof_path, $fileName);
+}
 }
