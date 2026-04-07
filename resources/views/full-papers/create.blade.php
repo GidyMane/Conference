@@ -206,18 +206,6 @@
                         <li>Numbers at the beginning of a sentence should always be written in words</li>
                     </ul>
 
-                    <h6><i class="fas fa-heading me-2"></i>Cover, Title and Author Details</h6>
-                    <p>The cover page must include:</p>
-                    <ul>
-                        <li>Title of paper</li>
-                        <li>Names and complete mailing addresses of all authors</li>
-                        <li>Institutional affiliation(s)</li>
-                        <li>Telephone and e-mail contacts</li>
-                        <li>Indication of which author is responsible for correspondence</li>
-                        <li>The name of the author to present the paper should be <strong>underlined</strong></li>
-                    </ul>
-                    <p class="mb-0"><em>The title should represent the content, briefly identify the subject, indicate the purpose, and include important high-impact words early.</em></p>
-
                     <h6><i class="fas fa-list-ol me-2"></i>Required Sections</h6>
                     <p>Your paper must include the following sections in order:</p>
                     <ol>
