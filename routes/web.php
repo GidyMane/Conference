@@ -357,4 +357,10 @@ Route::get('/login', function () {
 
 Route::post('/conference/group-register', [ConferenceRegistrationController::class, 'storeGroup'])
     ->name('conference.register.group');
+
+Route::get('/reviewer/abstracts/export', [ReviewerAbstractController::class, 'export'])
+    ->name('reviewer.abstracts.export');
+
+Route::get('/admin/abstracts/export', [AbstractSubmissionController::class, 'export'])
+    ->name('admin.abstracts.export');
     

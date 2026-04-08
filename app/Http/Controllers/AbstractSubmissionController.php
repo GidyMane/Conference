@@ -13,6 +13,8 @@ use App\Models\AbstractAssignment;
 use App\Models\Reviewer;
 use App\Mail\AbstractAssignedMail;
 use App\Mail\AbstractSubmittedSecretariatMail;
+use App\Exports\AdminAbstractsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AbstractSubmissionController extends Controller
 {
@@ -116,5 +118,13 @@ class AbstractSubmissionController extends Controller
         return redirect()->route('abstracts.success', [
             'ref' => $submissionCode
         ]);
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(
+            new AdminAbstractsExport($request->all()),
+            'admin_abstracts_' . now()->format('Y_m_d_H_i_s') . '.xlsx'
+        );
     }
 }

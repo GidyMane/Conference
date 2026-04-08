@@ -8,6 +8,8 @@ use App\Models\Reviewer;
 use App\Models\Subtheme;
 use Illuminate\Support\Facades\Response;
 use Carbon\Carbon;
+use App\Exports\AbstractsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReviewerAbstractController extends Controller
 {
@@ -166,5 +168,15 @@ class ReviewerAbstractController extends Controller
             'Content-Type' => 'application/octet-stream',
             'Content-Disposition' => "attachment; filename={$filename}"
         ]);
+    }
+
+    public function export(Request $request)
+    {
+        $user = auth()->user();
+
+        return Excel::download(
+            new AbstractsExport($user, $request->all()),
+            'abstracts_export_' . now()->format('Y_m_d_H_i_s') . '.xlsx'
+        );
     }
 }

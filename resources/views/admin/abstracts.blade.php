@@ -297,7 +297,13 @@
 </style>
 
 <main class="main">
-    <h1 class="page-title">Submitted Abstracts</h1>
+<div class="d-flex justify-content-between align-items-center px-3 py-2 mb-3">
+    <h1 class="page-title mb-0">Submitted Abstracts</h1>
+
+    <button class="btn btn-success" onclick="exportAdminData()">
+        <i class="fas fa-file-excel me-1"></i> Export to Excel
+    </button>
+</div>
 
     <!-- Filter Card -->
     <div class="filter-card">
@@ -812,5 +818,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (el) el.textContent = value || '';
     }
 });
+</script>
+<script>
+function exportAdminData() {
+    const params = new URLSearchParams(window.location.search);
+    window.location.href = '/admin/abstracts/export?' + params.toString();
+}
 </script>
 @endsection
