@@ -150,7 +150,7 @@ Once resubmitted, your abstract will be reviewed again by the scientific committ
 </p>
 
 <p style="text-align: center; margin-top: 20px;">
-    <a href="{{ route('resubmit.abstract') }}" class="button">
+    <a href="{{ route('resubmit.abstract') }}" class="button" style="color: #ffffff;">
         Click Here to Resubmit Your Abstract
     </a>
 </p>
