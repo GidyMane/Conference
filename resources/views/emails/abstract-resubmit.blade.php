@@ -149,6 +149,12 @@ and resubmit the updated version through the conference submission system.
 Once resubmitted, your abstract will be reviewed again by the scientific committee.
 </p>
 
+<p style="text-align: center; margin-top: 20px;">
+    <a href="{{ route('resubmit.abstract') }}" class="button">
+        Click Here to Resubmit Your Abstract
+    </a>
+</p>
+
 <p>
 If you have any questions, please contact us at
 <a href="mailto:kalroconference2026@gmail.com">kalroconference2026@gmail.com</a>
