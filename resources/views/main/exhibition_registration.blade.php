@@ -158,7 +158,7 @@
                                                     </div>
                                                     <div class="package-price">
                                                         <span class="currency">KES</span>
-                                                        <span class="amount">10,000</span>
+                                                        <span class="amount">15,000</span>
                                                         <span class="per">per booth &bull; 2 days</span>
                                                     </div>
                                                     <div class="selection-indicator"><i class="bi bi-check-circle-fill"></i></div>
@@ -186,7 +186,7 @@
                                                     </div>
                                                     <div class="package-price">
                                                         <span class="currency">KES</span>
-                                                        <span class="amount">5,000</span>
+                                                        <span class="amount">8,000</span>
                                                         <span class="per">per tent &bull; 2 days</span>
                                                     </div>
                                                     <div class="selection-indicator"><i class="bi bi-check-circle-fill"></i></div>
@@ -236,7 +236,7 @@
                                                 </div>
                                                 <div class="summary-row">
                                                     <span class="label">Price per Unit:</span>
-                                                    <span class="value" id="displayPricePerBooth">KES 10,000</span>
+                                                    <span class="value" id="displayPricePerBooth">KES 15,000</span>
                                                 </div>
                                                 <div class="summary-row">
                                                     <span class="label">Duration:</span>
@@ -245,7 +245,7 @@
                                                 <div class="summary-divider"></div>
                                                 <div class="summary-total">
                                                     <span class="label">Total Amount:</span>
-                                                    <span class="amount" id="totalCost">KES 10,000</span>
+                                                    <span class="amount" id="totalCost">KES 15,000</span>
                                                 </div>
                                             </div>
                                             <input type="hidden" id="calculatedTotal" name="calculatedTotal" value="10000">
@@ -277,7 +277,7 @@
                                             <i class="bi bi-receipt-cutoff"></i>
                                             <div class="reminder-main">
                                                 <span class="reminder-label">Amount to Pay</span>
-                                                <span class="reminder-amount" id="paymentReminderAmount">KES 10,000</span>
+                                                <span class="reminder-amount" id="paymentReminderAmount">KES 15,000</span>
                                             </div>
                                             <span class="reminder-detail" id="paymentReminderDetail">1 &times; Standard Booth</span>
                                         </div>
@@ -842,7 +842,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const incrementBtn    = document.getElementById('incrementBooth');
     const decrementBtn    = document.getElementById('decrementBooth');
 
-    const PRICES = { booth: 10000, own_tent: 5000 };
+    const PRICES = { booth: 15000, own_tent: 8000 };
     const LABELS  = { booth: 'Standard Booth', own_tent: 'Own Tent' };
     const UNITS   = { booth: 'booth', own_tent: 'tent' };
 
@@ -863,7 +863,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateCostSummary() {
         const count = parseInt(boothCountInput.value) || 1;
         const type  = document.querySelector('input[name="registrationType"]:checked')?.value || 'booth';
-        const price = PRICES[type] || 10000;
+        const price = PRICES[type] || 15000;
         const total = count * price;
         const label = LABELS[type] || 'Standard Booth';
         const unit  = UNITS[type] || 'booth';
