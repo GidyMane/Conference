@@ -255,7 +255,7 @@
         </div>
 
         {{-- Action Buttons --}}
-        <div class="d-flex gap-2">
+        <!-- <div class="d-flex gap-2">
             <button type="submit" class="btn btn-success btn-lg">
                 <i class="fas fa-paper-plane me-2"></i>
                 Assign Reviewers & Send Emails
@@ -263,7 +263,7 @@
             <a href="{{ url('/reviewer/fullpapers-review') }}" class="btn btn-secondary btn-lg">
                 <i class="fas fa-times me-2"></i>Cancel
             </a>
-        </div>
+        </div> -->
         <div class="alert alert-warning d-flex align-items-center gap-2 mt-2">
     <i class="fas fa-ban"></i>
     <span>Reviewer assignment is currently disabled. Please check back later.</span>
