@@ -21,11 +21,11 @@ class AbstractSubmissionController extends Controller
 {
     public function store(Request $request)
     {
-        $deadline = Carbon::create(2026, 3, 27, 23, 59, 59);
+        //$deadline = Carbon::create(2026, 3, 27, 23, 59, 59);
 
-        if (now()->gt($deadline)) {
-            return redirect()->back()->with('error', 'Submission deadline has passed.');
-        }
+        //if (now()->gt($deadline)) {
+            //return redirect()->back()->with('error', 'Submission deadline has passed.');
+        //}
         
         $request->validate([
             'author_name'   => 'required|string|max:255',
