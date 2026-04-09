@@ -1,3 +1,8 @@
+@php
+    $deadline = \Carbon\Carbon::create(2026, 3, 27, 23, 59, 59);
+    $isClosed = now()->gt($deadline);
+@endphp
+
 @extends('layouts.header')
 
 @section('title')
@@ -98,324 +103,339 @@
                             </div>
                         @endif
 
-                        <form id="abstractForm" method="POST" action="{{ route('abstracts.store') }}" novalidate>
-                            @csrf
-                            <input type="hidden" name="submission_id" value="">
-                            
-                            <!-- Section 1: Corresponding Author Information -->
-                            <div class="section-card mb-5">
-                                <div class="section-header mb-4">
-                                    <h3 class="h4 mb-2 text-success">
-                                        <span class="section-number">1</span>
-                                        Corresponding Author Information
-                                    </h3>
-                                    <p class="text-muted mb-0">Primary contact for this submission</p>
-                                </div>
-                                
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control" id="author_name" name="author_name" 
-                                                placeholder="Full Name" required>
-                                            <label for="author_name">Full Name <span class="text-danger">*</span></label>
-                                            <div class="invalid-feedback">Please enter the corresponding author's full name.</div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="email" class="form-control" id="author_email" name="author_email" 
-                                                placeholder="Email Address" required>
-                                            <label for="author_email">Email Address <span class="text-danger">*</span></label>
-                                            <div class="invalid-feedback">Please enter a valid email address.</div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="tel" class="form-control" id="author_phone" name="author_phone" 
-                                                placeholder="Phone Number" required>
-                                            <label for="author_phone">Phone Number <span class="text-danger">*</span></label>
-                                            <div class="form-text">Format: +254728463410 or 0728463410</div>
-                                            <div class="invalid-feedback">Please enter a valid Kenyan phone number (e.g., +254728463410 or 0728463410).</div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control" id="organisation" name="organisation" 
-                                                placeholder="Organization/Institution" required>
-                                            <label for="organisation">Organization/Institution <span class="text-danger">*</span></label>
-                                            <div class="invalid-feedback">Please enter your organization name.</div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control" id="department" name="department" 
-                                                placeholder="Department">
-                                            <label for="department">Department</label>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control" id="position" name="position" 
-                                                placeholder="Position/Title">
-                                            <label for="position">Position/Title</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Section 2: Submission Details -->
-                            <div class="section-card mb-5">
-                                <div class="section-header mb-4">
-                                    <h3 class="h4 mb-2 text-success">
-                                        <span class="section-number">2</span>
-                                        Submission Details
-                                    </h3>
-                                    <p class="text-muted mb-0">Information about your submission</p>
-                                </div>
-                                
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <select class="form-select" id="submission_type" name="submission_type" required>
-                                                <option value="" selected disabled>Select Submission Type</option>
-                                                <option value="abstract_text">Abstract Submission</option>
-                                                <option value="full_paper" disabled>Full Paper Submission</option>
-                                                <option value="final_paper" disabled>Final Version of Accepted Paper</option>
-                                                <option value="presentation" disabled>Pre-recorded Presentation</option>
-                                                <option value="poster" disabled>Poster Submission</option>
-                                            </select>
-                                            <label for="submission_type">Submission Type <span class="text-danger">*</span></label>
-                                            <div class="form-text">Only abstract submissions are currently open</div>
-                                            <div class="invalid-feedback">Please select a submission type.</div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <select class="form-select" id="sub_theme" name="sub_theme" required>
-                                                <option value="" disabled selected>Select Sub-theme</option>
-
-                                                @foreach ($subThemes as $subTheme)
-                                                    <option value="{{ $subTheme->id }}"
-                                                        {{ old('sub_theme') == $subTheme->id ? 'selected' : '' }}>
-                                                        {{ $subTheme->full_name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            <label for="sub_theme">Conference Sub-theme <span class="text-danger">*</span></label>
-                                            <div class="invalid-feedback">Please select a sub-theme.</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Section 3: Paper Information -->
-                            <div class="section-card mb-5">
-                                <div class="section-header mb-4">
-                                    <h3 class="h4 mb-2 text-success">
-                                        <span class="section-number">3</span>
-                                        Paper Information
-                                    </h3>
-                                    <p class="text-muted mb-0">Details about your research paper</p>
-                                </div>
-                                
-                                <div class="mb-4">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="paper_title" name="paper_title" 
-                                            placeholder="Paper Title" required>
-                                        <label for="paper_title">Paper Title <span class="text-danger">*</span></label>
-                                        <div class="invalid-feedback">Please enter your paper title.</div>
-                                    </div>
-                                </div>
-                                
-                                <div class="mb-4">
-                                    <label for="abstract_text" class="form-label fw-semibold">
-                                        Abstract <span class="text-danger">*</span>
-                                        <span class="text-muted fw-normal">(Maximum 300 words)</span>
-                                    </label>
-                                    <textarea class="form-control" id="abstract_text" name="abstract_text" rows="6" 
-                                            placeholder="Enter your abstract here..." required></textarea>
-                                    <div class="d-flex justify-content-between align-items-center mt-2">
-                                        <div>
-                                            <span id="wordCount" class="badge bg-light text-dark">0 words</span>
-                                            <span id="wordLimit" class="badge bg-light text-dark">Limit: 300 words</span>
-                                        </div>
-                                        <div id="abstractStatus" class="text-muted small"></div>
-                                    </div>
-                                    <div class="invalid-feedback">Please enter your abstract (maximum 300 words).</div>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <div class="form-floating">
-                                        <textarea class="form-control" id="keywords" name="keywords" 
-                                                placeholder="Keywords (comma separated)" style="height: 100px"  required></textarea>
-                                        <label for="keywords">Keywords<span class="text-danger">*</span></label>
-                                        <div class="form-text">Separate keywords with commas (e.g., climate-smart, agriculture, sustainability)</div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Section 4: Co-Authors -->
-                            <div class="section-card mb-5">
-                                <div class="section-header mb-4">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <h3 class="h4 mb-2 text-success">
-                                                <span class="section-number">4</span>
-                                                Co-Authors Information
-                                            </h3>
-                                            <p class="text-muted mb-0">Add all authors in order of contribution</p>
-                                        </div>
-                                        <button type="button" class="btn btn-outline-success btn-sm" id="addAuthorBtn">
-                                            <i class="fas fa-user-plus me-1"></i> Add Author
-                                        </button>
-                                    </div>
-                                </div>
-                                
-                                <div id="authorsContainer">
-                                    <!-- Author 1 (Corresponding Author - Hidden fields) -->
-                                    <div class="author-card mb-3 p-3 border rounded" data-author-index="1">
-                                        <div class="row g-3 align-items-end">
-                                            <div class="col-md-2">
-                                                <div class="author-order">
-                                                    <span class="badge bg-success">1</span>
-                                                    <small class="text-muted d-block mt-1">Author</small>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control author-name" 
-                                                        name="authors[1][name]" 
-                                                        id="author1_name"
-                                                        placeholder="Author Name" 
-                                                        value=""
-                                                        readonly
-                                                        style="background-color: #f8f9fa;">
-                                                    <label for="author1_name">Author Name</label>
-                                                    <div class="form-text small">Auto-filled from corresponding author</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control author-institution" 
-                                                        name="authors[1][institution]" 
-                                                        id="author1_institution"
-                                                        placeholder="Institution" 
-                                                        value=""
-                                                        readonly
-                                                        style="background-color: #f8f9fa;">
-                                                    <label for="author1_institution">Institution</label>
-                                                    <div class="form-text small">Auto-filled from organization</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" 
-                                                        name="authors[1][corresponding]" 
-                                                        id="author1_corresponding" 
-                                                        checked 
-                                                        value="on">
-                                                    <label class="form-check-label small" for="author1_corresponding">
-                                                        Corresponding
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="text-center mt-3">
-                                    <p class="text-muted small">
-                                        <i class="fas fa-info-circle me-1"></i>
-                                        Author 1 is automatically set as the corresponding author. Add more authors below.
+                        @if($isClosed)
+                            <div class="container py-5">
+                                <div class="alert alert-danger text-center">
+                                    <h4 class="mb-3">
+                                        <i class="fas fa-times-circle me-2"></i>Submission Closed
+                                    </h4>
+                                    <p class="mb-0">
+                                        The abstract submission deadline was <strong>27th March 2026</strong>. 
+                                        Submissions are now closed.
                                     </p>
                                 </div>
                             </div>
+                        @else
+                            <form id="abstractForm" method="POST" action="{{ route('abstracts.store') }}" novalidate>
+                                @csrf
+                                <input type="hidden" name="submission_id" value="">
                             
-                            <!-- Section 5: Additional Information -->
-                            <div class="section-card mb-5">
-                                <div class="section-header mb-4">
-                                    <h3 class="h4 mb-2 text-success">
-                                        <span class="section-number">5</span>
-                                        Additional Information
-                                    </h3>
-                                    <p class="text-muted mb-0">Optional details for your submission</p>
+                                <!-- Section 1: Corresponding Author Information -->
+                                <div class="section-card mb-5">
+                                    <div class="section-header mb-4">
+                                        <h3 class="h4 mb-2 text-success">
+                                            <span class="section-number">1</span>
+                                            Corresponding Author Information
+                                        </h3>
+                                        <p class="text-muted mb-0">Primary contact for this submission</p>
+                                    </div>
+                                    
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="author_name" name="author_name" 
+                                                    placeholder="Full Name" required>
+                                                <label for="author_name">Full Name <span class="text-danger">*</span></label>
+                                                <div class="invalid-feedback">Please enter the corresponding author's full name.</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="email" class="form-control" id="author_email" name="author_email" 
+                                                    placeholder="Email Address" required>
+                                                <label for="author_email">Email Address <span class="text-danger">*</span></label>
+                                                <div class="invalid-feedback">Please enter a valid email address.</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="tel" class="form-control" id="author_phone" name="author_phone" 
+                                                    placeholder="Phone Number" required>
+                                                <label for="author_phone">Phone Number <span class="text-danger">*</span></label>
+                                                <div class="form-text">Format: +254728463410 or 0728463410</div>
+                                                <div class="invalid-feedback">Please enter a valid Kenyan phone number (e.g., +254728463410 or 0728463410).</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="organisation" name="organisation" 
+                                                    placeholder="Organization/Institution" required>
+                                                <label for="organisation">Organization/Institution <span class="text-danger">*</span></label>
+                                                <div class="invalid-feedback">Please enter your organization name.</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="department" name="department" 
+                                                    placeholder="Department">
+                                                <label for="department">Department</label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="position" name="position" 
+                                                    placeholder="Position/Title">
+                                                <label for="position">Position/Title</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 
-                                <div class="row g-3">
-                                    <div class="col-md-6">
+                                <!-- Section 2: Submission Details -->
+                                <div class="section-card mb-5">
+                                    <div class="section-header mb-4">
+                                        <h3 class="h4 mb-2 text-success">
+                                            <span class="section-number">2</span>
+                                            Submission Details
+                                        </h3>
+                                        <p class="text-muted mb-0">Information about your submission</p>
+                                    </div>
+                                    
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <select class="form-select" id="submission_type" name="submission_type" required>
+                                                    <option value="" selected disabled>Select Submission Type</option>
+                                                    <option value="abstract_text">Abstract Submission</option>
+                                                    <option value="full_paper" disabled>Full Paper Submission</option>
+                                                    <option value="final_paper" disabled>Final Version of Accepted Paper</option>
+                                                    <option value="presentation" disabled>Pre-recorded Presentation</option>
+                                                    <option value="poster" disabled>Poster Submission</option>
+                                                </select>
+                                                <label for="submission_type">Submission Type <span class="text-danger">*</span></label>
+                                                <div class="form-text">Only abstract submissions are currently open</div>
+                                                <div class="invalid-feedback">Please select a submission type.</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <select class="form-select" id="sub_theme" name="sub_theme" required>
+                                                    <option value="" disabled selected>Select Sub-theme</option>
+
+                                                    @foreach ($subThemes as $subTheme)
+                                                        <option value="{{ $subTheme->id }}"
+                                                            {{ old('sub_theme') == $subTheme->id ? 'selected' : '' }}>
+                                                            {{ $subTheme->full_name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                <label for="sub_theme">Conference Sub-theme <span class="text-danger">*</span></label>
+                                                <div class="invalid-feedback">Please select a sub-theme.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Section 3: Paper Information -->
+                                <div class="section-card mb-5">
+                                    <div class="section-header mb-4">
+                                        <h3 class="h4 mb-2 text-success">
+                                            <span class="section-number">3</span>
+                                            Paper Information
+                                        </h3>
+                                        <p class="text-muted mb-0">Details about your research paper</p>
+                                    </div>
+                                    
+                                    <div class="mb-4">
                                         <div class="form-floating">
-                                            <select class="form-select" id="presentation_preference" name="presentation_preference">
-                                                <option value="" selected>No preference</option>
-                                                <option value="powerpoint">PowerPoint Presentation</option>
-                                                <option value="poster">Poster Presentation</option>
-                                            </select>
-                                            <label for="presentation_preference">Presentation Preference</label>
+                                            <input type="text" class="form-control" id="paper_title" name="paper_title" 
+                                                placeholder="Paper Title" required>
+                                            <label for="paper_title">Paper Title <span class="text-danger">*</span></label>
+                                            <div class="invalid-feedback">Please enter your paper title.</div>
                                         </div>
                                     </div>
                                     
-                                    <div class="col-md-6">
+                                    <div class="mb-4">
+                                        <label for="abstract_text" class="form-label fw-semibold">
+                                            Abstract <span class="text-danger">*</span>
+                                            <span class="text-muted fw-normal">(Maximum 300 words)</span>
+                                        </label>
+                                        <textarea class="form-control" id="abstract_text" name="abstract_text" rows="6" 
+                                                placeholder="Enter your abstract here..." required></textarea>
+                                        <div class="d-flex justify-content-between align-items-center mt-2">
+                                            <div>
+                                                <span id="wordCount" class="badge bg-light text-dark">0 words</span>
+                                                <span id="wordLimit" class="badge bg-light text-dark">Limit: 300 words</span>
+                                            </div>
+                                            <div id="abstractStatus" class="text-muted small"></div>
+                                        </div>
+                                        <div class="invalid-feedback">Please enter your abstract (maximum 300 words).</div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
                                         <div class="form-floating">
-                                            <select class="form-select" id="attendance_mode" name="attendance_mode">
-                                                <option value="" selected>Not specified</option>
-                                                <option value="PHYSICAL">In-person Attendance</option>
-                                                <option value="VIRTUAL">Virtual Attendance</option>
-                                                <!-- <option value="BOTH">Both</option> -->
-                                            </select>
-                                            <label for="attendance_mode">Preferred Attendance Mode</label>
+                                            <textarea class="form-control" id="keywords" name="keywords" 
+                                                    placeholder="Keywords (comma separated)" style="height: 100px"  required></textarea>
+                                            <label for="keywords">Keywords<span class="text-danger">*</span></label>
+                                            <div class="form-text">Separate keywords with commas (e.g., climate-smart, agriculture, sustainability)</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Section 4: Co-Authors -->
+                                <div class="section-card mb-5">
+                                    <div class="section-header mb-4">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h3 class="h4 mb-2 text-success">
+                                                    <span class="section-number">4</span>
+                                                    Co-Authors Information
+                                                </h3>
+                                                <p class="text-muted mb-0">Add all authors in order of contribution</p>
+                                            </div>
+                                            <button type="button" class="btn btn-outline-success btn-sm" id="addAuthorBtn">
+                                                <i class="fas fa-user-plus me-1"></i> Add Author
+                                            </button>
                                         </div>
                                     </div>
                                     
-                                    <div class="col-12">
-                                        <div class="form-floating">
-                                            <textarea class="form-control" id="special_requirements" name="special_requirements" 
-                                                    placeholder="Any special requirements or comments" style="height: 100px"></textarea>
-                                            <label for="special_requirements">Special Requirements or Comments</label>
+                                    <div id="authorsContainer">
+                                        <!-- Author 1 (Corresponding Author - Hidden fields) -->
+                                        <div class="author-card mb-3 p-3 border rounded" data-author-index="1">
+                                            <div class="row g-3 align-items-end">
+                                                <div class="col-md-2">
+                                                    <div class="author-order">
+                                                        <span class="badge bg-success">1</span>
+                                                        <small class="text-muted d-block mt-1">Author</small>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control author-name" 
+                                                            name="authors[1][name]" 
+                                                            id="author1_name"
+                                                            placeholder="Author Name" 
+                                                            value=""
+                                                            readonly
+                                                            style="background-color: #f8f9fa;">
+                                                        <label for="author1_name">Author Name</label>
+                                                        <div class="form-text small">Auto-filled from corresponding author</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control author-institution" 
+                                                            name="authors[1][institution]" 
+                                                            id="author1_institution"
+                                                            placeholder="Institution" 
+                                                            value=""
+                                                            readonly
+                                                            style="background-color: #f8f9fa;">
+                                                        <label for="author1_institution">Institution</label>
+                                                        <div class="form-text small">Auto-filled from organization</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" 
+                                                            name="authors[1][corresponding]" 
+                                                            id="author1_corresponding" 
+                                                            checked 
+                                                            value="on">
+                                                        <label class="form-check-label small" for="author1_corresponding">
+                                                            Corresponding
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="text-center mt-3">
+                                        <p class="text-muted small">
+                                            <i class="fas fa-info-circle me-1"></i>
+                                            Author 1 is automatically set as the corresponding author. Add more authors below.
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Section 5: Additional Information -->
+                                <div class="section-card mb-5">
+                                    <div class="section-header mb-4">
+                                        <h3 class="h4 mb-2 text-success">
+                                            <span class="section-number">5</span>
+                                            Additional Information
+                                        </h3>
+                                        <p class="text-muted mb-0">Optional details for your submission</p>
+                                    </div>
+                                    
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <select class="form-select" id="presentation_preference" name="presentation_preference">
+                                                    <option value="" selected>No preference</option>
+                                                    <option value="powerpoint">PowerPoint Presentation</option>
+                                                    <option value="poster">Poster Presentation</option>
+                                                </select>
+                                                <label for="presentation_preference">Presentation Preference</label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <select class="form-select" id="attendance_mode" name="attendance_mode">
+                                                    <option value="" selected>Not specified</option>
+                                                    <option value="PHYSICAL">In-person Attendance</option>
+                                                    <option value="VIRTUAL">Virtual Attendance</option>
+                                                    <!-- <option value="BOTH">Both</option> -->
+                                                </select>
+                                                <label for="attendance_mode">Preferred Attendance Mode</label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-12">
+                                            <div class="form-floating">
+                                                <textarea class="form-control" id="special_requirements" name="special_requirements" 
+                                                        placeholder="Any special requirements or comments" style="height: 100px"></textarea>
+                                                <label for="special_requirements">Special Requirements or Comments</label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            
-                            <!-- Terms and Conditions -->
-                            <div class="mb-5">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="terms" name="terms" required value="on">
-                                    <label class="form-check-label" for="terms">
-                                        I confirm that this abstract is original work and has not been published previously.
-                                        I agree to the <a href="#" target="_blank">Terms and Conditions</a>.
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    <div class="invalid-feedback">You must agree to the terms and conditions.</div>
+                                
+                                <!-- Terms and Conditions -->
+                                <div class="mb-5">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="terms" name="terms" required value="on">
+                                        <label class="form-check-label" for="terms">
+                                            I confirm that this abstract is original work and has not been published previously.
+                                            I agree to the <a href="#" target="_blank">Terms and Conditions</a>.
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="invalid-feedback">You must agree to the terms and conditions.</div>
+                                    </div>
                                 </div>
-                            </div>
-                            
-                            <!-- Submit Button -->
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-success btn-lg px-5" id="submitBtn" disabled>
-                                    <i class="fas fa-paper-plane me-2"></i>
-                                    Submit Abstract
-                                </button>
-                                <button type="reset" class="btn btn-outline-secondary btn-lg ms-3" id="resetBtn">
-                                    <i class="fas fa-redo me-2"></i>
-                                    Reset Form
-                                </button>
-                            </div>
-                            
-                            <!-- Progress Indicator -->
-                            <div class="mt-4">
-                                <div class="progress" style="height: 5px;">
-                                    <div class="progress-bar bg-success" id="formProgress" style="width: 0%"></div>
+                                
+                                <!-- Submit Button -->
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-success btn-lg px-5" id="submitBtn" disabled>
+                                        <i class="fas fa-paper-plane me-2"></i>
+                                        Submit Abstract
+                                    </button>
+                                    <button type="reset" class="btn btn-outline-secondary btn-lg ms-3" id="resetBtn">
+                                        <i class="fas fa-redo me-2"></i>
+                                        Reset Form
+                                    </button>
                                 </div>
-                                <div class="text-center mt-2">
-                                    <small class="text-muted" id="progressText">Form completeness: 0%</small>
+                                
+                                <!-- Progress Indicator -->
+                                <div class="mt-4">
+                                    <div class="progress" style="height: 5px;">
+                                        <div class="progress-bar bg-success" id="formProgress" style="width: 0%"></div>
+                                    </div>
+                                    <div class="text-center mt-2">
+                                        <small class="text-muted" id="progressText">Form completeness: 0%</small>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        @endif
+
                     </div>
                 </div>
             </div>
@@ -799,6 +819,12 @@ document.addEventListener('DOMContentLoaded', function() {
     updateFirstAuthor();
     calculateFormProgress();
 });
+
+const isClosed = @json($isClosed);
+
+if (isClosed) {
+    document.getElementById('submitBtn').disabled = true;
+}
 </script>
 
 @endsection
