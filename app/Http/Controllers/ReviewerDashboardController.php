@@ -387,16 +387,18 @@ public function store(Request $request)
         ]);
     }
 
-    public function destroy(User $user)
-    {
-        $user->is_active = 0;
-        $user->save();
+    public function destroy($id)
+{
+    $user = User::findOrFail($id);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'User deactivated successfully.'
-        ]);
-    }
+    $user->is_active = 0;
+    $user->save();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'User deactivated successfully.'
+    ]);
+}
 
 
 }
