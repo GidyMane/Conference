@@ -8,6 +8,7 @@ use App\Models\SubTheme;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class FullPaperController extends Controller
 {
@@ -47,15 +48,13 @@ class FullPaperController extends Controller
         $extension = $file->getClientOriginalExtension();
 
         $fileName = "{$abstract->submission_code}-{$fullPaperCode}.{$extension}";
-        $destinationPath = public_path("full-papers/{$abstract->sub_theme_id}");
+        $path = $file->storeAs(
+            "full-papers/{$abstract->sub_theme_id}",
+            $fileName,
+            'public' // important
+        );
 
-        if (!file_exists($destinationPath)) {
-            mkdir($destinationPath, 0755, true);
-        }
-
-        $file->move($destinationPath, $fileName);
-
-        $relativePath = "full-papers/{$abstract->sub_theme_id}/{$fileName}";
+        $relativePath = $path;
 
         // Create AUTHOR user automatically if not exists
         $user = User::firstOrCreate(

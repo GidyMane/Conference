@@ -22,28 +22,18 @@ class ReviewAssignmentMail extends Mailable
 
         $this->reviewLink = url('/review/' . $assignment->review_token);
 
-        $this->downloadLink = asset(
-            'full-papers/' .
-            $this->paper->abstract->sub_theme_id .
-            '/' .
-            basename($this->paper->file_path)
-        );
+        // ✅ Use storage path
+        $this->downloadLink = asset('storage/' . $this->paper->file_path);
     }
 
     public function build()
     {
-        $assignment = $this->assignment;
-
-        $reviewLink = url('/review/' . $assignment->review_token);
-
-        $downloadLink = url('/fullpapers/download/' . $assignment->full_paper_id);
-
         return $this->view('emails.review-assignment')
             ->with([
-                'assignment' => $assignment,
-                'paper' => $assignment->fullPaper,
-                'reviewLink' => $reviewLink,
-                'downloadLink' => $downloadLink,
+                'assignment' => $this->assignment,
+                'paper' => $this->paper,
+                'reviewLink' => $this->reviewLink,
+                'downloadLink' => $this->downloadLink,
             ]);
     }
 }

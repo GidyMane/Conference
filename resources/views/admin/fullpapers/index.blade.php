@@ -247,7 +247,7 @@
                         <td>
                             <div class="btn-group btn-group-sm">
                                 @if($paper->file_path)
-                                    <a href="{{ asset('full-papers/'.$paper->abstract->sub_theme_id.'/'.basename($paper->file_path)) }}" 
+                                    <a href="{{ asset('storage/'.$paper->file_path) }}" 
                                     class="btn btn-sm btn-primary" target="_blank" download>
                                         <i class="fas fa-file-pdf"></i> Paper
                                     </a>
@@ -275,7 +275,7 @@
                                 data-submitted="{{ $paper->created_at->format('M d, Y H:i') }}"
 
                                 data-has-paper="{{ $paper->file_path ? '1' : '0' }}"
-                                data-paper-url="{{ asset('full-papers/'.$paper->abstract->sub_theme_id.'/'.basename($paper->file_path)) }}"
+                                data-paper-url="{{ asset('storage/'.$paper->file_path) }}"
                             >
                                 <i class="fas fa-eye"></i>
                             </button>

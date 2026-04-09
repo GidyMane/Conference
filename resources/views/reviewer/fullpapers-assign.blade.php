@@ -107,7 +107,7 @@
                 {{-- Download Button --}}
                 <div class="col-lg-4 text-end">
                     @if($paper->paper_url)
-                        <a href="{{ asset('full-papers/'.$paper->abstract->sub_theme_id.'/'.basename($paper->file_path)) }}"
+                        <a href="{{ asset('storage/' . $paper->file_path) }}"
                             class="btn btn-success"
                             target="_blank"
                             download>
