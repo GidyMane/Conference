@@ -21,6 +21,7 @@ use App\Http\Controllers\TermsController;
 use App\Http\Controllers\AdminRegistrationController; 
 use App\Http\Controllers\FullPaperReviewController;
 use App\Http\Controllers\PresentationUploadController;
+use App\Http\Controllers\Admin\AbstractEmailController;
 
 Route::get('/', [MainController::class, 'index'])->name('index');
 Route::get('/about', [MainController::class, 'about'])->name('about');
@@ -364,4 +365,12 @@ Route::get('/reviewer/abstracts/export', [ReviewerAbstractController::class, 'ex
 
 Route::get('/admin/abstracts/export', [AbstractSubmissionController::class, 'export'])
     ->name('admin.abstracts.export');
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/abstracts/email', [AbstractEmailController::class, 'index'])
+        ->name('abstracts.email');
+
+    Route::post('/abstracts/email/send', [AbstractEmailController::class, 'send'])
+        ->name('abstracts.email.send');
+});
     
