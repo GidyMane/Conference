@@ -330,6 +330,10 @@
                 <i class="fas fa-user-shield"></i>
                 <span>Manage Users</span>
             </a>
+            <a href="{{route('admin.abstracts.email')}}" class="menu-item {{ request()->routeIs('admin.abstracts.email') ? 'active' : '' }}">
+                <i class="fa-solid fa-envelope"></i>
+                <span>Bulk Emails</span>
+            </a>
  
            
             
