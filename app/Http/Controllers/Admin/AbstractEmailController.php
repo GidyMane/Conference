@@ -17,6 +17,8 @@ class AbstractEmailController extends Controller
 
     public function send(Request $request)
     {
+        set_time_limit(0); // prevent timeout
+
         $request->validate([
             'subject' => 'required|string|max:255',
             'message' => 'required|string',
@@ -36,23 +38,29 @@ class AbstractEmailController extends Controller
             $query->where('sub_theme_id', $request->sub_theme_id);
         }
 
-        $abstracts = $query->get();
+        // 🔥 CHUNKED EMAIL SENDING
+        $query->chunk(20, function ($abstracts) use ($request) {
 
-        foreach ($abstracts as $abstract) {
-            try {
-                Mail::to($abstract->author_email)
-                ->send(new BulkAbstractMail(
-                    $request->subject,
-                    $request->message,
-                    $abstract
-                ));
-            } catch (\Throwable $e) {
-                \Log::error('Bulk email failed', [
-                    'email' => $abstract->author_email,
-                    'error' => $e->getMessage()
-                ]);
+            foreach ($abstracts as $abstract) {
+                try {
+                    Mail::to($abstract->author_email)->send(
+                        new BulkAbstractMail(
+                            $request->subject,
+                            $request->message,
+                            $abstract
+                        )
+                    );
+                } catch (\Throwable $e) {
+                    \Log::error('Bulk email failed', [
+                        'email' => $abstract->author_email,
+                        'error' => $e->getMessage()
+                    ]);
+                }
             }
-        }
+
+            // Optional delay to avoid SMTP overload
+            usleep(200000); // 0.2 seconds
+        });
 
         return back()->with('success', 'Emails sent successfully!');
     }
