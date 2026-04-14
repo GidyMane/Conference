@@ -22,7 +22,8 @@ class BulkAbstractMail extends Mailable
 
     public function build()
     {
-        return $this->subject($this->subjectLine)
+        return $this->from('conference@kalro.org', 'Conference Team')
+            ->subject($this->subjectLine)
             ->view('emails.bulk_abstract');
     }
 }

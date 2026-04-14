@@ -233,31 +233,31 @@
 
                             <li class="mb-3">
                                 <strong>Abstract Submission:</strong><br>
-                                <span class="text-success">Deadline: March 27, 2026</span>
+                                <span class="text-danger">Closed</span>
                             </li>
 
                             <li class="mb-3">
                                 <strong>Full Paper Submission:</strong><br>
-                                <span class="text-success">10th April 2026</span>
+                                <span class="text-success">17th April 2026</span>
                             </li>
 
                             <li class="mb-3">
                                 <strong>Notification of Acceptance:</strong><br>
-                                <span class="text-success">24th April 2026</span>
+                                <span class="text-success">4th May 2026</span>
                             </li>
 
                             
 
                             <li class="mb-3">
                                 <strong>Final Submission of Accepted Papers:</strong><br>
-                                <span class="text-success">15th May 2026</span>
+                                <span class="text-success">22nd May 2026</span>
                             </li>
 
                           
 
                             <li class="mb-3">
                                 <strong>Registration:</strong><br>
-                                <span class="text-success">13th February – 22nd May 2026</span>
+                                <span class="text-success">Early bird <span class="text-danger">ends</span> on 15th May 2026</span>
                             </li>
 
                             <li>

@@ -43,12 +43,13 @@ class AbstractEmailController extends Controller
 
             foreach ($abstracts as $abstract) {
                 try {
-                    Mail::to($abstract->author_email)->send(
-                        new BulkAbstractMail(
+                    Mail::to($abstract->author_email)
+                    ->send(
+                        (new BulkAbstractMail(
                             $request->subject,
                             $request->message,
                             $abstract
-                        )
+                        ))
                     );
                 } catch (\Throwable $e) {
                     \Log::error('Bulk email failed', [
