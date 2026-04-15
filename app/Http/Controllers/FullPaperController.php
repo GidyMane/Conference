@@ -49,7 +49,7 @@ class FullPaperController extends Controller
 
         $fileName = "{$abstract->submission_code}-{$fullPaperCode}.{$extension}";
         $path = $file->storeAs(
-            "full-papers/{$abstract->sub_theme_id}",
+            "uploads/full-papers/{$abstract->sub_theme_id}",
             $fileName,
             'public' // important
         );
