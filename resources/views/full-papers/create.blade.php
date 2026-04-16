@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -135,7 +135,7 @@
 </head>
 <body>
 
-<!-- Top Bar -->
+
 <div class="container-fluid bg-white py-2 shadow-sm">
     <div class="container">
         <div class="row align-items-center">
@@ -153,7 +153,7 @@
     </div>
 </div>
 
-<!-- Hero -->
+
 <section class="hero">
     <div class="container text-center">
         <h1 class="theme-title">
@@ -164,7 +164,7 @@
 
 <div class="container">
 
-    <!-- Comprehensive Guidelines -->
+ 
     <div class="container my-4">
         <div class="card shadow-sm">
             <div class="card-header bg-success text-white">
@@ -174,14 +174,14 @@
             </div>
             <div class="card-body">
                 
-                <!-- Important Notice -->
+
                 <div class="important-note">
                     <strong><i class="fas fa-exclamation-triangle me-2"></i>Important:</strong> 
                     Abstracts and full papers must align with one of the conference sub-themes. 
                     Authors will participate in peer review and mentorship.
                 </div>
 
-                <!-- Author Removal Notice -->
+ 
                 <div class="author-removal-notice">
                     <strong><i class="fas fa-user-slash me-2"></i>Author Anonymisation Required:</strong>
                     Kindly <strong>remove / delete ALL author details and affiliation</strong> from the paper before uploading it. This is required to ensure a fair, double-blind peer review process.
@@ -285,7 +285,7 @@
         </div>
     </div>
 
-    <!-- Upload Box -->
+ 
     <div class="upload-container">
         <div class="upload-header">
             <h2><i class="fas fa-file-upload me-2"></i>Full Paper Upload</h2>
@@ -370,7 +370,7 @@
         </form>
     </div>
 
-    <!-- Final Checklist -->
+
     <div class="container my-4">
         <div class="card shadow-sm border-warning">
             <div class="card-header bg-warning">
@@ -471,6 +471,115 @@ $(function () {
     });
 });
 </script>
+
+</body>
+</html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KALRO | Maintenance</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1B5E20, #2E7D32);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 550px;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.35);
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        .logo {
+            width: 120px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        .loader {
+            margin: 25px auto;
+            border: 5px solid rgba(255,255,255,0.2);
+            border-top: 5px solid #F9A825;
+            border-radius: 50%;
+            width: 55px;
+            height: 55px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            opacity: 0.75;
+        }
+
+        .highlight {
+            color: #F9A825;
+            font-weight: 500;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px;
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>🚧 Site Under Maintenance</h1>
+
+        <div class="loader"></div>
+
+        <p>
+            The <span class="highlight">KALRO</span> website is currently undergoing maintenance.<br>
+            We are working to resolve an issue and improve your experience.
+        </p>
+
+        <p>
+            Please check back shortly.
+        </p>
+
+        <div class="footer">
+            &copy; 2026 KALRO — Kenya Agricultural & Livestock Research Organization
+        </div>
+    </div>
 
 </body>
 </html>
