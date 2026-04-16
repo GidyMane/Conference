@@ -37,7 +37,10 @@ Route::post('/abstracts/submit', [AbstractSubmissionController::class, 'store'])
 
 Route::get('/abstracts/success', fn () => view('main.success'))->name('abstracts.success');
 Route::get('/full-papers/success', fn () => view('full-papers.success'))->name('fullpapers.success');
-Route::get('/full-papers/{id}', [FullPaperController::class, 'create'])->name('full-papers.create');
+//Route::get('/full-papers/{id}', [FullPaperController::class, 'create'])->name('full-papers.create');
+Route::get('/full-papers/{id}', function () {
+    return response()->view('404', [], 404);
+})->name('full-papers.create');
 Route::post('/full-papers/{id}', [FullPaperController::class, 'store'])->name('full-papers.store');
 
 
