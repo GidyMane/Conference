@@ -456,8 +456,7 @@
                             <label class="form-label fw-bold">Recommendation <span class="text-danger">*</span></label>
                             <select name="recommendation" class="form-select" required>
                                 <option value="">-- Select Your Recommendation --</option>
-                                <option value="accept">✓ Accept</option>
-                                <option value="needs_minor_revisions">⚠ Needs Minor Revisions</option>
+                                <option value="accept">✓ Accept with Minor Revisions</option>                               
                                 <option value="needs_major_revisions">⚠ Needs Major Revisions</option>
                                 <option value="reject">✗ Reject</option>
                             </select>
