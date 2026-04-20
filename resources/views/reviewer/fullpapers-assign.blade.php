@@ -132,7 +132,7 @@
             <li><strong>Reviewers 2 & 3:</strong> Must be <strong>peer authors</strong> (authors who submitted full papers)</li>
             <li>All 3 reviewers must be <strong>different people</strong></li>
             <li>Each reviewer can review maximum <strong>3 papers</strong></li>
-            <li>Reviewers will receive email with unique review link valid for <strong>14 days</strong></li>
+            <li>Reviewers will receive email with unique review link valid for <strong>3 days</strong></li>
         </ul>
     </div>
 
@@ -246,7 +246,7 @@
                     <h6 class="alert-heading">Before You Assign</h6>
                     <ul class="mb-0 small">
                         <li>Each reviewer will receive an <strong>email with a unique review link</strong></li>
-                        <li>They have <strong>14 days</strong> to complete the review</li>
+                        <li>They have <strong>3 days</strong> to complete the review</li>
                         <li>Review uses the <strong>standardized KALRO template</strong> (8 sections, 100 points)</li>
                         <li>You cannot change assignments once a review is <strong>started or completed</strong></li>
                     </ul>
