@@ -100,8 +100,11 @@ public function showAssignForm($id)
 
     $peerReviewers = User::where('role', 'AUTHOR')
         ->whereNotIn('id', $peerAtCapacity)
-        ->whereHas('submittedAbstracts.fullPaper')
         ->where('email', '!=', $currentAuthorEmail)
+        ->whereHas('submittedAbstracts', function ($q) use ($subThemeId) {
+            $q->where('sub_theme_id', $subThemeId)
+            ->whereHas('fullPaper');
+        })
         ->select('id', 'full_name', 'email')
         ->orderBy('full_name')
         ->get();
