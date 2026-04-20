@@ -149,7 +149,7 @@
                 </tr>
                 <tr>
                     <td>Review Deadline:</td>
-                    <td>{{ now()->addDays(14)->format('F j, Y') }}</td>
+                    <td>{{ now()->addDays(3)->format('F j, Y') }}</td>
                 </tr>
             </table>
         </div>
