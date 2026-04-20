@@ -136,23 +136,7 @@
                 </h6>
                 <p class="small mb-2">Please confirm the paper includes all mandatory components:</p>
                 <div class="row small">
-                    <div class="col-md-6">
-                        <div class="checklist-item">
-                            <i class="fas fa-check-circle"></i> Title and author name(s)
-                        </div>
-                        <div class="checklist-item">
-                            <i class="fas fa-check-circle"></i> Institutional affiliation(s)
-                        </div>
-                        <div class="checklist-item">
-                            <i class="fas fa-check-circle"></i> Complete mailing address(es)
-                        </div>
-                        <div class="checklist-item">
-                            <i class="fas fa-check-circle"></i> E-mail address(es)
-                        </div>
-                        <div class="checklist-item">
-                            <i class="fas fa-check-circle"></i> Corresponding author indicated
-                        </div>
-                    </div>
+                    
                     <div class="col-md-6">
                         <div class="checklist-item">
                             <i class="fas fa-check-circle"></i> All 9 sections present
