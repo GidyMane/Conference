@@ -22,6 +22,7 @@ use App\Http\Controllers\AdminRegistrationController;
 use App\Http\Controllers\FullPaperReviewController;
 use App\Http\Controllers\PresentationUploadController;
 use App\Http\Controllers\Admin\AbstractEmailController;
+use App\Http\Controllers\PrequalifiedReviewerController;
 
 Route::get('/', [MainController::class, 'index'])->name('index');
 Route::get('/about', [MainController::class, 'about'])->name('about');
@@ -373,4 +374,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/abstracts/email/send', [AbstractEmailController::class, 'send'])
         ->name('abstracts.email.send');
 });
+
+Route::post('/admin/prequalified-reviewers', 
+    [PrequalifiedReviewerController::class, 'store']
+)->name('admin.prequalified-reviewers.store');
     

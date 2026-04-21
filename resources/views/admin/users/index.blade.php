@@ -25,6 +25,9 @@
             <button class="btn btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#extendTempReviewerModal">
                 <i class="fas fa-user-clock me-2"></i>Extend
             </button>
+            <button class="btn btn-danger ms-2" data-bs-toggle="modal" data-bs-target="#PrequalifiedReviewerModal">
+                <i class="fas fa-user-clock me-2"></i>Prequalified Reviewers
+            </button>
         </div>
     </div>
 </div>
@@ -481,6 +484,74 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-kalro-primary">Update User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Add Prequalified Reviewer Modal -->
+<div class="modal fade" id="PrequalifiedReviewerModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Prequalified Reviewer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ route('admin.prequalified-reviewers.store') }}">
+                @csrf
+
+                <div class="modal-body">
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Full Name *</label>
+                            <input type="text" class="form-control" name="name" required>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Title *</label>
+                            <input type="text" class="form-control" name="title" placeholder="Dr, Prof, Mr..." required>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Email *</label>
+                            <input type="email" class="form-control" name="email" required>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Phone</label>
+                            <input type="text" class="form-control" name="phone">
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Institution</label>
+                            <input type="text" class="form-control" name="institution">
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Sub-theme *</label>
+                            <select class="form-select" name="sub_theme_id" required>
+                                <option value="">Select Sub-theme</option>
+                                @foreach($subthemes as $subtheme)
+                                    <option value="{{ $subtheme->id }}">
+                                        {{ $subtheme->full_name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-12 mb-3">
+                            <label class="form-label">Area of Specialization</label>
+                            <textarea class="form-control" name="area_of_specialization"></textarea>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Save Reviewer</button>
                 </div>
             </form>
         </div>
