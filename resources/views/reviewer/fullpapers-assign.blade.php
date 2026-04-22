@@ -283,25 +283,49 @@ document.querySelector('form').addEventListener('submit', function(e) {
 });
 </script>
 <script>
-const reviewer2 = document.querySelector('[name="reviewer2"]');
-const reviewer3 = document.querySelector('[name="reviewer3"]');
+(function () {
+    const form       = document.querySelector('form');
+    const submitBtn  = form.querySelector('button[type="submit"]');
+    const reviewer2  = form.querySelector('[name="reviewer2"]');
+    const reviewer3  = form.querySelector('[name="reviewer3"]');
 
-reviewer2.addEventListener('change', function() {
-    const selectedId = this.value;
-
-    // Loop through Reviewer 3 options
-    for (let option of reviewer3.options) {
-        if(option.value === selectedId) {
-            option.disabled = true; // disable selected reviewer
-        } else {
-            option.disabled = false;
+    // ── Prevent duplicate Reviewer 2 / 3 selection ─────────────────────
+    reviewer2.addEventListener('change', function () {
+        const selected = this.value;
+        for (const opt of reviewer3.options) {
+            opt.disabled = opt.value !== '' && opt.value === selected;
         }
-    }
+        if (reviewer3.value === selected) reviewer3.value = '';
+    });
 
-    // Reset Reviewer 3 if currently selected option was disabled
-    if(reviewer3.value === selectedId){
-        reviewer3.value = '';
-    }
-});
+    // ── Single-submission guard with loader ────────────────────────────
+    form.addEventListener('submit', function (e) {
+        const r1 = form.querySelector('[name="reviewer1"]').value;
+        const r2 = reviewer2.value;
+        const r3 = reviewer3.value;
+
+        // Uniqueness check
+        if (r1 === r2 || r1 === r3 || r2 === r3) {
+            e.preventDefault();
+            alert('All 3 reviewers must be different.');
+            return;
+        }
+
+        // Already submitting — block second click
+        if (submitBtn.dataset.submitting === 'true') {
+            e.preventDefault();
+            return;
+        }
+
+        // Lock & show spinner
+        submitBtn.dataset.submitting = 'true';
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `
+            <span class="spinner-border spinner-border-sm me-2"
+                  role="status" aria-hidden="true"></span>
+            Assigning & Sending Emails…
+        `;
+    });
+})();
 </script>
 @endsection
