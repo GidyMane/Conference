@@ -193,7 +193,7 @@
                 </tr>
                 <tr>
                     <td>Review Deadline:</td>
-                    <td>{{ now()->addDays(4)->format('F j, Y') }}</td>
+                    <td>{{ now()->addDays(3)->format('F j, Y') }}</td>
                 </tr>
             </table>
         </div>
@@ -204,7 +204,7 @@
             <ol class="instructions-list">
                 <li>
                     <span class="step-num">1</span>
-                    <span>Download and read the manuscript in line with the review guidelines. Kindly complete your review within <strong>four (4) days</strong>.</span>
+                    <span>Download and read the manuscript in line with the review guidelines. Kindly complete your review within <strong>Three (3) days</strong>.</span>
                 </li>
                 <li>
                     <span class="step-num">2</span>
