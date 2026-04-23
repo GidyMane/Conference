@@ -204,7 +204,7 @@
             <ol class="instructions-list">
                 <li>
                     <span class="step-num">1</span>
-                    <span>Download and read the manuscript in line with the review guidelines. Kindly complete your review within <strong>Three (3) days</strong>.</span>
+                    <span>Download and read the manuscript in line with the review guidelines. Kindly complete your review within <strong>three (3) days</strong>.</span>
                 </li>
                 <li>
                     <span class="step-num">2</span>
