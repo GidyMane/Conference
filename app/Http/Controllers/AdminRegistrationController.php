@@ -65,40 +65,49 @@ class AdminRegistrationController extends Controller
         return view('admin.registrations.show', compact('registration'));
     }
 
-public function approve($id)
-{
-    return DB::transaction(function () use ($id) {
-        $registration = ConferenceRegistration::findOrFail($id);
+    public function approve($id)
+    {
+        return DB::transaction(function () use ($id) {
 
-        if ($registration->payment_status === ConferenceRegistration::STATUS_APPROVED) {
-            return back()->with('error', 'Registration already approved.');
-        }
+            $registration = ConferenceRegistration::lockForUpdate()->findOrFail($id);
 
-        // Generate ticket number
-        $lastTicket = ConferenceRegistration::whereNotNull('ticket_number')
-            ->where('payment_status', ConferenceRegistration::STATUS_APPROVED)
-            ->orderByDesc('id')
-            ->first();
+            if ($registration->payment_status === ConferenceRegistration::STATUS_APPROVED) {
+                return back()->with('error', 'Registration already approved.');
+            }
 
-        $nextNumber = $lastTicket ? intval(substr($lastTicket->ticket_number, -4)) + 1 : 1;
-        $ticketNumber = 'KALRO_' . date('Y') . '_' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
+            do {
+                // Get highest ticket number (NOT last row)
+                $lastTicketNumber = ConferenceRegistration::whereNotNull('ticket_number')
+                    ->where('payment_status', ConferenceRegistration::STATUS_APPROVED)
+                    ->lockForUpdate()
+                    ->max('ticket_number');
 
-        $registration->update([
-            'payment_status' => ConferenceRegistration::STATUS_APPROVED,
-            'ticket_number' => $ticketNumber,
-            'verified_by' => auth()->id(),
-            'verified_at' => now(),
-        ]);
+                $nextNumber = $lastTicketNumber
+                    ? ((int) substr($lastTicketNumber, -4)) + 1
+                    : 1;
 
-        try {
-            Mail::to($registration->email)->send(new RegistrationApprovedMail($registration));
-        } catch (\Exception $e) {
-            \Log::error('Failed to send approval email: ' . $e->getMessage());
-        }
+                $ticketNumber = 'KALRO_' . date('Y') . '_' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
 
-        return back()->with('success', 'Registration approved successfully. Ticket: ' . $ticketNumber);
-    });
-}
+            } while (
+                ConferenceRegistration::where('ticket_number', $ticketNumber)->exists()
+            );
+
+            $registration->update([
+                'payment_status' => ConferenceRegistration::STATUS_APPROVED,
+                'ticket_number' => $ticketNumber,
+                'verified_by' => auth()->id(),
+                'verified_at' => now(),
+            ]);
+
+            try {
+                Mail::to($registration->email)->send(new RegistrationApprovedMail($registration));
+            } catch (\Exception $e) {
+                \Log::error('Failed to send approval email: ' . $e->getMessage());
+            }
+
+            return back()->with('success', 'Registration approved. Ticket: ' . $ticketNumber);
+        });
+    }
 
 public function reject(Request $request, $id)
 {
