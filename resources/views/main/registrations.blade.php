@@ -336,7 +336,7 @@
                                                 <input type="hidden" id="feeCurrency" name="feeCurrency">
                                                 <p class="fee-note mt-2 mb-0">
                                                     <i class="bi bi-info-circle"></i>
-                                                    <small>Fee is calculated based on your nationality, attendance type, and category. Early bird rates apply until <strong>10 April 2026</strong>.</small>
+                                                    <small>Fee is calculated based on your nationality, attendance type, and category. Early bird rates apply until <strong>22nd May 2026</strong>.</small>
                                                 </p>
                                             </div>
                                         </div>
@@ -1339,7 +1339,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ================================================================
     // HELPERS & FEE TABLE
     // ================================================================
-    const EARLY_BIRD_DEADLINE = new Date('2026-04-10T23:59:59');
+    const EARLY_BIRD_DEADLINE = new Date('2026-05-22T23:59:59+03:00');
     const isEarlyBird = () => new Date() <= EARLY_BIRD_DEADLINE;
     const pad = n => String(n).padStart(2, '0');
 
@@ -1447,8 +1447,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="eb-emoji">🎉</div>
                     <div>
                         <div class="eb-title">Early Bird Pricing is Active!</div>
-                        <div class="eb-desc">Register before <strong>10 April 2026</strong> to get discounted rates.</div>
-                        <div class="eb-badge"><i class="bi bi-clock"></i> Deadline: 10 April 2026</div>
+                        <div class="eb-desc">Register before <strong>22nd May 2026</strong> to get discounted rates.</div>
+                        <div class="eb-badge"><i class="bi bi-clock"></i> Deadline: 22nd May 2026</div>
                         <div class="eb-countdown">
                             <div class="eb-cd-unit"><span class="eb-cd-num eb-d">${pad(d)}</span><span class="eb-cd-lbl">Days</span></div>
                             <div class="eb-cd-unit"><span class="eb-cd-num eb-h">${pad(h)}</span><span class="eb-cd-lbl">Hrs</span></div>
@@ -1458,7 +1458,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="eb-prices">${priceRows}</div>
                     </div>
                 </div>
-                <div class="eb-footer">Standard rates apply after 10 April 2026. Your exact fee is auto-calculated below.</div>`;
+                <div class="eb-footer">Standard rates apply after 22nd May 2026. Your exact fee is auto-calculated below.</div>`;
 
             const ticker = setInterval(() => {
                 const r = EARLY_BIRD_DEADLINE - new Date();
@@ -1475,8 +1475,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="eb-emoji">⚠️</div>
                     <div>
                         <div class="eb-title">Standard Rates Now Apply</div>
-                        <div class="eb-desc">The early bird deadline of <strong>10 April 2026</strong> has passed.</div>
-                        <div class="eb-badge"><i class="bi bi-calendar-x"></i> Early bird closed 10 April 2026</div>
+                        <div class="eb-desc">The early bird deadline of <strong>22nd May 2026</strong> has passed.</div>
+                        <div class="eb-badge"><i class="bi bi-calendar-x"></i> Early bird closed 22nd May 2026</div>
                         <div class="eb-prices">${priceRows}</div>
                     </div>
                 </div>
@@ -1606,7 +1606,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const eb = isEarlyBird();
             const opt = document.createElement('option');
             opt.value = fee.amount;
-            opt.textContent = `${fee.currency} ${fee.amount.toLocaleString()}${eb ? ' (Early Bird – by 10 Apr 2026)' : ' (Standard Rate)'}`;
+            opt.textContent = `${fee.currency} ${fee.amount.toLocaleString()}${eb ? ' (Early Bird – by 22nd May 2026)' : ' (Standard Rate)'}`;
             opt.selected = true;
             feeSelect.appendChild(opt);
         }
