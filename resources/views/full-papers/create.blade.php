@@ -391,12 +391,7 @@
                         Written in British English, Times New Roman 12, double-spaced
                     </label>
                 </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="check3">
-                    <label class="form-check-label" for="check3">
-                        Cover page includes all author details and contacts
-                    </label>
-                </div>
+                
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="check4">
                     <label class="form-check-label" for="check4">
