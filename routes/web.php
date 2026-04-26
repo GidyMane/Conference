@@ -23,6 +23,7 @@ use App\Http\Controllers\FullPaperReviewController;
 use App\Http\Controllers\PresentationUploadController;
 use App\Http\Controllers\Admin\AbstractEmailController;
 use App\Http\Controllers\PrequalifiedReviewerController;
+use App\Http\Controllers\FinanceController;
 
 Route::get('/', [MainController::class, 'index'])->name('index');
 Route::get('/about', [MainController::class, 'about'])->name('about');
@@ -378,4 +379,57 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::post('/admin/prequalified-reviewers', 
     [PrequalifiedReviewerController::class, 'store']
 )->name('admin.prequalified-reviewers.store');
-    
+
+Route::middleware(['auth'])->group(function () {
+
+    Route::prefix('finance')->name('finance.')->group(function () {
+        Route::get('/dashboard', [FinanceController::class, 'dashboard'])->name('dashboard');
+    });
+
+});
+
+Route::post('/admin/finance-users', [ReviewerAuthController::class, 'storeFinanceUser'])
+    ->name('admin.finance.store');
+
+Route::prefix('finance')
+    ->name('finance.')
+    ->middleware(['auth', 'finance'])
+    ->group(function () {
+
+        // Conference registrations (finance view + actions)
+        Route::prefix('registrations')->name('registrations.')->group(function () {
+            Route::get('/', [FinanceController::class, 'registrations'])->name('index');
+            Route::get('/{id}', [FinanceController::class, 'showRegistration'])->name('show');
+
+            Route::post('/{id}/approve', [FinanceController::class, 'approveRegistration'])->name('approve');
+            Route::post('/{id}/reject', [FinanceController::class, 'rejectRegistration'])->name('reject');
+
+            Route::get('/{id}/download/{type}', [AdminRegistrationController::class, 'downloadProof'])->name('downloadProof');
+
+            
+        });
+        Route::prefix('group-registrations')->name('groupRegistrations.')->group(function () {
+            Route::get('/{id}', [FinanceController::class, 'showGroup'])->name('show'); 
+                        Route::post('/{id}/approve', [AdminRegistrationController::class, 'approveGroup'])
+                ->name('approve');
+
+            Route::post('/{id}/reject', [AdminRegistrationController::class, 'rejectGroup'])
+                ->name('reject');
+
+            Route::get('/{id}/download-proof', [AdminRegistrationController::class, 'downloadGroupProof'])
+                ->name('downloadProof');
+        });
+
+        // Exhibition registrations
+        Route::prefix('exhibitions')->name('exhibitions.')->group(function () {
+            Route::get('/', [FinanceController::class, 'exhibitions'])->name('index');
+            Route::get('/{id}', [FinanceController::class, 'showExhibition'])->name('show');
+
+            Route::post('/{id}/approve', [FinanceController::class, 'approveExhibition'])->name('approve');
+            Route::post('/{id}/reject', [FinanceController::class, 'rejectExhibition'])->name('reject');
+
+            Route::get('/{id}/download-proof', [ExhibitionRegistrationController::class, 'downloadProof'])->name('downloadProof');
+            Route::post('/{id}/resend-email', [ExhibitionRegistrationController::class, 'resendApprovalEmail'])->name('resend-email');
+        });
+
+    });

@@ -15,13 +15,13 @@ class ReviewerOnly
     {
         $user = Auth::user();
 
-        // Not logged in or not a reviewer type
-        if (!$user || !in_array($user->role, ['REVIEWER', 'TEMP_REVIEWER'])) {
+        // Allow reviewer + temp reviewer + finance
+        if (!$user || !in_array($user->role, ['REVIEWER', 'TEMP_REVIEWER', 'FINANCE'])) {
             return redirect()->route('reviewer.login')
-                ->with('error', 'You must be logged in as a reviewer to access this page.');
+                ->with('error', 'You must be logged in to access this page.');
         }
 
-        // If TEMP_REVIEWER, check expiry
+        // TEMP REVIEWER expiry check (finance skips this)
         if ($user->role === 'TEMP_REVIEWER') {
             if (!$user->tempReviewer || $user->tempReviewer->expires_at < now()) {
                 Auth::logout();

@@ -1,4 +1,4 @@
-@extends('admin.layout')
+@extends('reviewer.layout')
 
 @section('title', 'Manage Exhibition Registrations')
 @section('page-title', 'Manage Exhibition Registrations')
@@ -9,7 +9,7 @@
     <div class="d-flex justify-content-between align-items-center">
         <div>
             <h1>Exhibition Registrations</h1>
-            <a href="{{ route('admin.dashboard') }}" class="btn btn-sm btn-secondary mt-2">
+            <a href="{{ route('reviewer.dashboard') }}" class="btn btn-sm btn-secondary mt-2">
                 <i class="fas fa-arrow-left me-1"></i> Dashboard
             </a>
         </div>
@@ -60,7 +60,7 @@
 {{-- FILTERS --}}
 <div class="card mb-4 shadow-sm">
     <div class="card-body">
-        <form method="GET" action="{{ route('admin.exhibitions.index') }}">
+        <form method="GET" action="{{ route('finance.exhibitions.index') }}">
             <div class="row g-3">
 
                 <div class="col-md-3">
@@ -95,16 +95,16 @@
 <div class="row mb-3">
     <div class="col-12">
         <div class="btn-group flex-wrap gap-2">
-            <a href="{{ route('admin.exhibitions.index', ['status' => 'pending']) }}" class="btn btn-sm btn-outline-warning">
+            <a href="{{ route('finance.exhibitions.index', ['status' => 'pending']) }}" class="btn btn-sm btn-outline-warning">
                 <i class="fas fa-clock me-1"></i> Pending ({{ $stats['pending'] ?? 0 }})
             </a>
-            <a href="{{ route('admin.exhibitions.index', ['status' => 'approved']) }}" class="btn btn-sm btn-outline-success">
+            <a href="{{ route('finance.exhibitions.index', ['status' => 'approved']) }}" class="btn btn-sm btn-outline-success">
                 <i class="fas fa-check-circle me-1"></i> Approved ({{ $stats['approved'] ?? 0 }})
             </a>
-            <a href="{{ route('admin.exhibitions.index', ['status' => 'rejected']) }}" class="btn btn-sm btn-outline-danger">
+            <a href="{{ route('finance.exhibitions.index', ['status' => 'rejected']) }}" class="btn btn-sm btn-outline-danger">
                 <i class="fas fa-times-circle me-1"></i> Rejected ({{ $stats['rejected'] ?? 0 }})
             </a>
-            <a href="{{ route('admin.exhibitions.index') }}" class="btn btn-sm btn-outline-secondary">
+            <a href="{{ route('finance.exhibitions.index') }}" class="btn btn-sm btn-outline-secondary">
                 <i class="fas fa-list me-1"></i> All ({{ $stats['total'] ?? 0 }})
             </a>
         </div>
@@ -154,7 +154,7 @@
 
                 <tbody>
 
-                @forelse($registrations as $registration)
+                @forelse($exhibitions as $registration)
                     <tr>
 
                         <td>
@@ -200,7 +200,7 @@
                         </td>
 
                         <td>
-                            <a href="{{ route('admin.exhibitions.show', $registration->id) }}"
+                            <a href="{{ route('finance.exhibitions.show', $registration->id) }}"
                                class="btn btn-sm btn-outline-primary"
                                title="View Details">
                                 <i class="fas fa-eye"></i>
@@ -224,7 +224,7 @@
 
         {{-- PAGINATION --}}
         <div class="mt-3">
-            {{ $registrations->withQueryString()->links() }}
+            {{ $exhibitions->withQueryString()->links() }}
         </div>
 
     </div>

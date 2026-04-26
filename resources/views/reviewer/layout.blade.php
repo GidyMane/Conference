@@ -345,44 +345,62 @@
         </div>
         
         <div class="sidebar-menu">
-            <a href="{{ route('reviewer.dashboard') }}" class="menu-item {{ request()->routeIs('reviewer.dashboard') ? 'active' : '' }}">
-                <i class="fas fa-chart-line"></i>
-                <span>Dashboard</span>
-            </a>
-            
-            <a href="{{ route('reviewer.abstracts.index') }}" class="menu-item {{ request()->is('reviewer/abstracts*') ? 'active' : '' }}">
-                <i class="fas fa-file-alt"></i>
-                <span>My Abstracts</span>
-            </a>
 
-            @if(Auth::user()->role !== 'TEMP_REVIEWER')
+            @if(Auth::user()->role === 'FINANCE')
 
-            <a href="{{ route('reviewer.pending-reviews') }}" class="menu-item {{ request()->is('reviewer/pending*') ? 'active' : '' }}">
-                <i class="fas fa-clock"></i>
-                <span>Pending Reviews</span>
-            </a>
-            
-            <a href="{{ route('reviewer.completed-reviews') }}" class="menu-item {{ request()->is('reviewer/completed*') ? 'active' : '' }}">
-                <i class="fas fa-check-circle"></i>
-                <span>Completed Reviews</span>
-            </a>
+                <a href="{{ route('reviewer.dashboard') }}" class="menu-item {{ request()->routeIs('reviewer.dashboard') ? 'active' : '' }}">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
 
-            <a href="{{ url('/reviewer/fullpapers-review') }}" 
-            class="menu-item {{ request()->is('reviewer/fullpapers-review*') ? 'active' : '' }}">
-                <i class="fas fa-clipboard-check"></i>
-                <span>Full Paper Management</span>
-            </a>
+                <a href="{{ route('finance.registrations.index') }}" class="menu-item {{ request()->routeIs('finance.registrations.*') ? 'active' : '' }}">
+                    <i class="fas fa-user-check"></i>
+                    <span>Registrations</span>
+                </a>
 
-            <a href="{{ url('/reviewer/fullpapers-completed') }}" 
-            class="menu-item {{ request()->is('reviewer/fullpapers-completed') || request()->is('reviewer/fullpapers/*/all-reviews') ? 'active' : '' }}">
-                <i class="fas fa-clipboard-list"></i>
-                <span>Fully Reviewed Papers</span>
-            </a>
+                <a href="{{ route('finance.exhibitions.index') }}" class="menu-item {{ request()->routeIs('finance.exhibitions.*') ? 'active' : '' }}">
+                    <i class="fas fa-store"></i>
+                    <span>Exhibitions</span>
+                </a>
 
+            @else
+
+                <a href="{{ route('reviewer.dashboard') }}" class="menu-item {{ request()->routeIs('reviewer.dashboard') ? 'active' : '' }}">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                
+                <a href="{{ route('reviewer.abstracts.index') }}" class="menu-item {{ request()->is('reviewer/abstracts*') ? 'active' : '' }}">
+                    <i class="fas fa-file-alt"></i>
+                    <span>My Abstracts</span>
+                </a>
+
+                @if(Auth::user()->role !== 'TEMP_REVIEWER')
+
+                    <a href="{{ route('reviewer.pending-reviews') }}" class="menu-item {{ request()->is('reviewer/pending*') ? 'active' : '' }}">
+                        <i class="fas fa-clock"></i>
+                        <span>Pending Reviews</span>
+                    </a>
+                    
+                    <a href="{{ route('reviewer.completed-reviews') }}" class="menu-item {{ request()->is('reviewer/completed*') ? 'active' : '' }}">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Completed Reviews</span>
+                    </a>
+
+                    <a href="{{ url('/reviewer/fullpapers-review') }}" class="menu-item {{ request()->is('reviewer/fullpapers-review*') ? 'active' : '' }}">
+                        <i class="fas fa-clipboard-check"></i>
+                        <span>Full Paper Management</span>
+                    </a>
+
+                    <a href="{{ url('/reviewer/fullpapers-completed') }}" class="menu-item {{ request()->is('reviewer/fullpapers-completed') || request()->is('reviewer/fullpapers/*/all-reviews') ? 'active' : '' }}">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>Fully Reviewed Papers</span>
+                    </a>
+
+                @endif
 
             @endif
 
-            
             <div style="margin: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
                 <a href="#" class="menu-item {{ request()->is('reviewer/help*') ? 'active' : '' }}">
                     <i class="fas fa-question-circle"></i>
@@ -393,6 +411,7 @@
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span>
                 </a>
+
                 <form id="logout-form" action="{{ route('reviewer.logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
@@ -413,7 +432,6 @@
             
             <div class="user-menu">
                 <div class="dropdown">
-
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><h6 class="dropdown-header">Notifications</h6></li>
                         <li><a class="dropdown-item" href="#">New abstract assigned</a></li>
@@ -425,11 +443,8 @@
                 <div class="dropdown">
                     <button class="btn btn-link dropdown-toggle d-flex align-items-center gap-2" type="button" id="userDropdown" data-bs-toggle="dropdown">
                         <div class="user-avatar">{{ strtoupper(substr(Auth::user()->name ?? 'R', 0, 1)) }}</div>
-                        
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <!-- <li><a class="dropdown-item" href="{{ route('reviewer.profile') }}"><i class="fas fa-user me-2"></i>My Profile</a></li> -->
-                        
                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <a class="dropdown-item" href="{{ route('reviewer.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -477,12 +492,10 @@
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
     
     <script>
-        // Sidebar toggle for mobile
         document.getElementById('sidebarToggle')?.addEventListener('click', function() {
             document.getElementById('sidebar').classList.toggle('active');
         });
 
-        // Initialize DataTables
         $(document).ready(function() {
             $('.data-table').DataTable({
                 order: [[0, 'desc']],

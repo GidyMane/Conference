@@ -6,6 +6,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use App\Http\Middleware\AdminOnly;
 use App\Http\Middleware\ReviewerOnly;
+use App\Http\Middleware\FinanceMiddleware;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Auth\AuthenticationException;
 
@@ -28,6 +29,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin' => AdminOnly::class,
             'reviewer' => ReviewerOnly::class,
+            'finance' => FinanceMiddleware::class,
         ]);
 
         $middleware->append(\App\Http\Middleware\PreventBackHistory::class);

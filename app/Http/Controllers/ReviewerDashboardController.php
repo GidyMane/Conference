@@ -14,103 +14,178 @@ use Illuminate\Support\Facades\DB;
 use App\Models\SubmittedAbstract;
 use App\Models\AbstractAssignment;
 use App\Models\AbstractReview;
+use App\Models\ConferenceRegistration;
+use App\Models\GroupRegistration;
+use App\Models\ExhibitionRegistration;
+use Illuminate\Support\Facades\Auth;
 
 class ReviewerDashboardController extends Controller
 {
-    public function index()
-    {
-        $user = auth()->user();
+public function index()
+{
+    $user = auth()->user();
 
-        /**
-         * STEP 1: Determine abstracts visible to the reviewer
-         */
-        if ($user->role === 'TEMP_REVIEWER') {
-            // TEMP_REVIEWER: abstracts in their subtheme
-            $subThemeId = $user->tempReviewer->sub_theme_id ?? null;
+    /**
+     * FINANCE DASHBOARD
+     */
+if ($user->role === 'FINANCE') {
 
-            $abstractsQuery = SubmittedAbstract::where('sub_theme_id', $subThemeId);
+    $stats = [
+        'total_registrations' => ConferenceRegistration::count() + GroupRegistration::count(),
+        'pending_registrations' => ConferenceRegistration::where('payment_status', 'pending')->count()
+            + GroupRegistration::where('payment_status', 'pending')->count(),
+        'approved_registrations' => ConferenceRegistration::where('payment_status', 'approved')->count()
+            + GroupRegistration::where('payment_status', 'approved')->count(),
+        'rejected_registrations' => ConferenceRegistration::where('payment_status', 'rejected')->count()
+            + GroupRegistration::where('payment_status', 'rejected')->count(),
 
-            // Pending = UNDER_REVIEW in that subtheme
-            $pendingReviewsCount = (clone $abstractsQuery)
-                ->where('status', 'UNDER_REVIEW')
-                ->count();
+        'total_exhibitions' => ExhibitionRegistration::count(),
+        'pending_exhibitions' => ExhibitionRegistration::where('status', 'pending')->count(),
+        'approved_exhibitions' => ExhibitionRegistration::where('status', 'approved')->count(),
+        'rejected_exhibitions' => ExhibitionRegistration::where('status', 'rejected')->count(),
+    ];
 
-            // Completed reviews = APPROVED, REJECTED, NEEDS_REVISION
-            $completedReviewsCount = (clone $abstractsQuery)
-                ->whereIn('status', ['APPROVED', 'REJECTED', 'REVIEWED'])
-                ->count();
+    $recentRegistrations = collect();
 
-            // Stats for decisions (based on reviews in this subtheme)
-            $approved = AbstractReview::whereHas('abstract', function ($q) use ($subThemeId) {
-                    $q->where('sub_theme_id', $subThemeId);
-                })
-                ->where('decision', 'APPROVED')
-                ->count();
-
-            $rejected = AbstractReview::whereHas('abstract', function ($q) use ($subThemeId) {
-                    $q->where('sub_theme_id', $subThemeId);
-                })
-                ->where('decision', 'REJECTED')
-                ->count();
-
-            $needsRevision = AbstractReview::whereHas('abstract', function ($q) use ($subThemeId) {
-                    $q->where('sub_theme_id', $subThemeId);
-                })
-                ->where('decision', 'NEEDS_REVISION')
-                ->count();
-
-            $totalAssigned = $pendingReviewsCount + $completedReviewsCount;
-            $completionRate = $totalAssigned > 0
-                ? round(($completedReviewsCount / $totalAssigned) * 100)
-                : 0;
-
-        } else {
-            // Regular reviewer: abstracts assigned to them
-            $abstractsQuery = SubmittedAbstract::whereHas('assignments', function ($q) use ($user) {
-                $q->where('reviewer_id', $user->id);
-            });
-
-            $abstractIds = $abstractsQuery->pluck('id');
-
-            $reviewQuery = AbstractReview::where('reviewer_id', $user->id)
-                ->whereIn('abstract_id', $abstractIds);
-
-            $totalAssigned = $abstractIds->count();
-            $completedReviewsCount = $reviewQuery->count();
-            $pendingReviewsCount = max($totalAssigned - $completedReviewsCount, 0);
-
-            $approved = (clone $reviewQuery)->where('decision', 'APPROVED')->count();
-            $rejected = (clone $reviewQuery)->where('decision', 'REJECTED')->count();
-            $needsRevision = (clone $reviewQuery)->where('decision', 'NEEDS_REVISION')->count();
-            $completionRate = $totalAssigned > 0
-                ? round(($completedReviewsCount / $totalAssigned) * 100)
-                : 0;
-        }
-
-        $stats = [
-            'total_assigned' => $totalAssigned,
-            'pending_review' => $pendingReviewsCount,
-            'completed' => $completedReviewsCount,
-            'approved' => $approved,
-            'rejected' => $rejected,
-            'needs_revision' => $needsRevision,
-            'completion_rate' => $completionRate,
+    // Individual registrations
+    $conference = ConferenceRegistration::latest()->take(5)->get()->map(function ($item) {
+        return (object) [
+            'reference' => $item->ticket_number ?? ('CONF-' . $item->id),
+            'name' => $item->first_name . ' ' . $item->last_name,
+            'type' => 'conference',
+            'amount' => $item->fee,
+            'currency' => $item->fee_currency,
+            'status' => $item->payment_status,
+            'created_at' => $item->created_at,
         ];
+    });
 
-        /**
-         * STEP 2: Recent abstracts
-         */
-        $recentAbstracts = (clone $abstractsQuery)
-            ->with(['subTheme', 'latestReview'])
-            ->latest()
-            ->limit(5)
-            ->get();
+    // Group registrations
+    $groups = GroupRegistration::latest()->take(5)->get()->map(function ($item) {
+        return (object) [
+            'reference' => 'GROUP-' . $item->id,
+            'name' => $item->first_name . ' ' . $item->last_name,
+            'type' => 'group',
+            'amount' => $item->total_fee,
+            'currency' => $item->currency,
+            'status' => $item->payment_status,
+            'created_at' => $item->created_at,
+        ];
+    });
 
-        return view('reviewer.dashboard', [
-            'stats' => $stats,
-            'recentAbstracts' => $recentAbstracts
-        ]);
+    // Exhibitions
+    $exhibitions = ExhibitionRegistration::latest()->take(5)->get()->map(function ($item) {
+        return (object) [
+            'reference' => $item->reference_number,
+            'name' => $item->organization_name,
+            'type' => 'exhibition',
+            'amount' => $item->total_amount,
+            'currency' => 'KES',
+            'status' => $item->status,
+            'created_at' => $item->created_at,
+        ];
+    });
+
+    $recentRegistrations = $conference
+        ->merge($groups)
+        ->merge($exhibitions)
+        ->sortByDesc('created_at')
+        ->take(10)
+        ->values();
+
+    return view('reviewer.dashboard', [
+        'stats' => $stats,
+        'recentRegistrations' => $recentRegistrations,
+        'recentAbstracts' => collect(),
+    ]);
+}
+
+    /**
+     * REVIEWER DASHBOARD
+     */
+    if ($user->role === 'TEMP_REVIEWER') {
+        // TEMP_REVIEWER: abstracts in their subtheme
+        $subThemeId = $user->tempReviewer->sub_theme_id ?? null;
+
+        $abstractsQuery = SubmittedAbstract::where('sub_theme_id', $subThemeId);
+
+        $pendingReviewsCount = (clone $abstractsQuery)
+            ->where('status', 'UNDER_REVIEW')
+            ->count();
+
+        $completedReviewsCount = (clone $abstractsQuery)
+            ->whereIn('status', ['APPROVED', 'REJECTED', 'REVIEWED'])
+            ->count();
+
+        $approved = AbstractReview::whereHas('abstract', function ($q) use ($subThemeId) {
+                $q->where('sub_theme_id', $subThemeId);
+            })
+            ->where('decision', 'APPROVED')
+            ->count();
+
+        $rejected = AbstractReview::whereHas('abstract', function ($q) use ($subThemeId) {
+                $q->where('sub_theme_id', $subThemeId);
+            })
+            ->where('decision', 'REJECTED')
+            ->count();
+
+        $needsRevision = AbstractReview::whereHas('abstract', function ($q) use ($subThemeId) {
+                $q->where('sub_theme_id', $subThemeId);
+            })
+            ->where('decision', 'NEEDS_REVISION')
+            ->count();
+
+        $totalAssigned = $pendingReviewsCount + $completedReviewsCount;
+
+        $completionRate = $totalAssigned > 0
+            ? round(($completedReviewsCount / $totalAssigned) * 100)
+            : 0;
+
+    } else {
+        // Regular reviewer: abstracts assigned to them
+        $abstractsQuery = SubmittedAbstract::whereHas('assignments', function ($q) use ($user) {
+            $q->where('reviewer_id', $user->id);
+        });
+
+        $abstractIds = $abstractsQuery->pluck('id');
+
+        $reviewQuery = AbstractReview::where('reviewer_id', $user->id)
+            ->whereIn('abstract_id', $abstractIds);
+
+        $totalAssigned = $abstractIds->count();
+        $completedReviewsCount = $reviewQuery->count();
+        $pendingReviewsCount = max($totalAssigned - $completedReviewsCount, 0);
+
+        $approved = (clone $reviewQuery)->where('decision', 'APPROVED')->count();
+        $rejected = (clone $reviewQuery)->where('decision', 'REJECTED')->count();
+        $needsRevision = (clone $reviewQuery)->where('decision', 'NEEDS_REVISION')->count();
+
+        $completionRate = $totalAssigned > 0
+            ? round(($completedReviewsCount / $totalAssigned) * 100)
+            : 0;
     }
+
+    $stats = [
+        'total_assigned' => $totalAssigned,
+        'pending_review' => $pendingReviewsCount,
+        'completed' => $completedReviewsCount,
+        'approved' => $approved,
+        'rejected' => $rejected,
+        'needs_revision' => $needsRevision,
+        'completion_rate' => $completionRate,
+    ];
+
+    $recentAbstracts = (clone $abstractsQuery)
+        ->with(['subTheme', 'latestReview'])
+        ->latest()
+        ->limit(5)
+        ->get();
+
+    return view('reviewer.dashboard', [
+        'stats' => $stats,
+        'recentAbstracts' => $recentAbstracts
+    ]);
+}
 
 
     public function assignments(Request $request)

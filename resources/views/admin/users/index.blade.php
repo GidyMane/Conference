@@ -28,6 +28,9 @@
             <button class="btn btn-danger ms-2" data-bs-toggle="modal" data-bs-target="#PrequalifiedReviewerModal">
                 <i class="fas fa-user-clock me-2"></i>Prequalified Reviewers
             </button>
+            <button class="btn btn-dark ms-2" data-bs-toggle="modal" data-bs-target="#addFinanceModal">
+                <i class="fas fa-money-bill me-2"></i>Finance User
+            </button>
         </div>
     </div>
 </div>
@@ -486,6 +489,45 @@
                     <button type="submit" class="btn btn-kalro-primary">Update User</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addFinanceModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Add Finance User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form method="POST" action="{{ route('admin.finance.store') }}">
+                @csrf
+
+                <div class="modal-body">
+
+                <div class="mb-3">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" name="full_name" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control" required>
+                    </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-dark">
+                    <i class="fas fa-save me-2"></i>Create Finance User
+                    </button>
+                </div>
+
+            </form>
+
         </div>
     </div>
 </div>

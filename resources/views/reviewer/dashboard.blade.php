@@ -59,6 +59,78 @@
 </div>
 
 <!-- Statistics Cards -->
+@if(Auth::user()->role === 'FINANCE')
+
+    <!-- Finance Statistics Cards -->
+    <div class="row mb-3">
+        <div class="col-md-3 mb-3">
+            <div class="stat-card" style="background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);">
+                <h3>{{ $stats['total_registrations'] ?? 0 }}</h3>
+                <p>Total Registrations</p>
+                <i class="fas fa-users stat-card-icon"></i>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="stat-card" style="background: linear-gradient(135deg, #ffb300 0%, #ef6c00 100%);">
+                <h3>{{ $stats['pending_registrations'] ?? 0 }}</h3>
+                <p>Pending Registrations</p>
+                <i class="fas fa-user-clock stat-card-icon"></i>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="stat-card" style="background: linear-gradient(135deg, #43a047 0%, #2e7d32 100%);">
+                <h3>{{ $stats['approved_registrations'] ?? 0 }}</h3>
+                <p>Approved Registrations</p>
+                <i class="fas fa-user-check stat-card-icon"></i>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="stat-card" style="background: linear-gradient(135deg, #e53935 0%, #b71c1c 100%);">
+                <h3>{{ $stats['rejected_registrations'] ?? 0 }}</h3>
+                <p>Rejected Registrations</p>
+                <i class="fas fa-user-times stat-card-icon"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="stat-card" style="background: linear-gradient(135deg, #8e24aa 0%, #6a1b9a 100%);">
+                <h3>{{ $stats['total_exhibitions'] ?? 0 }}</h3>
+                <p>Total Exhibitions</p>
+                <i class="fas fa-store stat-card-icon"></i>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="stat-card" style="background: linear-gradient(135deg, #f9a825 0%, #f57f17 100%);">
+                <h3>{{ $stats['pending_exhibitions'] ?? 0 }}</h3>
+                <p>Pending Exhibitions</p>
+                <i class="fas fa-hourglass-half stat-card-icon"></i>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="stat-card" style="background: linear-gradient(135deg, #00c853 0%, #2e7d32 100%);">
+                <h3>{{ $stats['approved_exhibitions'] ?? 0 }}</h3>
+                <p>Approved Exhibitions</p>
+                <i class="fas fa-check-circle stat-card-icon"></i>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="stat-card" style="background: linear-gradient(135deg, #d50000 0%, #b71c1c 100%);">
+                <h3>{{ $stats['rejected_exhibitions'] ?? 0 }}</h3>
+                <p>Rejected Exhibitions</p>
+                <i class="fas fa-times-circle stat-card-icon"></i>
+            </div>
+        </div>
+    </div>
+
+@else
 <div class="row mb-3">
     <div class="col-md-4 mb-3">
         <div class="stat-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
@@ -86,6 +158,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- Performance Metrics -->
 <div class="row mb-4">
@@ -126,86 +199,160 @@
         </div>
     </div>
 </div>
+@endif
 
 
-
-<!-- Recently Assigned Abstracts (FULL WIDTH) -->
+{{-- Recent Activity Table --}}
 <div class="row mb-4">
     <div class="col-12">
         <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">
-                    <i class="fas fa-file-alt me-2"></i>Recently Assigned Abstracts
-                </h5>
-                <a href="{{ route('reviewer.abstracts.index') }}"
-                   class="btn btn-sm btn-reviewer-primary">
-                    View All
-                </a>
-            </div>
 
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0">
-                        <thead>
-                            <tr>
-                                <th>Submission ID</th>
-                                <th>Title</th>
-                                <th>Status</th>
-                               
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($recentAbstracts ?? [] as $abstract)
-                                <tr>
-                                    <td><strong class="text-primary">{{ $abstract->submission_code }}</strong></td>
-                                    <td>{{ Str::limit($abstract->paper_title, 40) }}</td>
-                                    <td>
-                                        <span class="badge badge-{{ strtolower(str_replace('_', '-', $abstract->status)) }}">
-                                            {{ ucfirst(str_replace('_', ' ', $abstract->status)) }}
-                                        </span>
-                                    </td>
-                                    
-                                    <td>
-                                        <button class="btn btn-info btn-sm view-abstract"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#abstractModal"
+            @if(Auth::user()->role === 'FINANCE')
 
-                                            data-id="{{ $abstract->id }}"
-                                            data-code="{{ $abstract->submission_code }}"
-                                            data-title="{{ $abstract->paper_title }}"
-                                            data-author="{{ $abstract->author_name }}"
-                                            data-email="{{ $abstract->author_email }}"
-                                            data-phone="{{ $abstract->author_phone }}"
-                                            data-org="{{ $abstract->organisation }}"
-                                            data-theme="{{ $abstract->subTheme->full_name ?? '' }}"
-                                            data-status="{{ $abstract->status }}"
-                                            data-created="{{ $abstract->created_at->format('d M Y H:i') }}"
-                                            data-reviewed-by="{{ auth()->user()->full_name }}"
-                                            data-reviewed-at="{{ optional($abstract->latestReview)->created_at?->format('d M Y') }}"
-                                            data-abstract="{{ $abstract->abstract_text }}"
-                                            data-keywords="{{ $abstract->keywords }}"
-                                            data-presentation="{{ $abstract->presentation_preference }}"
-                                            data-attendance="{{ $abstract->attendance_mode }}"
-                                            data-review-comment="{{ $abstract->latestReview?->comment ?? '' }}"
-                                            data-review-decision="{{ $abstract->latestReview?->decision ?? '' }}"
-                                        >
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                    </td>
-
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="5" class="text-center text-muted py-3">
-                                        No abstracts assigned yet
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                {{-- FINANCE TABLE --}}
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-credit-card me-2"></i>Recent Registrations
+                    </h5>
+                    <a href="#"
+                       class="btn btn-sm btn-reviewer-primary">
+                        View All
+                    </a>
                 </div>
-            </div>
+
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Reference</th>
+                                    <th>Name / Organization</th>
+                                    <th>Type</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($recentRegistrations ?? [] as $registration)
+                                    <tr>
+                                        <td>
+                                            <strong class="text-primary">
+                                                {{ $registration->reference }}
+                                            </strong>
+                                        </td>
+                                        <td>{{ $registration->name }}</td>
+                                        <td>
+                                            <span class="badge bg-info text-dark">
+                                                {{ ucfirst($registration->type) }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {{ $registration->currency }} {{ number_format($registration->amount, 2) }}
+                                        </td>
+                                        <td>
+                                            @php
+                                                $statusClass = match(strtolower($registration->status)) {
+                                                    'approved', 'verified' => 'badge-approved',
+                                                    'rejected', 'failed' => 'badge-rejected',
+                                                    default => 'badge-pending',
+                                                };
+                                            @endphp
+
+                                            <span class="badge {{ $statusClass }}">
+                                                {{ ucfirst($registration->status) }}
+                                            </span>
+                                        </td>
+                                        <td>{{ $registration->created_at->format('d M Y') }}</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted py-3">
+                                            No recent registrations found
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            @else
+
+                {{-- REVIEWER TABLE --}}
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-file-alt me-2"></i>Recently Assigned Abstracts
+                    </h5>
+                    <a href="{{ route('reviewer.abstracts.index') }}"
+                       class="btn btn-sm btn-reviewer-primary">
+                        View All
+                    </a>
+                </div>
+
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Submission ID</th>
+                                    <th>Title</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($recentAbstracts ?? [] as $abstract)
+                                    <tr>
+                                        <td>
+                                            <strong class="text-primary">{{ $abstract->submission_code }}</strong>
+                                        </td>
+                                        <td>{{ Str::limit($abstract->paper_title, 40) }}</td>
+                                        <td>
+                                            <span class="badge badge-{{ strtolower(str_replace('_', '-', $abstract->status)) }}">
+                                                {{ ucfirst(str_replace('_', ' ', $abstract->status)) }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-info btn-sm view-abstract"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#abstractModal"
+                                                data-id="{{ $abstract->id }}"
+                                                data-code="{{ $abstract->submission_code }}"
+                                                data-title="{{ $abstract->paper_title }}"
+                                                data-author="{{ $abstract->author_name }}"
+                                                data-email="{{ $abstract->author_email }}"
+                                                data-phone="{{ $abstract->author_phone }}"
+                                                data-org="{{ $abstract->organisation }}"
+                                                data-theme="{{ $abstract->subTheme->full_name ?? '' }}"
+                                                data-status="{{ $abstract->status }}"
+                                                data-created="{{ $abstract->created_at->format('d M Y H:i') }}"
+                                                data-reviewed-by="{{ auth()->user()->full_name }}"
+                                                data-reviewed-at="{{ optional($abstract->latestReview)->created_at?->format('d M Y') }}"
+                                                data-abstract="{{ $abstract->abstract_text }}"
+                                                data-keywords="{{ $abstract->keywords }}"
+                                                data-presentation="{{ $abstract->presentation_preference }}"
+                                                data-attendance="{{ $abstract->attendance_mode }}"
+                                                data-review-comment="{{ $abstract->latestReview?->comment ?? '' }}"
+                                                data-review-decision="{{ $abstract->latestReview?->decision ?? '' }}">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="4" class="text-center text-muted py-3">
+                                            No abstracts assigned yet
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            @endif
+
         </div>
     </div>
 </div>

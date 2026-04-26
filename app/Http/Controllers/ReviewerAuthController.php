@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TempReviewerWelcomeMail;
+use App\Mail\FinanceWelcomeMail;
 
 class ReviewerAuthController extends Controller
 {
@@ -40,7 +41,7 @@ if (Auth::attempt($credentials, $request->boolean('remember'))) {
     }
 
     // Ensure only reviewers can login here
-    if (!in_array($user->role, ['REVIEWER','TEMP_REVIEWER'])) {
+    if (!in_array($user->role, ['REVIEWER','TEMP_REVIEWER','FINANCE'])) {
         Auth::logout();
         return back()->withErrors([
             'email' => 'Unauthorized access.'
@@ -191,5 +192,30 @@ public function extendTempReviewer(Request $request)
     $tempReviewer->save();
 
     return back()->with('success', 'Temporary reviewer extended successfully.');
+}
+
+public function storeFinanceUser(Request $request)
+{
+    $validated = $request->validate([
+        'full_name' => 'required|string|max:255',
+        'email'     => 'required|email|unique:users,email',
+    ]);
+
+    $plainPassword = Str::random(10);
+
+    $user = new User();
+    $user->full_name = $validated['full_name'];
+    $user->email = $validated['email'];
+    $user->password = Hash::make($plainPassword);
+    $user->role = 'FINANCE';
+    $user->is_active = true;
+    $user->password_setup_token = Str::uuid();
+    $user->password_setup_expires_at = now()->addHours(24);
+    $user->save();
+
+    // Optional: send email
+    Mail::to($user->email)->send(new FinanceWelcomeMail($user, $plainPassword));
+
+    return back()->with('success', 'Finance user created successfully');
 }
 }
