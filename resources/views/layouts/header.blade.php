@@ -120,8 +120,11 @@
             <div class="row align-items-center">
                 <div class="col-lg-8 col-md-7 col-12">
                     <marquee behavior="scroll" direction="left" scrollamount="3">
-                        <i class="fas fa-bullhorn me-2"></i> 
-                        Call for Papers Now Open! Submit your research abstracts before <b>27th March 2026.</b>
+                        <i class="fas fa-bell me-2"></i>
+                        Registration is Now Open! &nbsp;|&nbsp;
+                        <i class="fas fa-users me-1"></i> Participant Registration &amp; Exhibitor Registration now available.
+                        &nbsp;|&nbsp; Early bird pricing ends <b>22nd May 2026.</b>
+                        &nbsp;|&nbsp; Conference: <b>15th – 19th June 2026, Nairobi, Kenya.</b>
                     </marquee>
                 </div>
                 <div class="col-lg-4 col-md-5 col-12 text-end">
@@ -215,6 +218,7 @@
                                    <i class="fas fa-tasks me-1"></i> Conference Procedure
                                 </a>
                             </li>
+                            <li><hr class="dropdown-divider"></li>
                             <li>
                                 <a class="dropdown-item {{ Request::is('conference/register') ? 'active' : '' }}"
                                    href="/conference/register">
@@ -230,11 +234,27 @@
                         </ul>
                     </li>
 
-                    <!-- Submit Abstract -->
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::is('submit-abstract') ? 'active' : '' }}" href="/submit-abstract">
-                            <i class="fas fa-paper-plane me-1"></i> Submit Abstract
+                    <!-- Papers Dropdown (replaces standalone Submit Abstract) -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle
+                           {{ Request::is('submit-abstract') || Request::is('submit-paper') ? 'active' : '' }}"
+                           href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-file-alt me-1"></i> Papers
                         </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item {{ Request::is('submit-abstract') ? 'active' : '' }}"
+                                   href="/submit-abstract">
+                                   <i class="fas fa-paper-plane me-1"></i> Submit Full Paper
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item {{ Request::is('conference-procedure') ? 'active' : '' }}"
+                                   href="/conference-procedure">
+                                   <i class="fas fa-list-alt me-1"></i> Submission Guidelines
+                                </a>
+                            </li>
+                        </ul>
                     </li>
 
                     <!-- Contact -->
@@ -246,11 +266,14 @@
 
                 </ul>
 
-                <div class="d-flex">
-                    <a href="/conference/register" class="btn btn-warning btn-sm">
-                        <i class="fas fa-user-plus me-1"></i> Participant Registration
+                <!-- Nav CTA Buttons -->
+                <div class="d-flex gap-2">
+                    <a href="/conference/register" class="btn btn-warning btn-sm fw-bold">
+                        <i class="fas fa-user-check me-1"></i> Register Now
                     </a>
-                    
+                    <a href="/exhibition/register" class="btn btn-outline-light btn-sm">
+                        <i class="fas fa-store me-1"></i> Exhibitor
+                    </a>
                 </div>
 
             </div>
