@@ -468,6 +468,7 @@
                                 <option value="">-- Select Presentation Format --</option>
                                 <option value="powerpoint">📊 PowerPoint Presentation</option>
                                 <option value="poster">📋 Poster Presentation</option>
+                                <option value="virtual">⚡ Lightning Talk - 5 Min</option>
                             </select>
                             <small class="text-muted">Select the most appropriate format for presenting this paper at the conference.</small>
                         </div>
