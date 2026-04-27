@@ -14,6 +14,8 @@ use App\Mail\ReviewAssignmentMail;
 use App\Models\FullPaperReview;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Mail\FinalDecisionMail;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class FullPaperReviewController extends Controller
 {
@@ -270,62 +272,98 @@ public function showAssignForm($id)
     }
 
     public function assignReviewers(Request $request, $paperId)
-    {
-        $request->validate([
-            'reviewer1' => 'required',
-            'reviewer2' => 'required|different:reviewer1',
-            'reviewer3' => 'required|different:reviewer1|different:reviewer2',
-        ]);
+{
+    $request->validate([
+        'reviewer1' => 'required',
+        'reviewer2' => 'required|different:reviewer1',
+        'reviewer3' => 'required|different:reviewer1|different:reviewer2',
+    ]);
 
-        $paper = FullPaper::findOrFail($paperId);
+    DB::transaction(function () use ($request, $paperId) {
+
+        $paper = FullPaper::lockForUpdate()->findOrFail($paperId);
+
+        // Prevent duplicate assignment for same paper
+        $existingAssignments = ReviewAssignment::where('full_paper_id', $paper->id)->count();
+
+        if ($existingAssignments >= 3) {
+            throw ValidationException::withMessages([
+                'assignment' => 'This paper has already been assigned reviewers.'
+            ]);
+        }
 
         $assignments = [];
 
-        // Prequalified reviewer
-        $prequalified = PrequalifiedReviewer::find($request->reviewer1);
+        /*
+        |--------------------------------------------------------------------------
+        | PREQUALIFIED REVIEWER CAP CHECK (MAX 3 ACTIVE)
+        |--------------------------------------------------------------------------
+        */
+        $prequalifiedActiveCount = ReviewAssignment::where('prequalified_reviewer_id', $request->reviewer1)
+            ->whereIn('status', ['pending', 'started'])
+            ->lockForUpdate()
+            ->count();
 
+        if ($prequalifiedActiveCount >= 3) {
+            throw ValidationException::withMessages([
+                'reviewer1' => 'Selected prequalified reviewer is already at capacity.'
+            ]);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | PEER REVIEWER CAP CHECK (MAX 3 ACTIVE EACH)
+        |--------------------------------------------------------------------------
+        */
+        foreach (['reviewer2', 'reviewer3'] as $field) {
+            $peerActiveCount = ReviewAssignment::where('peer_reviewer_id', $request->$field)
+                ->whereIn('status', ['pending', 'started'])
+                ->lockForUpdate()
+                ->count();
+
+            if ($peerActiveCount >= 3) {
+                throw ValidationException::withMessages([
+                    $field => 'Selected peer reviewer is already at capacity.'
+                ]);
+            }
+        }
+
+        // Create prequalified assignment
         $assignments[] = ReviewAssignment::create([
             'full_paper_id' => $paper->id,
-            'prequalified_reviewer_id' => $prequalified->id,
+            'prequalified_reviewer_id' => $request->reviewer1,
             'review_token' => Str::uuid(),
             'status' => 'pending'
         ]);
 
-        // Peer reviewers
+        // Create peer assignments
         foreach (['reviewer2', 'reviewer3'] as $field) {
-
-            $user = User::find($request->$field);
-
             $assignments[] = ReviewAssignment::create([
                 'full_paper_id' => $paper->id,
-                'peer_reviewer_id' => $user->id,
+                'peer_reviewer_id' => $request->$field,
                 'review_token' => Str::uuid(),
                 'status' => 'pending'
             ]);
         }
 
-        // After creating all 3 assignments
         $paper->update([
             'status' => 'under_review',
         ]);
 
-        // Send emails
+        // Send emails after successful assignment creation
         foreach ($assignments as $assignment) {
-
             $email = $assignment->prequalified_reviewer_id
                 ? $assignment->prequalifiedReviewer->email
                 : $assignment->peerReviewer->email;
 
-            Mail::to($email)->send(
-                new ReviewAssignmentMail($assignment)
-            );
+            Mail::to($email)->send(new ReviewAssignmentMail($assignment));
         }
+    });
 
-        return redirect()
-            ->route('reviewer.fullpapers.index')
-            ->with('success', 'Reviewers assigned and emails sent.');
-    }
-
+    return redirect()
+        ->route('reviewer.fullpapers.index')
+        ->with('success', 'Reviewers assigned and emails sent.');
+}
     /**
      * List all papers that have completed all 3 reviews — awaiting leader decision
      */
