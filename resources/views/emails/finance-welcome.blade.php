@@ -186,7 +186,7 @@
         <p>
             <strong>KALRO Finance System</strong><br>
             Kenya Agricultural and Livestock Research Organization<br>
-            <a href="mailto:finance@kalro.org">finance@kalro.org</a>
+            <a href="mailto:finance@kalro.org">kalroconference2026@gmail.com</a>
         </p>
 
         <p style="margin-top: 10px;">

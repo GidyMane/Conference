@@ -246,7 +246,7 @@
 
         <!-- Important Notice -->
         <div class="notice-box">
-            <p>⏳ <strong>Note:</strong> Your review link will expire in <strong>3 days</strong>. Please ensure you complete and submit your review before the link expires.</p>
+            <p>⏳ <strong>Note:</strong> You have <strong>3 days</strong> to review the paper. Please ensure you complete and submit your review before the link expires.</p>
         </div>
 
         <!-- Action Buttons -->
