@@ -34,12 +34,12 @@ class MainController extends Controller
         return view('main.submit-abstract', compact('subThemes'));
     }
 
-    public function resubmitAbstract()
-    {
-        $subThemes = SubTheme::orderBy('full_name')->get();
+    #public function resubmitAbstract()
+    #{
+    #   $subThemes = SubTheme::orderBy('full_name')->get();
 
-        return view('main.re-submit-abstract', compact('subThemes'));
-    }
+    #    return view('main.re-submit-abstract', compact('subThemes'));
+    #}
 
 }
 
