@@ -30,7 +30,7 @@ Route::get('/about', [MainController::class, 'about'])->name('about');
 Route::get('/conference-theme', [MainController::class, 'conferenceTheme'])->name('conference.theme');
 Route::get('/conference-procedure', [MainController::class, 'conferenceProcedure'])->name('conference.procedure');
 Route::get('/submit-abstract', [MainController::class, 'submitAbstract'])->name('submit.abstract');
-#Route::get('/resubmit-abstract', [MainController::class, 'reSubmitAbstract'])->name('resubmit.abstract');
+Route::get('/resubmit-abstract', [MainController::class, 'reSubmitAbstract'])->name('resubmit.abstract');
 
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
