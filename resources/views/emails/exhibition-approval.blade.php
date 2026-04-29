@@ -194,11 +194,7 @@
                 <li>Prepare your promotional materials and giveaways</li>
                 <li>Arrive early on the conference day for setup</li>
             </ul>
-            
-            <div style="text-align: center; margin: 35px 0 20px;">
-                <a href="#" class="button">Download Guidelines</a>
-                <a href="#" class="button button-outline">View Your Dashboard</a>
-            </div>
+        
             
             <p style="margin-top: 25px;">
                 <strong>Questions?</strong> Our exhibition team is here to help. Please don't hesitate to reach out.
