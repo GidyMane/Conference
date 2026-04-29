@@ -46,7 +46,7 @@
 
     <div class="footer">
         <strong>KALRO Conference Committee</strong><br>
-        kalroconference2026@gmail.com<br><br>
+        kalroexpo2026@gmail.com<br><br>
         © {{ date('Y') }} 2nd KALRO Scientific Conference & Exhibition
     </div>
 

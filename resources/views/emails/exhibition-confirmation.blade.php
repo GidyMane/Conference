@@ -210,7 +210,7 @@
             <p>
                 <strong>KALRO Conference Exhibition Team</strong><br>
                 Kenya Agricultural and Livestock Research Organization<br>
-                <a href="mailto:exhibition@kalro.org">exhibition@kalro.org</a> | 
+                <a href="mailto:kalroexpo2026@gmail.com">kalroexpo2026@gmail.com</a> | 
                 <a href="tel:+254800721741">0800 721741</a>
             </p>
             <p style="margin-top: 15px; font-size: 12px; color: #999;">

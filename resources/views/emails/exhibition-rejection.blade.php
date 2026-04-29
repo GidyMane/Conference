@@ -174,7 +174,7 @@
             </div>
             
             <div style="text-align: center; margin: 30px 0;">
-                <a href="mailto:exhibition@kalro.org" class="button">
+                <a href="mailto:kalroexpo2026@gmail.com" class="button">
                     <i class="fas fa-envelope"></i> Contact Support
                 </a>
             </div>
@@ -192,7 +192,7 @@
             <p>
                 <strong>KALRO Conference Exhibition Team</strong><br>
                 Kenya Agricultural and Livestock Research Organization<br>
-                <a href="mailto:exhibition@kalro.org">exhibition@kalro.org</a> | 
+                <a href="mailto:kalroexpo2026@gmail.com">kalroexpo2026@gmail.com</a> | 
                 <a href="tel:+254800721741">0800 721741</a>
             </p>
             <p style="margin-top: 15px; font-size: 12px; color: #999;">
