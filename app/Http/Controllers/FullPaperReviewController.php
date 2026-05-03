@@ -7,451 +7,344 @@ use App\Models\FullPaper;
 use App\Models\PrequalifiedReviewer;
 use App\Models\ReviewAssignment;
 use App\Models\User;
+use App\Models\FullPaperReview;
+use App\Models\SubTheme;
+use App\Models\AbstractAssignment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
-use App\Mail\ReviewAssignmentMail;
-use App\Models\FullPaperReview;
-use Barryvdh\DomPDF\Facade\Pdf;
-use App\Mail\FinalDecisionMail;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Mail\ReviewAssignmentMail;
+use App\Mail\FinalDecisionMail;
 
 class FullPaperReviewController extends Controller
 {
     /**
-     * Dashboard - dummy papers
+     * Reviewer dashboard
+     * Show only papers in reviewer's assigned subtheme(s)
      */
     public function index()
     {
         $reviewerId = auth()->id();
 
-        // Fetch papers in this subtheme
         $papers = FullPaper::with(['abstract.subTheme'])
             ->whereHas('abstract.assignments', function ($q) use ($reviewerId) {
                 $q->where('reviewer_id', $reviewerId);
             })
             ->latest()
-        ->get();
+            ->get();
 
-        // Stats
         $stats = [
             'pending_assignment' => $papers->where('status', 'PENDING')->count(),
-            'under_review' => $papers->where('status', 'UNDER_REVIEW')->count(),
-            'total' => $papers->count(),
-            'completed' => $papers->whereIn('status', ['APPROVED', 'REJECTED'])->count(),
+            'under_review'       => $papers->where('status', 'UNDER_REVIEW')->count(),
+            'total'              => $papers->count(),
+            'completed'          => $papers->whereIn('status', ['APPROVED', 'REJECTED'])->count(),
         ];
 
         return view('reviewer.fullpapers-review', compact('papers', 'stats'));
     }
 
     /**
-     * Show all reviews for a paper
+     * Assign reviewers form
+     * Only for papers in reviewer's assigned subtheme
      */
-public function showAssignForm($id)
-{
-    $reviewerId = auth()->id();
-
-    // ✅ Get the paper FIRST
-    $paper = FullPaper::with(['abstract.subTheme'])
-        ->whereHas('abstract.assignments', function ($q) use ($reviewerId) {
-            $q->where('reviewer_id', $reviewerId);
-        })
-        ->findOrFail($id);
-
-    $subThemeId = $paper->abstract->sub_theme_id ?? null;
-
-    /*
-    |--------------------------------------------------------------------------
-    | 1️⃣ PREQUALIFIED REVIEWERS (MAX 3 ACTIVE)
-    |--------------------------------------------------------------------------
-    */
-
-    // Get prequalified reviewers already at capacity
-    $prequalifiedAtCapacity = ReviewAssignment::whereNotNull('prequalified_reviewer_id')
-        ->whereIn('status', ['pending', 'started'])
-        ->select('prequalified_reviewer_id')
-        ->groupBy('prequalified_reviewer_id')
-        ->havingRaw('COUNT(*) >= 3')
-        ->pluck('prequalified_reviewer_id');
-
-    $prequalifiedReviewers = PrequalifiedReviewer::where('sub_theme_id', $subThemeId)
-    ->whereNotIn('id', $prequalifiedAtCapacity)
-    ->withCount([
-        'assignments as assigned_count' => function ($q) {
-            $q->whereIn('status', ['pending', 'started']);
-        }
-    ])
-    ->get();
-
-    /*
-    |--------------------------------------------------------------------------
-    | 2️⃣ PEER REVIEWERS (AUTHORS WITH FULL PAPERS, MAX 3 ACTIVE)
-    |--------------------------------------------------------------------------
-    */
-
-    // Peer reviewers already at capacity
-    $peerAtCapacity = ReviewAssignment::whereNotNull('peer_reviewer_id')
-        ->whereIn('status', ['pending', 'started'])
-        ->select('peer_reviewer_id')
-        ->groupBy('peer_reviewer_id')
-        ->havingRaw('COUNT(*) >= 3')
-        ->pluck('peer_reviewer_id');
-
-    $currentAuthorEmail = $paper->abstract->author_email;
-
-    $peerReviewers = User::where('role', 'AUTHOR')
-        ->whereNotIn('id', $peerAtCapacity)
-        ->where('email', '!=', $currentAuthorEmail)
-        ->whereHas('submittedAbstracts', function ($q) use ($subThemeId) {
-            $q->where('sub_theme_id', $subThemeId)
-            ->whereHas('fullPaper');
-        })
-        ->select('id', 'full_name', 'email')
-        ->orderBy('full_name')
-        ->get();
-
-    return view('reviewer.fullpapers-assign', compact(
-        'paper',
-        'prequalifiedReviewers',
-        'peerReviewers'
-    ));
-}
-
-    /**
-     * Show individual review details
-     */
-    public function showReviewDetails($reviewId)
+    public function showAssignForm($id)
     {
-        $review = (object)[
-            'id' => $reviewId,
-            'reviewer' => (object)['name' => 'Dr Alice'],
-            'comments' => 'Excellent contribution to the field.',
-            'score' => 90,
-        ];
+        $reviewerId = auth()->id();
 
-        $sectionScores = [
-            'Introduction' => 9,
-            'Literature Review' => 8,
-            'Methodology' => 9,
-            'Results' => 9,
-            'Conclusion' => 8,
-        ];
+        $paper = FullPaper::with(['abstract.subTheme'])
+            ->whereHas('abstract.assignments', function ($q) use ($reviewerId) {
+                $q->where('reviewer_id', $reviewerId);
+            })
+            ->findOrFail($id);
 
-        return view('admin.fullpapers.review-details', compact('review', 'sectionScores'));
-    }
-
-    /**
-     * Dummy prequalified reviewers
-     */
-    public function prequalifiedReviewers()
-    {
-        $reviewers = collect([
-            (object)[
-                'id' => 1,
-                'user' => (object)['name' => 'Dr Alice'],
-                'is_active' => true,
-                'current_assigned_count' => 2,
-            ],
-            (object)[
-                'id' => 2,
-                'user' => (object)['name' => 'Prof Bob'],
-                'is_active' => true,
-                'current_assigned_count' => 1,
-            ],
-            (object)[
-                'id' => 3,
-                'user' => (object)['name' => 'Dr Carol'],
-                'is_active' => false,
-                'current_assigned_count' => 0,
-            ],
-        ]);
-
-        $stats = [
-            'total' => 3,
-            'active' => 2,
-            'available' => 2,
-            'at_capacity' => 0,
-        ];
-
-        return view('admin.reviewers.prequalified', compact('reviewers', 'stats'));
-    }
-
-    /**
-     * Add reviewer (dummy)
-     */
-    public function addPrequalifiedReviewer(Request $request)
-    {
-        return back()->with('success', 'Dummy reviewer added successfully.');
-    }
-
-    /**
-     * Update reviewer (dummy)
-     */
-    public function updatePrequalifiedReviewer(Request $request, $id)
-    {
-        return back()->with('success', 'Dummy reviewer updated successfully.');
-    }
-
-    /**
-     * Toggle reviewer status (dummy)
-     */
-    public function toggleReviewerStatus($id)
-    {
-        return back()->with('success', 'Dummy reviewer status toggled.');
-    }
-
-    /**
-     * Workload statistics (dummy)
-     */
-    public function workloadStatistics()
-    {
-        $reviewers = collect([
-            (object)[
-                'name' => 'Dr Alice',
-                'total_assigned' => 3,
-                'pending' => 1,
-                'completed' => 2,
-            ],
-            (object)[
-                'name' => 'Prof Bob',
-                'total_assigned' => 2,
-                'pending' => 0,
-                'completed' => 2,
-            ],
-        ]);
-
-        return view('admin.reviewers.workload', compact('reviewers'));
-    }
-
-    /**
-     * Export reviews (dummy)
-     */
-    public function exportReviews($paperId)
-    {
-        $paper = (object)[
-            'id' => $paperId,
-            'title' => 'AI in Agriculture',
-            'reviews' => [],
-            'abstract' => (object)['title' => 'AI Abstract']
-        ];
-
-        return view('subtheme-leader.fullpapers.index', compact('paper'));
-    }
-
-    /**
-     * Admin assign form (dummy)
-     */
-    public function showAdminAssignForm($id)
-    {
-        $paper = (object)[
-            'id' => $id,
-            'title' => 'AI in Agriculture',
-            'assignments' => []
-        ];
-
-        $prequalifiedReviewers = collect([
-            (object)['name' => 'Dr Alice'],
-            (object)['name' => 'Prof Bob'],
-        ]);
-
-        $peerReviewers = collect([
-            (object)['name' => 'Researcher One'],
-            (object)['name' => 'Researcher Two'],
-        ]);
-
-        return view('subtheme-leader.fullpapers.assign', compact('paper', 'prequalifiedReviewers', 'peerReviewers'));
-    }
-
-    /**
-     * Force reassign (dummy)
-     */
-    public function forceReassign(Request $request, $assignmentId)
-    {
-        return back()->with('success', 'Dummy assignment removed.');
-    }
-
-    public function assignReviewers(Request $request, $paperId)
-{
-    $request->validate([
-        'reviewer1' => 'required',
-        'reviewer2' => 'required|different:reviewer1',
-        'reviewer3' => 'required|different:reviewer1|different:reviewer2',
-    ]);
-
-    DB::transaction(function () use ($request, $paperId) {
-
-        $paper = FullPaper::lockForUpdate()->findOrFail($paperId);
-
-        // Prevent duplicate assignment for same paper
-        $existingAssignments = ReviewAssignment::where('full_paper_id', $paper->id)->count();
-
-        if ($existingAssignments >= 3) {
-            throw ValidationException::withMessages([
-                'assignment' => 'This paper has already been assigned reviewers.'
-            ]);
-        }
-
-        $assignments = [];
+        $subThemeId = $paper->abstract->sub_theme_id ?? null;
 
         /*
         |--------------------------------------------------------------------------
-        | PREQUALIFIED REVIEWER CAP CHECK (MAX 3 ACTIVE)
+        | PREQUALIFIED REVIEWERS (MAX 3 ACTIVE)
         |--------------------------------------------------------------------------
         */
-        $prequalifiedActiveCount = ReviewAssignment::where('prequalified_reviewer_id', $request->reviewer1)
+        $prequalifiedAtCapacity = ReviewAssignment::whereNotNull('prequalified_reviewer_id')
             ->whereIn('status', ['pending', 'started'])
-            ->lockForUpdate()
-            ->count();
+            ->select('prequalified_reviewer_id')
+            ->groupBy('prequalified_reviewer_id')
+            ->havingRaw('COUNT(*) >= 3')
+            ->pluck('prequalified_reviewer_id');
 
-        if ($prequalifiedActiveCount >= 3) {
-            throw ValidationException::withMessages([
-                'reviewer1' => 'Selected prequalified reviewer is already at capacity.'
-            ]);
-        }
+        $prequalifiedReviewers = PrequalifiedReviewer::where('sub_theme_id', $subThemeId)
+            ->whereNotIn('id', $prequalifiedAtCapacity)
+            ->withCount([
+                'assignments as assigned_count' => function ($q) {
+                    $q->whereIn('status', ['pending', 'started']);
+                }
+            ])
+            ->orderBy('full_name')
+            ->get();
 
         /*
         |--------------------------------------------------------------------------
-        | PEER REVIEWER CAP CHECK (MAX 3 ACTIVE EACH)
+        | PEER REVIEWERS (AUTHORS IN SAME SUBTHEME, MAX 3 ACTIVE)
         |--------------------------------------------------------------------------
         */
-        foreach (['reviewer2', 'reviewer3'] as $field) {
-            $peerActiveCount = ReviewAssignment::where('peer_reviewer_id', $request->$field)
+        $peerAtCapacity = ReviewAssignment::whereNotNull('peer_reviewer_id')
+            ->whereIn('status', ['pending', 'started'])
+            ->select('peer_reviewer_id')
+            ->groupBy('peer_reviewer_id')
+            ->havingRaw('COUNT(*) >= 3')
+            ->pluck('peer_reviewer_id');
+
+        $currentAuthorEmail = $paper->abstract->author_email;
+
+        $peerReviewers = User::where('role', 'AUTHOR')
+            ->whereNotIn('id', $peerAtCapacity)
+            ->where('email', '!=', $currentAuthorEmail)
+            ->whereHas('submittedAbstracts', function ($q) use ($subThemeId) {
+                $q->where('sub_theme_id', $subThemeId)
+                  ->whereHas('fullPaper');
+            })
+            ->select('id', 'full_name', 'email')
+            ->orderBy('full_name')
+            ->get();
+
+        return view('reviewer.fullpapers-assign', compact(
+            'paper',
+            'prequalifiedReviewers',
+            'peerReviewers'
+        ));
+    }
+
+    /**
+     * Assign reviewers
+     */
+    public function assignReviewers(Request $request, $paperId)
+    {
+        $request->validate([
+            'reviewer1' => 'required',
+            'reviewer2' => 'required|different:reviewer1',
+            'reviewer3' => 'required|different:reviewer1|different:reviewer2',
+        ]);
+
+        DB::transaction(function () use ($request, $paperId) {
+            $paper = FullPaper::with('abstract')->lockForUpdate()->findOrFail($paperId);
+            $subThemeId = $paper->abstract->sub_theme_id;
+
+            $existingAssignments = ReviewAssignment::where('full_paper_id', $paper->id)->count();
+
+            if ($existingAssignments >= 3) {
+                throw ValidationException::withMessages([
+                    'assignment' => 'This paper has already been assigned reviewers.'
+                ]);
+            }
+
+            $assignments = [];
+
+            /*
+            |--------------------------------------------------------------------------
+            | PREQUALIFIED REVIEWER CHECK
+            |--------------------------------------------------------------------------
+            */
+            $prequalified = PrequalifiedReviewer::where('id', $request->reviewer1)
+                ->where('sub_theme_id', $subThemeId)
+                ->first();
+
+            if (!$prequalified) {
+                throw ValidationException::withMessages([
+                    'reviewer1' => 'Selected prequalified reviewer must belong to this subtheme.'
+                ]);
+            }
+
+            $prequalifiedActiveCount = ReviewAssignment::where('prequalified_reviewer_id', $request->reviewer1)
                 ->whereIn('status', ['pending', 'started'])
                 ->lockForUpdate()
                 ->count();
 
-            if ($peerActiveCount >= 3) {
+            if ($prequalifiedActiveCount >= 3) {
                 throw ValidationException::withMessages([
-                    $field => 'Selected peer reviewer is already at capacity.'
+                    'reviewer1' => 'Selected prequalified reviewer is already at capacity.'
                 ]);
             }
-        }
 
-        // Create prequalified assignment
-        $assignments[] = ReviewAssignment::create([
-            'full_paper_id' => $paper->id,
-            'prequalified_reviewer_id' => $request->reviewer1,
-            'review_token' => Str::uuid(),
-            'status' => 'pending'
-        ]);
+            /*
+            |--------------------------------------------------------------------------
+            | PEER REVIEWER CHECK (MUST BE SAME SUBTHEME)
+            |--------------------------------------------------------------------------
+            */
+            foreach (['reviewer2', 'reviewer3'] as $field) {
+                $peerId = $request->$field;
 
-        // Create peer assignments
-        foreach (['reviewer2', 'reviewer3'] as $field) {
+                $peer = User::where('id', $peerId)
+                    ->where('role', 'AUTHOR')
+                    ->whereHas('submittedAbstracts', function ($q) use ($subThemeId) {
+                        $q->where('sub_theme_id', $subThemeId)
+                          ->whereHas('fullPaper');
+                    })
+                    ->first();
+
+                if (!$peer) {
+                    throw ValidationException::withMessages([
+                        $field => 'Selected peer reviewer must belong to this subtheme.'
+                    ]);
+                }
+
+                $peerActiveCount = ReviewAssignment::where('peer_reviewer_id', $peerId)
+                    ->whereIn('status', ['pending', 'started'])
+                    ->lockForUpdate()
+                    ->count();
+
+                if ($peerActiveCount >= 3) {
+                    throw ValidationException::withMessages([
+                        $field => 'Selected peer reviewer is already at capacity.'
+                    ]);
+                }
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | CREATE ASSIGNMENTS
+            |--------------------------------------------------------------------------
+            */
             $assignments[] = ReviewAssignment::create([
-                'full_paper_id' => $paper->id,
-                'peer_reviewer_id' => $request->$field,
-                'review_token' => Str::uuid(),
-                'status' => 'pending'
+                'full_paper_id'             => $paper->id,
+                'prequalified_reviewer_id'  => $request->reviewer1,
+                'review_token'              => Str::uuid(),
+                'status'                    => 'pending',
             ]);
-        }
 
-        $paper->update([
-            'status' => 'under_review',
-        ]);
+            foreach (['reviewer2', 'reviewer3'] as $field) {
+                $assignments[] = ReviewAssignment::create([
+                    'full_paper_id'    => $paper->id,
+                    'peer_reviewer_id' => $request->$field,
+                    'review_token'     => Str::uuid(),
+                    'status'           => 'pending',
+                ]);
+            }
 
-        // Send emails after successful assignment creation
-        foreach ($assignments as $assignment) {
-            $email = $assignment->prequalified_reviewer_id
-                ? $assignment->prequalifiedReviewer->email
-                : $assignment->peerReviewer->email;
+            $paper->update([
+                'status' => 'UNDER_REVIEW',
+            ]);
 
-            Mail::to($email)->send(new ReviewAssignmentMail($assignment));
-        }
-    });
+            foreach ($assignments as $assignment) {
+                $email = $assignment->prequalified_reviewer_id
+                    ? $assignment->prequalifiedReviewer->email
+                    : $assignment->peerReviewer->email;
 
-    return redirect()
-        ->route('reviewer.fullpapers.index')
-        ->with('success', 'Reviewers assigned and emails sent.');
-}
+                Mail::to($email)->send(new ReviewAssignmentMail($assignment));
+            }
+        });
+
+        return redirect()
+            ->route('reviewer.fullpapers.index')
+            ->with('success', 'Reviewers assigned and emails sent.');
+    }
+
     /**
-     * List all papers that have completed all 3 reviews — awaiting leader decision
+     * Completed reviews
+     * Only show completed papers in reviewer's assigned subtheme(s)
      */
     public function completedReviews()
     {
-        // Get only papers with final decision 'approved' or 'rejected'
-        $papers = \App\Models\FullPaper::with('reviews', 'abstract', 'abstract.subtheme')
-            ->whereIn('status', ['approved', 'rejected']) // <-- filter here
+        $reviewerId = auth()->id();
+
+        $subThemeIds = AbstractAssignment::where('reviewer_id', $reviewerId)
+            ->pluck('sub_theme_id')
+            ->unique();
+
+        $papers = FullPaper::with([
+                'reviewAssignments.fullPaperReview',
+                'abstract',
+                'abstract.subTheme'
+            ])
+            ->whereIn('status', ['APPROVED', 'REJECTED'])
+            ->whereHas('abstract', function ($q) use ($subThemeIds) {
+                $q->whereIn('sub_theme_id', $subThemeIds);
+            })
+            ->latest()
             ->get();
 
-        // Get unique sub-themes for the filter dropdown
-        $subthemes = $papers->pluck('sub_theme')->unique();
+        $subthemes = $papers->pluck('abstract.subTheme')->unique('id');
 
         return view('reviewer.fullpapers-completed', compact('papers', 'subthemes'));
     }
 
     /**
-     * Show all 3 reviews for a specific paper + decision form
+     * Show all reviews for one paper
+     * Restrict to reviewer's assigned subtheme(s)
      */
     public function allReviews($id)
     {
-        $paper = FullPaper::with([
-            'abstract.subTheme',
-            'reviewAssignments.prequalifiedReviewer',
-            'reviewAssignments.peerReviewer',
-            'reviewAssignments.fullPaperReview'
-        ])->findOrFail($id);
+        $reviewerId = auth()->id();
 
-        // Instead of separate FullPaperReview query,
-        // just use reviewAssignments
+        $subThemeIds = AbstractAssignment::where('reviewer_id', $reviewerId)
+            ->pluck('sub_theme_id')
+            ->unique();
+
+        $paper = FullPaper::with([
+                'abstract.subTheme',
+                'reviewAssignments.prequalifiedReviewer',
+                'reviewAssignments.peerReviewer',
+                'reviewAssignments.fullPaperReview'
+            ])
+            ->whereHas('abstract', function ($q) use ($subThemeIds) {
+                $q->whereIn('sub_theme_id', $subThemeIds);
+            })
+            ->findOrFail($id);
+
         $reviews = $paper->reviewAssignments;
 
         return view('reviewer.fullpapers-decision', compact('paper', 'reviews'));
     }
 
     /**
-     * Sub-theme leader submits final decision (approve / reject)
+     * Submit final decision
      */
     public function submitFinalDecision(Request $request, $id)
     {
         $request->validate([
-            'decision' => 'required|in:approved,not_approved,approved_with_minor_revisions,approved_with_major_revisions',
+            'decision'          => 'required|in:approved,not_approved,approved_with_minor_revisions,approved_with_major_revisions',
             'presentation_type' => 'required|in:powerpoint,poster',
-            'comments' => 'required|min:20',
+            'comments'          => 'required|min:20',
         ]);
 
         $paper = FullPaper::with(['abstract', 'reviewAssignments.fullPaperReview'])->findOrFail($id);
 
-        // Save decision
         $paper->update([
-            'status' => $request->decision === 'not_approved' ? 'REJECTED' : 'APPROVED',
-            'final_decision' => $request->decision,
+            'status'            => $request->decision === 'not_approved' ? 'REJECTED' : 'APPROVED',
+            'final_decision'    => $request->decision,
             'presentation_type' => $request->presentation_type,
-            'leader_comments' => $request->comments,
-            'decision_made_at' => now(),
+            'leader_comments'   => $request->comments,
+            'decision_made_at'  => now(),
         ]);
 
-        // Gather reviews
-        $reviews = $paper->reviewAssignments->map(fn($a) => $a->fullPaperReview)->filter();
+        $reviews = $paper->reviewAssignments->map(fn ($a) => $a->fullPaperReview)->filter();
 
-        // Generate PDF
         $pdf = Pdf::loadView('emails.final_decision_pdf', compact('paper', 'reviews'));
         $pdfContent = $pdf->output();
 
-        // Send email to author
-        $authorEmail = $paper->abstract->author_email;
-        Mail::to($authorEmail)->send(new FinalDecisionMail($paper, $pdfContent));
+        Mail::to($paper->abstract->author_email)->send(new FinalDecisionMail($paper, $pdfContent));
 
-        // Redirect to full papers review page with success message
         return redirect('/reviewer/fullpapers-review')
             ->with('success', 'Decision submitted and author notified.');
     }
 
+    /**
+     * Submit review
+     */
     public function submitReview(Request $request, $assignmentId)
     {
         $assignment = ReviewAssignment::findOrFail($assignmentId);
 
-        // Prevent double submission
         if ($assignment->fullPaperReview) {
             return back()->with('error', 'You have already submitted this review.');
         }
 
-        // Validation
         $request->validate([
             'overall_comments' => 'required|min:50',
             'recommendation' => 'required|in:accept,needs_minor_revisions,needs_major_revisions,reject',
             'paper_suitability' => 'required',
-            // Optional: numeric score fields
+
             'title_appropriate' => 'required|numeric|min:0|max:2',
             'title_reflects_content' => 'required|numeric|min:0|max:3',
             'abstract_word_count' => 'required|numeric|min:0|max:2',
@@ -483,7 +376,6 @@ public function showAssignForm($id)
             'references_matching' => 'required|numeric|min:0|max:1',
         ]);
 
-        // Calculate scores
         $scoreTitle = $request->title_appropriate + $request->title_reflects_content;
         $scoreAbstract = $request->abstract_word_count + $request->abstract_completeness;
         $scoreIntroduction = $request->intro_background + $request->intro_originality + $request->intro_objectives;
@@ -495,140 +387,106 @@ public function showAssignForm($id)
 
         $totalScore = $scoreTitle + $scoreAbstract + $scoreIntroduction + $scoreMethods + $scoreResults + $scoreDiscussion + $scoreConclusion + $scoreReferences;
 
-        // Save review
         FullPaperReview::create([
+            'review_assignment_id' => $assignment->id,
 
-        'review_assignment_id' => $assignment->id,
+            'score_title' => $scoreTitle,
+            'score_abstract' => $scoreAbstract,
+            'score_introduction' => $scoreIntroduction,
+            'score_methods' => $scoreMethods,
+            'score_results' => $scoreResults,
+            'score_discussion' => $scoreDiscussion,
+            'score_conclusion' => $scoreConclusion,
+            'score_references' => $scoreReferences,
 
-        /*
-        |--------------------------------------------------------------------------
-        | SECTION TOTALS
-        |--------------------------------------------------------------------------
-        */
+            'title_appropriate' => $request->title_appropriate,
+            'title_reflects_content' => $request->title_reflects_content,
+            'abstract_word_count' => $request->abstract_word_count,
+            'abstract_completeness' => $request->abstract_completeness,
+            'intro_background' => $request->intro_background,
+            'intro_originality' => $request->intro_originality,
+            'intro_objectives' => $request->intro_objectives,
+            'methods_replication' => $request->methods_replication,
+            'methods_design' => $request->methods_design,
+            'methods_statistics' => $request->methods_statistics,
+            'methods_ethics' => $request->methods_ethics,
+            'results_insights' => $request->results_insights,
+            'results_narrative' => $request->results_narrative,
+            'results_data_clarity' => $request->results_data_clarity,
+            'results_visuals' => $request->results_visuals,
+            'results_referencing' => $request->results_referencing,
+            'discussion_context' => $request->discussion_context,
+            'discussion_objectives' => $request->discussion_objectives,
+            'discussion_significance' => $request->discussion_significance,
+            'discussion_theme' => $request->discussion_theme,
+            'discussion_references' => $request->discussion_references,
+            'conclusion_objectives' => $request->conclusion_objectives,
+            'conclusion_consistency' => $request->conclusion_consistency,
+            'conclusion_contribution' => $request->conclusion_contribution,
+            'acknowledgement_present' => $request->acknowledgement_present,
+            'references_accuracy' => $request->references_accuracy,
+            'references_balance' => $request->references_balance,
+            'references_citation' => $request->references_citation,
+            'references_matching' => $request->references_matching,
 
-        'score_title' => $scoreTitle,
-        'score_abstract' => $scoreAbstract,
-        'score_introduction' => $scoreIntroduction,
-        'score_methods' => $scoreMethods,
-        'score_results' => $scoreResults,
-        'score_discussion' => $scoreDiscussion,
-        'score_conclusion' => $scoreConclusion,
-        'score_references' => $scoreReferences,
+            'title_comments' => $request->title_comments,
+            'abstract_comments' => $request->abstract_comments,
+            'introduction_comments' => $request->intro_comments,
+            'methods_comments' => $request->methods_comments,
+            'results_comments' => $request->results_comments,
+            'discussion_comments' => $request->discussion_comments,
+            'conclusion_comments' => $request->conclusion_comments,
+            'references_comments' => $request->references_comments,
 
-        /*
-        |--------------------------------------------------------------------------
-        | INDIVIDUAL SCORES
-        |--------------------------------------------------------------------------
-        */
+            'overall_comments' => $request->overall_comments,
+            'recommendation' => $request->recommendation,
+            'presentation_type' => $request->paper_suitability,
+            'total_score' => $totalScore,
+            'submitted_at' => now(),
+        ]);
 
-        'title_appropriate' => $request->title_appropriate,
-        'title_reflects_content' => $request->title_reflects_content,
-
-        'abstract_word_count' => $request->abstract_word_count,
-        'abstract_completeness' => $request->abstract_completeness,
-
-        'intro_background' => $request->intro_background,
-        'intro_originality' => $request->intro_originality,
-        'intro_objectives' => $request->intro_objectives,
-
-        'methods_replication' => $request->methods_replication,
-        'methods_design' => $request->methods_design,
-        'methods_statistics' => $request->methods_statistics,
-        'methods_ethics' => $request->methods_ethics,
-
-        'results_insights' => $request->results_insights,
-        'results_narrative' => $request->results_narrative,
-        'results_data_clarity' => $request->results_data_clarity,
-        'results_visuals' => $request->results_visuals,
-        'results_referencing' => $request->results_referencing,
-
-        'discussion_context' => $request->discussion_context,
-        'discussion_objectives' => $request->discussion_objectives,
-        'discussion_significance' => $request->discussion_significance,
-        'discussion_theme' => $request->discussion_theme,
-        'discussion_references' => $request->discussion_references,
-
-        'conclusion_objectives' => $request->conclusion_objectives,
-        'conclusion_consistency' => $request->conclusion_consistency,
-        'conclusion_contribution' => $request->conclusion_contribution,
-
-        'acknowledgement_present' => $request->acknowledgement_present,
-        'references_accuracy' => $request->references_accuracy,
-        'references_balance' => $request->references_balance,
-        'references_citation' => $request->references_citation,
-        'references_matching' => $request->references_matching,
-
-        /*
-        |--------------------------------------------------------------------------
-        | COMMENTS
-        |--------------------------------------------------------------------------
-        */
-
-        'title_comments' => $request->title_comments,
-        'abstract_comments' => $request->abstract_comments,
-        'introduction_comments' => $request->intro_comments,
-        'methods_comments' => $request->methods_comments,
-        'results_comments' => $request->results_comments,
-        'discussion_comments' => $request->discussion_comments,
-        'conclusion_comments' => $request->conclusion_comments,
-        'references_comments' => $request->references_comments,
-
-        'overall_comments' => $request->overall_comments,
-
-        'recommendation' => $request->recommendation,
-        'presentation_type' => $request->paper_suitability,
-
-        'total_score' => $totalScore,
-        'submitted_at' => now(),
-    ]);
-
-        // Update assignment status
         $assignment->update(['status' => 'completed']);
 
-        return redirect()->route('reviewer.review.success')
-        ->with([
+        return redirect()->route('reviewer.review.success')->with([
             'total_score' => $totalScore,
             'recommendation' => $request->recommendation,
         ]);
     }
 
-    public function showFullPaperReviews($paperId)
+    /**
+     * Admin completed reviews
+     */
+    public function adminCompletedReviews(Request $request)
     {
-        $paper = FullPaper::with('submittedAbstract')->findOrFail($paperId);
+        $query = FullPaper::with(['reviewAssignments.fullPaperReview', 'abstract', 'abstract.subTheme'])
+            ->whereIn('status', ['APPROVED', 'REJECTED']);
 
-        // Get all review assignments for this paper with reviewer and review relation
-        $reviews = ReviewAssignment::with(['prequalifiedReviewer', 'peerReviewer', 'fullPaperReview'])
-                    ->where('full_paper_id', $paper->id)
-                    ->get();
+        if ($request->filled('subtheme')) {
+            $query->whereHas('abstract', function ($q) use ($request) {
+                $q->where('sub_theme_id', $request->subtheme);
+            });
+        }
 
-        return view('reviewer.fullpapers-decision', [
-            'paper' => $paper,
-            'reviews' => $reviews
-        ]);
+        $papers = $query->latest()->get();
+        $subthemes = SubTheme::all();
+
+        return view('admin.fullpapers.completed', compact('papers', 'subthemes'));
     }
 
-    public function adminCompletedReviews()
-{
-    $papers = \App\Models\FullPaper::with('reviews', 'abstract', 'abstract.subtheme')
-        ->whereIn('status', ['approved', 'rejected'])
-        ->get();
+    /**
+     * Admin all reviews
+     */
+    public function adminAllReviews($id)
+    {
+        $paper = FullPaper::with([
+            'abstract.subTheme',
+            'reviewAssignments.prequalifiedReviewer',
+            'reviewAssignments.peerReviewer',
+            'reviewAssignments.fullPaperReview'
+        ])->findOrFail($id);
 
-    $subthemes = $papers->pluck('sub_theme')->unique();
+        $reviews = $paper->reviewAssignments;
 
-    return view('admin.fullpapers.completed', compact('papers', 'subthemes'));
-}
-
-public function adminAllReviews($id)
-{
-    $paper = FullPaper::with([
-        'abstract.subTheme',
-        'reviewAssignments.prequalifiedReviewer',
-        'reviewAssignments.peerReviewer',
-        'reviewAssignments.fullPaperReview'
-    ])->findOrFail($id);
-
-    $reviews = $paper->reviewAssignments;
-
-    return view('admin.fullpapers.all-reviews', compact('paper', 'reviews'));
-}
+        return view('admin.fullpapers.all-reviews', compact('paper', 'reviews'));
+    }
 }
