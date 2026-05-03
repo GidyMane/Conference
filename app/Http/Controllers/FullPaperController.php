@@ -27,9 +27,8 @@ class FullPaperController extends Controller
         return view('full-papers.create', compact('abstract'));
     }
 
-public function store(Request $request, $id)
-{
-    try {
+    public function store(Request $request, $id)
+    {
         $abstract = SubmittedAbstract::findOrFail($id);
 
         if ($abstract->status !== 'APPROVED') {
@@ -37,22 +36,55 @@ public function store(Request $request, $id)
         }
 
         $request->validate([
-            'full_paper' => 'required|file|mimes:doc,docx,pdf,ppt,pptx|max:10240',
+            'full_paper' => 'required|file|mimes:doc,docx,pdf,ppt,pptx,pptx,application/octet-stream|max:10240',
         ]);
+
+        $nextNumber = FullPaper::where('submitted_abstract_id', $abstract->id)->count() + 1;
+        $fullPaperCode = 'FP_' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
 
         $file = $request->file('full_paper');
 
-        dd([
-            'exists' => $file ? true : false,
-            'size' => $file?->getSize(),
-            'mime' => $file?->getMimeType(),
-            'ext' => $file?->getClientOriginalExtension(),
-        ]);
+        $fileSize = $file->getSize();
+        $extension = $file->getClientOriginalExtension();
 
-    } catch (\Throwable $e) {
-        dd($e->getMessage(), $e->getTraceAsString());
+        $fileName = "{$abstract->submission_code}-{$fullPaperCode}.{$extension}";
+        $path = $file->storeAs(
+            "uploads/full-papers/{$abstract->sub_theme_id}",
+            $fileName,
+            'public' // important
+        );
+
+        $relativePath = $path;
+
+        // Create AUTHOR user automatically if not exists
+        $user = User::firstOrCreate(
+            ['email' => $abstract->author_email],
+            [
+                'full_name' => $abstract->author_name,
+                'role' => 'AUTHOR',
+                'password' => null,
+                'is_active' => true,
+                'password_setup_token' => Str::random(64),
+                'password_setup_expires_at' => now()->addDays(14),
+            ]
+        );
+
+        FullPaper::updateOrCreate(
+            ['submitted_abstract_id' => $abstract->id],
+            [
+                'file_path'       => $relativePath,
+                'full_paper_code' => $fullPaperCode,
+                'file_type'       => $extension,
+                'file_size'       => $fileSize,
+                'uploaded_at'     => now(),
+                'status'          => 'PENDING',
+            ]
+        );
+
+        return redirect()->route('fullpapers.success', [
+            'ref' => "{$abstract->submission_code}-{$fullPaperCode}"
+        ]);
     }
-}
   
     // ADMIN MANAGEMENT FLOW
 
