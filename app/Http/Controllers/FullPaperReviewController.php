@@ -7,6 +7,7 @@ use App\Models\FullPaper;
 use App\Models\PrequalifiedReviewer;
 use App\Models\ReviewAssignment;
 use App\Models\User;
+use App\Models\Reviewer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -23,27 +24,35 @@ class FullPaperReviewController extends Controller
      * Dashboard - dummy papers
      */
     public function index()
-    {
-        $reviewerId = auth()->id();
+{
+    $reviewerId = auth()->id();
 
-        // Fetch papers in this subtheme
-        $papers = FullPaper::with(['abstract.subTheme'])
-            ->whereHas('abstract.assignments', function ($q) use ($reviewerId) {
-                $q->where('reviewer_id', $reviewerId);
-            })
-            ->latest()
+    $reviewer = Reviewer::where('user_id', $reviewerId)->first();
+
+    if (!$reviewer) {
+        abort(403, 'You are not registered as a reviewer.');
+    }
+
+    $reviewerSubThemeIds = DB::table('reviewer_sub_theme')
+        ->where('reviewer_id', $reviewer->id)
+        ->pluck('sub_theme_id');
+
+    $papers = FullPaper::with(['abstract.subTheme'])
+        ->whereHas('abstract', function ($q) use ($reviewerSubThemeIds) {
+            $q->whereIn('sub_theme_id', $reviewerSubThemeIds);
+        })
+        ->latest()
         ->get();
 
-        // Stats
-        $stats = [
-            'pending_assignment' => $papers->where('status', 'PENDING')->count(),
-            'under_review' => $papers->where('status', 'UNDER_REVIEW')->count(),
-            'total' => $papers->count(),
-            'completed' => $papers->whereIn('status', ['APPROVED', 'REJECTED'])->count(),
-        ];
+    $stats = [
+        'pending_assignment' => $papers->where('status', 'PENDING')->count(),
+        'under_review' => $papers->where('status', 'UNDER_REVIEW')->count(),
+        'total' => $papers->count(),
+        'completed' => $papers->whereIn('status', ['APPROVED', 'REJECTED'])->count(),
+    ];
 
-        return view('reviewer.fullpapers-review', compact('papers', 'stats'));
-    }
+    return view('reviewer.fullpapers-review', compact('papers', 'stats'));
+}
 
     /**
      * Show all reviews for a paper
@@ -368,17 +377,30 @@ public function showAssignForm($id)
      * List all papers that have completed all 3 reviews — awaiting leader decision
      */
     public function completedReviews()
-    {
-        // Get only papers with final decision 'approved' or 'rejected'
-        $papers = \App\Models\FullPaper::with('reviews', 'abstract', 'abstract.subtheme')
-            ->whereIn('status', ['approved', 'rejected']) // <-- filter here
-            ->get();
+{
+    $reviewerId = auth()->id();
 
-        // Get unique sub-themes for the filter dropdown
-        $subthemes = $papers->pluck('sub_theme')->unique();
+    $reviewer = Reviewer::where('user_id', $reviewerId)->first();
 
-        return view('reviewer.fullpapers-completed', compact('papers', 'subthemes'));
+    if (!$reviewer) {
+        abort(403, 'You are not registered as a reviewer.');
     }
+
+    $reviewerSubThemeIds = DB::table('reviewer_sub_theme')
+        ->where('reviewer_id', $reviewer->id)
+        ->pluck('sub_theme_id');
+
+    $papers = FullPaper::with(['reviews', 'abstract', 'abstract.subTheme'])
+        ->whereHas('abstract', function ($q) use ($reviewerSubThemeIds) {
+            $q->whereIn('sub_theme_id', $reviewerSubThemeIds);
+        })
+        ->whereIn('status', ['APPROVED', 'REJECTED'])
+        ->get();
+
+    $subthemes = $papers->pluck('abstract.subTheme')->filter()->unique('id');
+
+    return view('reviewer.fullpapers-completed', compact('papers', 'subthemes'));
+}
 
     /**
      * Show all 3 reviews for a specific paper + decision form
@@ -387,12 +409,16 @@ public function allReviews($id)
 {
     $reviewerId = auth()->id();
 
-    // Get all subthemes assigned to this reviewer
-    $reviewerSubThemeIds = \App\Models\AbstractAssignment::where('reviewer_id', $reviewerId)
-        ->pluck('sub_theme_id')
-        ->unique();
+    $reviewer = Reviewer::where('user_id', $reviewerId)->first();
 
-    // Only allow access to papers whose abstract belongs to reviewer subtheme
+    if (!$reviewer) {
+        abort(403, 'You are not registered as a reviewer.');
+    }
+
+    $reviewerSubThemeIds = DB::table('reviewer_sub_theme')
+        ->where('reviewer_id', $reviewer->id)
+        ->pluck('sub_theme_id');
+
     $paper = FullPaper::with([
         'abstract.subTheme',
         'reviewAssignments.prequalifiedReviewer',
@@ -602,21 +628,36 @@ public function allReviews($id)
         ]);
     }
 
-    public function showFullPaperReviews($paperId)
-    {
-        $paper = FullPaper::with('submittedAbstract')->findOrFail($paperId);
+public function showFullPaperReviews($paperId)
+{
+    $reviewerId = auth()->id();
 
-        // Get all review assignments for this paper with reviewer and review relation
-        $reviews = ReviewAssignment::with(['prequalifiedReviewer', 'peerReviewer', 'fullPaperReview'])
-                    ->where('full_paper_id', $paper->id)
-                    ->get();
+    $reviewer = Reviewer::where('user_id', $reviewerId)->first();
 
-        return view('reviewer.fullpapers-decision', [
-            'paper' => $paper,
-            'reviews' => $reviews
-        ]);
+    if (!$reviewer) {
+        abort(403, 'You are not registered as a reviewer.');
     }
 
+    $reviewerSubThemeIds = DB::table('reviewer_sub_theme')
+        ->where('reviewer_id', $reviewer->id)
+        ->pluck('sub_theme_id');
+
+    $paper = FullPaper::with('abstract.subTheme')
+        ->whereHas('abstract', function ($q) use ($reviewerSubThemeIds) {
+            $q->whereIn('sub_theme_id', $reviewerSubThemeIds);
+        })
+        ->findOrFail($paperId);
+
+    $reviews = ReviewAssignment::with([
+            'prequalifiedReviewer',
+            'peerReviewer',
+            'fullPaperReview'
+        ])
+        ->where('full_paper_id', $paper->id)
+        ->get();
+
+    return view('reviewer.fullpapers-decision', compact('paper', 'reviews'));
+}
     public function adminCompletedReviews()
 {
     $papers = \App\Models\FullPaper::with('reviews', 'abstract', 'abstract.subtheme')
