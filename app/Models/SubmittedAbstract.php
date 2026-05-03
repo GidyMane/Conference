@@ -31,7 +31,7 @@ class SubmittedAbstract extends Model
 
     public function subTheme()
     {
-        return $this->belongsTo(SubTheme::class);
+        return $this->belongsTo(SubTheme::class, 'sub_theme_id');
     }
 
     // Updated: Generate unique submission code with retry
