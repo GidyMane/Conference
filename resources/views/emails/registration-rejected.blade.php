@@ -32,7 +32,7 @@
 
         <p>
             If you believe this was made in error or need clarification,
-            please contact us at kalroconference2026@gmail.com.
+            please contact us at kalroexpo2026@gmail.com.
         </p>
 
         <p>

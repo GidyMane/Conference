@@ -73,7 +73,7 @@
                             <div class="contact-methods">
                                 <a href="mailto:conference@kalro.org" class="contact-link">
                                     <i class="bi bi-envelope"></i>
-                                    kalroconference2026@gmail.com
+                                    kalroexpo2026@gmail.com
                                 </a>
                                 <a href="tel:+254800 721741" class="contact-link">
                                     <i class="bi bi-telephone"></i>
