@@ -46,11 +46,7 @@ p{ margin:4px 0; }
     padding:12px;
 }
 
-.reviewer-name{
-    font-weight:bold;
-    font-size:14px;
-    color:#158532;
-}
+
 
 .total-score{
     font-size:16px;
@@ -156,13 +152,6 @@ p{ margin:4px 0; }
 @foreach($reviews as $review)
 
 <div class="reviewer-card">
-
-<div class="reviewer-name">
-Reviewer {{ $loop->iteration }} :
-{{ $review->assignment->prequalifiedReviewer->name
-?? $review->assignment->peerReviewer->full_name
-?? 'Anonymous Reviewer' }}
-</div>
 
 <p class="total-score">
 Total Score: {{ $review->total_score ?? '-' }}/100
