@@ -357,24 +357,29 @@
                         <td>{{ $paper->created_at->format('M d, Y') }}</td>
                         <td>
                             <button class="btn btn-view btn-sm view-paper"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#paperModal"
-                                    data-id="{{ $paper->id }}"
-                                    data-abstract-code="{{ $paper->abstract->submission_code }}"
-                                    data-title="{{ $paper->abstract->paper_title }}"
-                                    data-author="{{ $paper->abstract->author_name }}"
-                                    data-email="{{ $paper->abstract->author_email }}"
-                                    data-theme="{{ $paper->abstract->subTheme->form_field_value ?? 'N/A' }}"
-                                    data-status="{{ $paper->status }}"
-                                    data-submitted="{{ $paper->created_at->format('M d, Y H:i') }}"
-                                    data-has-paper="{{ $paper->file_path ? '1' : '0' }}"
-                                    data-paper-url="{{ $paper->file_path ? asset($paper->file_path) : '' }}"
-                                    data-has-supplementary="{{ $paper->supplementary_files_path ? '1' : '0' }}"
-                                    data-paper-url="{{ $paper->paper_url }}"
-                                    data-presentation-url="{{ $paper->presentation_url }}">
-                                    
-                                <i class="fas fa-eye me-1"></i> View
-                            </button>
+    data-bs-toggle="modal"
+    data-bs-target="#paperModal"
+    data-id="{{ $paper->id }}"
+    data-abstract-code="{{ $paper->abstract->submission_code }}"
+    data-title="{{ $paper->abstract->paper_title }}"
+    data-author="{{ $paper->abstract->author_name }}"
+    data-email="{{ $paper->abstract->author_email }}"
+    data-theme="{{ $paper->abstract->subTheme->form_field_value ?? 'N/A' }}"
+    data-status="{{ $paper->status }}"
+    data-submitted="{{ $paper->created_at->format('M d, Y H:i') }}"
+
+    {{-- DOCUMENT FLAGS --}}
+    data-has-paper="{{ $paper->file_path ? '1' : '0' }}"
+    data-has-presentation="{{ $paper->presentation_file_path ? '1' : '0' }}"
+    data-has-supplementary="{{ $paper->supplementary_files_path ? '1' : '0' }}"
+
+    {{-- CORRECT STORAGE URLS --}}
+    data-paper-url="{{ $paper->file_path ? asset('storage/' . $paper->file_path) : '' }}"
+    data-presentation-url="{{ $paper->presentation_file_path ? asset('storage/' . $paper->presentation_file_path) : '' }}"
+    data-supplementary-url="{{ $paper->supplementary_files_path ? asset('storage/' . $paper->supplementary_files_path) : '' }}"
+>
+    <i class="fas fa-eye me-1"></i> View
+</button>
                         </td>
                     </tr>
                     @endforeach

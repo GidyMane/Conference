@@ -387,6 +387,11 @@
                         <span>Completed Reviews</span>
                     </a>
 
+                    <a href="{{ url('/reviewer/fullpapers') }}" class="menu-item {{ request()->is('reviewer/fullpapers') ? 'active' : '' }}">
+    <i class="fas fa-file-alt"></i>
+    <span>Fullpapers</span>
+</a>
+
                     <a href="{{ url('/reviewer/fullpapers-review') }}" class="menu-item {{ request()->is('reviewer/fullpapers-review*') ? 'active' : '' }}">
                         <i class="fas fa-clipboard-check"></i>
                         <span>Full Paper Management</span>
