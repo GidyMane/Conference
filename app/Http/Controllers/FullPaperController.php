@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
 
 class FullPaperController extends Controller
 {
@@ -69,7 +70,15 @@ public function store(Request $request, $id)
         // If we reach here → file is valid
         // =========================
 
-        $nextNumber = FullPaper::where('submitted_abstract_id', $abstract->id)->count() + 1;
+        $existingPaper = FullPaper::where('submitted_abstract_id', $abstract->id)->first();
+
+        if ($existingPaper && $existingPaper->full_paper_code) {
+            preg_match('/(\d+)$/', $existingPaper->full_paper_code, $matches);
+            $nextNumber = isset($matches[1]) ? ((int) $matches[1]) + 1 : 1;
+        } else {
+            $nextNumber = 1;
+        }
+
         $fullPaperCode = 'FP_' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
 
         $fileSize = $file->getSize();
@@ -96,17 +105,54 @@ public function store(Request $request, $id)
             ]
         );
 
-        FullPaper::updateOrCreate(
-            ['submitted_abstract_id' => $abstract->id],
-            [
+        $existingPaper = FullPaper::where('submitted_abstract_id', $abstract->id)->first();
+
+        if ($existingPaper) {
+            // Keep current status unless it is null
+            $newStatus = $existingPaper->status ?: 'PENDING';
+
+            $existingPaper->update([
                 'file_path'       => $path,
                 'full_paper_code' => $fullPaperCode,
                 'file_type'       => $extension,
                 'file_size'       => $fileSize,
                 'uploaded_at'     => now(),
-                'status'          => 'PENDING',
-            ]
-        );
+                'status'          => $newStatus,
+            ]);
+
+            // If paper is already under review, notify assigned reviewers
+            if (strtoupper($existingPaper->status) === 'UNDER_REVIEW') {
+                $assignments = \App\Models\ReviewAssignment::with([
+                    'prequalifiedReviewer',
+                    'peerReviewer',
+                    'fullPaper'
+                ])
+                ->where('full_paper_id', $existingPaper->id)
+                ->get();
+
+                foreach ($assignments as $assignment) {
+                    $email = $assignment->prequalified_reviewer_id
+                        ? $assignment->prequalifiedReviewer?->email
+                        : $assignment->peerReviewer?->email;
+
+                    if ($email) {
+                        Mail::to($email)->send(new \App\Mail\ReviewAssignmentMail($assignment, true));
+                    }
+                }
+            }
+
+            $paper = $existingPaper;
+        } else {
+            $paper = FullPaper::create([
+                'submitted_abstract_id' => $abstract->id,
+                'file_path'             => $path,
+                'full_paper_code'       => $fullPaperCode,
+                'file_type'             => $extension,
+                'file_size'             => $fileSize,
+                'uploaded_at'           => now(),
+                'status'                => 'PENDING',
+            ]);
+        }
 
         return redirect()->route('fullpapers.success', [
             'ref' => "{$abstract->submission_code}-{$fullPaperCode}"

@@ -154,22 +154,32 @@
 <div class="email-container">
 
     <div class="header">
-        <h1>📄 Paper Review Assignment</h1>
+        <h1>
+            {{ $isResubmission ? '📄 Updated Paper Submission' : '📄 Paper Review Assignment' }}
+        </h1>
         <p>2nd KALRO Scientific Conference &amp; Exhibition</p>
     </div>
 
     <div class="content">
 
-        <h2>You have been assigned as a reviewer</h2>
+        <h2>
+            {{ $isResubmission ? 'A revised paper has been re-submitted' : 'You have been assigned as a reviewer' }}
+        </h2>
 
         <p>Dear Reviewer,</p>
 
-        <p>
-            We are pleased to invite you to review a submitted manuscript for the
-            2nd KALRO Scientific Conference &amp; Exhibition. Please find the paper details below
-            and kindly follow the instructions provided.
-        </p>
-
+        @if($isResubmission)
+            <p>
+                An updated version of the manuscript you were assigned to review has been re-submitted by the author.
+                Kindly download the revised paper and continue with your review using the same review link.
+            </p>
+        @else
+            <p>
+                We are pleased to invite you to review a submitted manuscript for the
+                2nd KALRO Scientific Conference &amp; Exhibition. Please find the paper details below
+                and kindly follow the instructions provided.
+            </p>
+        @endif
         <!-- Paper Code -->
         <div class="paper-code">
             {{ $paper->abstract->submission_code }}
@@ -246,7 +256,14 @@
 
         <!-- Important Notice -->
         <div class="notice-box">
-            <p>⏳ <strong>Note:</strong> You have <strong>3 days</strong> to review the paper. Please ensure you complete and submit your review before the link expires.</p>
+            <p>
+                ⏳ <strong>Note:</strong>
+                @if($isResubmission)
+                    A revised version of this manuscript has been uploaded. Please review the updated file and submit your feedback within <strong>3 days</strong>.
+                @else
+                    You have <strong>3 days</strong> to review the paper. Please ensure you complete and submit your review before the link expires.
+                @endif
+            </p>
         </div>
 
         <!-- Action Buttons -->

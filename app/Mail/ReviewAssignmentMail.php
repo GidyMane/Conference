@@ -14,26 +14,38 @@ class ReviewAssignmentMail extends Mailable
     public $paper;
     public $reviewLink;
     public $downloadLink;
+    public $isResubmission;
 
-    public function __construct(ReviewAssignment $assignment)
+    public function __construct(ReviewAssignment $assignment, $isResubmission = false)
     {
         $this->assignment = $assignment;
-        $this->paper = $assignment->paper;
+
+        // keep your existing relationship
+        $this->paper = $assignment->fullPaper;
+
+        // new flag
+        $this->isResubmission = $isResubmission;
 
         $this->reviewLink = url('/review/' . $assignment->review_token);
 
-        // ✅ Use storage path
+        // keep your existing file download path
         $this->downloadLink = asset('storage/' . $this->paper->file_path);
     }
 
     public function build()
     {
-        return $this->view('emails.review-assignment')
+        $subject = $this->isResubmission
+            ? 'Updated Paper Submission for Review'
+            : 'Paper Review Assignment';
+
+        return $this->subject($subject)
+            ->view('emails.review-assignment')
             ->with([
                 'assignment' => $this->assignment,
                 'paper' => $this->paper,
                 'reviewLink' => $this->reviewLink,
                 'downloadLink' => $this->downloadLink,
+                'isResubmission' => $this->isResubmission,
             ]);
     }
 }
