@@ -149,9 +149,12 @@ p{ margin:4px 0; }
 </div>
 
 
-@foreach($reviews as $review)
-
+@foreach($reviews as $index => $review)
 <div class="reviewer-card">
+
+<div class="section-title">
+    Reviewer {{ $index + 1 }}
+</div>
 
 <p class="total-score">
 Total Score: {{ $review->total_score ?? '-' }}/100
