@@ -175,7 +175,7 @@
                                         <a href="{{ url('/reviewer/fullpapers/'.$paper->id.'/reviews') }}"
                                         class="btn btn-sm btn-info">
                                             <i class="fas fa-eye me-1"></i>
-                                            View Reviews ({{ $paper->reviews->count() }}/3)
+                                            View Reviews ({{ $paper->reviewAssignments->whereNotNull('fullPaperReview')->count() }}/3)
                                         </a>
 
                                     @elseif($paper->status === 'awaiting_decision')

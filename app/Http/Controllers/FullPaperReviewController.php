@@ -37,7 +37,10 @@ class FullPaperReviewController extends Controller
         ->where('reviewer_id', $reviewer->id)
         ->pluck('sub_theme_id');
 
-    $papers = FullPaper::with(['abstract.subTheme'])
+    $papers = FullPaper::with([
+            'abstract.subTheme',
+            'reviewAssignments.fullPaperReview'
+        ])
         ->whereHas('abstract', function ($q) use ($reviewerSubThemeIds) {
             $q->whereIn('sub_theme_id', $reviewerSubThemeIds);
         })
