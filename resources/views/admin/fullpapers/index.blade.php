@@ -92,9 +92,10 @@
             </nav>
         </div>
         <div>
-            <button class="btn btn-outline-success" onclick="exportData()">
+            <a href="{{ route('admin.fullpapers.export') }}?{{ http_build_query(request()->all()) }}" 
+            class="btn btn-outline-success">
                 <i class="fas fa-file-excel me-2"></i>Export
-            </button>
+            </a>
         </div>
     </div>
 </div>
@@ -171,6 +172,7 @@
                     <select name="status" class="form-select">
                         <option value="">All Statuses</option>
                         <option value="PENDING">Pending</option>
+                        <option value="UNDER_REVIEW">Under Review</option>
                         <option value="APPROVED">Accepted</option>
                         <option value="REJECTED">Rejected</option>
                     </select>

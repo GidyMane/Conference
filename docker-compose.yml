@@ -5,6 +5,7 @@ services:
       dockerfile: php/Dockerfile
     volumes:
       - .:/var/www/html  # CHANGED: Current directory instead of ./application
+      - ./docker/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     depends_on:
       - mysql
 

@@ -10,6 +10,8 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
+use App\Exports\FullPapersExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class FullPaperController extends Controller
 {
@@ -56,7 +58,7 @@ public function store(Request $request, $id)
 
         // 🔍 STEP 3: Validate with clearer error reporting
         $validator = validator($request->all(), [
-            'full_paper' => 'required|file|mimes:doc,docx,pdf,ppt,pptx|max:10240',
+            'full_paper' => 'required|file|mimes:doc,docx,pdf,ppt,pptx|max:20480',
         ]);
 
         if ($validator->fails()) {
@@ -219,5 +221,13 @@ public function store(Request $request, $id)
             'stats',
             'subthemes'
         ));
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(
+            new FullPapersExport($request),
+            'full-papers.xlsx'
+        );
     }
 }

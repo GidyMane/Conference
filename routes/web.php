@@ -291,6 +291,8 @@ Route::prefix('admin')->group(function () {
 
 });
 
+Route::get('/admin/fullpapers/export', [FullPaperController::class, 'export'])
+    ->name('admin.fullpapers.export');
 
 
 // Public Review Routes
