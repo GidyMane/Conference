@@ -120,6 +120,23 @@
         </div>
     </div>
 
+    <div class="d-flex justify-content-end mb-3">
+    <form method="GET" action="{{ route('reviewer.fullpapers.export') }}">
+        
+        <select name="status" class="form-select form-select-sm d-inline w-auto">
+            <option value="">All Status</option>
+            <option value="PENDING">Pending</option>
+            <option value="UNDER_REVIEW">Under Review</option>
+            <option value="APPROVED">Approved</option>
+            <option value="REJECTED">Rejected</option>
+        </select>
+
+        <button class="btn btn-success btn-sm ms-2">
+            Export Excel
+        </button>
+    </form>
+</div>
+
     {{-- Papers Table --}}
     <div class="card shadow-sm border-0">
         <div class="card-header bg-primary text-white py-3">

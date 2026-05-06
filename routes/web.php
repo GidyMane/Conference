@@ -206,6 +206,10 @@ Route::prefix('reviewer')
     ->middleware(['auth', 'reviewer'])
     ->group(function () {
 
+                Route::get('/fullpapers/export', 
+        [FullPaperReviewController::class, 'export']
+    )->name('fullpapers.export');
+
         Route::get('/dashboard', [ReviewerDashboardController::class, 'index'])->name('dashboard');
         Route::get('/abstracts', [ReviewerAbstractController::class, 'index'])->name('abstracts.index');
         Route::post('/review', [AbstractsController::class, 'review'])->name('review');
@@ -244,6 +248,7 @@ Route::prefix('reviewer')
 
 // Reviewer/Sub-Theme Leader Routes (NO AUTH)
 Route::prefix('reviewer')->middleware(['auth','reviewer'])->group(function () {
+
 
     Route::get('/fullpapers-review', 
     [FullPaperReviewController::class, 'index']
@@ -435,3 +440,4 @@ Route::prefix('finance')
         });
 
     });
+

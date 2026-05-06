@@ -17,6 +17,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Mail\FinalDecisionMail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\LeaderFullPapersExport;
 
 class FullPaperReviewController extends Controller
 {
@@ -685,4 +687,23 @@ public function adminAllReviews($id)
 
     return view('admin.fullpapers.all-reviews', compact('paper', 'reviews'));
 }
+
+public function export(Request $request)
+{
+    $reviewerId = auth()->id();
+
+    $reviewer = Reviewer::where('user_id', $reviewerId)->firstOrFail();
+
+    $subThemeIds = DB::table('reviewer_sub_theme')
+        ->where('reviewer_id', $reviewer->id)
+        ->pluck('sub_theme_id');
+
+    $status = $request->status ?? null;
+
+    return Excel::download(
+        new LeaderFullPapersExport($subThemeIds, $status),
+        'subtheme-full-papers.xlsx'
+    );
+}
+
 }

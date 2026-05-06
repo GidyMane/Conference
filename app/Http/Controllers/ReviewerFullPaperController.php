@@ -62,30 +62,7 @@ class ReviewerFullpaperController extends Controller
         return view('reviewer.fullpapers', compact('fullPapers', 'stats'));
     }
 
-    /**
-     * Show details of a specific full paper (dummy)
-     */
-    public function show($id)
-    {
-        $paper = (object)[
-            'id' => $id,
-            'submitted_abstract_id' => 'AB-001',
-            'status' => 'pending',
-            'paper_file_path' => 'dummy/paper1.pdf',
-            'presentation_file_path' => 'dummy/ppt1.pptx',
-            'supplementary_files_path' => json_encode(['dummy/supp1.docx']),
-            'created_at' => now()->subDays(2),
-            'abstract' => (object)[
-                'submission_code' => 'AB-001',
-                'paper_title' => 'AI in Agriculture',
-                'author_name' => 'John Doe',
-                'author_email' => 'john@example.com',
-                'subTheme' => (object)['name' => 'Technology in Farming'],
-            ],
-        ];
 
-        return view('reviewer.fullpapers.show', compact('paper'));
-    }
 
     public function showFinalDecisionForm($paperId)
     {
