@@ -189,7 +189,7 @@
                     
                     <div class="mb-4">
                         <label class="form-label fw-bold">Final Decision <span class="text-danger">*</span></label>
-                        <select name="decision" class="form-select form-select-lg" required>
+                        <select name="decision" id="decision"class="form-select form-select-lg" required>
                             <option value="">-- Select Decision --</option>
                              
                             <option value="approved_with_minor_revisions">⚠ Accept with Minor Revisions</option>
@@ -201,14 +201,31 @@
                         </small>
                     </div>
 
-                    <div class="mb-4">
-                        <label class="form-label fw-bold">Recommended Presentation Format <span class="text-danger">*</span></label>
-                        <select name="presentation_type" class="form-select" required>
+                    <div class="mb-4" id="presentationTypeWrapper" style="display:none;">
+                        <label class="form-label fw-bold">
+                            Recommended Presentation Format <span class="text-danger">*</span>
+                        </label>
+
+                        <select 
+                            name="presentation_type" 
+                            id="presentation_type" 
+                            class="form-select"
+                        >
                             <option value="">-- Select Format --</option>
-                            <option value="powerpoint">📊 PowerPoint Presentation</option>
-                            <option value="poster">📋 Poster Presentation</option>
-                            <option value="virtual">⚡ Lightning Talk - 5 Min</option>
+
+                            <option value="powerpoint">
+                                📊 PowerPoint Presentation
+                            </option>
+
+                            <option value="poster">
+                                📋 Poster Presentation
+                            </option>
+
+                            <option value="virtual">
+                                ⚡ Lightning Talk - 5 Min
+                            </option>
                         </select>
+
                         <small class="text-muted">
                             Select the most appropriate format for presenting this paper at the conference.
                         </small>
@@ -252,4 +269,42 @@
     </div>
 
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const decisionSelect = document.getElementById('decision');
+
+    const presentationWrapper = document.getElementById('presentationTypeWrapper');
+
+    const presentationSelect = document.getElementById('presentation_type');
+
+    function togglePresentationType() {
+
+        const value = decisionSelect.value;
+
+        if (
+            value === 'approved_with_minor_revisions' ||
+            value === 'approved_with_major_revisions'
+        ) {
+
+            presentationWrapper.style.display = 'block';
+
+            presentationSelect.setAttribute('required', 'required');
+
+        } else {
+
+            presentationWrapper.style.display = 'none';
+
+            presentationSelect.removeAttribute('required');
+
+            presentationSelect.value = '';
+        }
+    }
+
+    decisionSelect.addEventListener('change', togglePresentationType);
+
+    // Initialize on page load
+    togglePresentationType();
+});
+</script>
 @endsection

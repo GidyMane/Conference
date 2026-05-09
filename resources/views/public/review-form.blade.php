@@ -453,24 +453,34 @@
                         </div>
 
                         <div class="mb-4">
-                            <label class="form-label fw-bold">Recommendation <span class="text-danger">*</span></label>
-                            <select name="recommendation" class="form-select" required>
+                            <label class="form-label fw-bold">
+                                Recommendation <span class="text-danger">*</span>
+                            </label>
+
+                            <select name="recommendation" id="recommendation" class="form-select" required>
                                 <option value="">-- Select Your Recommendation --</option>
-                                <option value="accept">✓ Accept with Minor Revisions</option>                               
+                                <option value="accept">✓ Accept with Minor Revisions</option>
                                 <option value="needs_major_revisions">⚠ Needs Major Revisions</option>
                                 <option value="reject">✗ Reject</option>
                             </select>
                         </div>
 
-                        <div class="mb-4">
-                            <label class="form-label fw-bold">Presentation Format <span class="text-danger">*</span></label>
-                            <select name="paper_suitability" class="form-select" required>
+                        {{-- Presentation Format (Hidden Initially) --}}
+                        <div class="mb-4" id="presentationFormatWrapper" style="display: none;">
+                            <label class="form-label fw-bold">
+                                Presentation Format <span class="text-danger">*</span>
+                            </label>
+
+                            <select name="paper_suitability" id="paper_suitability" class="form-select">
                                 <option value="">-- Select Presentation Format --</option>
                                 <option value="powerpoint">📊 PowerPoint Presentation</option>
                                 <option value="poster">📋 Poster Presentation</option>
                                 <option value="virtual">⚡ Lightning Talk - 5 Min</option>
                             </select>
-                            <small class="text-muted">Select the most appropriate format for presenting this paper at the conference.</small>
+
+                            <small class="text-muted">
+                                Select the most appropriate format for presenting this paper at the conference.
+                            </small>
                         </div>
 
                         <div class="alert alert-info">
@@ -519,23 +529,52 @@
 <script>
 // Auto-calculate total score
 document.addEventListener('DOMContentLoaded', () => {
+
     const scoreInputs = document.querySelectorAll('.score-input');
     const totalDisplay = document.getElementById('totalScore');
-    
+
+    // Recommendation logic
+    const recommendation = document.getElementById('recommendation');
+    const presentationWrapper = document.getElementById('presentationFormatWrapper');
+    const presentationSelect = document.getElementById('paper_suitability');
+
     scoreInputs.forEach(input => {
         input.addEventListener('input', calculateTotal);
     });
-    
+
     function calculateTotal() {
         let total = 0;
+
         scoreInputs.forEach(input => {
             total += parseInt(input.value) || 0;
         });
+
         totalDisplay.textContent = total;
     }
-    
-    // Initialize calculation
+
+    // Show/hide presentation format
+    function togglePresentationFormat() {
+
+        const value = recommendation.value;
+
+        if (
+            value === 'accept' ||
+            value === 'needs_major_revisions'
+        ) {
+            presentationWrapper.style.display = 'block';
+            presentationSelect.setAttribute('required', 'required');
+        } else {
+            presentationWrapper.style.display = 'none';
+            presentationSelect.removeAttribute('required');
+            presentationSelect.value = '';
+        }
+    }
+
+    recommendation.addEventListener('change', togglePresentationFormat);
+
+    // Initialize
     calculateTotal();
+    togglePresentationFormat();
 });
 </script>
 

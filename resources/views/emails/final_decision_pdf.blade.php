@@ -115,7 +115,7 @@ p{ margin:4px 0; }
 <h3>Full Paper Review Summary</h3>
 
 <div class="info-box">
-<p><strong>Paper Title:</strong> {{ $paper->abstract->title }}</p>
+<p><strong>Paper Title:</strong> {{ $paper->abstract->paper_title }}</p>
 <p><strong>Paper ID:</strong> {{ $paper->abstract->submission_code }}</p>
 <p><strong>Sub-Theme:</strong> {{ $paper->abstract->subtheme->full_name ?? 'N/A' }}</p>
 

@@ -447,7 +447,6 @@ public function allReviews($id)
     {
         $request->validate([
             'decision' => 'required|in:approved,not_approved,approved_with_minor_revisions,approved_with_major_revisions',
-            'presentation_type' => 'required|in:powerpoint,poster',
             'comments' => 'required|min:20',
         ]);
 
@@ -457,7 +456,7 @@ public function allReviews($id)
         $paper->update([
             'status' => $request->decision === 'not_approved' ? 'REJECTED' : 'APPROVED',
             'final_decision' => $request->decision,
-            'presentation_type' => $request->presentation_type,
+            'presentation_type' => $request->presentation_type ?? null,
             'leader_comments' => $request->comments,
             'decision_made_at' => now(),
         ]);
@@ -491,7 +490,6 @@ public function allReviews($id)
         $request->validate([
             'overall_comments' => 'required|min:50',
             'recommendation' => 'required|in:accept,needs_minor_revisions,needs_major_revisions,reject',
-            'paper_suitability' => 'required',
             // Optional: numeric score fields
             'title_appropriate' => 'required|numeric|min:0|max:2',
             'title_reflects_content' => 'required|numeric|min:0|max:3',
@@ -617,7 +615,7 @@ public function allReviews($id)
         'overall_comments' => $request->overall_comments,
 
         'recommendation' => $request->recommendation,
-        'presentation_type' => $request->paper_suitability,
+        'presentation_type' => $request->paper_suitability ?? null,
 
         'total_score' => $totalScore,
         'submitted_at' => now(),
