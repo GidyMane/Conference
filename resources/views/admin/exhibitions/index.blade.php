@@ -143,7 +143,6 @@
                     <tr>
                         <th>Ref #</th>
                         <th>Organization / Contact</th>
-                        <th>Package</th>
                         <th>Booths</th>
                         <th>Amount</th>
                         <th>Status</th>
@@ -172,15 +171,6 @@
                             </div>
                         </td>
 
-                        <td>
-                            @if($registration->registration_type == 'standard')
-                                <span class="badge bg-primary">Standard (15,000)</span>
-                            @elseif($registration->registration_type == 'own_tent')
-                                <span class="badge bg-info">Own Tent (8,000)</span>
-                            @else
-                                <span class="badge bg-secondary">Unknown</span>
-                            @endif
-                        </td>
 
                         <td>
                             <span class="badge bg-info">{{ $registration->booth_count }}</span>

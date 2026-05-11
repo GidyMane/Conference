@@ -158,7 +158,7 @@
                                                     </div>
                                                     <div class="package-price">
                                                         <span class="currency">KES</span>
-                                                        <span class="amount">15,000</span>
+                                                        <span class="amount" id="standardPrice">15,000</span>
                                                         <span class="per">per booth &bull; 2 days</span>
                                                     </div>
                                                     <div class="selection-indicator"><i class="bi bi-check-circle-fill"></i></div>
@@ -186,7 +186,7 @@
                                                     </div>
                                                     <div class="package-price">
                                                         <span class="currency">KES</span>
-                                                        <span class="amount">8,000</span>
+                                                        <span class="amount" id="ownTentPrice">8,000</span>
                                                         <span class="per">per tent &bull; 2 days</span>
                                                     </div>
                                                     <div class="selection-indicator"><i class="bi bi-check-circle-fill"></i></div>
@@ -744,28 +744,33 @@ textarea.form-control { resize: vertical; min-height: 110px; }
 </style>
 
 <script>
+const EARLY_BIRD_END = new Date("2026-05-22T23:59:59");
+
 document.addEventListener('DOMContentLoaded', function () {
 
     const formSteps     = document.querySelectorAll('.form-step');
     const progressSteps = document.querySelectorAll('.progress-steps .step');
     const nextBtns      = document.querySelectorAll('.btn-next');
     const prevBtns      = document.querySelectorAll('.btn-prev');
+
     let currentStep = 1;
     const totalSteps = formSteps.length;
 
     // -------------------------------------------------------
-    // Step navigation
+    // STEP NAVIGATION
     // -------------------------------------------------------
     function showStep(step) {
-        formSteps.forEach(s => { s.classList.remove('active'); });
+        formSteps.forEach(s => s.classList.remove('active'));
+
         const cur = document.querySelector(`.form-step[data-step="${step}"]`);
         if (cur) cur.classList.add('active');
 
         progressSteps.forEach((s, i) => {
             s.classList.remove('active', 'completed');
-            if (i + 1 < step)        s.classList.add('completed');
+            if (i + 1 < step) s.classList.add('completed');
             else if (i + 1 === step) s.classList.add('active');
         });
+
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -773,28 +778,34 @@ document.addEventListener('DOMContentLoaded', function () {
         const cur = document.querySelector(`.form-step[data-step="${step}"]`);
         let valid = true;
 
-        cur.querySelectorAll('input[required]:not([type="radio"]):not([type="checkbox"]), select[required], textarea[required]').forEach(inp => {
-            inp.classList.remove('is-invalid');
-            if (!inp.value.trim()) { valid = false; inp.classList.add('is-invalid'); }
-        });
+        cur.querySelectorAll('input[required]:not([type="radio"]):not([type="checkbox"]), select[required], textarea[required]')
+            .forEach(inp => {
+                inp.classList.remove('is-invalid');
+                if (!inp.value.trim()) {
+                    valid = false;
+                    inp.classList.add('is-invalid');
+                }
+            });
 
-        // Radio group validation
         const radioGroups = {};
         cur.querySelectorAll('input[type="radio"][required]').forEach(r => {
             if (!radioGroups[r.name]) {
                 radioGroups[r.name] = !!cur.querySelector(`input[name="${r.name}"]:checked`);
             }
         });
-        Object.values(radioGroups).forEach(checked => { if (!checked) valid = false; });
 
-        // Minimum character counts
+        Object.values(radioGroups).forEach(v => {
+            if (!v) valid = false;
+        });
+
         if (step === 1) {
             const about    = document.getElementById('aboutExhibition');
             const audience = document.getElementById('targetAudience');
             const benefits = document.getElementById('benefits');
-            if (about.value.trim().length < 50)   { valid = false; about.classList.add('is-invalid'); }
-            if (audience.value.trim().length < 5) { valid = false; audience.classList.add('is-invalid'); }
-            if (benefits.value.trim().length < 50) { valid = false; benefits.classList.add('is-invalid'); }
+
+            if (about.value.trim().length < 50) valid = false;
+            if (audience.value.trim().length < 5) valid = false;
+            if (benefits.value.trim().length < 50) valid = false;
         }
 
         if (!valid) alert('Please fill in all required fields before continuing.');
@@ -809,64 +820,112 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+
     prevBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            if (currentStep > 1) { currentStep--; showStep(currentStep); }
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+            }
         });
     });
 
-    // Remove is-invalid on input
+    // -------------------------------------------------------
+    // REMOVE INVALID CLASS
+    // -------------------------------------------------------
     document.querySelectorAll('.form-control').forEach(inp => {
-        inp.addEventListener('input', function () { this.classList.remove('is-invalid'); });
+        inp.addEventListener('input', function () {
+            this.classList.remove('is-invalid');
+        });
     });
 
     // -------------------------------------------------------
-    // Character counters
+    // EARLY BIRD LOGIC
     // -------------------------------------------------------
-    function wireCounter(textareaId, counterId) {
-        const el  = document.getElementById(textareaId);
-        const cnt = document.getElementById(counterId);
-        if (!el || !cnt) return;
-        const update = () => { cnt.textContent = el.value.length; };
-        el.addEventListener('input', update);
-        update();
+    function isEarlyBird() {
+        return new Date() <= EARLY_BIRD_END;
     }
-    wireCounter('aboutExhibition', 'aboutCount');
-    wireCounter('targetAudience',  'audienceCount');
-    wireCounter('benefits',        'benefitsCount');
+
+    const PRICES = {
+        standard: { early: 15000, late: 20000 },
+        own_tent: { early: 8000,  late: 10000 }
+    };
+
+    const LABELS = {
+        standard: 'Standard Booth',
+        own_tent: 'Own Tent'
+    };
+
+    const UNITS = {
+        standard: 'booth',
+        own_tent: 'tent'
+    };
+
+    function getPrice(type) {
+        return isEarlyBird()
+            ? PRICES[type].early
+            : PRICES[type].late;
+    }
 
     // -------------------------------------------------------
-    // Booth counter & cost summary
+    // UPDATE PACKAGE CARD PRICES (IMPORTANT FIX)
+    // -------------------------------------------------------
+    function updateDisplayedPrices() {
+        const isEarly = isEarlyBird();
+
+        document.getElementById('standardPrice').textContent =
+            isEarly ? '15,000' : '20,000';
+
+        document.getElementById('ownTentPrice').textContent =
+            isEarly ? '8,000' : '10,000';
+    }
+
+    // -------------------------------------------------------
+    // BOOTH COUNTER & SUMMARY
     // -------------------------------------------------------
     const boothCountInput = document.getElementById('boothCount');
     const incrementBtn    = document.getElementById('incrementBooth');
     const decrementBtn    = document.getElementById('decrementBooth');
 
-    const PRICES = { booth: 15000, own_tent: 8000 };
-    const LABELS  = { booth: 'Standard Booth', own_tent: 'Own Tent' };
-    const UNITS   = { booth: 'booth', own_tent: 'tent' };
+    function updateBoothLabel(type, count) {
+        const unit = UNITS[type];
 
-    function updateBoothLabel() {
-        const count = parseInt(boothCountInput.value) || 1;
-        const type  = document.querySelector('input[name="registrationType"]:checked')?.value || 'booth';
-        const unit  = UNITS[type];
-        document.getElementById('counterLabel').textContent   = count === 1 ? `${unit.charAt(0).toUpperCase() + unit.slice(1)} Selected` : `${unit.charAt(0).toUpperCase() + unit.slice(1)}s Selected`;
+        document.getElementById('counterLabel').textContent =
+            count === 1 ? `${unit.charAt(0).toUpperCase() + unit.slice(1)} Selected`
+                        : `${unit.charAt(0).toUpperCase() + unit.slice(1)}s Selected`;
+
         document.getElementById('spaceTypeLabel').textContent = unit + 's';
+
         const noteEl = document.getElementById('counterNote');
-        if (type === 'booth') {
-            noteEl.innerHTML = '<i class="bi bi-info-circle me-1"></i>Each booth is <strong>3m &times; 3m</strong> and accommodates up to <strong>2 exhibitors</strong>';
+
+        if (type === 'standard') {
+            noteEl.innerHTML =
+                '<i class="bi bi-info-circle me-1"></i>Each booth is <strong>3m × 3m</strong> and accommodates up to <strong>2 exhibitors</strong>';
         } else {
-            noteEl.innerHTML = '<i class="bi bi-info-circle me-1"></i>Bring your own tent and furniture. Grounds and meals for <strong>2 persons</strong> provided.';
+            noteEl.innerHTML =
+                '<i class="bi bi-info-circle me-1"></i>Bring your own tent and furniture. Grounds and meals for <strong>2 persons</strong> provided.';
         }
     }
 
     function updateCostSummary() {
         const count = parseInt(boothCountInput.value) || 1;
-        const type  = document.querySelector('input[name="registrationType"]:checked')?.value || 'booth';
-        const price = PRICES[type] || 15000;
+        const type  = document.querySelector('input[name="registrationType"]:checked')?.value || 'standard';
+
+        const price = getPrice(type);
         const total = count * price;
+
         const label = LABELS[type] || 'Standard Booth';
-        const unit  = UNITS[type] || 'booth';
+
+        const reminderAmount = document.getElementById('paymentReminderAmount');
+        const reminderDetail  = document.getElementById('paymentReminderDetail');
+
+        if (reminderAmount) {
+            reminderAmount.textContent = `KES ${total.toLocaleString()}`;
+        }
+
+        if (reminderDetail) {
+            reminderDetail.textContent = `${count} × ${label}`;
+        }
 
         document.getElementById('displayPackage').textContent       = label;
         document.getElementById('displayBoothCount').textContent    = count;
@@ -874,21 +933,62 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('totalCost').textContent            = `KES ${total.toLocaleString()}`;
         document.getElementById('calculatedTotal').value            = total;
 
-        document.getElementById('paymentReminderAmount').textContent = `KES ${total.toLocaleString()}`;
-        document.getElementById('paymentReminderDetail').textContent  = `${count} \u00d7 ${label}`;
-
-        updateBoothLabel();
+        updateBoothLabel(type, count);
     }
 
     incrementBtn?.addEventListener('click', () => {
-        const cur = parseInt(boothCountInput.value) || 1;
-        if (cur < 10) { boothCountInput.value = cur + 1; updateCostSummary(); }
+        let cur = parseInt(boothCountInput.value) || 1;
+        if (cur < 10) boothCountInput.value = ++cur;
+        updateCostSummary();
     });
+
     decrementBtn?.addEventListener('click', () => {
-        const cur = parseInt(boothCountInput.value) || 1;
-        if (cur > 1) { boothCountInput.value = cur - 1; updateCostSummary(); }
+        let cur = parseInt(boothCountInput.value) || 1;
+        if (cur > 1) boothCountInput.value = --cur;
+        updateCostSummary();
     });
-    document.querySelectorAll('input[name="registrationType"]').forEach(r => r.addEventListener('change', updateCostSummary));
+
+    document.querySelectorAll('input[name="registrationType"]').forEach(r => {
+        r.addEventListener('change', updateCostSummary);
+    });
+
+    // -------------------------------------------------------
+    // INIT
+    // -------------------------------------------------------
+    showStep(1);
+    updateCostSummary();
+    updateDisplayedPrices();
+
+});
+
+// -------------------------------------------------------
+// Character counters (FIXED)
+// -------------------------------------------------------
+function wireCounter(textareaId, counterId, min = 0) {
+    const el = document.getElementById(textareaId);
+    const cnt = document.getElementById(counterId);
+
+    if (!el || !cnt) return;
+
+    const update = () => {
+        const length = el.value.trim().length;
+        cnt.textContent = length;
+
+        // optional visual feedback
+        if (min > 0) {
+            cnt.style.color = length >= min ? 'green' : 'red';
+        }
+    };
+
+    el.addEventListener('input', update);
+    update();
+}
+
+wireCounter('aboutExhibition', 'aboutCount', 50);
+wireCounter('targetAudience', 'audienceCount', 5);
+wireCounter('benefits', 'benefitsCount', 50);
+
+
 
     // -------------------------------------------------------
     // Payment method toggle
@@ -949,11 +1049,5 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     setupFileUpload('paymentProofUpload', 'paymentProof');
 
-    // -------------------------------------------------------
-    // Init
-    // -------------------------------------------------------
-    showStep(1);
-    updateCostSummary();
-});
 </script>
 @endsection

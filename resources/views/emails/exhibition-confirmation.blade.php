@@ -173,7 +173,13 @@
                     </tr>
                     <tr>
                         <td>Package:</td>
-                        <td><strong>{{ $registration->registration_type_label }}</strong></td>
+                        @php
+                            $packageLabel = $registration->registration_type === 'standard'
+                                ? 'Standard (KES 15,000 / 20,000 depending on date)'
+                                : 'Own Tent (KES 8,000 / 10,000 depending on date)';
+                        @endphp
+
+                        <td><strong>{{ $packageLabel }}</strong></td>
                     </tr>
                     <tr>
                         <td>Total Amount:</td>

@@ -106,17 +106,12 @@
 
                 <p><strong>Number of Booths:</strong> {{ $registration->booth_count }}</p>
                 <p><strong>Package Type:</strong>
-                    @if($registration->registration_type == 'standard')
-                        <span class="badge bg-primary">Standard (KES 15,000)</span>
-                    @elseif($registration->registration_type == 'own_tent')
-                        <span class="badge bg-info">Own Tent (KES 8,000)</span>
-                    @endif
+                    <span class="badge bg-primary">
+                        {{ $registration->registration_type_label }}
+                    </span>
                 </p>
-                @php
-                    $pricePerBooth = $registration->registration_type === 'standard' ? 15000 : 8000;
-                @endphp
 
-                <p><strong>Price per Booth:</strong> KES {{ number_format($pricePerBooth) }}</p>
+                <p><strong>Price per Booth:</strong> KES {{ number_format($registration->price_per_booth) }}</p>
                 <p><strong>Total Amount:</strong> <strong>KES {{ number_format($registration->total_amount) }}</strong></p>
 
                 @if($registration->booth_number)
