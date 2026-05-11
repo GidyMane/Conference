@@ -275,7 +275,7 @@
          HEADER
     ══════════════════════════════════════ --}}
     <div class="header {{ $abstract->status === 'REJECTED' ? 'rejected' : 'approved' }}">
-        <div class="logo-line">2nd KALRO Scientific Conference and Exhibition</div>
+        <div class="logo-line">2nd KALRO Scientific Conference and Innovation Expo</div>
         <h1>Abstract Review Outcome</h1>
         <h2>"Innovations for Sustainable Agri-food Systems, Climate Change Resilience and Improved Livelihoods"</h2>
         <div class="status-badge {{ $abstract->status === 'REJECTED' ? 'rejected' : 'approved' }}">
@@ -302,7 +302,7 @@
 
             <p>
                 Thank you for submitting your abstract to the
-                <strong>2nd KALRO Scientific Conference and Exhibition</strong>.
+                <strong>2nd KALRO Scientific Conference and Innovation Expo</strong>.
                 We are delighted to share the outcome of your review with you.
             </p>
 
@@ -361,7 +361,7 @@
             ───────────────────────────────── --}}
 
             <p>
-                Thank you for submitting your abstract for the <strong>2nd KALRO Scientific Conference and Exhibition</strong>.
+                Thank you for submitting your abstract for the <strong>2nd KALRO Scientific Conference and Innovation Expo</strong>.
                 After careful review, we regret to inform you that your submission
                 <strong>{{ $abstract->submission_code }}</strong> has not met the required criteria
                 due to the following reason:
@@ -411,7 +411,7 @@
             and include your submission code in all correspondence.
         </p>
 
-        <p>Thank you for your interest in the 2nd KALRO Scientific Conference and Exhibition.</p>
+        <p>Thank you for your interest in the 2nd KALRO Scientific Conference and Innovation Expo.</p>
 
         <div class="signoff">
             Warm regards,
@@ -426,7 +426,7 @@
     ══════════════════════════════════════ --}}
     <div class="footer">
         <p>This is an automated message — please do not reply directly to this email.</p>
-        <p>© {{ date('Y') }} 2nd KALRO Scientific Conference and Exhibition. All rights reserved.</p>
+        <p>© {{ date('Y') }} 2nd KALRO Scientific Conference and Innovation Expo. All rights reserved.</p>
     </div>
 
 </div>

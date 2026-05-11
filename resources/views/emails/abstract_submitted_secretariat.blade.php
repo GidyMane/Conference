@@ -18,7 +18,7 @@
 
 <div class="container">
     <div class="header">
-        <h2>2nd KALRO Scientific Conference and Exhibition</h2>
+        <h2>2nd KALRO Scientific Conference and Innovation Expo</h2>
         <h3>New Abstract Submission</h3>
     </div>
 
@@ -27,7 +27,7 @@
 
         <p>
             A new abstract has been successfully submitted to the
-            <strong>2nd KALRO Scientific Conference and Exhibition system</strong>.
+            <strong>2nd KALRO Scientific Conference and Innovation Expo system</strong>.
         </p>
 
         <div class="details">
@@ -71,7 +71,7 @@
 
     <div class="footer">
         <p>This is an automated message. Please do not reply to this email.</p>
-        <p>© {{ date('Y') }} 2nd KALRO Scientific Conference and Exhibition. All rights reserved.</p>
+        <p>© {{ date('Y') }} 2nd KALRO Scientific Conference and Innovation Expo. All rights reserved.</p>
     </div>
 </div>
 

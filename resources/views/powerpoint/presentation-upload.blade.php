@@ -154,7 +154,7 @@ border-left:4px solid #158532;
 </div>
 
 <div class="col-md-10">
-<h4 class="mb-0 text-success">2nd KALRO Scientific Conference and Exhibition</h4>
+<h4 class="mb-0 text-success">2nd KALRO Scientific Conference and Innovation Expo</h4>
 <p class="mb-0 text-muted small">Presentation Materials Upload Portal</p>
 </div>
 </div>

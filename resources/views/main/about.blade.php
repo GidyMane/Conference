@@ -31,7 +31,7 @@
         <div class="row align-items-center mb-5">
             <div class="col-lg-8">
                 <h2 class="section-title mb-4">
-                    <span class="section-title-text">2nd KALRO Scientific Conference and Exhibition </span>
+                    <span class="section-title-text">2nd KALRO Scientific Conference and Innovation Expo </span>
                 </h2>
                 <p class="lead mb-4">
                     Theme : Innovating towards Resilient Agri-food Systems for Climate Action, Food Security and Sustainable Livelihoods
