@@ -173,10 +173,12 @@
                         </td>
 
                         <td>
-                            @if($registration->registration_type == 'with_meals')
-                                <span class="badge bg-success">Premium</span>
+                            @if($registration->registration_type == 'standard')
+                                <span class="badge bg-primary">Standard (15,000)</span>
+                            @elseif($registration->registration_type == 'own_tent')
+                                <span class="badge bg-info">Own Tent (8,000)</span>
                             @else
-                                <span class="badge bg-secondary">Standard</span>
+                                <span class="badge bg-secondary">Unknown</span>
                             @endif
                         </td>
 

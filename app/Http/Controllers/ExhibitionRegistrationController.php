@@ -63,8 +63,8 @@ class ExhibitionRegistrationController extends Controller
 
             // Calculate expected amount based on booth count and type
             $pricePerBooth = match ($validated['registrationType']) {
-                'standard' => 10000,
-                'own_tent' => 5000,
+                'standard' => 15000,
+                'own_tent' => 8000,
             };
             $expectedTotal = $validated['boothCount'] * $pricePerBooth;
 

@@ -50,21 +50,7 @@ class ExhibitionRegistration extends Model
         'approval_email_sent_at' => 'datetime',
     ];
 
-    /**
-     * Get the price per booth based on registration type
-     */
-    public function getPricePerBoothAttribute(): int
-    {
-        return $this->registration_type === 'with_meals' ? 25000 : 18000;
-    }
 
-    /**
-     * Get the formatted total amount
-     */
-    public function getFormattedTotalAttribute(): string
-    {
-        return 'KES ' . number_format($this->total_amount, 0);
-    }
 
     /**
      * Get the formatted price per booth
@@ -77,12 +63,6 @@ class ExhibitionRegistration extends Model
     /**
      * Get the registration type label
      */
-    public function getRegistrationTypeLabelAttribute(): string
-    {
-        return $this->registration_type === 'with_meals' 
-            ? 'Premium Package (With Meals)' 
-            : 'Standard Package (With Meals)';
-    }
 
     /**
      * Get the payment method label
@@ -208,5 +188,22 @@ class ExhibitionRegistration extends Model
     public function hasApprovalEmailBeenSent(): bool
     {
         return !is_null($this->approval_email_sent_at);
+    }
+
+    public function getPricePerBoothAttribute()
+    {
+        return $this->registration_type === 'standard' ? 15000 : 8000;
+    }
+
+    public function getRegistrationTypeLabelAttribute()
+    {
+        return $this->registration_type === 'standard'
+            ? 'Standard (KES 15,000)'
+            : 'Own Tent (KES 8,000)';
+    }
+
+    public function getFormattedTotalAttribute()
+    {
+        return 'KES ' . number_format($this->total_amount);
     }
 }
