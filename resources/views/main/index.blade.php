@@ -210,7 +210,7 @@
 
                     <h1 class="display-4 mb-4 text-success">
                         <i class="fas fa-seedling me-3"></i>
-                        Welcome to KALRO 2nd Scientific Conference and Exhibition 2026
+                        Welcome to KALRO 2nd Scientific Conference and Innovation Expo 2026
                     </h1>
 
                     <p class="lead mb-4">
