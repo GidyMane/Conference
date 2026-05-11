@@ -7,7 +7,7 @@
     
     <!-- SEO Meta Tags -->
     <meta name="description" content="Join Kenya's premier agricultural research conference for knowledge exchange and networking.">
-    <meta name="keywords" content="2nd KALRO Scientific Conference and Exhibition, Agriculture, Research, Kenya">
+    <meta name="keywords" content="2nd KALRO Scientific Conference and Innovation Expo, Agriculture, Research, Kenya">
     <meta name="author" content="KALRO">
     
     <!-- Bootstrap 5 CSS -->
@@ -151,7 +151,7 @@
                 </div>
 
                 <div class="col-lg-7 col-md-4 d-none d-md-block">
-                    <h1 class="h4 mb-1">2nd KALRO Scientific Conference and Exhibition</h1>
+                    <h1 class="h4 mb-1">2nd KALRO Scientific Conference and Innovation Expo</h1>
                     <p class="mb-0 text-muted">Strengthening Agricultural Innovation Systems</p>
                 </div>
 

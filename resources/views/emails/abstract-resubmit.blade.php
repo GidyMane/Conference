@@ -93,7 +93,7 @@ a {
 
 <!-- HEADER -->
 <div class="header resubmit">
-    <h2>2nd KALRO Scientific Conference and Exhibition</h2>
+    <h2>2nd KALRO Scientific Conference and Innovation Expo</h2>
     <h3>Abstract Revision Required</h3>
 </div>
 
@@ -104,7 +104,7 @@ a {
 
 <p>
 Thank you for submitting your abstract to the
-<strong>2nd KALRO Scientific Conference and Exhibition</strong>.
+<strong>2nd KALRO Scientific Conference and Innovation Expo</strong>.
 </p>
 
 <p>
@@ -163,7 +163,7 @@ and include your submission code in all correspondence.
 
 <p>
 Thank you for your interest in the
-<strong>2nd KALRO Scientific Conference and Exhibition</strong>.
+<strong>2nd KALRO Scientific Conference and Innovation Expo</strong>.
 </p>
 
 <p>
@@ -177,7 +177,7 @@ Email: kalroconference2026@gmail.com
 <!-- FOOTER -->
 <div class="footer">
 <p>This is an automated message. Please do not reply to this email.</p>
-<p>© {{ date('Y') }} 2nd KALRO Scientific Conference and Exhibition. All rights reserved.</p>
+<p>© {{ date('Y') }} 2nd KALRO Scientific Conference and Innovation Expo. All rights reserved.</p>
 </div>
 
 </div>

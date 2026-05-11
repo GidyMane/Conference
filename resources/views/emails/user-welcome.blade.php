@@ -114,7 +114,7 @@
 
         <p>
             You have been registered as a <strong>Temporary Reviewer</strong> for the
-            <strong>2nd KALRO Scientific Conference and Exhibition</strong>.
+            <strong>2nd KALRO Scientific Conference and Innovation Expo</strong>.
             Please find your login credentials below.
         </p>
 
@@ -168,7 +168,7 @@
     {{-- FOOTER --}}
     <div class="footer">
         <p>This is an automated message. Please do not reply to this email.</p>
-        <p>© {{ date('Y') }} 2nd KALRO Scientific Conference and Exhibition. All rights reserved.</p>
+        <p>© {{ date('Y') }} 2nd KALRO Scientific Conference and Innovation Expo. All rights reserved.</p>
     </div>
 
 </div>

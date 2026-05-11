@@ -109,7 +109,7 @@
 
     {{-- HEADER --}}
     <div class="header {{ $paper->final_decision === 'rejected' ? 'rejected' : 'approved' }}">
-        <h2>2nd KALRO Scientific Conference and Exhibition</h2>
+        <h2>2nd KALRO Scientific Conference and Innovation Expo</h2>
         <h3>Final Paper Decision</h3>
     </div>
 
@@ -156,7 +156,7 @@
     {{-- FOOTER --}}
     <div class="footer">
         <p>This is an automated message. Please do not reply to this email.</p>
-        <p>© {{ date('Y') }} 2nd KALRO Scientific Conference and Exhibition. All rights reserved.</p>
+        <p>© {{ date('Y') }} 2nd KALRO Scientific Conference and Innovation Expo. All rights reserved.</p>
     </div>
 
 </div>

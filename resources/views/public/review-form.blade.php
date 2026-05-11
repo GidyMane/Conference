@@ -95,7 +95,7 @@
 <div class="review-header">
     <div class="container">
         <h2><i class="fas fa-file-alt me-2"></i>Full Paper Review Form</h2>
-        <p class="mb-0">2nd KALRO Scientific Conference and Exhibition</p>
+        <p class="mb-0">2nd KALRO Scientific Conference and Innovation Expo</p>
     </div>
 </div>
 

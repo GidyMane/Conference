@@ -27,7 +27,7 @@
                     <span class="badge bg-warning text-dark fs-6 mb-3 px-3 py-2">
                         <i class="fas fa-star me-1"></i> Registration Now Open
                     </span>
-                    <h2 class="display-5 fw-bold">2nd KALRO Scientific Conference and Exhibition</h2>
+                    <h2 class="display-5 fw-bold">2nd KALRO Scientific Conference and Innovation Expo</h2>
                     <p class="lead">15th – 19th June 2026 &nbsp;|&nbsp; Innovating for Resilience, Scaling for Impact</p>
 
                     <div class="d-flex justify-content-center gap-3 flex-wrap mt-3">
