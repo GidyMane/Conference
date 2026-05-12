@@ -5,7 +5,6 @@
 
 @section('content')
 <style>
-    /* --- existing styles --- */
     .review-summary-card { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 5px solid #3b82f6; border-radius: 12px; padding: 24px; margin-bottom: 24px; }
     .review-card { border-radius: 12px; overflow: hidden; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,.1); }
     .review-header { background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: white; padding: 16px 20px; }
@@ -157,7 +156,16 @@
 
     @php
         $submittedCount = $reviews->filter(fn($a) => $a->fullPaperReview?->submitted_at)->count();
-        $allReviewed = $submittedCount === $reviews->count();
+
+        $prequalifiedSubmitted = $reviews->filter(
+            fn($a) => $a->prequalified_reviewer_id && $a->fullPaperReview?->submitted_at
+        )->isNotEmpty();
+
+        $peerSubmitted = $reviews->filter(
+            fn($a) => $a->peer_reviewer_id && $a->fullPaperReview?->submitted_at
+        )->count() >= 1;
+
+        $allReviewed = $prequalifiedSubmitted && $peerSubmitted;
         $decisionMade = !is_null($paper->final_decision);
         $disableForm = !$allReviewed || $decisionMade;
     @endphp
@@ -170,11 +178,15 @@
             </h5>
         </div>
         <div class="card-body">
+
             @if($disableForm && !$decisionMade)
                 <div class="alert alert-info">
                     <i class="fas fa-info-circle me-2"></i>
-                    Final decision cannot be made until all reviewers have submitted their reviews.
-                    ({{ $submittedCount }}/{{ $reviews->count() }} submitted)
+                    Decision requires the prequalified reviewer and at least one peer reviewer to submit their reviews.
+                    <ul class="mb-0 mt-2 small">
+                        <li>Prequalified reviewer: <strong>{{ $prequalifiedSubmitted ? '✓ Submitted' : '✗ Pending' }}</strong></li>
+                        <li>Peer reviewers: <strong>{{ $peerSubmitted ? '✓ At least one submitted' : '✗ None submitted yet' }}</strong></li>
+                    </ul>
                 </div>
             @elseif($decisionMade)
                 <div class="alert alert-success">
@@ -186,12 +198,11 @@
             <form method="POST" action="{{ route('reviewer.fullpapers.final-decision', $paper->id) }}">
                 @csrf
                 <fieldset @if($disableForm) disabled @endif>
-                    
+
                     <div class="mb-4">
                         <label class="form-label fw-bold">Final Decision <span class="text-danger">*</span></label>
-                        <select name="decision" id="decision"class="form-select form-select-lg" required>
+                        <select name="decision" id="decision" class="form-select form-select-lg" required>
                             <option value="">-- Select Decision --</option>
-                             
                             <option value="approved_with_minor_revisions">⚠ Accept with Minor Revisions</option>
                             <option value="approved_with_major_revisions">⚠ Accept with Major Revisions</option>
                             <option value="not_approved">✗ Not Approved</option>
@@ -205,27 +216,12 @@
                         <label class="form-label fw-bold">
                             Recommended Presentation Format <span class="text-danger">*</span>
                         </label>
-
-                        <select 
-                            name="presentation_type" 
-                            id="presentation_type" 
-                            class="form-select"
-                        >
+                        <select name="presentation_type" id="presentation_type" class="form-select">
                             <option value="">-- Select Format --</option>
-
-                            <option value="powerpoint">
-                                📊 PowerPoint Presentation
-                            </option>
-
-                            <option value="poster">
-                                📋 Poster Presentation
-                            </option>
-
-                            <option value="virtual">
-                                ⚡ Lightning Talk - 5 Min
-                            </option>
+                            <option value="powerpoint">📊 PowerPoint Presentation</option>
+                            <option value="poster">📋 Poster Presentation</option>
+                            <option value="virtual">⚡ Lightning Talk - 5 Min</option>
                         </select>
-
                         <small class="text-muted">
                             Select the most appropriate format for presenting this paper at the conference.
                         </small>
@@ -233,8 +229,8 @@
 
                     <div class="mb-4">
                         <label class="form-label fw-bold">Comments to Author <span class="text-danger">*</span></label>
-                        <textarea name="comments" 
-                                  class="form-control" 
+                        <textarea name="comments"
+                                  class="form-control"
                                   rows="5"
                                   minlength="20"
                                   placeholder="Provide constructive feedback based on reviewers' comments and your assessment..."
@@ -263,48 +259,39 @@
                         </button>
                         <a href="{{ url('/reviewer/fullpapers-review') }}" class="btn btn-secondary btn-lg">Cancel</a>
                     </div>
+
                 </fieldset>
             </form>
         </div>
     </div>
 
 </div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
     const decisionSelect = document.getElementById('decision');
-
     const presentationWrapper = document.getElementById('presentationTypeWrapper');
-
     const presentationSelect = document.getElementById('presentation_type');
 
     function togglePresentationType() {
-
         const value = decisionSelect.value;
-
         if (
             value === 'approved_with_minor_revisions' ||
             value === 'approved_with_major_revisions'
         ) {
-
             presentationWrapper.style.display = 'block';
-
             presentationSelect.setAttribute('required', 'required');
-
         } else {
-
             presentationWrapper.style.display = 'none';
-
             presentationSelect.removeAttribute('required');
-
             presentationSelect.value = '';
         }
     }
 
     decisionSelect.addEventListener('change', togglePresentationType);
-
-    // Initialize on page load
     togglePresentationType();
 });
 </script>
+
 @endsection
