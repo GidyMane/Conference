@@ -79,6 +79,28 @@
             border-left-color: #dc3545;
         }
 
+        .registration-banner {
+            background-color: #1a5f3a;
+            border-radius: 8px;
+            padding: 18px 20px;
+            margin: 20px 0;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .registration-banner p {
+            margin: 0 0 12px 0;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .registration-banner small {
+            display: block;
+            font-size: 12px;
+            color: #d4edda;
+            margin-top: 8px;
+        }
+
         .footer {
             text-align: center;
             padding: 20px;
@@ -100,6 +122,18 @@
             border-radius: 6px;
             font-weight: 600;
             margin: 10px 5px;
+        }
+
+        .btn-register {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #ffffff;
+            color: #1a5f3a !important;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 14px;
+            margin-top: 4px;
         }
     </style>
 </head>
@@ -146,6 +180,17 @@
                 </a>
             </div>
         @endif
+
+        {{-- REGISTRATION BANNER --}}
+        <div class="registration-banner">
+            <p>🎉 Conference Registration is Now Open!</p>
+            Don't forget to register to attend the 2nd KALRO Scientific Conference and Innovation Expo.
+            <br>
+            <a href="https://conference.kalro.org/conference/register" class="btn-register">
+                Register Now →
+            </a>
+            <small>Click the button above or visit: conference.kalro.org/conference/register</small>
+        </div>
 
         <p>Best regards,<br>
            <strong>Conference Committee</strong><br>
