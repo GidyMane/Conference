@@ -441,3 +441,11 @@ Route::prefix('finance')
 
     });
 
+
+Route::get('/side-event/register', function () {
+    return view('side-event-register');
+})->name('side-event.register.form');
+
+Route::post('/side-event/register', function () {
+    return back()->with('success', 'Test submission received.');
+})->name('side-event.register');
