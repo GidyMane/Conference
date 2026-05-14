@@ -266,6 +266,85 @@
         font-size: 13px;
         color: #6c757d;
     }
+
+    /* =====================
+       PAGINATION STYLES
+    ===================== */
+    .pagination-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 20px;
+        border-top: 1px solid #e9ecef;
+        background: #fafbfc;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .pagination-info {
+        font-size: 13px;
+        color: #6c757d;
+    }
+
+    .pagination-info strong {
+        color: #2c3e50;
+    }
+
+    .pagination {
+        margin: 0;
+        gap: 4px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .pagination .page-item .page-link {
+        color: var(--primary-blue);
+        border: 1px solid #dee2e6;
+        border-radius: 6px !important;
+        padding: 6px 12px;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1.5;
+        transition: all 0.2s ease;
+        background-color: white;
+        margin: 0 2px;
+    }
+
+    .pagination .page-item .page-link:hover {
+        background-color: #e7f3ff;
+        border-color: var(--primary-blue);
+        color: var(--primary-blue);
+        box-shadow: 0 2px 4px rgba(30, 90, 142, 0.15);
+        text-decoration: none;
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: var(--primary-blue);
+        border-color: var(--primary-blue);
+        color: white;
+        box-shadow: 0 2px 6px rgba(30, 90, 142, 0.35);
+    }
+
+    .pagination .page-item.active .page-link:hover {
+        background-color: #0d3d5c;
+        border-color: #0d3d5c;
+        color: white;
+    }
+
+    .pagination .page-item.disabled .page-link {
+        color: #adb5bd;
+        background-color: #f8f9fa;
+        border-color: #dee2e6;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+    /* Prev / Next arrow buttons */
+    .pagination .page-item:first-child .page-link,
+    .pagination .page-item:last-child .page-link {
+        font-weight: 600;
+        padding: 6px 14px;
+    }
 </style>
 
 <div class="page-header">
@@ -312,7 +391,7 @@
 <div class="table-card">
     @if($fullPapers->count() > 0)
         <div class="table-responsive">
-            <table class="table table-hover">
+            <table class="table table-hover mb-0">
                 <thead>
                     <tr>
                         <th>Paper ID</th>
@@ -357,29 +436,25 @@
                         <td>{{ $paper->created_at->format('M d, Y') }}</td>
                         <td>
                             <button class="btn btn-view btn-sm view-paper"
-    data-bs-toggle="modal"
-    data-bs-target="#paperModal"
-    data-id="{{ $paper->id }}"
-    data-abstract-code="{{ $paper->abstract->submission_code }}"
-    data-title="{{ $paper->abstract->paper_title }}"
-    data-author="{{ $paper->abstract->author_name }}"
-    data-email="{{ $paper->abstract->author_email }}"
-    data-theme="{{ $paper->abstract->subTheme->form_field_value ?? 'N/A' }}"
-    data-status="{{ $paper->status }}"
-    data-submitted="{{ $paper->created_at->format('M d, Y H:i') }}"
-
-    {{-- DOCUMENT FLAGS --}}
-    data-has-paper="{{ $paper->file_path ? '1' : '0' }}"
-    data-has-presentation="{{ $paper->presentation_file_path ? '1' : '0' }}"
-    data-has-supplementary="{{ $paper->supplementary_files_path ? '1' : '0' }}"
-
-    {{-- CORRECT STORAGE URLS --}}
-    data-paper-url="{{ $paper->file_path ? asset('storage/' . $paper->file_path) : '' }}"
-    data-presentation-url="{{ $paper->presentation_file_path ? asset('storage/' . $paper->presentation_file_path) : '' }}"
-    data-supplementary-url="{{ $paper->supplementary_files_path ? asset('storage/' . $paper->supplementary_files_path) : '' }}"
->
-    <i class="fas fa-eye me-1"></i> View
-</button>
+                                data-bs-toggle="modal"
+                                data-bs-target="#paperModal"
+                                data-id="{{ $paper->id }}"
+                                data-abstract-code="{{ $paper->abstract->submission_code }}"
+                                data-title="{{ $paper->abstract->paper_title }}"
+                                data-author="{{ $paper->abstract->author_name }}"
+                                data-email="{{ $paper->abstract->author_email }}"
+                                data-theme="{{ $paper->abstract->subTheme->form_field_value ?? 'N/A' }}"
+                                data-status="{{ $paper->status }}"
+                                data-submitted="{{ $paper->created_at->format('M d, Y H:i') }}"
+                                data-has-paper="{{ $paper->file_path ? '1' : '0' }}"
+                                data-has-presentation="{{ $paper->presentation_file_path ? '1' : '0' }}"
+                                data-has-supplementary="{{ $paper->supplementary_files_path ? '1' : '0' }}"
+                                data-paper-url="{{ $paper->file_path ? asset('storage/' . $paper->file_path) : '' }}"
+                                data-presentation-url="{{ $paper->presentation_file_path ? asset('storage/' . $paper->presentation_file_path) : '' }}"
+                                data-supplementary-url="{{ $paper->supplementary_files_path ? asset('storage/' . $paper->supplementary_files_path) : '' }}"
+                            >
+                                <i class="fas fa-eye me-1"></i> View
+                            </button>
                         </td>
                     </tr>
                     @endforeach
@@ -387,6 +462,25 @@
             </table>
         </div>
 
+        {{-- ======== PAGINATION ======== --}}
+        @if($fullPapers->hasPages())
+            <div class="pagination-wrapper">
+                <div class="pagination-info">
+                    Showing <strong>{{ $fullPapers->firstItem() }}</strong>
+                    to <strong>{{ $fullPapers->lastItem() }}</strong>
+                    of <strong>{{ $fullPapers->total() }}</strong> submissions
+                </div>
+                {{ $fullPapers->links() }}
+            </div>
+        @else
+            <div class="pagination-wrapper">
+                <div class="pagination-info">
+                    Showing <strong>{{ $fullPapers->count() }}</strong>
+                    of <strong>{{ $fullPapers->total() }}</strong> submissions
+                </div>
+            </div>
+        @endif
+        {{-- ====== END PAGINATION ====== --}}
 
     @else
         <div class="empty-state">
@@ -412,19 +506,19 @@
                 <div class="paper-details">
                     <div class="row">
                         <div class="col-md-6">
-                            <p><strong><i class="fas fa-hashtag me-2"></i>Abstract Code:</strong> 
+                            <p><strong><i class="fas fa-hashtag me-2"></i>Abstract Code:</strong>
                                <span id="modalAbstractCode" class="text-primary fw-bold"></span></p>
-                            <p><strong><i class="fas fa-user me-2"></i>Author:</strong> 
+                            <p><strong><i class="fas fa-user me-2"></i>Author:</strong>
                                <span id="modalAuthor"></span></p>
-                            <p><strong><i class="fas fa-envelope me-2"></i>Email:</strong> 
+                            <p><strong><i class="fas fa-envelope me-2"></i>Email:</strong>
                                <span id="modalEmail"></span></p>
                         </div>
                         <div class="col-md-6">
-                            <p><strong><i class="fas fa-tag me-2"></i>Sub-Theme:</strong> 
+                            <p><strong><i class="fas fa-tag me-2"></i>Sub-Theme:</strong>
                                <span id="modalTheme" class="badge bg-secondary"></span></p>
-                            <p><strong><i class="fas fa-circle me-2"></i>Status:</strong> 
+                            <p><strong><i class="fas fa-circle me-2"></i>Status:</strong>
                                <span id="modalStatus"></span></p>
-                            <p><strong><i class="fas fa-calendar me-2"></i>Submitted:</strong> 
+                            <p><strong><i class="fas fa-calendar me-2"></i>Submitted:</strong>
                                <span id="modalSubmitted"></span></p>
                         </div>
                     </div>
@@ -506,7 +600,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.view-paper').forEach(btn => {
         btn.addEventListener('click', () => {
             const data = btn.dataset;
-            
+
             // Set basic info
             document.getElementById('modalAbstractCode').textContent = data.abstractCode;
             document.getElementById('modalTitle').textContent = data.title;
@@ -514,21 +608,21 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('modalEmail').textContent = data.email;
             document.getElementById('modalTheme').textContent = data.theme;
             document.getElementById('modalSubmitted').textContent = data.submitted;
-            
+
             // Set status
             const statusEl = document.getElementById('modalStatus');
             const statusClass = data.status.toLowerCase().replace('_', '-');
             statusEl.className = `status-badge ${statusClass}`;
             statusEl.textContent = data.status.charAt(0).toUpperCase() + data.status.slice(1);
-            
+
             // Show/hide documents
-            const paperDoc = document.getElementById('paperDoc');
-            const presentationDoc = document.getElementById('presentationDoc');
+            const paperDoc         = document.getElementById('paperDoc');
+            const presentationDoc  = document.getElementById('presentationDoc');
             const supplementaryDoc = document.getElementById('supplementaryDoc');
-            const noDocuments = document.getElementById('noDocuments');
-            
+            const noDocuments      = document.getElementById('noDocuments');
+
             let hasAnyDoc = false;
-            
+
             if (data.hasPaper === '1') {
                 paperDoc.style.display = 'flex';
                 document.getElementById('paperDownload').href = data.paperUrl;
@@ -536,7 +630,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 paperDoc.style.display = 'none';
             }
-            
+
             if (data.hasPresentation === '1') {
                 presentationDoc.style.display = 'flex';
                 document.getElementById('presentationDownload').href = data.presentationUrl;
@@ -544,14 +638,14 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 presentationDoc.style.display = 'none';
             }
-            
+
             if (data.hasSupplementary === '1') {
                 supplementaryDoc.style.display = 'flex';
                 hasAnyDoc = true;
             } else {
                 supplementaryDoc.style.display = 'none';
             }
-            
+
             noDocuments.style.display = hasAnyDoc ? 'none' : 'block';
         });
     });
