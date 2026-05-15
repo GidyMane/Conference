@@ -555,8 +555,8 @@
                 <p class="mb-0 text-muted" style="font-size:0.95rem;">
                     Side event spaces are limited. Submit your proposal early to secure your preferred date and time.
                     For questions, email
-                    <a href="mailto:kalroconference2026@gmail.com" class="fw-semibold text-success">
-                        kalroconference2026@gmail.com
+                    <a href="mailto:kalroexpo2026@gmail.com" class="fw-semibold text-success">
+                        kalroexpo2026@gmail.com
                     </a>
                 </p>
             </div>
