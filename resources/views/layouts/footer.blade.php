@@ -25,6 +25,8 @@
                 <ul class="list-unstyled">
                     <li class="mb-2"><a href="/" class="text-white-50"><i class="fas fa-home me-1"></i>Home</a></li>
                     <li class="mb-2"><a href="/about" class="text-white-50"><i class="fas fa-info-circle me-1"></i>About</a></li>
+                    <li class="mb-2"><a href="https://forms.gle/UsduBgszNWhjQpJS9" target="_blank" rel="noopener noreferrer" class="text-white-50"><i class="fas fa-calendar-plus me-1"></i>Host a Side Event</a>
+</li>
                     <li class="mb-2"><a href="/conference-theme" class="text-white-50"><i class="fas fa-book-open me-1"></i>Conference Theme</a></li>
                     <li class="mb-2"><a href="/conference-procedure" class="text-white-50"><i class="fas fa-tasks me-1"></i>Procedure</a></li>
                     <li class="mb-2"><a href="/submit-abstract" class="text-white-50"><i class="fas fa-paper-plane me-1"></i>Submit Abstract</a></li>
