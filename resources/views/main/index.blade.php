@@ -22,22 +22,9 @@
 .hero-section .carousel-item img {
     height: 560px;
     object-fit: cover;
-    filter: brightness(0.45);
-}
+    
 
-/* Overlay gradient for extra legibility */
-.hero-section .carousel-item::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        to bottom,
-        rgba(0,0,0,0.15) 0%,
-        rgba(0,0,0,0.55) 60%,
-        rgba(0,0,0,0.70) 100%
-    );
-    pointer-events: none;
-}
+
 
 .hero-section .carousel-caption {
     bottom: 60px;
