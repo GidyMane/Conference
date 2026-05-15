@@ -8,6 +8,7 @@ use App\Models\PrequalifiedReviewer;
 use App\Models\ReviewAssignment;
 use App\Models\User;
 use App\Models\Reviewer;
+use App\Models\SubTheme;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -661,13 +662,20 @@ public function showFullPaperReviews($paperId)
 
     return view('reviewer.fullpapers-decision', compact('paper', 'reviews'));
 }
-    public function adminCompletedReviews()
+public function adminCompletedReviews()
 {
-    $papers = \App\Models\FullPaper::with('reviews', 'abstract', 'abstract.subtheme')
-        ->whereIn('status', ['approved', 'rejected'])
-        ->get();
+    $papers = \App\Models\FullPaper::with(
+        'reviews',
+        'abstract',
+        'abstract.subtheme'
+    )
+    ->whereIn('status', ['approved', 'rejected'])
+    ->get();
 
-    $subthemes = $papers->pluck('sub_theme')->unique();
+    $subthemes = $papers
+        ->pluck('abstract.subtheme')
+        ->filter()
+        ->unique('id');
 
     return view('admin.fullpapers.completed', compact('papers', 'subthemes'));
 }

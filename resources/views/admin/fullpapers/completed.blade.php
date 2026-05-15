@@ -324,7 +324,7 @@ $rejected = $papers->whereIn('status', ['REJECTED','not_approved'])->count();
     <select id="subthemeFilter" class="form-select" style="width:200px">
         <option value="">All Sub-Themes</option>
         @foreach($subthemes as $subtheme)
-            <option value="{{ $subtheme }}">{{ $subtheme }}</option>
+            <option value="{{ $subtheme->full_name }}">{{ $subtheme->full_name }}</option>
         @endforeach
     </select>
 </div>
