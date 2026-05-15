@@ -248,6 +248,13 @@
                                    <i class="fas fa-paper-plane me-1"></i> Submit Full Paper
                                 </a>
                             </li>
+                            {{-- Side Events --}}
+<li class="nav-item">
+    <a class="nav-link" href="https://forms.gle/UsduBgszNWhjQpJS9"
+       target="_blank" rel="noopener noreferrer">
+        <i class="fas fa-calendar-plus me-1"></i> Side Events
+    </a>
+</li>
                             <li>
                                 <a class="dropdown-item {{ Request::is('conference-procedure') ? 'active' : '' }}"
                                    href="/conference-procedure">
