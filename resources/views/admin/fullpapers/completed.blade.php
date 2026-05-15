@@ -351,7 +351,10 @@ $rejected = $papers->whereIn('status', ['REJECTED','not_approved'])->count();
             </thead>
             <tbody>
                 @forelse($papers as $paper)
-                <tr data-status="{{ $paper->status }}" data-subtheme="{{ $paper->sub_theme }}">
+                <tr 
+                    data-status="{{ strtolower($paper->status) }}"
+                    data-subtheme="{{ strtolower($paper->abstract->subtheme->full_name ?? '') }}"
+                >
                     <td><span class="paper-id">{{ $paper->abstract->submission_code }}</span></td>
                     <td>
                         <div class="fw-semibold text-dark" style="max-width:280px;line-height:1.4">
