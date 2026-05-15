@@ -58,17 +58,17 @@
     font-size: clamp(1rem, 2vw, 1.2rem);
     font-weight: 600;
     line-height: 1.6;
-    background: rgba(0, 0, 0, 0.45);
+    background: rgba(0,0,0,0.45);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
     border-radius: 8px;
     padding: 10px 20px;
     margin-bottom: 1.4rem;
     text-shadow: 0 1px 4px rgba(0,0,0,0.6);
-    border-left: 3px solid var(--gold);
+    border-left: 3px solid var(--green-light);
 }
 
-.hero-caption-lead strong { color: var(--gold); }
+.hero-caption-lead strong { color: var(--green-light); }
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
@@ -80,12 +80,12 @@
 
 /* ===== ANNOUNCEMENT BANNER ===== */
 .announcement-banner {
-    background: linear-gradient(90deg, var(--gold) 0%, #ffca28 100%);
+    background: linear-gradient(90deg, var(--green-main) 0%, #3a9a5c 100%);
     padding: 0.75rem 0;
 }
 .announcement-banner h5 {
     font-size: 1rem;
-    color: #1a2b1f;
+    color: #ffffff;
     margin: 0;
 }
 
@@ -153,7 +153,7 @@
 }
 .participate-strip .participate-item i {
     font-size: 1.4rem;
-    color: var(--gold);
+    color: var(--green-light);
 }
 .participate-strip .participate-item span {
     font-size: 0.9rem;
@@ -163,19 +163,19 @@
 
 /* ===== SIDE EVENT SECTION ===== */
 .side-event-section {
-    background: #fffdf5;
-    border-top: 4px solid var(--gold);
-    border-bottom: 1px solid #f0e0b0;
+    background: #f4faf5;
+    border-top: 4px solid var(--green-main);
+    border-bottom: 1px solid #c8e6c9;
 }
 .side-event-card {
     border-radius: 16px;
-    border: 1px solid rgba(245,166,35,0.3);
+    border: 1px solid rgba(46,125,70,0.25);
     background: #ffffff;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 .side-event-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(245,166,35,0.18);
+    box-shadow: 0 12px 32px rgba(46,125,70,0.15);
 }
 
 /* ===== MID CTA ===== */
@@ -239,7 +239,7 @@
     font-size: 0.97rem;
 }
 
-/* Buttons */
+/* ===== BUTTONS ===== */
 .btn-success { background-color: var(--green-main); border-color: var(--green-main); }
 .btn-success:hover { background-color: var(--green-dark); border-color: var(--green-dark); }
 .btn-warning { background-color: var(--gold); border-color: var(--gold); color: #1a2b1f; }
@@ -264,7 +264,7 @@
             <div class="carousel-item active">
                 <img src="assets/images/banner1.jpg" class="d-block w-100" alt="KALRO Conference Banner">
                 <div class="carousel-caption">
-                    <span class="badge bg-warning text-dark mb-3">
+                    <span class="badge bg-success text-white mb-3">
                         <i class="fas fa-star me-1"></i> Registration Now Open
                     </span>
                     <h2>2nd KALRO Scientific Conference and Innovation Expo</h2>
@@ -272,7 +272,7 @@
                         15th – 19th June 2026 &nbsp;|&nbsp; Innovating for Resilience, Scaling for Impact
                     </p>
                     <div class="d-flex justify-content-center gap-3 flex-wrap mt-2">
-                        <a href="/conference/register" class="btn btn-warning btn-lg fw-bold">
+                        <a href="/conference/register" class="btn btn-success btn-lg fw-bold">
                             <i class="fas fa-user-check me-2"></i>Register as Participant
                         </a>
                         <a href="/exhibition/register" class="btn btn-outline-light btn-lg">
@@ -294,7 +294,7 @@
                         Learn from experts, network with peers, and participate in impactful discussions.<br>
                         <strong>Early bird registration ends 22nd May 2026.</strong>
                     </p>
-                    <a href="/conference/register" class="btn btn-warning btn-lg fw-bold mt-1">
+                    <a href="/conference/register" class="btn btn-success btn-lg fw-bold mt-1">
                         <i class="fas fa-users me-2"></i>Register Now
                     </a>
                 </div>
@@ -304,7 +304,7 @@
             <div class="carousel-item">
                 <img src="assets/images/banner1.jpg" class="d-block w-100" alt="Networking Opportunities">
                 <div class="carousel-caption">
-                    <span class="badge bg-warning text-dark mb-3">
+                    <span class="badge bg-success text-white mb-3">
                         <i class="fas fa-store me-1"></i> Exhibitor Spaces Available
                     </span>
                     <h2>Showcase Your Innovation</h2>
@@ -312,7 +312,7 @@
                         Present your products and services to researchers, policymakers, and industry leaders.
                     </p>
                     <div class="d-flex justify-content-center gap-3 flex-wrap mt-1">
-                        <a href="/exhibition/register" class="btn btn-warning btn-lg fw-bold">
+                        <a href="/exhibition/register" class="btn btn-success btn-lg fw-bold">
                             <i class="fas fa-store me-2"></i>Register as Exhibitor
                         </a>
                         <a href="/conference-procedure" class="btn btn-outline-light btn-lg">
@@ -326,7 +326,7 @@
             <div class="carousel-item">
                 <img src="assets/images/banner2.jpg" class="d-block w-100" alt="Side Events">
                 <div class="carousel-caption">
-                    <span class="badge text-dark mb-3" style="background:var(--gold);">
+                    <span class="badge bg-success text-white mb-3">
                         <i class="fas fa-calendar-plus me-1"></i> Side Events Open
                     </span>
                     <h2>Host a Side Event</h2>
@@ -335,7 +335,7 @@
                         <strong>Submit your proposal now.</strong>
                     </p>
                     <a href="https://forms.gle/UsduBgszNWhjQpJS9" target="_blank" rel="noopener noreferrer"
-                       class="btn btn-warning btn-lg fw-bold mt-1">
+                       class="btn btn-success btn-lg fw-bold mt-1">
                         <i class="fas fa-external-link-alt me-2"></i>Submit Side Event Proposal
                     </a>
                 </div>
@@ -362,10 +362,14 @@
             Registration is Now Open! &mdash;
             Early bird pricing ends <strong>22nd May 2026</strong>.
             &nbsp;
-            <a href="/conference/register" class="btn btn-dark btn-sm ms-2">Register Now</a>
-            <a href="/exhibition/register" class="btn btn-outline-dark btn-sm ms-2">Exhibitor Registration</a>
+            <a href="/conference/register" class="btn btn-light btn-sm ms-2 text-success fw-bold">
+                Register Now
+            </a>
+            <a href="/exhibition/register" class="btn btn-outline-light btn-sm ms-2">
+                Exhibitor Registration
+            </a>
             <a href="https://forms.gle/UsduBgszNWhjQpJS9" target="_blank" rel="noopener noreferrer"
-               class="btn btn-dark btn-sm ms-2">
+               class="btn btn-outline-light btn-sm ms-2">
                 <i class="fas fa-calendar-plus me-1"></i>Host a Side Event
             </a>
         </h5>
@@ -383,7 +387,7 @@
             Innovating towards Resilient Agri-food Systems for Climate Action,
             Food Security and Sustainable Livelihoods
         </h4>
-        <p class="lead mx-auto" style="max-width: 900px;">
+        <p class="lead mx-auto" style="max-width:900px;">
             The conference brings together researchers, policymakers, practitioners,
             and industry players to explore innovative and climate-smart approaches
             that strengthen agri-food systems, enhance resilience to climate change,
@@ -464,15 +468,15 @@
 </section>
 
 
-{{-- ================= HOST A SIDE EVENT — FEATURED CARD ================= --}}
+{{-- ================= HOST A SIDE EVENT ================= --}}
 <section class="side-event-section py-5">
     <div class="container">
 
         <div class="text-center mb-4">
-            <h2 class="fw-bold" style="color: var(--text-dark);">
-                <i class="fas fa-calendar-plus me-2" style="color: var(--gold);"></i>Host a Side Event
+            <h2 class="fw-bold" style="color:var(--green-dark);">
+                <i class="fas fa-calendar-plus me-2 text-success"></i>Host a Side Event
             </h2>
-            <p class="text-muted mx-auto" style="max-width: 680px;">
+            <p class="text-muted mx-auto" style="max-width:680px;">
                 Propose a focused workshop, symposium, or special session alongside the main conference
                 programme. Spaces are limited and allocated on a first-come, first-served basis.
             </p>
@@ -485,8 +489,8 @@
                 <div class="card h-100 side-event-card shadow-sm border-0 p-1">
                     <div class="card-body p-4">
                         <div class="rounded-circle d-flex align-items-center justify-content-center mb-3"
-                             style="width:52px;height:52px;background:#fff8e1;">
-                            <i class="fas fa-lightbulb fa-lg" style="color:#b87800;"></i>
+                             style="width:52px;height:52px;background:var(--green-light);">
+                            <i class="fas fa-lightbulb fa-lg" style="color:var(--green-dark);"></i>
                         </div>
                         <h5 class="fw-bold mb-2">What is a Side Event?</h5>
                         <p class="text-muted mb-0">
@@ -503,8 +507,8 @@
                 <div class="card h-100 side-event-card shadow-sm border-0 p-1">
                     <div class="card-body p-4">
                         <div class="rounded-circle d-flex align-items-center justify-content-center mb-3"
-                             style="width:52px;height:52px;background:#fff8e1;">
-                            <i class="fas fa-users fa-lg" style="color:#b87800;"></i>
+                             style="width:52px;height:52px;background:var(--green-light);">
+                            <i class="fas fa-users fa-lg" style="color:var(--green-dark);"></i>
                         </div>
                         <h5 class="fw-bold mb-2">Who Can Apply?</h5>
                         <p class="text-muted mb-0">
@@ -521,8 +525,8 @@
                 <div class="card h-100 side-event-card shadow-sm border-0 p-1">
                     <div class="card-body p-4">
                         <div class="rounded-circle d-flex align-items-center justify-content-center mb-3"
-                             style="width:52px;height:52px;background:#fff8e1;">
-                            <i class="fas fa-paper-plane fa-lg" style="color:#b87800;"></i>
+                             style="width:52px;height:52px;background:var(--green-light);">
+                            <i class="fas fa-paper-plane fa-lg" style="color:var(--green-dark);"></i>
                         </div>
                         <h5 class="fw-bold mb-2">How to Apply</h5>
                         <p class="text-muted mb-3">
@@ -532,7 +536,7 @@
                         </p>
                         <a href="https://forms.gle/UsduBgszNWhjQpJS9"
                            target="_blank" rel="noopener noreferrer"
-                           class="btn btn-warning fw-bold w-100">
+                           class="btn btn-success fw-bold w-100">
                             <i class="fas fa-external-link-alt me-2"></i>Submit Your Proposal
                         </a>
                     </div>
@@ -543,22 +547,22 @@
 
         {{-- Full-width CTA banner --}}
         <div class="mt-4 p-4 rounded-3 d-flex flex-wrap align-items-center justify-content-between gap-3"
-             style="background: linear-gradient(90deg, #fff8e1 0%, #fffde7 100%); border: 1px solid rgba(245,166,35,0.4);">
+             style="background:var(--green-light); border:1px solid #c8e6c9;">
             <div>
-                <h5 class="fw-bold mb-1" style="color: var(--text-dark);">
-                    <i class="fas fa-clock me-2" style="color:var(--gold);"></i>
-                    Slots are filling up fast
+                <h5 class="fw-bold mb-1" style="color:var(--green-dark);">
+                    <i class="fas fa-clock me-2 text-success"></i>Slots are filling up fast
                 </h5>
                 <p class="mb-0 text-muted" style="font-size:0.95rem;">
                     Side event spaces are limited. Submit your proposal early to secure your preferred date and time.
                     For questions, email
-                    <a href="mailto:kalroconference2026@gmail.com" class="fw-semibold"
-                       style="color:var(--gold-dark);">kalroexpo2026@gmail.com</a>
+                    <a href="mailto:kalroconference2026@gmail.com" class="fw-semibold text-success">
+                        kalroconference2026@gmail.com
+                    </a>
                 </p>
             </div>
             <a href="https://forms.gle/UsduBgszNWhjQpJS9"
                target="_blank" rel="noopener noreferrer"
-               class="btn btn-warning btn-lg fw-bold flex-shrink-0">
+               class="btn btn-success btn-lg fw-bold flex-shrink-0">
                 <i class="fas fa-external-link-alt me-2"></i>Host a Side Event
             </a>
         </div>
@@ -578,11 +582,11 @@
             <a href="/conference/register" class="btn btn-success btn-lg fw-bold">
                 <i class="fas fa-user-check me-2"></i>Register as Participant
             </a>
-            <a href="/exhibition/register" class="btn btn-warning btn-lg fw-bold">
+            <a href="/exhibition/register" class="btn btn-outline-success btn-lg fw-bold">
                 <i class="fas fa-store me-2"></i>Become an Exhibitor
             </a>
             <a href="https://forms.gle/UsduBgszNWhjQpJS9" target="_blank" rel="noopener noreferrer"
-               class="btn btn-outline-warning btn-lg fw-bold">
+               class="btn btn-outline-success btn-lg fw-bold">
                 <i class="fas fa-calendar-plus me-2"></i>Host a Side Event
             </a>
         </div>
@@ -612,14 +616,14 @@
                         <a href="/conference/register" class="btn btn-success btn-lg">
                             <i class="fas fa-user-check me-2"></i>Register as Participant
                         </a>
-                        <a href="/exhibition/register" class="btn btn-warning btn-lg">
+                        <a href="/exhibition/register" class="btn btn-outline-success btn-lg">
                             <i class="fas fa-store me-2"></i>Register as Exhibitor
                         </a>
                         <a href="https://forms.gle/UsduBgszNWhjQpJS9" target="_blank" rel="noopener noreferrer"
-                           class="btn btn-outline-warning btn-lg">
+                           class="btn btn-outline-success btn-lg">
                             <i class="fas fa-calendar-plus me-2"></i>Host a Side Event
                         </a>
-                        <a href="/about" class="btn btn-outline-success btn-lg">
+                        <a href="/about" class="btn btn-outline-secondary btn-lg">
                             Learn More
                         </a>
                     </div>
@@ -637,18 +641,24 @@
                     <div class="card-body">
                         <ul class="list-unstyled mb-3">
 
-                            <li class="mb-3 p-2 rounded" style="background:#fff8e1; border-left:4px solid #ffc107;">
-                                <strong><i class="fas fa-star text-warning me-1"></i> Registration Open:</strong><br>
+                            <li class="mb-3 p-2 rounded"
+                                style="background:var(--green-light); border-left:4px solid var(--green-main);">
+                                <strong>
+                                    <i class="fas fa-star text-success me-1"></i> Registration Open:
+                                </strong><br>
                                 <span class="text-success fw-bold">Now Open!</span>
                                 <br><small class="text-danger fw-semibold">Early bird ends 22nd May 2026</small>
                             </li>
 
-                            <li class="mb-3 p-2 rounded" style="background:#fff8e1; border-left:4px solid #ffc107;">
-                                <strong><i class="fas fa-calendar-plus text-warning me-1"></i> Side Event Proposals:</strong><br>
-                                <span class="fw-bold" style="color:var(--gold-dark);">Now Accepting</span>
+                            <li class="mb-3 p-2 rounded"
+                                style="background:var(--green-light); border-left:4px solid var(--green-main);">
+                                <strong>
+                                    <i class="fas fa-calendar-plus text-success me-1"></i> Side Event Proposals:
+                                </strong><br>
+                                <span class="fw-bold text-success">Now Accepting</span>
                                 <br>
-                                <a href="https://forms.gle/UsduBgszNWhjQpJS9" target="_blank" rel="noopener noreferrer"
-                                   class="small fw-semibold" style="color:var(--gold-dark);">
+                                <a href="https://forms.gle/UsduBgszNWhjQpJS9" target="_blank"
+                                   rel="noopener noreferrer" class="small fw-semibold text-success">
                                     Submit proposal &rarr;
                                 </a>
                             </li>
@@ -684,7 +694,7 @@
                             <i class="fas fa-user-check me-2"></i>Register Now
                         </a>
                         <a href="https://forms.gle/UsduBgszNWhjQpJS9" target="_blank" rel="noopener noreferrer"
-                           class="btn btn-warning w-100 fw-bold">
+                           class="btn btn-outline-success w-100 fw-bold">
                             <i class="fas fa-calendar-plus me-2"></i>Host a Side Event
                         </a>
                     </div>
@@ -727,12 +737,12 @@
 
             {{-- Exhibitor --}}
             <div class="col-lg-3 col-md-6">
-                <div class="card h-100 shadow-lg border-0">
+                <div class="card h-100 shadow-lg border-0 border-top border-4 border-success">
                     <div class="card-body p-4">
-                        <i class="fas fa-store fa-3x text-warning mb-3 d-block"></i>
+                        <i class="fas fa-store fa-3x text-success mb-3 d-block"></i>
                         <h4 class="fw-bold">Exhibitor</h4>
                         <p>Showcase your products and connect with researchers, policymakers, and industry professionals.</p>
-                        <a href="/exhibition/register" class="btn btn-warning btn-lg w-100 fw-bold">
+                        <a href="/exhibition/register" class="btn btn-success btn-lg w-100 fw-bold">
                             <i class="fas fa-store me-2"></i>Become an Exhibitor
                         </a>
                     </div>
@@ -741,12 +751,12 @@
 
             {{-- Submit Paper --}}
             <div class="col-lg-3 col-md-6">
-                <div class="card h-100 shadow-lg border-0">
+                <div class="card h-100 shadow-lg border-0 border-top border-4 border-success">
                     <div class="card-body p-4">
-                        <i class="fas fa-file-alt fa-3x text-secondary mb-3 d-block"></i>
+                        <i class="fas fa-file-alt fa-3x text-success mb-3 d-block"></i>
                         <h4 class="fw-bold">Submit Research</h4>
                         <p>Full paper submission deadline: <strong>17th April 2026</strong>. Abstract submission is now closed.</p>
-                        <a href="/submit-abstract" class="btn btn-outline-secondary btn-lg w-100">
+                        <a href="/submit-abstract" class="btn btn-outline-success btn-lg w-100">
                             Paper Submission
                         </a>
                     </div>
@@ -755,14 +765,14 @@
 
             {{-- Side Event --}}
             <div class="col-lg-3 col-md-6">
-                <div class="card h-100 shadow-lg border-0" style="border-top: 4px solid var(--gold) !important;">
+                <div class="card h-100 shadow-lg border-0 border-top border-4 border-success">
                     <div class="card-body p-4">
-                        <i class="fas fa-calendar-plus fa-3x mb-3 d-block" style="color:var(--gold);"></i>
+                        <i class="fas fa-calendar-plus fa-3x text-success mb-3 d-block"></i>
                         <h4 class="fw-bold">Host a Side Event</h4>
                         <p>Organise a workshop, symposium, or special session. Submit your proposal and secure a slot.</p>
                         <a href="https://forms.gle/UsduBgszNWhjQpJS9"
                            target="_blank" rel="noopener noreferrer"
-                           class="btn btn-warning btn-lg w-100 fw-bold">
+                           class="btn btn-success btn-lg w-100 fw-bold">
                             <i class="fas fa-external-link-alt me-2"></i>Submit Proposal
                         </a>
                     </div>
