@@ -271,6 +271,10 @@
                     <a href="/conference/register" class="btn btn-warning btn-sm fw-bold">
                         <i class="fas fa-user-check me-1"></i> Register Now
                     </a>
+                    <a href="https://forms.gle/UsduBgszNWhjQpJS9" target="_blank" rel="noopener noreferrer"
+       class="btn btn-sm fw-bold" style="background:var(--gold,#f5a623); color:#1a2b1f; border:none;">
+        <i class="fas fa-calendar-plus me-1"></i> Side Event
+    </a>
                     <a href="/exhibition/register" class="btn btn-outline-light btn-sm">
                         <i class="fas fa-store me-1"></i> Exhibitor
                     </a>
