@@ -57,10 +57,10 @@
         transition: transform .2s, box-shadow .2s;
     }
     .stat-tile:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,.1); }
-    .stat-tile.t-total  { border-top-color: var(--green); }
-    .stat-tile.t-pending{ border-top-color: var(--amber); }
-    .stat-tile.t-approve{ border-top-color: #16a34a; }
-    .stat-tile.t-reject { border-top-color: var(--red); }
+    .stat-tile.t-total   { border-top-color: var(--green); }
+    .stat-tile.t-pending { border-top-color: var(--amber); }
+    .stat-tile.t-approve { border-top-color: #16a34a; }
+    .stat-tile.t-reject  { border-top-color: var(--red); }
 
     .stat-icon {
         width: 52px; height: 52px;
@@ -72,7 +72,7 @@
     .t-total  .stat-icon { background: var(--light-green); color: var(--green); }
     .t-pending .stat-icon { background: #fef3c7; color: var(--amber); }
     .t-approve .stat-icon { background: #d1fae5; color: #16a34a; }
-    .t-reject .stat-icon  { background: #fee2e2; color: var(--red); }
+    .t-reject  .stat-icon { background: #fee2e2; color: var(--red); }
 
     .stat-info h3 { font-size: 32px; font-weight: 700; margin: 0; color: #1e293b; }
     .stat-info p  { font-size: 12px; color: #64748b; text-transform: uppercase;
@@ -129,7 +129,12 @@
     }
     .table tbody tr { transition: background .15s; }
     .table tbody tr:hover { background: #f0fdf4; }
-    .table tbody td { padding: 14px 16px; vertical-align: middle; font-size: 14px; border-bottom: 1px solid #f1f5f9; }
+    .table tbody td {
+        padding: 14px 16px;
+        vertical-align: middle;
+        font-size: 14px;
+        border-bottom: 1px solid #f1f5f9;
+    }
 
     /* ── Paper ID ── */
     .paper-id {
@@ -153,8 +158,8 @@
         cursor: default;
         position: relative;
     }
-    .rdot.done  { background: #d1fae5; color: #065f46; border: 2px solid #86efac; }
-    .rdot.pend  { background: #f1f5f9; color: #94a3b8; border: 2px solid #e2e8f0; }
+    .rdot.done { background: #d1fae5; color: #065f46; border: 2px solid #86efac; }
+    .rdot.pend { background: #f1f5f9; color: #94a3b8; border: 2px solid #e2e8f0; }
     .rdot .rtip {
         display: none;
         position: absolute;
@@ -269,6 +274,85 @@
     }
     .empty-state i { font-size: 64px; margin-bottom: 18px; display: block; opacity: .35; }
     .empty-state h4 { color: #475569; font-size: 20px; margin-bottom: 8px; }
+
+    /* ══════════════════════════════════
+       PAGINATION
+    ══════════════════════════════════ */
+    .pagination-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 24px;
+        border-top: 2px solid #f1f5f9;
+        background: #fafbfc;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .pagination-info {
+        font-size: 13px;
+        color: #64748b;
+    }
+
+    .pagination-info strong {
+        color: #1e293b;
+    }
+
+    .pagination {
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+    .pagination .page-item .page-link {
+        color: var(--green);
+        border: 1px solid #e2e8f0;
+        border-radius: 8px !important;
+        padding: 6px 13px;
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 1.5;
+        background-color: white;
+        margin: 0 2px;
+        transition: all 0.2s ease;
+    }
+
+    .pagination .page-item .page-link:hover {
+        background-color: var(--light-green);
+        border-color: var(--green);
+        color: var(--dark-green);
+        box-shadow: 0 2px 6px rgba(45, 138, 62, 0.18);
+        text-decoration: none;
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: var(--green);
+        border-color: var(--green);
+        color: white;
+        box-shadow: 0 2px 8px rgba(45, 138, 62, 0.35);
+    }
+
+    .pagination .page-item.active .page-link:hover {
+        background-color: var(--dark-green);
+        border-color: var(--dark-green);
+        color: white;
+    }
+
+    .pagination .page-item.disabled .page-link {
+        color: #cbd5e1;
+        background-color: #f8fafc;
+        border-color: #e2e8f0;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+    /* Prev / Next slightly wider */
+    .pagination .page-item:first-child .page-link,
+    .pagination .page-item:last-child .page-link {
+        padding: 6px 15px;
+        font-weight: 700;
+    }
 </style>
 @endsection
 
@@ -280,30 +364,23 @@
     <p>Papers that have completed all reviews and are ready for a final decision.</p>
 </div>
 
-{{-- Stats --}}
-@php
-$total    = $papers->count();
-$awaiting = $papers->where('status', 'awaiting')->count();
-$approved = $papers->whereIn('status', ['APPROVED','approved'])->count();
-$rejected = $papers->whereIn('status', ['REJECTED','not_approved'])->count();
-@endphp
-
+{{-- Stats — from $stats array passed by controller, not computed from $papers collection --}}
 <div class="stats-grid">
     <div class="stat-tile t-total">
         <div class="stat-icon"><i class="fas fa-layer-group"></i></div>
-        <div class="stat-info"><h3>{{ $total }}</h3><p>Total Ready</p></div>
+        <div class="stat-info"><h3>{{ $stats['total'] }}</h3><p>Total Ready</p></div>
     </div>
     <div class="stat-tile t-pending">
         <div class="stat-icon"><i class="fas fa-hourglass-half"></i></div>
-        <div class="stat-info"><h3>{{ $awaiting }}</h3><p>Awaiting Decision</p></div>
+        <div class="stat-info"><h3>{{ $stats['awaiting'] }}</h3><p>Awaiting Decision</p></div>
     </div>
     <div class="stat-tile t-approve">
         <div class="stat-icon"><i class="fas fa-check-double"></i></div>
-        <div class="stat-info"><h3>{{ $approved }}</h3><p>Approved</p></div>
+        <div class="stat-info"><h3>{{ $stats['approved'] }}</h3><p>Approved</p></div>
     </div>
     <div class="stat-tile t-reject">
         <div class="stat-icon"><i class="fas fa-times-circle"></i></div>
-        <div class="stat-info"><h3>{{ $rejected }}</h3><p>Rejected</p></div>
+        <div class="stat-info"><h3>{{ $stats['rejected'] }}</h3><p>Rejected</p></div>
     </div>
 </div>
 
@@ -311,8 +388,11 @@ $rejected = $papers->whereIn('status', ['REJECTED','not_approved'])->count();
 <div class="filter-bar">
     <div class="flex-grow-1" style="min-width:220px">
         <div class="input-group">
-            <span class="input-group-text bg-light border-end-0"><i class="fas fa-search text-muted"></i></span>
-            <input type="text" id="searchInput" class="form-control border-start-0" placeholder="Search paper title or author…">
+            <span class="input-group-text bg-light border-end-0">
+                <i class="fas fa-search text-muted"></i>
+            </span>
+            <input type="text" id="searchInput" class="form-control border-start-0"
+                   placeholder="Search paper title or author…">
         </div>
     </div>
     <select id="statusFilter" class="form-select" style="width:180px">
@@ -324,7 +404,7 @@ $rejected = $papers->whereIn('status', ['REJECTED','not_approved'])->count();
     <select id="subthemeFilter" class="form-select" style="width:200px">
         <option value="">All Sub-Themes</option>
         @foreach($subthemes as $subtheme)
-            <option value="{{ $subtheme->full_name }}">{{ $subtheme->full_name }}</option>
+            <option value="{{ strtolower($subtheme->full_name) }}">{{ $subtheme->full_name }}</option>
         @endforeach
     </select>
 </div>
@@ -333,8 +413,9 @@ $rejected = $papers->whereIn('status', ['REJECTED','not_approved'])->count();
 <div class="table-card">
     <div class="table-card-header">
         <h5><i class="fas fa-table me-2 text-success"></i>Papers Ready for Final Decision</h5>
-        <span class="badge bg-success">{{ $total }} papers</span>
+        <span class="badge bg-success">{{ $stats['total'] }} papers</span>
     </div>
+
     <div class="table-responsive">
         <table class="table mb-0" id="papersTable">
             <thead>
@@ -351,23 +432,32 @@ $rejected = $papers->whereIn('status', ['REJECTED','not_approved'])->count();
             </thead>
             <tbody>
                 @forelse($papers as $paper)
-                <tr 
+                <tr
                     data-status="{{ strtolower($paper->status) }}"
                     data-subtheme="{{ strtolower($paper->abstract->subtheme->full_name ?? '') }}"
                 >
-                    <td><span class="paper-id">{{ $paper->abstract->submission_code }}</span></td>
+                    <td>
+                        <span class="paper-id">{{ $paper->abstract->submission_code }}</span>
+                    </td>
                     <td>
                         <div class="fw-semibold text-dark" style="max-width:280px;line-height:1.4">
                             {{ $paper->abstract->title }}
                         </div>
                         <small class="text-muted">{{ $paper->abstract->author_name }}</small>
                     </td>
-                    <td><span class="subtheme-tag">{{ $paper->abstract->subtheme->full_name ?? 'N/A' }}</span></td>
+                    <td>
+                        <span class="subtheme-tag">
+                            {{ $paper->abstract->subtheme->full_name ?? 'N/A' }}
+                        </span>
+                    </td>
                     <td class="text-center">
                         <div class="review-dots justify-content-center">
                             @foreach($paper->reviews as $review)
-                                <div class="rdot done"><i class="fas fa-check"></i>
-                                    <span class="rtip">{{ $review->role }} · {{ $review->reviewer_name }} · {{ $review->score }}/100</span>
+                                <div class="rdot done">
+                                    <i class="fas fa-check"></i>
+                                    <span class="rtip">
+                                        {{ $review->role }} · {{ $review->reviewer_name }} · {{ $review->score }}/100
+                                    </span>
                                 </div>
                             @endforeach
                         </div>
@@ -382,26 +472,31 @@ $rejected = $papers->whereIn('status', ['REJECTED','not_approved'])->count();
                     <td>
                         @php
                             $statusClass = match(strtoupper($paper->status)) {
-                                'APPROVED'     => 'sbadge-approved',
-                                'REJECTED','NOT_APPROVED' => 'sbadge-rejected',
-                                'UNDER_REVIEW' => 'sbadge-under-review',
-                                default        => 'sbadge-awaiting',
+                                'APPROVED'                      => 'sbadge-approved',
+                                'REJECTED', 'NOT_APPROVED'      => 'sbadge-rejected',
+                                'UNDER_REVIEW'                  => 'sbadge-under-review',
+                                default                         => 'sbadge-awaiting',
                             };
                         @endphp
                         <span class="sbadge {{ $statusClass }}">{{ ucfirst($paper->status) }}</span>
                     </td>
-                    <td class="text-muted" style="font-size:13px">{{ $paper->updated_at->format('M d, Y') }}</td>
+                    <td class="text-muted" style="font-size:13px">
+                        {{ $paper->updated_at->format('M d, Y') }}
+                    </td>
                     <td>
-                        @if($paper->status === 'awaiting')
-                            <a href="{{ route('admin.fullpapers.all-reviews', $paper->id) }}" class="btn-view-reviews">
+                        @if(strtolower($paper->status) === 'awaiting')
+                            <a href="{{ route('admin.fullpapers.all-reviews', $paper->id) }}"
+                               class="btn-view-reviews">
                                 <i class="fas fa-eye"></i> View Reviews
                             </a>
                         @else
                             <div class="d-flex flex-column" style="gap:6px">
-                                <a href="{{ route('admin.fullpapers.all-reviews', $paper->id) }}" class="btn-view-decision">
+                                <a href="{{ route('admin.fullpapers.all-reviews', $paper->id) }}"
+                                   class="btn-view-decision">
                                     <i class="fas fa-check-circle"></i> View Decision
                                 </a>
-                                <a href="{{ route('admin.fullpapers.materials', $paper->id) }}" class="btn-view-material">
+                                <a href="{{ route('admin.fullpapers.materials', $paper->id) }}"
+                                   class="btn-view-material">
                                     <i class="fas fa-file-alt"></i> View Materials
                                 </a>
                             </div>
@@ -410,12 +505,35 @@ $rejected = $papers->whereIn('status', ['REJECTED','not_approved'])->count();
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="8" class="text-center py-5 text-muted">No fully reviewed papers found.</td>
+                    <td colspan="8" class="text-center py-5 text-muted">
+                        No fully reviewed papers found.
+                    </td>
                 </tr>
                 @endforelse
             </tbody>
         </table>
     </div>
+
+    {{-- ════════════════ PAGINATION ════════════════ --}}
+    @if($papers->hasPages())
+        <div class="pagination-wrapper">
+            <div class="pagination-info">
+                Showing <strong>{{ $papers->firstItem() }}</strong>
+                to <strong>{{ $papers->lastItem() }}</strong>
+                of <strong>{{ $papers->total() }}</strong> papers
+            </div>
+            {{ $papers->links() }}
+        </div>
+    @elseif($papers->count() > 0)
+        <div class="pagination-wrapper">
+            <div class="pagination-info">
+                Showing all <strong>{{ $papers->count() }}</strong>
+                of <strong>{{ $papers->total() }}</strong> papers
+            </div>
+        </div>
+    @endif
+    {{-- ══════════════ END PAGINATION ══════════════ --}}
+
     <div id="emptyMsg" class="empty-state" style="display:none">
         <i class="fas fa-search"></i>
         <h4>No papers match your search</h4>
@@ -424,12 +542,17 @@ $rejected = $papers->whereIn('status', ['REJECTED','not_approved'])->count();
 </div>
 
 {{-- Tip --}}
-<div class="alert alert-success d-flex gap-3 align-items-start mt-4" style="border-radius:12px; border-left: 4px solid #2d8a3e;">
+<div class="alert alert-success d-flex gap-3 align-items-start mt-4"
+     style="border-radius:12px; border-left: 4px solid #2d8a3e;">
     <i class="fas fa-lightbulb fa-lg mt-1 flex-shrink-0 text-success"></i>
     <div>
         <strong>Tip:</strong> Hover over the review dots
-        <span class="rdot done d-inline-flex" style="width:20px;height:20px;font-size:10px;vertical-align:middle;cursor:default"><i class="fas fa-check"></i></span>
-        to quickly see reviewer name and score. Once a decision has been made, use <strong>"View Materials"</strong> to access the author's uploaded presentation files.
+        <span class="rdot done d-inline-flex"
+              style="width:20px;height:20px;font-size:10px;vertical-align:middle;cursor:default">
+            <i class="fas fa-check"></i>
+        </span>
+        to quickly see reviewer name and score. Once a decision has been made, use
+        <strong>"View Materials"</strong> to access the author's uploaded presentation files.
     </div>
 </div>
 
@@ -441,8 +564,8 @@ $rejected = $papers->whereIn('status', ['REJECTED','not_approved'])->count();
     const searchInput    = document.getElementById('searchInput');
     const statusFilter   = document.getElementById('statusFilter');
     const subthemeFilter = document.getElementById('subthemeFilter');
-    const tbody   = document.querySelector('#papersTable tbody');
-    const emptyMsg = document.getElementById('emptyMsg');
+    const tbody          = document.querySelector('#papersTable tbody');
+    const emptyMsg       = document.getElementById('emptyMsg');
 
     function applyFilters() {
         const q   = searchInput.value.toLowerCase();
@@ -451,9 +574,12 @@ $rejected = $papers->whereIn('status', ['REJECTED','not_approved'])->count();
         let visible = 0;
 
         tbody.querySelectorAll('tr').forEach(row => {
+            // Skip colspan empty rows
+            if (row.querySelector('td[colspan]')) return;
+
             const text   = row.textContent.toLowerCase();
-            const rowSt  = (row.dataset.status  || '').toLowerCase();
-            const rowSub = (row.dataset.subtheme || '').toLowerCase();
+            const rowSt  = (row.dataset.status   || '').toLowerCase();
+            const rowSub = (row.dataset.subtheme  || '').toLowerCase();
 
             const matchQ   = !q   || text.includes(q);
             const matchSt  = !st  || rowSt.includes(st);
