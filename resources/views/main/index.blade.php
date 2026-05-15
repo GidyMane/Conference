@@ -553,7 +553,7 @@
                     Side event spaces are limited. Submit your proposal early to secure your preferred date and time.
                     For questions, email
                     <a href="mailto:kalroconference2026@gmail.com" class="fw-semibold"
-                       style="color:var(--gold-dark);">kalroconference2026@gmail.com</a>
+                       style="color:var(--gold-dark);">kalroexpo2026@gmail.com</a>
                 </p>
             </div>
             <a href="https://forms.gle/UsduBgszNWhjQpJS9"
