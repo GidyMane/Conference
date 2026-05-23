@@ -25,44 +25,27 @@ class FullPapersExport implements FromCollection, WithHeadings
             'reviewAssignments.fullPaperReview'
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | FILTER: STATUS
-        |--------------------------------------------------------------------------
-        */
         if ($this->request->filled('status')) {
             $query->where('status', strtoupper($this->request->status));
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | FILTER: SUBTHEME
-        |--------------------------------------------------------------------------
-        */
         if ($this->request->filled('subtheme')) {
             $query->whereHas('submittedAbstract', function ($q) {
                 $q->where('sub_theme_id', $this->request->subtheme);
             });
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | FILTER: DATE RANGE
-        |--------------------------------------------------------------------------
-        */
         if ($this->request->filled('date_range')) {
             switch ($this->request->date_range) {
                 case 'today':
                     $query->whereDate('created_at', now());
                     break;
-
                 case 'week':
                     $query->whereBetween('created_at', [
                         now()->startOfWeek(),
                         now()->endOfWeek()
                     ]);
                     break;
-
                 case 'month':
                     $query->whereMonth('created_at', now()->month);
                     break;
@@ -82,25 +65,33 @@ class FullPapersExport implements FromCollection, WithHeadings
             $peer1 = $peerAssignments->get(0);
             $peer2 = $peerAssignments->get(1);
 
-            return [
-                'full_paper_id'   => $paper->id,
-                'abstract_id'     => $paper->submittedAbstract?->submission_code,
-                'full_paper_code' => $paper->full_paper_code,
-                'title'           => $paper->submittedAbstract?->paper_title,
-                'subtheme'        => $paper->submittedAbstract?->subTheme?->form_field_value,
-                'status'          => $paper->status,
+            $presentationType = $paper->reviewAssignments
+                ->map(fn($a) => $a->fullPaperReview?->presentation_type)
+                ->filter()
+                ->first();
 
-                // Prequalified
+            return [
+                'full_paper_id'      => $paper->id,
+                'abstract_id'        => $paper->submittedAbstract?->submission_code,
+                'full_paper_code'    => $paper->full_paper_code,
+                'title'              => $paper->submittedAbstract?->paper_title,
+                'author_name'        => $paper->submittedAbstract?->author_name,
+                'author_email'       => $paper->submittedAbstract?->author_email,
+                'subtheme'           => $paper->submittedAbstract?->subTheme?->form_field_value,
+                'status'             => $paper->status,
+                'presentation_type'  => $presentationType,
+
+                // Prequalified Reviewer
                 'prequalified_reviewer' => $prequalified?->prequalifiedReviewer?->name,
                 'prequalified_email'    => $prequalified?->prequalifiedReviewer?->email,
                 'prequalified_status'   => $prequalified?->fullPaperReview ? 'REVIEWED' : 'PENDING',
 
-                // Peer 1
+                // Peer Reviewer 1
                 'peer_reviewer_1' => $peer1?->peerReviewer?->full_name,
                 'peer_email_1'    => $peer1?->peerReviewer?->email,
                 'peer1_status'    => $peer1?->fullPaperReview ? 'REVIEWED' : 'PENDING',
 
-                // Peer 2
+                // Peer Reviewer 2
                 'peer_reviewer_2' => $peer2?->peerReviewer?->full_name,
                 'peer_email_2'    => $peer2?->peerReviewer?->email,
                 'peer2_status'    => $peer2?->fullPaperReview ? 'REVIEWED' : 'PENDING',
@@ -115,8 +106,11 @@ class FullPapersExport implements FromCollection, WithHeadings
             'Abstract ID',
             'Full Paper Code',
             'Title',
+            'Author Name',
+            'Author Email',
             'Subtheme',
             'Status',
+            'Presentation Type',
 
             'Prequalified Reviewer',
             'Prequalified Email',
