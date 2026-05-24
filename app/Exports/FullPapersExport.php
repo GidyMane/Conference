@@ -65,21 +65,17 @@ class FullPapersExport implements FromCollection, WithHeadings
             $peer1 = $peerAssignments->get(0);
             $peer2 = $peerAssignments->get(1);
 
-            $presentationType = $paper->reviewAssignments
-                ->map(fn($a) => $a->fullPaperReview?->presentation_type)
-                ->filter()
-                ->first();
-
             return [
-                'full_paper_id'      => $paper->id,
-                'abstract_id'        => $paper->submittedAbstract?->submission_code,
-                'full_paper_code'    => $paper->full_paper_code,
-                'title'              => $paper->submittedAbstract?->paper_title,
-                'author_name'        => $paper->submittedAbstract?->author_name,
-                'author_email'       => $paper->submittedAbstract?->author_email,
-                'subtheme'           => $paper->submittedAbstract?->subTheme?->form_field_value,
-                'status'             => $paper->status,
-                'presentation_type'  => $presentationType,
+                'full_paper_id'     => $paper->id,
+                'abstract_id'       => $paper->submittedAbstract?->submission_code,
+                'full_paper_code'   => $paper->full_paper_code,
+                'title'             => $paper->submittedAbstract?->paper_title,
+                'author_name'       => $paper->submittedAbstract?->author_name,
+                'author_email'      => $paper->submittedAbstract?->author_email,
+                'organisation'      => $paper->submittedAbstract?->organisation,  // from submitted_abstracts
+                'subtheme'          => $paper->submittedAbstract?->subTheme?->form_field_value,
+                'status'            => $paper->status,
+                'presentation_type' => $paper->presentation_type,                 // from full_papers
 
                 // Prequalified Reviewer
                 'prequalified_reviewer' => $prequalified?->prequalifiedReviewer?->name,
@@ -108,6 +104,7 @@ class FullPapersExport implements FromCollection, WithHeadings
             'Title',
             'Author Name',
             'Author Email',
+            'Institution',
             'Subtheme',
             'Status',
             'Presentation Type',
