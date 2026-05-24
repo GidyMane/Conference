@@ -282,8 +282,8 @@
     transform: scale(1.05);
 }
 .partner-logo-fao img {
-    width: 160%;
-    height: 130px;
+    width: 300%;
+    height: 300px;
     margin: 0 auto;
 }
 </style>
