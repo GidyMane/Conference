@@ -282,8 +282,8 @@
     transform: scale(1.05);
 }
 .partner-logo-fao img {
-    width: 300%;
-    height: 300px;
+    width: 160%;
+    height: 130px;
     margin: 0 auto;
 }
 </style>
@@ -654,7 +654,7 @@
                         knowledge exchange, networking, and collaboration to advance
                         agricultural innovation and food security.
                     </p>
-                    <div class="d-flex gap-3 flex-wrap">
+                    <div class="d-flex gap-3 flex-wrap mb-4">
                         <a href="/conference/register" class="btn btn-success btn-lg">
                             <i class="fas fa-user-check me-2"></i>Register as Participant
                         </a>
@@ -669,6 +669,61 @@
                             Learn More
                         </a>
                     </div>
+
+                    {{-- Info cards to fill space --}}
+                    <div class="row g-3 mt-1">
+                        <div class="col-md-6">
+                            <div class="p-3 rounded-3 h-100"
+                                 style="background:var(--green-light); border-left:4px solid var(--green-main);">
+                                <h6 class="fw-bold text-success mb-2">
+                                    <i class="fas fa-map-marker-alt me-2"></i>Venue
+                                </h6>
+                                <p class="mb-0 text-dark" style="font-size:0.95rem;">
+                                    Kenya Agricultural &amp; Livestock Research Organization (KALRO)<br>
+                                    Headquarters, Loresho, Nairobi, Kenya
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 rounded-3 h-100"
+                                 style="background:var(--green-light); border-left:4px solid var(--green-main);">
+                                <h6 class="fw-bold text-success mb-2">
+                                    <i class="fas fa-envelope me-2"></i>Contact Us
+                                </h6>
+                                <p class="mb-0" style="font-size:0.95rem;">
+                                    For enquiries, email us at:<br>
+                                    <a href="mailto:kalroexpo2026@gmail.com" class="fw-semibold text-success">
+                                        kalroexpo2026@gmail.com
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 rounded-3 h-100"
+                                 style="background:var(--green-light); border-left:4px solid var(--green-main);">
+                                <h6 class="fw-bold text-success mb-2">
+                                    <i class="fas fa-globe me-2"></i>Who Should Attend?
+                                </h6>
+                                <p class="mb-0 text-dark" style="font-size:0.95rem;">
+                                    Researchers, scientists, policymakers, development partners, NGOs,
+                                    private sector players, and students in agriculture and related fields.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 rounded-3 h-100"
+                                 style="background:var(--green-light); border-left:4px solid var(--green-main);">
+                                <h6 class="fw-bold text-success mb-2">
+                                    <i class="fas fa-certificate me-2"></i>Conference Proceedings
+                                </h6>
+                                <p class="mb-0 text-dark" style="font-size:0.95rem;">
+                                    Accepted papers will be published in the official KALRO conference
+                                    proceedings and considered for peer-reviewed journal publication.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
