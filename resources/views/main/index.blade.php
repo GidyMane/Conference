@@ -244,6 +244,41 @@
 .btn-success:hover { background-color: var(--green-dark); border-color: var(--green-dark); }
 .btn-warning { background-color: var(--gold); border-color: var(--gold); color: #1a2b1f; }
 .btn-warning:hover { background-color: var(--gold-dark); border-color: var(--gold-dark); }
+
+/* ===== PARTNERS SECTION ===== */
+.partners-section {
+    background: #ffffff;
+    border-top: 4px solid var(--green-main);
+}
+.partners-section h2 {
+    color: var(--green-dark);
+}
+.partner-logo-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.2rem 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #e0ede3;
+    background: #ffffff;
+    height: 120px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.partner-logo-wrap:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(46,125,70,0.12);
+}
+.partner-logo-wrap img {
+    max-height: 75px;
+    max-width: 100%;
+    width: auto;
+    object-fit: contain;
+    filter: grayscale(20%);
+    transition: filter 0.25s ease;
+}
+.partner-logo-wrap:hover img {
+    filter: grayscale(0%);
+}
 </style>
 
 
@@ -785,6 +820,56 @@
             <a href="/contact" class="btn btn-outline-light btn-lg px-5">
                 <i class="fas fa-envelope me-2"></i>Contact Us
             </a>
+        </div>
+
+    </div>
+</section>
+
+
+{{-- ================= PARTNERS / SPONSORS ================= --}}
+<section class="partners-section py-5">
+    <div class="container">
+
+        <div class="text-center mb-4">
+            <h2 class="fw-bold mb-2">
+                <i class="fas fa-handshake me-2 text-success"></i>Our Partners
+            </h2>
+            <p class="text-muted mx-auto" style="max-width:600px;">
+                We are proud to be supported by leading organisations committed to advancing
+                agricultural research, food security, and sustainable development.
+            </p>
+        </div>
+
+        <div class="row align-items-center justify-content-center g-4">
+
+            {{-- Ministry of Agriculture --}}
+            <div class="col-lg-3 col-md-6 col-6">
+                <div class="partner-logo-wrap">
+                    <img src="assets/images/MOA.png" alt="Ministry of Agriculture">
+                </div>
+            </div>
+
+            {{-- FSRP --}}
+            <div class="col-lg-3 col-md-6 col-6">
+                <div class="partner-logo-wrap">
+                    <img src="assets/images/fsrp.jpg" alt="Food Systems Resilience Program (FSRP)">
+                </div>
+            </div>
+
+            {{-- FAO --}}
+            <div class="col-lg-3 col-md-6 col-6">
+                <div class="partner-logo-wrap">
+                    <img src="assets/images/FAO.png" alt="Food and Agriculture Organization (FAO)">
+                </div>
+            </div>
+
+            {{-- AFA --}}
+            <div class="col-lg-3 col-md-6 col-6">
+                <div class="partner-logo-wrap">
+                    <img src="assets/images/AFA.jpg" alt="Agriculture and Food Authority (AFA)">
+                </div>
+            </div>
+
         </div>
 
     </div>
