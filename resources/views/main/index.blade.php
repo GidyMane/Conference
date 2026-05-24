@@ -281,6 +281,11 @@
 .partner-logo-wrap:hover img {
     transform: scale(1.05);
 }
+.partner-logo-fao img {
+    width: 160%;
+    height: 130px;
+    margin: 0 auto;
+}
 </style>
 
 
@@ -860,7 +865,7 @@
 
             {{-- FAO --}}
             <div class="col-lg-3 col-md-6 col-6">
-                <a href="https://www.fao.org/kenya/en" target="_blank" rel="noopener noreferrer" class="partner-logo-wrap d-flex">
+                <a href="https://www.fao.org/kenya/en" target="_blank" rel="noopener noreferrer" class="partner-logo-wrap partner-logo-fao d-flex">
                     <img src="assets/images/FAO.png" alt="Food and Agriculture Organization (FAO)">
                 </a>
             </div>
