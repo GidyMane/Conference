@@ -257,11 +257,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1.2rem 1.5rem;
+    padding: 1.5rem 2rem;
     border-radius: 12px;
     border: 1px solid #e0ede3;
     background: #ffffff;
-    height: 120px;
+    height: 160px;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 .partner-logo-wrap:hover {
@@ -269,15 +269,15 @@
     box-shadow: 0 8px 24px rgba(46,125,70,0.12);
 }
 .partner-logo-wrap img {
-    max-height: 75px;
-    max-width: 100%;
-    width: auto;
+    width: 100%;
+    height: 110px;
     object-fit: contain;
-    filter: grayscale(20%);
-    transition: filter 0.25s ease;
+    object-position: center;
+    filter: grayscale(0%);
+    transition: filter 0.25s ease, transform 0.25s ease;
 }
 .partner-logo-wrap:hover img {
-    filter: grayscale(0%);
+    transform: scale(1.05);
 }
 </style>
 
@@ -834,10 +834,7 @@
             <h2 class="fw-bold mb-2">
                 <i class="fas fa-handshake me-2 text-success"></i>Our Partners
             </h2>
-            <p class="text-muted mx-auto" style="max-width:600px;">
-                We are proud to be supported by leading organisations committed to advancing
-                agricultural research, food security, and sustainable development.
-            </p>
+           
         </div>
 
         <div class="row align-items-center justify-content-center g-4">
