@@ -262,6 +262,8 @@
     border: 1px solid #e0ede3;
     background: #ffffff;
     height: 160px;
+    text-decoration: none;
+    cursor: pointer;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 .partner-logo-wrap:hover {
@@ -834,37 +836,40 @@
             <h2 class="fw-bold mb-2">
                 <i class="fas fa-handshake me-2 text-success"></i>Our Partners
             </h2>
-           
+            <p class="text-muted mx-auto" style="max-width:600px;">
+                We are proud to be supported by leading organisations committed to advancing
+                agricultural research, food security, and sustainable development.
+            </p>
         </div>
 
         <div class="row align-items-center justify-content-center g-4">
 
             {{-- Ministry of Agriculture --}}
             <div class="col-lg-3 col-md-6 col-6">
-                <div class="partner-logo-wrap">
+                <a href="https://kilimo.go.ke/" target="_blank" rel="noopener noreferrer" class="partner-logo-wrap d-flex">
                     <img src="assets/images/MOA.png" alt="Ministry of Agriculture">
-                </div>
+                </a>
             </div>
 
             {{-- FSRP --}}
             <div class="col-lg-3 col-md-6 col-6">
-                <div class="partner-logo-wrap">
+                <a href="https://fsrp.go.ke" target="_blank" rel="noopener noreferrer" class="partner-logo-wrap d-flex">
                     <img src="assets/images/fsrp.jpg" alt="Food Systems Resilience Program (FSRP)">
-                </div>
+                </a>
             </div>
 
             {{-- FAO --}}
             <div class="col-lg-3 col-md-6 col-6">
-                <div class="partner-logo-wrap">
+                <a href="https://www.fao.org/kenya/en" target="_blank" rel="noopener noreferrer" class="partner-logo-wrap d-flex">
                     <img src="assets/images/FAO.png" alt="Food and Agriculture Organization (FAO)">
-                </div>
+                </a>
             </div>
 
             {{-- AFA --}}
             <div class="col-lg-3 col-md-6 col-6">
-                <div class="partner-logo-wrap">
+                <a href="https://www.afa.go.ke/" target="_blank" rel="noopener noreferrer" class="partner-logo-wrap d-flex">
                     <img src="assets/images/AFA.jpg" alt="Agriculture and Food Authority (AFA)">
-                </div>
+                </a>
             </div>
 
         </div>
