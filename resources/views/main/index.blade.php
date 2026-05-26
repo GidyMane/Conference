@@ -244,6 +244,48 @@
 .btn-success:hover { background-color: var(--green-dark); border-color: var(--green-dark); }
 .btn-warning { background-color: var(--gold); border-color: var(--gold); color: #1a2b1f; }
 .btn-warning:hover { background-color: var(--gold-dark); border-color: var(--gold-dark); }
+
+/* ===== PARTNERS SECTION ===== */
+.partners-section {
+    background: #ffffff;
+    border-top: 4px solid var(--green-main);
+}
+.partners-section h2 {
+    color: var(--green-dark);
+}
+.partner-logo-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    border: 1px solid #e0ede3;
+    background: #ffffff;
+    height: 160px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.partner-logo-wrap:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(46,125,70,0.12);
+}
+.partner-logo-wrap img {
+    width: 100%;
+    height: 110px;
+    object-fit: contain;
+    object-position: center;
+    filter: grayscale(0%);
+    transition: filter 0.25s ease, transform 0.25s ease;
+}
+.partner-logo-wrap:hover img {
+    transform: scale(1.05);
+}
+.partner-logo-fao img {
+    width: 300%;
+    height: 300px;
+    margin: 0 auto;
+}
 </style>
 
 
@@ -612,7 +654,7 @@
                         knowledge exchange, networking, and collaboration to advance
                         agricultural innovation and food security.
                     </p>
-                    <div class="d-flex gap-3 flex-wrap">
+                    <div class="d-flex gap-3 flex-wrap mb-4">
                         <a href="/conference/register" class="btn btn-success btn-lg">
                             <i class="fas fa-user-check me-2"></i>Register as Participant
                         </a>
@@ -627,6 +669,61 @@
                             Learn More
                         </a>
                     </div>
+
+                    {{-- Info cards to fill space --}}
+                    <div class="row g-3 mt-1">
+                        <div class="col-md-6">
+                            <div class="p-3 rounded-3 h-100"
+                                 style="background:var(--green-light); border-left:4px solid var(--green-main);">
+                                <h6 class="fw-bold text-success mb-2">
+                                    <i class="fas fa-map-marker-alt me-2"></i>Venue
+                                </h6>
+                                <p class="mb-0 text-dark" style="font-size:0.95rem;">
+                                    Kenya Agricultural &amp; Livestock Research Organization (KALRO)<br>
+                                    Headquarters, Loresho, Nairobi, Kenya
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 rounded-3 h-100"
+                                 style="background:var(--green-light); border-left:4px solid var(--green-main);">
+                                <h6 class="fw-bold text-success mb-2">
+                                    <i class="fas fa-envelope me-2"></i>Contact Us
+                                </h6>
+                                <p class="mb-0" style="font-size:0.95rem;">
+                                    For enquiries, email us at:<br>
+                                    <a href="mailto:kalroexpo2026@gmail.com" class="fw-semibold text-success">
+                                        kalroexpo2026@gmail.com
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 rounded-3 h-100"
+                                 style="background:var(--green-light); border-left:4px solid var(--green-main);">
+                                <h6 class="fw-bold text-success mb-2">
+                                    <i class="fas fa-globe me-2"></i>Who Should Attend?
+                                </h6>
+                                <p class="mb-0 text-dark" style="font-size:0.95rem;">
+                                    Researchers, scientists, policymakers, development partners, NGOs,
+                                    private sector players, and students in agriculture and related fields.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 rounded-3 h-100"
+                                 style="background:var(--green-light); border-left:4px solid var(--green-main);">
+                                <h6 class="fw-bold text-success mb-2">
+                                    <i class="fas fa-certificate me-2"></i>Conference Proceedings
+                                </h6>
+                                <p class="mb-0 text-dark" style="font-size:0.95rem;">
+                                    Accepted papers will be published in the official KALRO conference
+                                    proceedings and considered for peer-reviewed journal publication.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -785,6 +882,56 @@
             <a href="/contact" class="btn btn-outline-light btn-lg px-5">
                 <i class="fas fa-envelope me-2"></i>Contact Us
             </a>
+        </div>
+
+    </div>
+</section>
+
+
+{{-- ================= PARTNERS / SPONSORS ================= --}}
+<section class="partners-section py-5">
+    <div class="container">
+
+        <div class="text-center mb-4">
+            <h2 class="fw-bold mb-2">
+                <i class="fas fa-handshake me-2 text-success"></i>Our Partners
+            </h2>
+            <p class="text-muted mx-auto" style="max-width:600px;">
+                We are proud to be supported by leading organisations committed to advancing
+                agricultural research, food security, and sustainable development.
+            </p>
+        </div>
+
+        <div class="row align-items-center justify-content-center g-4">
+
+            {{-- Ministry of Agriculture --}}
+            <div class="col-lg-3 col-md-6 col-6">
+                <a href="https://kilimo.go.ke/" target="_blank" rel="noopener noreferrer" class="partner-logo-wrap d-flex">
+                    <img src="assets/images/MOA.png" alt="Ministry of Agriculture">
+                </a>
+            </div>
+
+            {{-- FSRP --}}
+            <div class="col-lg-3 col-md-6 col-6">
+                <a href="https://fsrp.go.ke" target="_blank" rel="noopener noreferrer" class="partner-logo-wrap d-flex">
+                    <img src="assets/images/fsrp.jpg" alt="Food Systems Resilience Program (FSRP)">
+                </a>
+            </div>
+
+            {{-- FAO --}}
+            <div class="col-lg-3 col-md-6 col-6">
+                <a href="https://www.fao.org/kenya/en" target="_blank" rel="noopener noreferrer" class="partner-logo-wrap partner-logo-fao d-flex">
+                    <img src="assets/images/FAO.png" alt="Food and Agriculture Organization (FAO)">
+                </a>
+            </div>
+
+            {{-- AFA --}}
+            <div class="col-lg-3 col-md-6 col-6">
+                <a href="https://www.afa.go.ke/" target="_blank" rel="noopener noreferrer" class="partner-logo-wrap d-flex">
+                    <img src="assets/images/AFA.jpg" alt="Agriculture and Food Authority (AFA)">
+                </a>
+            </div>
+
         </div>
 
     </div>
