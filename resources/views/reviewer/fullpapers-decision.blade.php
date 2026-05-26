@@ -189,9 +189,22 @@
                     </ul>
                 </div>
             @elseif($decisionMade)
-                <div class="alert alert-success">
-                    <i class="fas fa-check-circle me-2"></i>
-                    Final decision has already been made: <strong>{{ strtoupper(str_replace('_', ' ', $paper->final_decision)) }}</strong>
+                <div class="alert alert-success d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <div>
+                        <i class="fas fa-check-circle me-2"></i>
+                        Final decision has already been made:
+                        <strong>{{ strtoupper(str_replace('_', ' ', $paper->final_decision)) }}</strong>
+                    </div>
+
+                    <form method="POST"
+                        action="{{ route('reviewer.fullpapers.resend-decision-email', $paper->id) }}">
+                        @csrf
+
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            <i class="fas fa-envelope me-1"></i>
+                            Resend Decision Email
+                        </button>
+                    </form>
                 </div>
             @endif
 

@@ -703,4 +703,38 @@ class FullPaperReviewController extends Controller
             'subtheme-full-papers.xlsx'
         );
     }
+
+    /**
+     * Resend final decision email to author
+     */
+    public function resendFinalDecisionEmail($id)
+    {
+        $paper = FullPaper::with([
+            'abstract',
+            'reviewAssignments.fullPaperReview'
+        ])->findOrFail($id);
+
+        // Ensure decision exists
+        if (!$paper->final_decision) {
+            return back()->with('error', 'Final decision has not been made yet.');
+        }
+
+        $reviews = $paper->reviewAssignments
+            ->map(fn($a) => $a->fullPaperReview)
+            ->filter();
+
+        // Generate PDF again
+        $pdf = Pdf::loadView('emails.final_decision_pdf', compact('paper', 'reviews'));
+
+        $pdfContent = $pdf->output();
+
+        // Send email again
+        Mail::to($paper->abstract->author_email)
+            ->send(new FinalDecisionMail($paper, $pdfContent));
+
+        return back()->with(
+            'success',
+            'Final decision email resent successfully.'
+        );
+    }
 }

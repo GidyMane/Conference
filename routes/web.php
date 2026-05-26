@@ -283,6 +283,11 @@ Route::prefix('reviewer')->middleware(['auth','reviewer'])->group(function () {
 
 });
 
+Route::post(
+    '/reviewer/fullpapers/{id}/resend-decision-email',
+    [FullPaperReviewController::class, 'resendFinalDecisionEmail']
+)->name('reviewer.fullpapers.resend-decision-email');
+
 // Admin Routes (NO AUTH)
 Route::prefix('admin')->group(function () {
 
