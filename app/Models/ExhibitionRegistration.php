@@ -74,7 +74,7 @@ class ExhibitionRegistration extends Model
             return $earlyBird ? 15000 : 20000;
         }
 
-        return $earlyBird ? 8000 : 10000;
+        return $earlyBird ? 15000 : 20000;
     }
 
     public function getFormattedPricePerBoothAttribute(): string

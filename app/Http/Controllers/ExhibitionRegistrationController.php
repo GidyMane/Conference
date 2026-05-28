@@ -73,7 +73,7 @@ class ExhibitionRegistrationController extends Controller
 
             $pricePerBooth = match ($validated['registrationType']) {
                 'standard'  => $isEarlyBird ? 15000 : 20000,
-                'own_tent'  => $isEarlyBird ? 8000  : 10000,
+                'own_tent'  => $isEarlyBird ? 15000  : 20000,
             };
 
             $expectedTotal = $validated['boothCount'] * $pricePerBooth;
