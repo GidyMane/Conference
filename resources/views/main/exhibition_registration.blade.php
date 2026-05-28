@@ -848,7 +848,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const PRICES = {
         standard: { early: 15000, late: 20000 },
-        own_tent: { early: 8000,  late: 10000 }
+        own_tent: { early: 15000,  late: 20000 }
     };
 
     const LABELS = {
