@@ -186,7 +186,7 @@
                                                     </div>
                                                     <div class="package-price">
                                                         <span class="currency">KES</span>
-                                                        <span class="amount" id="ownTentPrice">8,000</span>
+                                                        <span class="amount" id="ownTentPrice">15,000</span>
                                                         <span class="per">per tent &bull; 2 days</span>
                                                     </div>
                                                     <div class="selection-indicator"><i class="bi bi-check-circle-fill"></i></div>
@@ -877,7 +877,7 @@ document.addEventListener('DOMContentLoaded', function () {
             isEarly ? '15,000' : '20,000';
 
         document.getElementById('ownTentPrice').textContent =
-            isEarly ? '8,000' : '10,000';
+            isEarly ? '15,000' : '20,000';
     }
 
     // -------------------------------------------------------
