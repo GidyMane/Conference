@@ -15,7 +15,7 @@ class ExhibitionRegistration extends Model
     /**
      * Single source of truth for early bird deadline
      */
-    public const EARLY_BIRD_END = '2026-05-22 23:59:59';
+    public const EARLY_BIRD_END = '2026-05-31 23:59:59';
 
     protected $fillable = [
         'reference_number',

@@ -123,7 +123,7 @@
                         <i class="fas fa-bell me-2"></i>
                         Registration is Now Open! &nbsp;|&nbsp;
                         <i class="fas fa-users me-1"></i> Participant Registration &amp; Exhibitor Registration now available.
-                        &nbsp;|&nbsp; Early bird pricing ends <b>22nd May 2026.</b>
+                        &nbsp;|&nbsp; Early bird pricing ends <b>31st May 2026.</b>
                         &nbsp;|&nbsp; Conference: <b>15th – 19th June 2026, Nairobi, Kenya.</b>
                     </marquee>
                 </div>

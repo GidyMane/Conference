@@ -744,7 +744,7 @@ textarea.form-control { resize: vertical; min-height: 110px; }
 </style>
 
 <script>
-const EARLY_BIRD_END = new Date("2026-05-22T23:59:59");
+const EARLY_BIRD_END = new Date("2026-05-31T23:59:59");
 
 document.addEventListener('DOMContentLoaded', function () {
 

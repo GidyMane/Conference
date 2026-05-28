@@ -18,7 +18,7 @@ class ExhibitionRegistrationController extends Controller
     /**
      * Early bird cutoff date (single source of truth)
      */
-    private const EARLY_BIRD_END = '2026-05-22 23:59:59';
+    private const EARLY_BIRD_END = '2026-05-31 23:59:59';
 
     /**
      * Display registration form

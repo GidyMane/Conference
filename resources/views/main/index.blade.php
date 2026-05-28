@@ -334,7 +334,7 @@
                     <h2>Secure Your Place at the Conference</h2>
                     <p class="hero-caption-lead">
                         Learn from experts, network with peers, and participate in impactful discussions.<br>
-                        <strong>Early bird registration ends 22nd May 2026.</strong>
+                        <strong>Early bird registration ends 31st May 2026.</strong>
                     </p>
                     <a href="/conference/register" class="btn btn-success btn-lg fw-bold mt-1">
                         <i class="fas fa-users me-2"></i>Register Now
@@ -402,7 +402,7 @@
         <h5 class="fw-bold">
             <i class="fas fa-bell me-2"></i>
             Registration is Now Open! &mdash;
-            Early bird pricing ends <strong>22nd May 2026</strong>.
+            Early bird pricing ends <strong>31st May 2026</strong>.
             &nbsp;
             <a href="/conference/register" class="btn btn-light btn-sm ms-2 text-success fw-bold">
                 Register Now
@@ -744,7 +744,7 @@
                                     <i class="fas fa-star text-success me-1"></i> Registration Open:
                                 </strong><br>
                                 <span class="text-success fw-bold">Now Open!</span>
-                                <br><small class="text-danger fw-semibold">Early bird ends 22nd May 2026</small>
+                                <br><small class="text-danger fw-semibold">Early bird ends 31st May 2026</small>
                             </li>
 
                             <li class="mb-3 p-2 rounded"
@@ -824,7 +824,7 @@
                         <span class="badge bg-success mb-2">Most Popular</span>
                         <i class="fas fa-users fa-3x text-success mb-3 d-block"></i>
                         <h4 class="fw-bold">Conference Participant</h4>
-                        <p>Learn from experts, network with peers, and join high-impact discussions. Early bird rates until 22nd May.</p>
+                        <p>Learn from experts, network with peers, and join high-impact discussions. Early bird rates until 31st May.</p>
                         <a href="/conference/register" class="btn btn-success btn-lg w-100 fw-bold">
                             <i class="fas fa-user-check me-2"></i>Register Now
                         </a>
