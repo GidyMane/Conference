@@ -75,7 +75,6 @@ class FullPaperReviewController extends Controller
 
         $subThemeId = $paper->abstract->sub_theme_id ?? null;
 
-        // Prequalified reviewers already at capacity
         $prequalifiedAtCapacity = ReviewAssignment::whereNotNull('prequalified_reviewer_id')
             ->whereIn('status', ['pending', 'started'])
             ->select('prequalified_reviewer_id')
@@ -92,7 +91,6 @@ class FullPaperReviewController extends Controller
             ])
             ->get();
 
-        // Peer reviewers already at capacity
         $peerAtCapacity = ReviewAssignment::whereNotNull('peer_reviewer_id')
             ->whereIn('status', ['pending', 'started'])
             ->select('peer_reviewer_id')
@@ -133,11 +131,11 @@ class FullPaperReviewController extends Controller
         ];
 
         $sectionScores = [
-            'Introduction'    => 9,
+            'Introduction'      => 9,
             'Literature Review' => 8,
-            'Methodology'     => 9,
-            'Results'         => 9,
-            'Conclusion'      => 8,
+            'Methodology'       => 9,
+            'Results'           => 9,
+            'Conclusion'        => 8,
         ];
 
         return view('admin.fullpapers.review-details', compact('review', 'sectionScores'));
@@ -298,7 +296,6 @@ class FullPaperReviewController extends Controller
 
             $assignments = [];
 
-            // Prequalified reviewer cap check
             $prequalifiedActiveCount = ReviewAssignment::where('prequalified_reviewer_id', $request->reviewer1)
                 ->whereIn('status', ['pending', 'started'])
                 ->lockForUpdate()
@@ -310,7 +307,6 @@ class FullPaperReviewController extends Controller
                 ]);
             }
 
-            // Peer reviewer cap check
             foreach (['reviewer2', 'reviewer3'] as $field) {
                 $peerActiveCount = ReviewAssignment::where('peer_reviewer_id', $request->$field)
                     ->whereIn('status', ['pending', 'started'])
@@ -324,7 +320,6 @@ class FullPaperReviewController extends Controller
                 }
             }
 
-            // Create prequalified assignment
             $assignments[] = ReviewAssignment::create([
                 'full_paper_id'            => $paper->id,
                 'prequalified_reviewer_id' => $request->reviewer1,
@@ -332,7 +327,6 @@ class FullPaperReviewController extends Controller
                 'status'                   => 'pending'
             ]);
 
-            // Create peer assignments
             foreach (['reviewer2', 'reviewer3'] as $field) {
                 $assignments[] = ReviewAssignment::create([
                     'full_paper_id'    => $paper->id,
@@ -360,6 +354,11 @@ class FullPaperReviewController extends Controller
 
     /**
      * List all papers that have completed all 3 reviews — awaiting leader decision
+     *
+     * FIX: Changed paginate(15) to get() so the blade can use
+     * collection methods like ->where() and ->count() for stats,
+     * and all papers are returned (not just the first 15).
+     * Also added 'awaiting' to the status filter so those papers appear too.
      */
     public function completedReviews()
     {
@@ -375,14 +374,21 @@ class FullPaperReviewController extends Controller
             ->where('reviewer_id', $reviewer->id)
             ->pluck('sub_theme_id');
 
+        // FIX: get() instead of paginate(15) — blade uses ->where() / ->count()
+        // on this collection for the stats tiles, which only work on a Collection,
+        // not on a LengthAwarePaginator. paginate(15) was silently capping results
+        // at 15 and making the stats tiles show wrong totals.
         $papers = FullPaper::with(['reviews', 'abstract', 'abstract.subTheme'])
             ->whereHas('abstract', function ($q) use ($reviewerSubThemeIds) {
                 $q->whereIn('sub_theme_id', $reviewerSubThemeIds);
             })
-            ->whereIn('status', ['APPROVED', 'REJECTED'])
+            ->whereIn('status', [
+                'awaiting',   // FIX: include awaiting so blade stat tile shows correctly
+                'APPROVED',
+                'REJECTED',
+            ])
             ->latest('updated_at')
-            ->paginate(15)
-            ->withQueryString();
+            ->get();
 
         $subthemes = SubTheme::whereIn('id', $reviewerSubThemeIds)
             ->orderBy('full_name')
@@ -468,40 +474,39 @@ class FullPaperReviewController extends Controller
         }
 
         $request->validate([
-            'overall_comments'       => 'required|min:50',
-            'recommendation'         => 'required|in:accept,needs_minor_revisions,needs_major_revisions,reject',
-            'title_appropriate'      => 'required|numeric|min:0|max:2',
-            'title_reflects_content' => 'required|numeric|min:0|max:3',
-            'abstract_word_count'    => 'required|numeric|min:0|max:2',
-            'abstract_completeness'  => 'required|numeric|min:0|max:3',
-            'intro_background'       => 'required|numeric|min:0|max:3',
-            'intro_originality'      => 'required|numeric|min:0|max:5',
-            'intro_objectives'       => 'required|numeric|min:0|max:2',
-            'methods_replication'    => 'required|numeric|min:0|max:10',
-            'methods_design'         => 'required|numeric|min:0|max:5',
-            'methods_statistics'     => 'required|numeric|min:0|max:5',
-            'methods_ethics'         => 'required|numeric|min:0|max:5',
-            'results_insights'       => 'required|numeric|min:0|max:5',
-            'results_narrative'      => 'required|numeric|min:0|max:5',
-            'results_data_clarity'   => 'required|numeric|min:0|max:8',
-            'results_visuals'        => 'required|numeric|min:0|max:5',
-            'results_referencing'    => 'required|numeric|min:0|max:2',
-            'discussion_context'     => 'required|numeric|min:0|max:2',
-            'discussion_objectives'  => 'required|numeric|min:0|max:2',
-            'discussion_significance'=> 'required|numeric|min:0|max:5',
-            'discussion_theme'       => 'required|numeric|min:0|max:2',
-            'discussion_references'  => 'required|numeric|min:0|max:4',
-            'conclusion_objectives'  => 'required|numeric|min:0|max:2',
-            'conclusion_consistency' => 'required|numeric|min:0|max:5',
-            'conclusion_contribution'=> 'required|numeric|min:0|max:3',
-            'acknowledgement_present'=> 'required|numeric|min:0|max:1',
-            'references_accuracy'    => 'required|numeric|min:0|max:1',
-            'references_balance'     => 'required|numeric|min:0|max:1',
-            'references_citation'    => 'required|numeric|min:0|max:1',
-            'references_matching'    => 'required|numeric|min:0|max:1',
+            'overall_comments'        => 'required|min:50',
+            'recommendation'          => 'required|in:accept,needs_minor_revisions,needs_major_revisions,reject',
+            'title_appropriate'       => 'required|numeric|min:0|max:2',
+            'title_reflects_content'  => 'required|numeric|min:0|max:3',
+            'abstract_word_count'     => 'required|numeric|min:0|max:2',
+            'abstract_completeness'   => 'required|numeric|min:0|max:3',
+            'intro_background'        => 'required|numeric|min:0|max:3',
+            'intro_originality'       => 'required|numeric|min:0|max:5',
+            'intro_objectives'        => 'required|numeric|min:0|max:2',
+            'methods_replication'     => 'required|numeric|min:0|max:10',
+            'methods_design'          => 'required|numeric|min:0|max:5',
+            'methods_statistics'      => 'required|numeric|min:0|max:5',
+            'methods_ethics'          => 'required|numeric|min:0|max:5',
+            'results_insights'        => 'required|numeric|min:0|max:5',
+            'results_narrative'       => 'required|numeric|min:0|max:5',
+            'results_data_clarity'    => 'required|numeric|min:0|max:8',
+            'results_visuals'         => 'required|numeric|min:0|max:5',
+            'results_referencing'     => 'required|numeric|min:0|max:2',
+            'discussion_context'      => 'required|numeric|min:0|max:2',
+            'discussion_objectives'   => 'required|numeric|min:0|max:2',
+            'discussion_significance' => 'required|numeric|min:0|max:5',
+            'discussion_theme'        => 'required|numeric|min:0|max:2',
+            'discussion_references'   => 'required|numeric|min:0|max:4',
+            'conclusion_objectives'   => 'required|numeric|min:0|max:2',
+            'conclusion_consistency'  => 'required|numeric|min:0|max:5',
+            'conclusion_contribution' => 'required|numeric|min:0|max:3',
+            'acknowledgement_present' => 'required|numeric|min:0|max:1',
+            'references_accuracy'     => 'required|numeric|min:0|max:1',
+            'references_balance'      => 'required|numeric|min:0|max:1',
+            'references_citation'     => 'required|numeric|min:0|max:1',
+            'references_matching'     => 'required|numeric|min:0|max:1',
         ]);
 
-        // Calculate section scores
         $scoreTitle        = $request->title_appropriate + $request->title_reflects_content;
         $scoreAbstract     = $request->abstract_word_count + $request->abstract_completeness;
         $scoreIntroduction = $request->intro_background + $request->intro_originality + $request->intro_objectives;
@@ -514,72 +519,69 @@ class FullPaperReviewController extends Controller
         $totalScore = $scoreTitle + $scoreAbstract + $scoreIntroduction + $scoreMethods + $scoreResults + $scoreDiscussion + $scoreConclusion + $scoreReferences;
 
         FullPaperReview::create([
-            'review_assignment_id'   => $assignment->id,
+            'review_assignment_id'    => $assignment->id,
 
-            // Section totals
-            'score_title'            => $scoreTitle,
-            'score_abstract'         => $scoreAbstract,
-            'score_introduction'     => $scoreIntroduction,
-            'score_methods'          => $scoreMethods,
-            'score_results'          => $scoreResults,
-            'score_discussion'       => $scoreDiscussion,
-            'score_conclusion'       => $scoreConclusion,
-            'score_references'       => $scoreReferences,
+            'score_title'             => $scoreTitle,
+            'score_abstract'          => $scoreAbstract,
+            'score_introduction'      => $scoreIntroduction,
+            'score_methods'           => $scoreMethods,
+            'score_results'           => $scoreResults,
+            'score_discussion'        => $scoreDiscussion,
+            'score_conclusion'        => $scoreConclusion,
+            'score_references'        => $scoreReferences,
 
-            // Individual scores
-            'title_appropriate'      => $request->title_appropriate,
-            'title_reflects_content' => $request->title_reflects_content,
+            'title_appropriate'       => $request->title_appropriate,
+            'title_reflects_content'  => $request->title_reflects_content,
 
-            'abstract_word_count'    => $request->abstract_word_count,
-            'abstract_completeness'  => $request->abstract_completeness,
+            'abstract_word_count'     => $request->abstract_word_count,
+            'abstract_completeness'   => $request->abstract_completeness,
 
-            'intro_background'       => $request->intro_background,
-            'intro_originality'      => $request->intro_originality,
-            'intro_objectives'       => $request->intro_objectives,
+            'intro_background'        => $request->intro_background,
+            'intro_originality'       => $request->intro_originality,
+            'intro_objectives'        => $request->intro_objectives,
 
-            'methods_replication'    => $request->methods_replication,
-            'methods_design'         => $request->methods_design,
-            'methods_statistics'     => $request->methods_statistics,
-            'methods_ethics'         => $request->methods_ethics,
+            'methods_replication'     => $request->methods_replication,
+            'methods_design'          => $request->methods_design,
+            'methods_statistics'      => $request->methods_statistics,
+            'methods_ethics'          => $request->methods_ethics,
 
-            'results_insights'       => $request->results_insights,
-            'results_narrative'      => $request->results_narrative,
-            'results_data_clarity'   => $request->results_data_clarity,
-            'results_visuals'        => $request->results_visuals,
-            'results_referencing'    => $request->results_referencing,
+            'results_insights'        => $request->results_insights,
+            'results_narrative'       => $request->results_narrative,
+            'results_data_clarity'    => $request->results_data_clarity,
+            'results_visuals'         => $request->results_visuals,
+            'results_referencing'     => $request->results_referencing,
 
-            'discussion_context'     => $request->discussion_context,
-            'discussion_objectives'  => $request->discussion_objectives,
-            'discussion_significance'=> $request->discussion_significance,
-            'discussion_theme'       => $request->discussion_theme,
-            'discussion_references'  => $request->discussion_references,
+            'discussion_context'      => $request->discussion_context,
+            'discussion_objectives'   => $request->discussion_objectives,
+            'discussion_significance' => $request->discussion_significance,
+            'discussion_theme'        => $request->discussion_theme,
+            'discussion_references'   => $request->discussion_references,
 
-            'conclusion_objectives'  => $request->conclusion_objectives,
-            'conclusion_consistency' => $request->conclusion_consistency,
-            'conclusion_contribution'=> $request->conclusion_contribution,
+            'conclusion_objectives'   => $request->conclusion_objectives,
+            'conclusion_consistency'  => $request->conclusion_consistency,
+            'conclusion_contribution' => $request->conclusion_contribution,
 
-            'acknowledgement_present'=> $request->acknowledgement_present,
-            'references_accuracy'    => $request->references_accuracy,
-            'references_balance'     => $request->references_balance,
-            'references_citation'    => $request->references_citation,
-            'references_matching'    => $request->references_matching,
+            'acknowledgement_present' => $request->acknowledgement_present,
+            'references_accuracy'     => $request->references_accuracy,
+            'references_balance'      => $request->references_balance,
+            'references_citation'     => $request->references_citation,
+            'references_matching'     => $request->references_matching,
 
-            // Comments
-            'title_comments'         => $request->title_comments,
-            'abstract_comments'      => $request->abstract_comments,
-            'introduction_comments'  => $request->intro_comments,
-            'methods_comments'       => $request->methods_comments,
-            'results_comments'       => $request->results_comments,
-            'discussion_comments'    => $request->discussion_comments,
-            'conclusion_comments'    => $request->conclusion_comments,
-            'references_comments'    => $request->references_comments,
+            'title_comments'          => $request->title_comments,
+            'abstract_comments'       => $request->abstract_comments,
+            'introduction_comments'   => $request->intro_comments,
+            'methods_comments'        => $request->methods_comments,
+            'results_comments'        => $request->results_comments,
+            'discussion_comments'     => $request->discussion_comments,
+            'conclusion_comments'     => $request->conclusion_comments,
+            'references_comments'     => $request->references_comments,
 
-            'overall_comments'       => $request->overall_comments,
-            'recommendation'         => $request->recommendation,
-            'presentation_type'      => $request->paper_suitability ?? null,
+            'overall_comments'        => $request->overall_comments,
+            'recommendation'          => $request->recommendation,
+            'presentation_type'       => $request->paper_suitability ?? null,
 
-            'total_score'            => $totalScore,
-            'submitted_at'           => now(),
+            'total_score'             => $totalScore,
+            'submitted_at'            => now(),
         ]);
 
         $assignment->update(['status' => 'completed']);
@@ -630,7 +632,6 @@ class FullPaperReviewController extends Controller
      */
     public function adminCompletedReviews()
     {
-        // ── Stats from dedicated DB queries (always accurate, not page-limited) ──
         $stats = [
             'total'    => FullPaper::whereIn('status', [
                                 'approved', 'APPROVED',
@@ -645,7 +646,6 @@ class FullPaperReviewController extends Controller
                             ])->count(),
         ];
 
-        // ── Paginated papers ──
         $papers = FullPaper::with([
                 'reviews',
                 'abstract',
@@ -660,7 +660,6 @@ class FullPaperReviewController extends Controller
             ->paginate(15)
             ->withQueryString();
 
-        // ── Subthemes for filter dropdown (from DB, not from $papers) ──
         $subthemes = SubTheme::orderBy('full_name')->get();
 
         return view('admin.fullpapers.completed', compact('papers', 'stats', 'subthemes'));
@@ -714,7 +713,6 @@ class FullPaperReviewController extends Controller
             'reviewAssignments.fullPaperReview'
         ])->findOrFail($id);
 
-        // Ensure decision exists
         if (!$paper->final_decision) {
             return back()->with('error', 'Final decision has not been made yet.');
         }
@@ -723,12 +721,10 @@ class FullPaperReviewController extends Controller
             ->map(fn($a) => $a->fullPaperReview)
             ->filter();
 
-        // Generate PDF again
         $pdf = Pdf::loadView('emails.final_decision_pdf', compact('paper', 'reviews'));
 
         $pdfContent = $pdf->output();
 
-        // Send email again
         Mail::to($paper->abstract->author_email)
             ->send(new FinalDecisionMail($paper, $pdfContent));
 

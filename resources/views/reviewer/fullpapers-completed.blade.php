@@ -180,9 +180,10 @@
         text-transform: uppercase;
         letter-spacing: .04em;
     }
-    .sbadge-awaiting { background: #fef3c7; color: #92400e; }
-    .sbadge-approved  { background: #d1fae5; color: #065f46; }
-    .sbadge-rejected  { background: #fee2e2; color: #991b1b; }
+    .sbadge-awaiting     { background: #fef3c7; color: #92400e; }
+    .sbadge-approved     { background: #d1fae5; color: #065f46; }
+    .sbadge-rejected     { background: #fee2e2; color: #991b1b; }
+    .sbadge-under-review { background: #1e5a96; color: white; }
 
     /* ── Action Button ── */
     .btn-review-paper {
@@ -268,11 +269,6 @@
     }
     .empty-state i { font-size: 64px; margin-bottom: 18px; display: block; opacity: .35; }
     .empty-state h4 { color: #475569; font-size: 20px; margin-bottom: 8px; }
-
-    .sbadge-under-review {
-    background: #1e5a96; /* blue */
-    color: white;
-}
 </style>
 @endsection
 
@@ -284,13 +280,17 @@
     <p>Papers that have completed all reviews and are ready for your final decision.</p>
 </div>
 
-{{-- Stats --}}
+{{--
+    Stats — safe to use collection methods because the controller now
+    passes a plain Collection (get()) instead of a LengthAwarePaginator.
+--}}
 @php
-$total       = $papers->count();
-$awaiting    = $papers->where('status', 'awaiting')->count();
-$approved    = $papers->where('status', 'APPROVED')->count();
-$rejected    = $papers->where('status', 'REJECTED')->count();
+    $total    = $papers->count();
+    $awaiting = $papers->filter(fn($p) => strtolower($p->status) === 'awaiting')->count();
+    $approved = $papers->filter(fn($p) => strtoupper($p->status) === 'APPROVED')->count();
+    $rejected = $papers->filter(fn($p) => in_array(strtoupper($p->status), ['REJECTED', 'NOT_APPROVED']))->count();
 @endphp
+
 <div class="stats-grid">
     <div class="stat-tile t-total">
         <div class="stat-icon"><i class="fas fa-layer-group"></i></div>
@@ -327,7 +327,7 @@ $rejected    = $papers->where('status', 'REJECTED')->count();
     <select id="subthemeFilter" class="form-select" style="width:200px">
         <option value="">All Sub-Themes</option>
         @foreach($subthemes as $subtheme)
-            <option value="{{ $subtheme }}">{{ $subtheme }}</option>
+            <option value="{{ $subtheme->full_name }}">{{ $subtheme->full_name }}</option>
         @endforeach
     </select>
 </div>
@@ -354,7 +354,7 @@ $rejected    = $papers->where('status', 'REJECTED')->count();
             </thead>
             <tbody>
                 @forelse($papers as $paper)
-                <tr data-status="{{ $paper->status }}" data-subtheme="{{ $paper->sub_theme }}">
+                <tr data-status="{{ strtolower($paper->status) }}" data-subtheme="{{ $paper->abstract->subTheme->full_name ?? '' }}">
                     <td><span class="paper-id">{{ $paper->abstract->submission_code }}</span></td>
                     <td>
                         <div class="fw-semibold text-dark" style="max-width:280px;line-height:1.4">
@@ -362,19 +362,19 @@ $rejected    = $papers->where('status', 'REJECTED')->count();
                         </div>
                         <small class="text-muted">{{ $paper->abstract->author_name }}</small>
                     </td>
-                    <td><span class="subtheme-tag">{{ $paper->abstract->subtheme->full_name ?? 'N/A' }}</span></td>
+                    <td><span class="subtheme-tag">{{ $paper->abstract->subTheme->full_name ?? 'N/A' }}</span></td>
                     <td class="text-center">
                         <div class="review-dots justify-content-center">
                             @foreach($paper->reviews as $review)
                                 <div class="rdot done"><i class="fas fa-check"></i>
-                                    <span class="rtip">{{ $review->role }} · {{ $review->reviewer_name }} · {{ $review->score }}/100</span>
+                                    <span class="rtip">{{ $review->role ?? 'Reviewer' }} · {{ $review->reviewer_name ?? '—' }} · {{ $review->score ?? $review->total_score ?? '—' }}/100</span>
                                 </div>
                             @endforeach
                         </div>
                     </td>
                     <td class="text-center">
                         @php
-                            $avgScore = $paper->average_score ?? 0;
+                            $avgScore   = $paper->average_score ?? 0;
                             $scoreClass = $avgScore >= 80 ? '' : ($avgScore >= 65 ? 'mid' : 'low');
                         @endphp
                         <span class="score-pill {{ $scoreClass }}">{{ $avgScore }}/100</span>
@@ -382,36 +382,31 @@ $rejected    = $papers->where('status', 'REJECTED')->count();
                     <td>
                         @php
                             $statusClass = match(strtoupper($paper->status)) {
-                                'REJECTED'       => 'sbadge-rejected',
-                                'UNDER_REVIEW'   => 'sbadge-under-review',
-                                default          => 'sbadge-awaiting',
+                                'APPROVED'     => 'sbadge-approved',
+                                'REJECTED',
+                                'NOT_APPROVED' => 'sbadge-rejected',
+                                'UNDER_REVIEW' => 'sbadge-under-review',
+                                default        => 'sbadge-awaiting',
                             };
                         @endphp
-                        <span class="sbadge {{ $statusClass }}">{{ ucfirst($paper->status) }}</span>
+                        <span class="sbadge {{ $statusClass }}">{{ ucfirst(strtolower($paper->status)) }}</span>
                     </td>
                     <td class="text-muted" style="font-size:13px">{{ $paper->updated_at->format('M d, Y') }}</td>
                     <td>
-                        @if($paper->status === 'awaiting')
-                        <a href="{{ url('/reviewer/fullpapers/'.$paper->id.'/all-reviews') }}" class="btn-review-paper">
-                            <i class="fas fa-eye"></i> View Reviews
-                        </a>
+                        @if(strtolower($paper->status) === 'awaiting')
+                            <a href="{{ url('/reviewer/fullpapers/'.$paper->id.'/all-reviews') }}" class="btn-review-paper">
+                                <i class="fas fa-eye"></i> View Reviews
+                            </a>
                         @else
-                        <div class="row">
-                            <div class="col">
+                            <div class="d-flex flex-column gap-1">
                                 <a href="{{ url('/reviewer/fullpapers/'.$paper->id.'/all-reviews') }}" class="btn-view-decision">
                                     <i class="fas fa-check-circle"></i> View Decision
                                 </a>
-                            </div>
-                            <div class="col">
-                                <a href="{{ route('reviewer.fullpapers.materials', $paper->id) }}" class="btn btn-view-material">
+                                <a href="{{ route('reviewer.fullpapers.materials', $paper->id) }}" class="btn-view-material">
                                     <i class="fas fa-file-alt"></i> View Material
                                 </a>
                             </div>
-                        </div>
-
-
                         @endif
-
                     </td>
                 </tr>
                 @empty
@@ -433,7 +428,8 @@ $rejected    = $papers->where('status', 'REJECTED')->count();
 <div class="alert alert-info d-flex gap-3 align-items-start mt-4" style="border-radius:12px">
     <i class="fas fa-lightbulb fa-lg mt-1 flex-shrink-0"></i>
     <div>
-        <strong>Tip:</strong> Hover over the review dots <span class="rdot done d-inline-flex" style="width:20px;height:20px;font-size:10px;vertical-align:middle;cursor:default"><i class="fas fa-check"></i></span>
+        <strong>Tip:</strong> Hover over the review dots
+        <span class="rdot done d-inline-flex" style="width:20px;height:20px;font-size:10px;vertical-align:middle;cursor:default"><i class="fas fa-check"></i></span>
         to quickly see the reviewer name and score without opening the full detail page.
         Click <strong>"View Reviews"</strong> to read each reviewer's full comments and submit your decision.
     </div>
@@ -443,12 +439,12 @@ $rejected    = $papers->where('status', 'REJECTED')->count();
 
 @section('scripts')
 <script>
-(function() {
-    const searchInput   = document.getElementById('searchInput');
-    const statusFilter  = document.getElementById('statusFilter');
+(function () {
+    const searchInput    = document.getElementById('searchInput');
+    const statusFilter   = document.getElementById('statusFilter');
     const subthemeFilter = document.getElementById('subthemeFilter');
-    const tbody = document.querySelector('#papersTable tbody');
-    const emptyMsg = document.getElementById('emptyMsg');
+    const tbody          = document.querySelector('#papersTable tbody');
+    const emptyMsg       = document.getElementById('emptyMsg');
 
     function applyFilters() {
         const q   = searchInput.value.toLowerCase();
@@ -457,13 +453,13 @@ $rejected    = $papers->where('status', 'REJECTED')->count();
         let visible = 0;
 
         tbody.querySelectorAll('tr').forEach(row => {
-            const text    = row.textContent.toLowerCase();
-            const rowSt   = (row.dataset.status || '').toLowerCase();
-            const rowSub  = (row.dataset.subtheme || '').toLowerCase();
+            const text   = row.textContent.toLowerCase();
+            const rowSt  = (row.dataset.status  || '').toLowerCase();
+            const rowSub = (row.dataset.subtheme || '').toLowerCase();
 
             const matchQ   = !q   || text.includes(q);
             const matchSt  = !st  || rowSt.includes(st);
-            const matchSub = !sub || rowSub.includes(sub.toLowerCase());
+            const matchSub = !sub || rowSub.includes(sub);
 
             const show = matchQ && matchSt && matchSub;
             row.style.display = show ? '' : 'none';
