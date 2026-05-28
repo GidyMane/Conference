@@ -281,14 +281,15 @@
 </div>
 
 {{--
-    Stats — safe to use collection methods because the controller now
-    passes a plain Collection (get()) instead of a LengthAwarePaginator.
+    Stats come from the dedicated $stats array passed by the controller.
+    These are always accurate because they query the full dataset,
+    independent of the paginated $papers collection.
 --}}
 @php
-    $total    = $papers->count();
-    $awaiting = $papers->filter(fn($p) => strtolower($p->status) === 'awaiting')->count();
-    $approved = $papers->filter(fn($p) => strtoupper($p->status) === 'APPROVED')->count();
-    $rejected = $papers->filter(fn($p) => in_array(strtoupper($p->status), ['REJECTED', 'NOT_APPROVED']))->count();
+    $total    = $stats['total'];
+    $awaiting = $stats['awaiting'];
+    $approved = $stats['approved'];
+    $rejected = $stats['rejected'];
 @endphp
 
 <div class="stats-grid">
@@ -336,7 +337,7 @@
 <div class="table-card">
     <div class="table-card-header">
         <h5><i class="fas fa-table me-2 text-primary"></i>Papers Ready for Final Decision</h5>
-        <span class="badge bg-primary">{{ $total }} papers</span>
+        <span class="badge bg-primary">{{ $papers->total() }} papers</span>
     </div>
     <div class="table-responsive">
         <table class="table mb-0" id="papersTable">
@@ -422,6 +423,18 @@
         <h4>No papers match your search</h4>
         <p>Try adjusting your filters</p>
     </div>
+
+    {{-- Pagination --}}
+    @if($papers->hasPages())
+    <div class="d-flex justify-content-between align-items-center px-4 py-3 border-top">
+        <small class="text-muted">
+            Showing {{ $papers->firstItem() }}–{{ $papers->lastItem() }} of {{ $papers->total() }} papers
+        </small>
+        <div>
+            {{ $papers->links() }}
+        </div>
+    </div>
+    @endif
 </div>
 
 {{-- Info tip --}}

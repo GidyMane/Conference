@@ -374,27 +374,43 @@ class FullPaperReviewController extends Controller
             ->where('reviewer_id', $reviewer->id)
             ->pluck('sub_theme_id');
 
-        // FIX: get() instead of paginate(15) — blade uses ->where() / ->count()
-        // on this collection for the stats tiles, which only work on a Collection,
-        // not on a LengthAwarePaginator. paginate(15) was silently capping results
-        // at 15 and making the stats tiles show wrong totals.
+        $allowedStatuses = ['awaiting', 'APPROVED', 'REJECTED', 'NOT_APPROVED'];
+
+        // Stats come from dedicated DB queries so they always reflect the full
+        // dataset — not just the current page returned by paginate().
+        $stats = [
+            'total' => FullPaper::whereHas('abstract', function ($q) use ($reviewerSubThemeIds) {
+                            $q->whereIn('sub_theme_id', $reviewerSubThemeIds);
+                        })->whereIn('status', $allowedStatuses)->count(),
+
+            'awaiting' => FullPaper::whereHas('abstract', function ($q) use ($reviewerSubThemeIds) {
+                            $q->whereIn('sub_theme_id', $reviewerSubThemeIds);
+                        })->where('status', 'awaiting')->count(),
+
+            'approved' => FullPaper::whereHas('abstract', function ($q) use ($reviewerSubThemeIds) {
+                            $q->whereIn('sub_theme_id', $reviewerSubThemeIds);
+                        })->whereIn('status', ['APPROVED', 'approved'])->count(),
+
+            'rejected' => FullPaper::whereHas('abstract', function ($q) use ($reviewerSubThemeIds) {
+                            $q->whereIn('sub_theme_id', $reviewerSubThemeIds);
+                        })->whereIn('status', ['REJECTED', 'rejected', 'NOT_APPROVED', 'not_approved'])->count(),
+        ];
+
+        // Paginated papers — stats are independent so tiles always show correct totals.
         $papers = FullPaper::with(['reviews', 'abstract', 'abstract.subTheme'])
             ->whereHas('abstract', function ($q) use ($reviewerSubThemeIds) {
                 $q->whereIn('sub_theme_id', $reviewerSubThemeIds);
             })
-            ->whereIn('status', [
-                'awaiting',   // FIX: include awaiting so blade stat tile shows correctly
-                'APPROVED',
-                'REJECTED',
-            ])
+            ->whereIn('status', $allowedStatuses)
             ->latest('updated_at')
-            ->get();
+            ->paginate(15)
+            ->withQueryString();
 
         $subthemes = SubTheme::whereIn('id', $reviewerSubThemeIds)
             ->orderBy('full_name')
             ->get();
 
-        return view('reviewer.fullpapers-completed', compact('papers', 'subthemes'));
+        return view('reviewer.fullpapers-completed', compact('papers', 'stats', 'subthemes'));
     }
 
     /**
