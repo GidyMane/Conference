@@ -454,3 +454,8 @@ Route::get('/side-event/register', function () {
 Route::post('/side-event/register', function () {
     return back()->with('success', 'Test submission received.');
 })->name('side-event.register');
+
+Route::post(
+    '/admin/fullpapers/{id}/reset-final-decision',
+    [FullPaperReviewController::class, 'resetFinalDecision']
+)->name('admin.fullpapers.resetDecision');

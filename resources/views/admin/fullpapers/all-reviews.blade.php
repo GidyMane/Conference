@@ -310,6 +310,24 @@
         <i class="fas fa-file-alt me-2"></i>View Presentation Materials
     </a>
     @endif
+
+    @if($paper->final_decision)
+
+        <form action="{{ route('admin.fullpapers.resetDecision', $paper->id) }}"
+            method="POST"
+            class="d-inline"
+            onsubmit="return confirm('Are you sure you want to reset the final decision?');">
+
+            @csrf
+
+            <button type="submit" class="btn btn-warning ms-2">
+                <i class="fas fa-rotate-left me-2"></i>
+                Reset Final Decision
+            </button>
+
+        </form>
+
+        @endif
 </div>
 
 @endsection

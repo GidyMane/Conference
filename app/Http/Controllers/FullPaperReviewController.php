@@ -749,4 +749,25 @@ class FullPaperReviewController extends Controller
             'Final decision email resent successfully.'
         );
     }
+
+    /**
+     * Admin reset final decision
+     */
+    public function resetFinalDecision($id)
+    {
+        $paper = FullPaper::findOrFail($id);
+
+        $paper->update([
+            'status' => 'UNDER_REVIEW',
+            'final_decision' => null,
+            'presentation_type' => null,
+            'leader_comments' => null,
+            'decision_made_at' => null,
+        ]);
+
+        return back()->with(
+            'success',
+            'Final decision has been reset successfully.'
+        );
+    }
 }
