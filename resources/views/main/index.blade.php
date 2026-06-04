@@ -18,20 +18,72 @@
     --white:       #ffffff;
 }
 
-/* ===== HERO CAROUSEL ===== */
-.hero-section .carousel-item img {
-    height: 560px;
-    object-fit: cover;
+/* ===== HERO CAROUSEL — fully responsive, no fixed heights ===== */
+/*
+ * Strategy: use aspect-ratio on the carousel-item so the height is
+ * always proportional to the viewport width on every screen size.
+ * The image fills that box with object-fit:cover.
+ * overflow:hidden + line-height:0 on every wrapper kills the black bar.
+ *
+ * Aspect ratios used:
+ *   ≥ 992px  (desktop)  → 16/6  (~wide cinematic)
+ *   768–991px (tablet)  → 16/7
+ *   < 768px  (mobile)   → 4/3   (taller so content is readable)
+ */
+
+.hero-section {
+    overflow: hidden;
+    line-height: 0;
+    font-size: 0;
 }
 
+.hero-section .carousel,
+.hero-section .carousel-inner {
+    overflow: hidden;
+    background: transparent;
+    line-height: 0;
+    font-size: 0;
+}
+
+/* The carousel-item becomes the aspect-ratio container */
+.hero-section .carousel-item {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16 / 6;   /* desktop default */
+    line-height: 0;
+    font-size: 0;
+}
+
+/* Image fills the aspect-ratio box perfectly — zero leftover space */
+.hero-section .carousel-item img {
+    display: block;
+    position: absolute;
+    inset: 0;               /* top/right/bottom/left: 0 */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Indicators always sit inside the box */
+.hero-section .carousel-indicators {
+    bottom: 10px;
+    margin-bottom: 0;
+    z-index: 10;
+}
+
+/* Caption is absolutely positioned inside the same box */
 .hero-section .carousel-caption {
-    bottom: 60px;
+    position: absolute;
+    bottom: 8%;            /* % of box height → scales with screen */
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
     max-width: 860px;
     text-align: center;
     z-index: 10;
+    line-height: 1.4;
+    font-size: 1rem;
 }
 
 .hero-section .carousel-caption .badge {
@@ -40,30 +92,30 @@
     padding: 0.5rem 1.2rem;
     border-radius: 50px;
     display: inline-block;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .hero-section .carousel-caption h2 {
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-size: clamp(1.1rem, 3.2vw, 2.8rem);
     font-weight: 800;
     color: #ffffff;
     text-shadow: 0 2px 12px rgba(0,0,0,0.85);
     line-height: 1.2;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .hero-caption-lead {
     display: inline-block;
     color: #ffffff !important;
-    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-size: clamp(0.82rem, 1.6vw, 1.2rem);
     font-weight: 600;
-    line-height: 1.6;
+    line-height: 1.5;
     background: rgba(0,0,0,0.45);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
     border-radius: 8px;
-    padding: 10px 20px;
-    margin-bottom: 1.4rem;
+    padding: clamp(6px, 1vw, 10px) clamp(10px, 2vw, 20px);
+    margin-bottom: 1rem;
     text-shadow: 0 1px 4px rgba(0,0,0,0.6);
     border-left: 3px solid var(--green-light);
 }
@@ -76,6 +128,60 @@
     border-radius: 50%;
     padding: 18px;
     background-size: 55%;
+}
+
+/* ===== TABLET ===== */
+@media (max-width: 991.98px) {
+    .hero-section .carousel-item {
+        aspect-ratio: 16 / 7;
+    }
+
+    .hero-section .carousel-caption .btn {
+        font-size: 0.88rem;
+        padding: 0.5rem 1rem;
+    }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 767.98px) {
+    .hero-section .carousel-item {
+        aspect-ratio: 4 / 3;   /* taller on phones so text + buttons fit */
+    }
+
+    .hero-section .carousel-caption {
+        bottom: 6%;
+        width: 94%;
+    }
+
+    .hero-section .carousel-caption .badge {
+        font-size: 0.75rem;
+        padding: 0.3rem 0.8rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .hero-section .carousel-caption .d-flex {
+        gap: 0.4rem !important;
+    }
+
+    .hero-section .carousel-caption .btn {
+        font-size: 0.78rem;
+        padding: 0.4rem 0.75rem;
+    }
+
+    .hero-section .carousel-indicators {
+        bottom: 6px;
+    }
+}
+
+/* ===== VERY SMALL PHONES (≤ 479px) ===== */
+@media (max-width: 479.98px) {
+    .hero-section .carousel-item {
+        aspect-ratio: 3 / 2.8;  /* nearly square — maximise readable area */
+    }
+
+    .hero-section .carousel-caption {
+        bottom: 4%;
+    }
 }
 
 /* ===== ANNOUNCEMENT BANNER ===== */
@@ -670,7 +776,7 @@
                         </a>
                     </div>
 
-                    {{-- Info cards to fill space --}}
+                    {{-- Info cards --}}
                     <div class="row g-3 mt-1">
                         <div class="col-md-6">
                             <div class="p-3 rounded-3 h-100"
