@@ -18,7 +18,140 @@ class FinanceController extends Controller
     |--------------------------------------------------------------------------
     */
 
-public function registrations(Request $request)
+public function dashboard()
+    {
+        // ── Single / Individual Registrations (approved only) ──
+        $singleKES = ConferenceRegistration::where('payment_status', 'approved')
+            ->where('fee_currency', 'KES')
+            ->sum('fee');
+
+        $singleUSD = ConferenceRegistration::where('payment_status', 'approved')
+            ->where('fee_currency', 'USD')
+            ->sum('fee');
+
+        $singleCount = ConferenceRegistration::where('payment_status', 'approved')->count();
+
+        // Break down single by attendance type
+        $singleFullWeekKES = ConferenceRegistration::where('payment_status', 'approved')
+            ->where('fee_currency', 'KES')
+            ->where(function($q){ $q->where('attendance_type','full_week')->orWhereNull('attendance_type'); })
+            ->sum('fee');
+
+        $singlePartialKES = ConferenceRegistration::where('payment_status', 'approved')
+            ->where('fee_currency', 'KES')
+            ->where('attendance_type', 'partial')
+            ->sum('fee');
+
+        $singleFullWeekCount = ConferenceRegistration::where('payment_status', 'approved')
+            ->where(function($q){ $q->where('attendance_type','full_week')->orWhereNull('attendance_type'); })
+            ->count();
+
+        $singlePartialCount = ConferenceRegistration::where('payment_status', 'approved')
+            ->where('attendance_type', 'partial')
+            ->count();
+
+        // Partial days breakdown by day count
+        $partialByDays = ConferenceRegistration::where('payment_status', 'approved')
+            ->where('attendance_type', 'partial')
+            ->selectRaw('days_count, COUNT(*) as registrants, SUM(fee) as collected')
+            ->groupBy('days_count')
+            ->orderBy('days_count')
+            ->get();
+
+        // Break down single by platform
+        $singleVirtualKES = ConferenceRegistration::where('payment_status', 'approved')
+            ->where('fee_currency', 'KES')
+            ->where('platform', 'virtual')
+            ->sum('fee');
+
+        $singleVirtualUSD = ConferenceRegistration::where('payment_status', 'approved')
+            ->where('fee_currency', 'USD')
+            ->where('platform', 'virtual')
+            ->sum('fee');
+
+        $singlePhysicalKES = ConferenceRegistration::where('payment_status', 'approved')
+            ->where('fee_currency', 'KES')
+            ->where('platform', 'physical')
+            ->sum('fee');
+
+        $singlePhysicalUSD = ConferenceRegistration::where('payment_status', 'approved')
+            ->where('fee_currency', 'USD')
+            ->where('platform', 'physical')
+            ->sum('fee');
+
+        // ── Group Registrations (approved only) ──
+        $groupKES = GroupRegistration::where('payment_status', 'approved')
+            ->where('currency', 'KES')
+            ->sum('total_fee');
+
+        $groupUSD = GroupRegistration::where('payment_status', 'approved')
+            ->where('currency', 'USD')
+            ->sum('total_fee');
+
+        $groupCount      = GroupRegistration::where('payment_status', 'approved')->count();
+        $groupMemberCount = \App\Models\GroupMember::whereHas('group', fn($q) =>
+            $q->where('payment_status', 'approved')
+        )->count();
+
+        // ── Exhibition Registrations (approved only) ──
+        // Exhibition is always KES
+        $exhibitionKES   = ExhibitionRegistration::where('status', 'approved')->sum('total_amount');
+        $exhibitionCount = ExhibitionRegistration::where('status', 'approved')->count();
+
+        // Exhibition breakdown by type
+        $exhibitionByType = ExhibitionRegistration::where('status', 'approved')
+            ->selectRaw('registration_type, COUNT(*) as count, SUM(total_amount) as total')
+            ->groupBy('registration_type')
+            ->get();
+
+        // ── Grand Totals (KES only — USD kept separate) ──
+        $grandTotalKES = $singleKES + $groupKES + $exhibitionKES;
+        $grandTotalUSD = $singleUSD + $groupUSD;
+
+        // ── Pending amounts (what could still come in) ──
+        $pendingSingleKES = ConferenceRegistration::where('payment_status', 'pending')
+            ->where('fee_currency', 'KES')->sum('fee');
+        $pendingSingleUSD = ConferenceRegistration::where('payment_status', 'pending')
+            ->where('fee_currency', 'USD')->sum('fee');
+        $pendingGroupKES  = GroupRegistration::where('payment_status', 'pending')
+            ->where('currency', 'KES')->sum('total_fee');
+        $pendingExhibitionKES = ExhibitionRegistration::where('status', 'pending')->sum('total_amount');
+
+        // ── Recent approvals (last 10 across all types) ──
+        $recentSingle = ConferenceRegistration::where('payment_status', 'approved')
+            ->latest('verified_at')->take(5)
+            ->get(['first_name','last_name','fee','fee_currency','attendance_type','days_count','verified_at']);
+
+        $recentGroup = GroupRegistration::where('payment_status', 'approved')
+            ->latest('verified_at')->take(5)
+            ->get(['first_name','last_name','total_fee','currency','verified_at']);
+
+        $recentExhibition = ExhibitionRegistration::where('status', 'approved')
+            ->latest('approved_at')->take(5)
+            ->get(['organization_name','total_amount','approved_at']);
+
+        return view('finance.dashboard', compact(
+            // Single
+            'singleKES','singleUSD','singleCount',
+            'singleFullWeekKES','singlePartialKES',
+            'singleFullWeekCount','singlePartialCount',
+            'singleVirtualKES','singleVirtualUSD',
+            'singlePhysicalKES','singlePhysicalUSD',
+            'partialByDays',
+            // Group
+            'groupKES','groupUSD','groupCount','groupMemberCount',
+            // Exhibition
+            'exhibitionKES','exhibitionCount','exhibitionByType',
+            // Totals
+            'grandTotalKES','grandTotalUSD',
+            // Pending
+            'pendingSingleKES','pendingSingleUSD','pendingGroupKES','pendingExhibitionKES',
+            // Recent
+            'recentSingle','recentGroup','recentExhibition'
+        ));
+    }
+
+    public function registrations(Request $request)
 {
     $query = ConferenceRegistration::query();
 
