@@ -646,40 +646,62 @@ class FullPaperReviewController extends Controller
     /**
      * Admin — list all fully reviewed / decided papers with pagination
      */
-    public function adminCompletedReviews()
-    {
-        $stats = [
-            'total'    => FullPaper::whereIn('status', [
-                                'approved', 'APPROVED',
-                                'rejected', 'REJECTED',
-                                'not_approved', 'NOT_APPROVED',
-                            ])->count(),
-            'awaiting' => FullPaper::where('status', 'awaiting')->count(),
-            'approved' => FullPaper::whereIn('status', ['approved', 'APPROVED'])->count(),
-            'rejected' => FullPaper::whereIn('status', [
-                                'rejected', 'REJECTED',
-                                'not_approved', 'NOT_APPROVED',
-                            ])->count(),
-        ];
+public function adminCompletedReviews(Request $request)
+{
+    $search = $request->search;
 
-        $papers = FullPaper::with([
-                'reviews',
-                'abstract',
-                'abstract.subtheme',
-            ])
-            ->whereIn('status', [
-                'approved', 'APPROVED',
-                'rejected', 'REJECTED',
-                'not_approved', 'NOT_APPROVED',
-            ])
-            ->latest('updated_at')
-            ->paginate(15)
-            ->withQueryString();
+    $stats = [
+        'total' => FullPaper::whereIn('status', [
+            'approved', 'APPROVED',
+            'rejected', 'REJECTED',
+            'not_approved', 'NOT_APPROVED',
+        ])->count(),
 
-        $subthemes = SubTheme::orderBy('full_name')->get();
+        'awaiting' => FullPaper::where('status', 'awaiting')->count(),
 
-        return view('admin.fullpapers.completed', compact('papers', 'stats', 'subthemes'));
+        'approved' => FullPaper::whereIn('status', [
+            'approved', 'APPROVED'
+        ])->count(),
+
+        'rejected' => FullPaper::whereIn('status', [
+            'rejected', 'REJECTED',
+            'not_approved', 'NOT_APPROVED',
+        ])->count(),
+    ];
+
+    $papers = FullPaper::with([
+            'reviews',
+            'abstract',
+            'abstract.subtheme',
+        ])
+        ->whereIn('status', [
+            'approved', 'APPROVED',
+            'rejected', 'REJECTED',
+            'not_approved', 'NOT_APPROVED',
+        ]);
+
+    if ($search) {
+        $papers->whereHas('abstract', function ($q) use ($search) {
+            $q->where('paper_title', 'like', "%{$search}%")
+              ->orWhere('author_name', 'like', "%{$search}%")
+              ->orWhere('submission_code', 'like', "%{$search}%");
+        });
     }
+
+    $papers = $papers
+        ->latest('updated_at')
+        ->paginate(15)
+        ->withQueryString();
+
+    $subthemes = SubTheme::orderBy('full_name')->get();
+
+    return view('admin.fullpapers.completed', compact(
+        'papers',
+        'stats',
+        'subthemes',
+        'search'
+    ));
+}
 
     /**
      * Admin — show all reviews for a specific paper
