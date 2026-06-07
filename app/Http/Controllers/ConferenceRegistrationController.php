@@ -102,6 +102,75 @@ class ConferenceRegistrationController extends Controller
         return back()->with('success', 'Registration submitted. Awaiting payment verification.');
     }
 
+    public function showPartialForm()
+    {
+        return view('main.partial-registration');
+    }
+
+    public function storePartial(Request $request)
+    {
+        $request->validate([
+            'firstName'     => 'required|string|max:255',
+            'lastName'      => 'required|string|max:255',
+            'email'         => 'required|email',
+            'phonePrefix'   => 'required',
+            'phoneNumber'   => 'required',
+            'institution'   => 'required',
+            'country'       => 'required',
+            'nationality'   => 'required|in:east_african,non_east_african',
+            'category'      => 'required|in:student,professional,kalro_staff',
+            'days_count'    => 'required|integer|min:1|max:4',
+            'studentId'     => 'nullable|file|max:5120',
+            'fee'           => 'required|numeric',
+            'feeCurrency'   => 'required|in:KES',
+            'paymentMethod' => 'required|in:bank,mpesa',
+            'transactionId' => 'required',
+            'paymentProof'  => 'required|file|max:5120',
+        ]);
+
+        if ($request->category === 'student' && !$request->hasFile('studentId')) {
+            return back()->withErrors(['studentId' => 'Student ID is required for students'])->withInput();
+        }
+
+        $days = (int) $request->days_count;
+        $ratePerDay = ($days <= 2) ? 4500 : 4000;
+        $expectedFee = $ratePerDay * $days;
+
+        if ((int) $request->fee !== $expectedFee) {
+            return back()->withErrors(['fee' => 'Fee amount does not match the expected rate.'])->withInput();
+        }
+
+        $studentIdPath = null;
+        if ($request->hasFile('studentId')) {
+            $studentIdPath = $request->file('studentId')->store('student_ids', 'public');
+        }
+        $paymentProofPath = $request->file('paymentProof')->store('payment_proofs', 'public');
+
+        ConferenceRegistration::create([
+            'first_name'         => $request->firstName,
+            'last_name'          => $request->lastName,
+            'email'              => $request->email,
+            'phone_prefix'       => $request->phonePrefix,
+            'phone_number'       => $request->phoneNumber,
+            'institution'        => $request->institution,
+            'country'            => $request->country,
+            'nationality'        => $request->nationality,
+            'platform'           => 'physical',
+            'attendance_type'    => 'partial',
+            'days_count'         => $days,
+            'category'           => $request->category,
+            'student_id_path'    => $studentIdPath,
+            'fee'                => $expectedFee,
+            'fee_currency'       => 'KES',
+            'payment_method'     => $request->paymentMethod,
+            'transaction_id'     => $request->transactionId,
+            'payment_proof_path' => $paymentProofPath,
+            'paper_ref_code'     => $request->paperRefCode ?? null,
+        ]);
+
+        return back()->with('success', 'Partial-day registration submitted successfully. Awaiting payment verification.');
+    }
+
 public function storeGroup(Request $request)
 {
     $request->validate([
