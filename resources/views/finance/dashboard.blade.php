@@ -523,7 +523,7 @@
                         @else
                             &nbsp;·&nbsp; Full Week
                         @endif
-                        &nbsp;·&nbsp; {{ $r->verified_at ? \Carbon\Carbon::parse($r->verified_at)->format('M d, Y H:i') : '—' }}
+                        &nbsp;·&nbsp; {{ $r->updated_at ? \Carbon\Carbon::parse($r->updated_at)->format('M d, Y H:i') : '—' }}
                     </div>
                 </div>
                 <div class="activity-amt">{{ $r->fee_currency }} {{ number_format($r->fee) }}</div>
@@ -536,7 +536,7 @@
                 <div>
                     <div class="activity-name">{{ $g->first_name }} {{ $g->last_name }}</div>
                     <div class="activity-meta">
-                        Group &nbsp;·&nbsp; {{ $g->verified_at ? \Carbon\Carbon::parse($g->verified_at)->format('M d, Y H:i') : '—' }}
+                        Group &nbsp;·&nbsp; {{ $g->updated_at ? \Carbon\Carbon::parse($g->updated_at)->format('M d, Y H:i') : '—' }}
                     </div>
                 </div>
                 <div class="activity-amt">{{ $g->currency }} {{ number_format($g->total_fee) }}</div>

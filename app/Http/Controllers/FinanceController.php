@@ -119,12 +119,12 @@ public function dashboard()
 
         // ── Recent approvals (last 10 across all types) ──
         $recentSingle = ConferenceRegistration::where('payment_status', 'approved')
-            ->latest('verified_at')->take(5)
-            ->get(['first_name','last_name','fee','fee_currency','attendance_type','days_count','verified_at']);
+            ->latest('updated_at')->take(5)
+            ->get(['first_name','last_name','fee','fee_currency','attendance_type','days_count','updated_at']);
 
         $recentGroup = GroupRegistration::where('payment_status', 'approved')
-            ->latest('verified_at')->take(5)
-            ->get(['first_name','last_name','total_fee','currency','verified_at']);
+            ->latest('updated_at')->take(5)
+            ->get(['first_name','last_name','total_fee','currency','updated_at']);
 
         $recentExhibition = ExhibitionRegistration::where('status', 'approved')
             ->latest('approved_at')->take(5)
