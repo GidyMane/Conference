@@ -65,6 +65,12 @@ if (Auth::attempt($credentials, $request->boolean('remember'))) {
             ->with('warning', 'You must change your password before continuing.');
     }
 
+    // Finance users go to their own dashboard
+    if ($user->role === 'FINANCE') {
+        return redirect()->route('finance.dashboard')
+            ->with('success', 'Welcome back!');
+    }
+
     return redirect()->route('reviewer.dashboard')
         ->with('success', 'Welcome back!');
 }

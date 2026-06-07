@@ -29,6 +29,11 @@ public function index()
      * FINANCE DASHBOARD
      */
 if ($user->role === 'FINANCE') {
+    // Always redirect finance users to the dedicated finance dashboard
+    return redirect()->route('finance.dashboard');
+}
+
+if ($user->role === 'FINANCE_OLD_UNUSED') {
 
     $stats = [
         'total_registrations' => ConferenceRegistration::count() + GroupRegistration::count(),

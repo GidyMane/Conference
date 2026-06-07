@@ -6,13 +6,16 @@
 @section('content')
 
 <div class="page-header mb-4">
-    <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
         <div>
             <h1>Conference Registrations</h1>
-            <a href="{{ route('reviewer.dashboard') }}" class="btn btn-sm btn-secondary mt-2">
+            <a href="{{ route('finance.dashboard') }}" class="btn btn-sm btn-secondary mt-2">
                 <i class="fas fa-arrow-left me-1"></i> Dashboard
             </a>
         </div>
+        <a href="{{ route('finance.dashboard') }}" class="btn btn-success">
+            <i class="fas fa-chart-line me-2"></i> Revenue Summary
+        </a>
     </div>
 </div>
 
