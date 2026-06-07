@@ -31,6 +31,9 @@ class ConferenceRegistration extends Model
         'verified_by',
         'verified_at',
         'rejection_reason',
+        'attendance_type',
+        'days_count',
+        'paper_ref_code',
     ];
 
     protected $casts = [

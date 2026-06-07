@@ -69,6 +69,19 @@
                     </span>
                 </p>
 
+                @if(($registration->attendance_type ?? 'full_week') === 'partial')
+                <p><strong>Attendance:</strong>
+                    <span class="badge bg-warning text-dark">
+                        <i class="bi bi-calendar2-week me-1"></i>
+                        Partial – {{ $registration->days_count }} day{{ $registration->days_count != 1 ? 's' : '' }}
+                    </span>
+                </p>
+                @else
+                <p><strong>Attendance:</strong>
+                    <span class="badge bg-success">Full Week</span>
+                </p>
+                @endif
+
             </div>
         </div>
     </div>
