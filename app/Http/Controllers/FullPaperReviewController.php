@@ -670,9 +670,8 @@ public function adminCompletedReviews(Request $request)
     ];
 
     $papers = FullPaper::with([
-            'reviews',
             'abstract',
-            'abstract.subtheme',
+            'abstract.subTheme',
         ])
         ->whereIn('status', [
             'approved', 'APPROVED',
@@ -683,8 +682,8 @@ public function adminCompletedReviews(Request $request)
     if ($search) {
         $papers->whereHas('abstract', function ($q) use ($search) {
             $q->where('paper_title', 'like', "%{$search}%")
-              ->orWhere('author_name', 'like', "%{$search}%")
-              ->orWhere('submission_code', 'like', "%{$search}%");
+            ->orWhere('author_name', 'like', "%{$search}%")
+            ->orWhere('submission_code', 'like', "%{$search}%");
         });
     }
 
