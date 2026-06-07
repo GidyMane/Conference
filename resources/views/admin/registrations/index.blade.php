@@ -20,7 +20,7 @@
 {{-- STATISTICS --}}
 <div class="row mb-4">
 
-    <div class="col-md-3 mb-3">
+    <div class="col-md-2 mb-3">
         <div class="card border-start border-primary border-4 shadow-sm">
             <div class="card-body">
                 <h6 class="text-muted">Total</h6>
@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <div class="col-md-3 mb-3">
+    <div class="col-md-2 mb-3">
         <div class="card border-start border-success border-4 shadow-sm">
             <div class="card-body">
                 <h6 class="text-muted">Approved</h6>
@@ -38,7 +38,7 @@
         </div>
     </div>
 
-    <div class="col-md-3 mb-3">
+    <div class="col-md-2 mb-3">
         <div class="card border-start border-warning border-4 shadow-sm">
             <div class="card-body">
                 <h6 class="text-muted">Pending</h6>
@@ -47,11 +47,29 @@
         </div>
     </div>
 
-    <div class="col-md-3 mb-3">
+    <div class="col-md-2 mb-3">
         <div class="card border-start border-danger border-4 shadow-sm">
             <div class="card-body">
                 <h6 class="text-muted">Rejected</h6>
                 <h3>{{ $stats['rejected'] ?? 0 }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-2 mb-3">
+        <div class="card border-start shadow-sm" style="border-left-color:#f59e0b!important;">
+            <div class="card-body">
+                <h6 class="text-muted">Full Week</h6>
+                <h3>{{ $stats['full_week'] ?? 0 }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-2 mb-3">
+        <div class="card border-start shadow-sm" style="border-left-color:#8b5cf6!important;">
+            <div class="card-body">
+                <h6 class="text-muted">Partial Days</h6>
+                <h3>{{ $stats['partial'] ?? 0 }}</h3>
             </div>
         </div>
     </div>
@@ -65,20 +83,29 @@
         <form method="GET" action="{{ route('admin.registrations.index') }}">
             <div class="row g-3">
 
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <select name="payment_status" class="form-select">
                         <option value="">All Status</option>
-                        <option value="approved" {{ request('payment_status') == 'approved' ? 'selected' : '' }}>Approved</option>
-                        <option value="pending" {{ request('payment_status') == 'pending' ? 'selected' : '' }}>Pending</option>
-                        <option value="rejected" {{ request('payment_status') == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                        <option value="approved"  {{ request('payment_status') == 'approved'  ? 'selected' : '' }}>Approved</option>
+                        <option value="pending"   {{ request('payment_status') == 'pending'   ? 'selected' : '' }}>Pending</option>
+                        <option value="rejected"  {{ request('payment_status') == 'rejected'  ? 'selected' : '' }}>Rejected</option>
                     </select>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <select name="platform" class="form-select">
                         <option value="">All Platforms</option>
                         <option value="physical" {{ request('platform') == 'physical' ? 'selected' : '' }}>Physical</option>
-                        <option value="virtual" {{ request('platform') == 'virtual' ? 'selected' : '' }}>Virtual</option>
+                        <option value="virtual"  {{ request('platform') == 'virtual'  ? 'selected' : '' }}>Virtual</option>
+                    </select>
+                </div>
+
+                {{-- NEW: filter by attendance type --}}
+                <div class="col-md-2">
+                    <select name="attendance_type" class="form-select">
+                        <option value="">All Attendance</option>
+                        <option value="full_week" {{ request('attendance_type') == 'full_week' ? 'selected' : '' }}>Full Week</option>
+                        <option value="partial"   {{ request('attendance_type') == 'partial'   ? 'selected' : '' }}>Partial Days</option>
                     </select>
                 </div>
 
@@ -116,6 +143,7 @@
                         <th>Participant</th>
                         <th>Institution</th>
                         <th>Platform</th>
+                        <th>Attendance</th>
                         <th>Category</th>
                         <th>Fee</th>
                         <th>Status</th>
@@ -128,7 +156,8 @@
                 <tbody>
 
                 @forelse($registrations as $registration)
-                    <tr>
+                    @php $isPartial = ($registration->attendance_type ?? 'full_week') === 'partial'; @endphp
+                    <tr class="{{ $isPartial ? 'table-warning' : '' }}">
 
                         <td><strong>#{{ $registration->id }}</strong></td>
 
@@ -147,6 +176,25 @@
                             </span>
                         </td>
 
+                        {{-- NEW: Attendance column --}}
+                        <td>
+                            @if($isPartial)
+                                <span class="badge text-dark fw-bold d-flex align-items-center gap-1"
+                                      style="background:#fef3c7; border:1px solid #f59e0b; white-space:nowrap;">
+                                    <i class="fas fa-calendar-day"></i>
+                                    Partial &ndash; {{ $registration->days_count }} day{{ $registration->days_count != 1 ? 's' : '' }}
+                                </span>
+                                @php
+                                    $rate = $registration->days_count <= 2 ? 4500 : 4000;
+                                @endphp
+                                <small class="text-muted d-block mt-1">
+                                    KES {{ number_format($rate) }}/day
+                                </small>
+                            @else
+                                <span class="badge bg-success">Full Week</span>
+                            @endif
+                        </td>
+
                         <td>
                             <span class="badge bg-info">
                                 {{ ucfirst(str_replace('_',' ', $registration->category)) }}
@@ -154,8 +202,11 @@
                         </td>
 
                         <td>
-                            {{ $registration->fee_currency }}
-                            {{ number_format($registration->fee, 2) }}
+                            <strong>{{ $registration->fee_currency }}
+                            {{ number_format($registration->fee, 2) }}</strong>
+                            @if($isPartial)
+                                <br><small class="text-muted">{{ $registration->days_count }} day{{ $registration->days_count != 1 ? 's' : '' }}</small>
+                            @endif
                         </td>
 
                         <td>
@@ -192,7 +243,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="10" class="text-center text-muted py-4">
+                        <td colspan="11" class="text-center text-muted py-4">
                             No registrations found.
                         </td>
                     </tr>

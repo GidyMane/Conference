@@ -31,6 +31,18 @@ class AdminRegistrationController extends Controller
             $registrations->where('platform', $request->platform);
         }
 
+        // Filter by attendance type (full_week / partial)
+        if ($request->filled('attendance_type')) {
+            if ($request->attendance_type === 'full_week') {
+                $registrations->where(function ($q) {
+                    $q->where('attendance_type', 'full_week')
+                      ->orWhereNull('attendance_type');
+                });
+            } else {
+                $registrations->where('attendance_type', $request->attendance_type);
+            }
+        }
+
         if ($request->filled('search')) {
             $search = $request->search;
             $registrations->where(function ($q) use ($search) {
@@ -47,13 +59,18 @@ class AdminRegistrationController extends Controller
         $groupRegistrations = GroupRegistration::with('members')->latest()->paginate(10);
 
         $stats = [
-            'total' => ConferenceRegistration::count() + GroupRegistration::count(),
+            'total'    => ConferenceRegistration::count() + GroupRegistration::count(),
             'approved' => ConferenceRegistration::where('payment_status', 'approved')->count() +
-                        GroupRegistration::where('payment_status', 'approved')->count(),
-            'pending' => ConferenceRegistration::where('payment_status', 'pending')->count() +
-                        GroupRegistration::where('payment_status', 'pending')->count(),
+                          GroupRegistration::where('payment_status', 'approved')->count(),
+            'pending'  => ConferenceRegistration::where('payment_status', 'pending')->count() +
+                          GroupRegistration::where('payment_status', 'pending')->count(),
             'rejected' => ConferenceRegistration::where('payment_status', 'rejected')->count() +
-                        GroupRegistration::where('payment_status', 'rejected')->count(),
+                          GroupRegistration::where('payment_status', 'rejected')->count(),
+            // New: breakdown by attendance type
+            'full_week' => ConferenceRegistration::where(function ($q) {
+                               $q->where('attendance_type', 'full_week')->orWhereNull('attendance_type');
+                           })->count(),
+            'partial'   => ConferenceRegistration::where('attendance_type', 'partial')->count(),
         ];
 
         return view('admin.registrations.index', compact('registrations', 'groupRegistrations', 'stats'));
