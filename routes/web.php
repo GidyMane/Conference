@@ -117,6 +117,7 @@ Route::prefix('admin')
         // Dashboard
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/dashboard/chart-data', [DashboardController::class, 'getChartData'])->name('dashboard.chart-data');
+        Route::get('/financial-snapshot', [DashboardController::class, 'financialSnapshot'])->name('financial-snapshot');
 
         // Abstracts
         Route::prefix('abstracts')->name('abstracts.')->group(function () {

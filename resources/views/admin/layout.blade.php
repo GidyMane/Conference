@@ -316,6 +316,10 @@
 </a>
 
             
+            <a href="{{ route('admin.financial-snapshot') }}" class="menu-item {{ request()->routeIs('admin.financial-snapshot') ? 'active' : '' }}">
+                <i class="fas fa-chart-line me-3"></i> Financial Snapshot
+            </a>
+
             <a href="{{route('admin.registrations.index')}}" class="menu-item {{ request()->routeIs('admin.registrations.*') ? 'active' : '' }}">
                 <i class="fas fa-users"></i>
                 <span>Manage Registrations</span>
