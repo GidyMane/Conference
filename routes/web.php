@@ -55,6 +55,13 @@ Route::get('/conference/register', [ConferenceRegistrationController::class, 'sh
 Route::post('/conference/register', [ConferenceRegistrationController::class, 'store'])
     ->name('conference.register');
 
+// Partial-days registration (separate, standalone — does not affect full-week flow)
+Route::get('/conference/register/partial-days', [ConferenceRegistrationController::class, 'showPartialForm'])
+    ->name('conference.register.partial.form');
+
+Route::post('/conference/register/partial-days', [ConferenceRegistrationController::class, 'storePartial'])
+    ->name('conference.register.partial');
+
 Route::get('/exhibition/register', [ExhibitionRegistrationController::class, 'showRegistrationForm'])
     ->name('exhibition.register.form');
 

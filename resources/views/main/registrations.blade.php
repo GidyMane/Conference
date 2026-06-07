@@ -116,6 +116,23 @@
                         </label>
 
                     </div>
+
+                    {{-- Partial-days option (redirect to separate page) --}}
+                    <div class="mt-4 pt-4" style="border-top:1px solid #e2e8f0; text-align:center;">
+                        <p class="text-muted mb-3">
+                            <i class="bi bi-calendar2-week me-1"></i>
+                            <strong>Not attending the whole week?</strong> Register for 1–4 days at a reduced daily rate.
+                        </p>
+                        <a href="{{ route('conference.register.partial.form') }}"
+                           class="btn btn-outline-success btn-lg"
+                           style="border-radius:10px; font-weight:700;">
+                            <i class="bi bi-calendar-check me-2"></i>Register for Fewer Days
+                        </a>
+                        <div class="mt-2">
+                            <small class="text-muted">1–2 days: KES 4,500/day &nbsp;·&nbsp; 3–4 days: KES 4,000/day</small>
+                        </div>
+                    </div>
+
                     <div class="text-center mt-5">
                         <button type="button" id="modeConfirmBtn" class="btn btn-primary btn-lg mode-confirm-btn" disabled>
                             Continue &rarr;
