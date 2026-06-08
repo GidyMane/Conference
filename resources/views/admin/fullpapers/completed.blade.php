@@ -41,9 +41,18 @@
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 20px;
+        margin-bottom: 16px;
+    }
+    .stats-grid-materials {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
         margin-bottom: 28px;
     }
-    @media(max-width:900px){ .stats-grid { grid-template-columns: repeat(2,1fr); } }
+    @media(max-width:900px){
+        .stats-grid { grid-template-columns: repeat(2,1fr); }
+        .stats-grid-materials { grid-template-columns: repeat(2,1fr); }
+    }
 
     .stat-tile {
         background: white;
@@ -69,10 +78,20 @@
         font-size: 22px;
         flex-shrink: 0;
     }
-    .t-total  .stat-icon { background: var(--light-green); color: var(--green); }
+    .t-total   .stat-icon { background: var(--light-green); color: var(--green); }
     .t-pending .stat-icon { background: #fef3c7; color: var(--amber); }
     .t-approve .stat-icon { background: #d1fae5; color: #16a34a; }
     .t-reject  .stat-icon { background: #fee2e2; color: var(--red); }
+    .t-has-mat .stat-icon { background: #dbeafe; color: #1e40af; }
+    .t-no-mat  .stat-icon { background: #fce7f3; color: #9d174d; }
+    .t-revised .stat-icon { background: #ede9fe; color: #5b21b6; }
+    .t-ppt     .stat-icon { background: #ecfdf5; color: #065f46; }
+    .stat-tile.t-has-mat { border-top-color: #3b82f6; cursor:pointer; }
+    .stat-tile.t-no-mat  { border-top-color: #ec4899; cursor:pointer; }
+    .stat-tile.t-revised { border-top-color: #7c3aed; }
+    .stat-tile.t-ppt     { border-top-color: #059669; }
+    .stat-tile.t-has-mat.active-filter { background: #eff6ff; }
+    .stat-tile.t-no-mat.active-filter  { background: #fdf2f8; }
 
     .stat-info h3 { font-size: 32px; font-weight: 700; margin: 0; color: #1e293b; }
     .stat-info p  { font-size: 12px; color: #64748b; text-transform: uppercase;
@@ -266,6 +285,18 @@
         font-weight: 600;
     }
 
+    /* ── Materials badge ── */
+    .mat-badge {
+        display: inline-flex; align-items: center; gap: 5px;
+        padding: 3px 10px; border-radius: 20px;
+        font-size: 11px; font-weight: 700;
+    }
+    .mat-yes  { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+    .mat-no   { background: #fce7f3; color: #9d174d; border: 1px solid #f9a8d4; }
+    .mat-part { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+    .mat-detail { font-size: 11px; color: #64748b; margin-top: 3px; }
+    .mat-detail i { margin-right: 3px; }
+
     /* ── Empty state ── */
     .empty-state {
         text-align: center;
@@ -368,7 +399,7 @@
 <div class="stats-grid">
     <div class="stat-tile t-total">
         <div class="stat-icon"><i class="fas fa-layer-group"></i></div>
-        <div class="stat-info"><h3>{{ $stats['total'] }}</h3><p>Total Ready</p></div>
+        <div class="stat-info"><h3>{{ $stats['total'] }}</h3><p>Total Decided</p></div>
     </div>
     <div class="stat-tile t-pending">
         <div class="stat-icon"><i class="fas fa-hourglass-half"></i></div>
@@ -384,36 +415,105 @@
     </div>
 </div>
 
-{{-- Filter Bar --}}
-<div class="filter-bar">
+{{-- Materials tracking row (approved papers only) --}}
+<p class="text-muted mb-2" style="font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;">
+    <i class="fas fa-file-upload me-1 text-success"></i> Materials Submission — Approved Papers
+</p>
+<div class="stats-grid-materials">
+    <div class="stat-tile t-has-mat {{ $materialsFilter === 'submitted' ? 'active-filter' : '' }}"
+         onclick="document.getElementById('materialsFilterInput').value='submitted'; document.getElementById('filterForm').submit();"
+         title="Click to filter — papers that have submitted materials">
+        <div class="stat-icon"><i class="fas fa-upload"></i></div>
+        <div class="stat-info">
+            <h3>{{ $stats['with_materials'] }}</h3>
+            <p>Submitted Materials</p>
+        </div>
+    </div>
+    <div class="stat-tile t-no-mat {{ $materialsFilter === 'missing' ? 'active-filter' : '' }}"
+         onclick="document.getElementById('materialsFilterInput').value='missing'; document.getElementById('filterForm').submit();"
+         title="Click to filter — papers that have NOT submitted materials">
+        <div class="stat-icon"><i class="fas fa-exclamation-circle"></i></div>
+        <div class="stat-info">
+            <h3>{{ $stats['without_materials'] }}</h3>
+            <p>No Materials Yet</p>
+        </div>
+    </div>
+    <div class="stat-tile t-revised">
+        <div class="stat-icon"><i class="fas fa-file-alt"></i></div>
+        <div class="stat-info">
+            <h3>{{ $stats['with_revised'] }}</h3>
+            <p>Revised Full Papers</p>
+        </div>
+    </div>
+    <div class="stat-tile t-ppt">
+        <div class="stat-icon"><i class="fas fa-file-powerpoint"></i></div>
+        <div class="stat-info">
+            <h3>{{ $stats['with_presentation'] }}</h3>
+            <p>Presentations (PPT/Poster)</p>
+        </div>
+    </div>
+</div>
+
+{{-- Filter Bar — server-side GET form so search works across all pages --}}
+<form method="GET" action="{{ route('admin.fullpapers.completed') }}" class="filter-bar" id="filterForm">
     <div class="flex-grow-1" style="min-width:220px">
         <div class="input-group">
             <span class="input-group-text bg-light border-end-0">
                 <i class="fas fa-search text-muted"></i>
             </span>
-            <input type="text" id="searchInput" class="form-control border-start-0"
-                   placeholder="Search paper title or author…">
+            <input type="text" name="search" id="searchInput" class="form-control border-start-0"
+                   placeholder="Search title, author, or code…"
+                   value="{{ $search }}">
         </div>
     </div>
-    <select id="statusFilter" class="form-select" style="width:180px">
+    <select name="status" id="statusFilter" class="form-select" style="width:180px" onchange="this.form.submit()">
         <option value="">All Statuses</option>
-        <option value="awaiting">Awaiting Decision</option>
-        <option value="approved">Approved</option>
-        <option value="rejected">Rejected</option>
+        <option value="approved" {{ $statusFilter === 'approved' ? 'selected' : '' }}>Approved</option>
+        <option value="rejected" {{ $statusFilter === 'rejected' ? 'selected' : '' }}>Rejected</option>
     </select>
-    <select id="subthemeFilter" class="form-select" style="width:200px">
+    <select name="subtheme" id="subthemeFilter" class="form-select" style="width:200px" onchange="this.form.submit()">
         <option value="">All Sub-Themes</option>
         @foreach($subthemes as $subtheme)
-            <option value="{{ strtolower($subtheme->full_name) }}">{{ $subtheme->full_name }}</option>
+            <option value="{{ $subtheme->id }}" {{ $subthemeFilter == $subtheme->id ? 'selected' : '' }}>
+                {{ $subtheme->full_name }}
+            </option>
         @endforeach
     </select>
-</div>
+    <select id="materialsSelect" class="form-select" style="width:180px"
+            onchange="document.getElementById('materialsFilterInput').value=this.value; this.form.submit()">
+        <option value="">All Materials</option>
+        <option value="submitted" {{ $materialsFilter === 'submitted' ? 'selected' : '' }}>✅ Materials Submitted</option>
+        <option value="missing"   {{ $materialsFilter === 'missing'   ? 'selected' : '' }}>⚠️ No Materials Yet</option>
+    </select>
+    {{-- Single hidden input that carries the materials filter value --}}
+    <input type="hidden" name="materials" id="materialsFilterInput" value="{{ $materialsFilter }}">
+    <button type="submit" class="btn btn-success btn-sm px-3">
+        <i class="fas fa-search me-1"></i> Search
+    </button>
+    @if($search || $statusFilter || $subthemeFilter || $materialsFilter)
+    <a href="{{ route('admin.fullpapers.completed') }}" class="btn btn-outline-secondary btn-sm px-3">
+        <i class="fas fa-times me-1"></i> Clear
+    </a>
+    @endif
+</form>
 
 {{-- Papers Table --}}
 <div class="table-card">
     <div class="table-card-header">
-        <h5><i class="fas fa-table me-2 text-success"></i>Papers Ready for Final Decision</h5>
-        <span class="badge bg-success">{{ $stats['total'] }} papers</span>
+        <h5><i class="fas fa-table me-2 text-success"></i>
+            @if($search || $statusFilter || $subthemeFilter)
+                Search Results
+            @else
+                Papers Ready for Final Decision
+            @endif
+        </h5>
+        <div class="d-flex align-items-center gap-2">
+            @if($search || $statusFilter || $subthemeFilter)
+                <span class="badge bg-secondary">{{ $papers->total() }} found</span>
+            @else
+                <span class="badge bg-success">{{ $stats['total'] }} papers</span>
+            @endif
+        </div>
     </div>
 
     <div class="table-responsive">
@@ -426,7 +526,8 @@
                     <th class="text-center">Reviews</th>
                     <th class="text-center">Avg. Score</th>
                     <th>Status</th>
-                    <th>Last Review</th>
+                    <th>Materials</th>
+                    <th>Last Update</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -480,6 +581,50 @@
                         @endphp
                         <span class="sbadge {{ $statusClass }}">{{ ucfirst($paper->status) }}</span>
                     </td>
+                    {{-- Materials column --}}
+                    <td>
+                        @php
+                            $pu = $paper->presentationUpload;
+                            $hasRevised  = $pu && $pu->revised_fullpaper;
+                            $hasPPT      = $pu && ($pu->powerpoint_file || $pu->poster_file);
+                            $hasAny      = $hasRevised || $hasPPT;
+                        @endphp
+
+                        @if(!$pu || !$hasAny)
+                            {{-- No upload at all --}}
+                            @if(in_array(strtoupper($paper->status), ['APPROVED']))
+                                <span class="mat-badge mat-no">
+                                    <i class="fas fa-exclamation-circle"></i> None
+                                </span>
+                            @else
+                                <span class="text-muted" style="font-size:12px;">N/A</span>
+                            @endif
+                        @elseif($hasRevised && $hasPPT)
+                            {{-- Both submitted --}}
+                            <span class="mat-badge mat-yes">
+                                <i class="fas fa-check-circle"></i> Complete
+                            </span>
+                            <div class="mat-detail">
+                                <i class="fas fa-file-alt"></i> Paper
+                                &nbsp;·&nbsp;
+                                <i class="fas fa-file-powerpoint"></i>
+                                {{ $pu->powerpoint_file ? 'PPT' : 'Poster' }}
+                            </div>
+                        @else
+                            {{-- Partial --}}
+                            <span class="mat-badge mat-part">
+                                <i class="fas fa-exclamation-triangle"></i> Partial
+                            </span>
+                            <div class="mat-detail">
+                                <i class="fas fa-file-alt {{ $hasRevised ? 'text-success' : 'text-danger' }}"></i>
+                                {{ $hasRevised ? 'Paper ✓' : 'Paper ✗' }}
+                                &nbsp;·&nbsp;
+                                <i class="fas fa-file-powerpoint {{ $hasPPT ? 'text-success' : 'text-danger' }}"></i>
+                                {{ $hasPPT ? 'PPT ✓' : 'PPT ✗' }}
+                            </div>
+                        @endif
+                    </td>
+
                     <td class="text-muted" style="font-size:13px">
                         {{ $paper->updated_at->format('M d, Y') }}
                     </td>
@@ -505,7 +650,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="8" class="text-center py-5 text-muted">
+                    <td colspan="9" class="text-center py-5 text-muted">
                         No fully reviewed papers found.
                     </td>
                 </tr>
@@ -534,11 +679,7 @@
     @endif
     {{-- ══════════════ END PAGINATION ══════════════ --}}
 
-    <div id="emptyMsg" class="empty-state" style="display:none">
-        <i class="fas fa-search"></i>
-        <h4>No papers match your search</h4>
-        <p>Try adjusting your filters</p>
-    </div>
+
 </div>
 
 {{-- Tip --}}
@@ -561,41 +702,19 @@
 @section('scripts')
 <script>
 (function () {
-    const searchInput    = document.getElementById('searchInput');
-    const statusFilter   = document.getElementById('statusFilter');
-    const subthemeFilter = document.getElementById('subthemeFilter');
-    const tbody          = document.querySelector('#papersTable tbody');
-    const emptyMsg       = document.getElementById('emptyMsg');
+    // Debounce search input so the form submits 500ms after the user stops typing
+    const searchInput = document.getElementById('searchInput');
+    const filterForm  = document.getElementById('filterForm');
+    let debounceTimer;
 
-    function applyFilters() {
-        const q   = searchInput.value.toLowerCase();
-        const st  = statusFilter.value.toLowerCase();
-        const sub = subthemeFilter.value.toLowerCase();
-        let visible = 0;
-
-        tbody.querySelectorAll('tr').forEach(row => {
-            // Skip colspan empty rows
-            if (row.querySelector('td[colspan]')) return;
-
-            const text   = row.textContent.toLowerCase();
-            const rowSt  = (row.dataset.status   || '').toLowerCase();
-            const rowSub = (row.dataset.subtheme  || '').toLowerCase();
-
-            const matchQ   = !q   || text.includes(q);
-            const matchSt  = !st  || rowSt.includes(st);
-            const matchSub = !sub || rowSub.includes(sub);
-
-            const show = matchQ && matchSt && matchSub;
-            row.style.display = show ? '' : 'none';
-            if (show) visible++;
+    if (searchInput && filterForm) {
+        searchInput.addEventListener('input', function () {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(function () {
+                filterForm.submit();
+            }, 500);
         });
-
-        emptyMsg.style.display = visible === 0 ? 'block' : 'none';
     }
-
-    searchInput.addEventListener('input', applyFilters);
-    statusFilter.addEventListener('change', applyFilters);
-    subthemeFilter.addEventListener('change', applyFilters);
 })();
 </script>
 @endsection

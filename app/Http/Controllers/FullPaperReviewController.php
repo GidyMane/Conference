@@ -646,61 +646,115 @@ class FullPaperReviewController extends Controller
     /**
      * Admin — list all fully reviewed / decided papers with pagination
      */
-public function adminCompletedReviews(Request $request)
-{
-    $search = $request->search;
+    public function adminCompletedReviews(Request $request)
+    {
+        $decidedStatuses = ['approved', 'APPROVED', 'rejected', 'REJECTED', 'not_approved', 'NOT_APPROVED'];
+        $approvedStatuses = ['approved', 'APPROVED'];
 
-    $stats = [
-        'total' => FullPaper::whereIn('status', [
-            'approved', 'APPROVED',
-            'rejected', 'REJECTED',
-            'not_approved', 'NOT_APPROVED',
-        ])->count(),
+        // ── Stats: always count across the full table, never the filtered set ──
+        $totalApproved = FullPaper::whereIn('status', $approvedStatuses)->count();
 
-        'awaiting' => FullPaper::where('status', 'awaiting')->count(),
+        // Approved papers that have uploaded ANY material (revised paper OR ppt OR poster)
+        $withMaterials = FullPaper::whereIn('status', $approvedStatuses)
+            ->whereHas('presentationUpload', function ($q) {
+                $q->where(function ($q2) {
+                    $q2->whereNotNull('revised_fullpaper')
+                       ->orWhereNotNull('powerpoint_file')
+                       ->orWhereNotNull('poster_file');
+                });
+            })
+            ->count();
 
-        'approved' => FullPaper::whereIn('status', [
-            'approved', 'APPROVED'
-        ])->count(),
+        $withoutMaterials = $totalApproved - $withMaterials;
 
-        'rejected' => FullPaper::whereIn('status', [
-            'rejected', 'REJECTED',
-            'not_approved', 'NOT_APPROVED',
-        ])->count(),
-    ];
+        // Approved papers with revised full paper specifically
+        $withRevisedPaper = FullPaper::whereIn('status', $approvedStatuses)
+            ->whereHas('presentationUpload', fn($q) => $q->whereNotNull('revised_fullpaper'))
+            ->count();
 
-    $papers = FullPaper::with([
-            'abstract',
-            'abstract.subTheme',
-        ])
-        ->whereIn('status', [
-            'approved', 'APPROVED',
-            'rejected', 'REJECTED',
-            'not_approved', 'NOT_APPROVED',
-        ]);
+        // Approved papers with presentation file (ppt or poster)
+        $withPresentation = FullPaper::whereIn('status', $approvedStatuses)
+            ->whereHas('presentationUpload', function ($q) {
+                $q->where(function ($q2) {
+                    $q2->whereNotNull('powerpoint_file')
+                       ->orWhereNotNull('poster_file');
+                });
+            })
+            ->count();
 
-    if ($search) {
-        $papers->whereHas('abstract', function ($q) use ($search) {
-            $q->where('paper_title', 'like', "%{$search}%")
-            ->orWhere('author_name', 'like', "%{$search}%")
-            ->orWhere('submission_code', 'like', "%{$search}%");
-        });
+        $stats = [
+            'total'             => FullPaper::whereIn('status', $decidedStatuses)->count(),
+            'awaiting'          => FullPaper::where('status', 'awaiting')->count(),
+            'approved'          => $totalApproved,
+            'rejected'          => FullPaper::whereIn('status', ['rejected','REJECTED','not_approved','NOT_APPROVED'])->count(),
+            // Materials tracking (approved papers only)
+            'with_materials'    => $withMaterials,
+            'without_materials' => $withoutMaterials,
+            'with_revised'      => $withRevisedPaper,
+            'with_presentation' => $withPresentation,
+        ];
+
+        $search              = trim($request->input('search', ''));
+        $statusFilter        = $request->input('status', '');
+        $subthemeFilter      = $request->input('subtheme', '');
+        $materialsFilter     = $request->input('materials', '');
+
+        $papers = FullPaper::with([
+                'reviews',
+                'abstract',
+                'abstract.subtheme',
+                'presentationUpload',   // ← eager-load so the table column works
+            ])
+            ->whereIn('status', $decidedStatuses)
+            // ── FIX: search only on columns that actually exist ──
+            ->when($search, function ($q) use ($search) {
+                $q->whereHas('abstract', function ($q2) use ($search) {
+                    $q2->where('paper_title', 'like', "%{$search}%")
+                       ->orWhere('author_name', 'like', "%{$search}%")
+                       ->orWhere('submission_code', 'like', "%{$search}%");
+                });
+            })
+            ->when($statusFilter, function ($q) use ($statusFilter) {
+                $statusMap = [
+                    'approved' => ['approved', 'APPROVED'],
+                    'rejected' => ['rejected', 'REJECTED', 'not_approved', 'NOT_APPROVED'],
+                ];
+                $q->whereIn('status', $statusMap[$statusFilter] ?? []);
+            })
+            ->when($subthemeFilter, function ($q) use ($subthemeFilter) {
+                $q->whereHas('abstract.subtheme', function ($q2) use ($subthemeFilter) {
+                    $q2->where('id', $subthemeFilter);
+                });
+            })
+            // ── Filter by materials submission status ──
+            ->when($materialsFilter === 'submitted', function ($q) {
+                $q->whereHas('presentationUpload', function ($q2) {
+                    $q2->where(function ($q3) {
+                        $q3->whereNotNull('revised_fullpaper')
+                           ->orWhereNotNull('powerpoint_file')
+                           ->orWhereNotNull('poster_file');
+                    });
+                });
+            })
+            ->when($materialsFilter === 'missing', function ($q) {
+                $q->whereDoesntHave('presentationUpload')
+                  ->orWhereHas('presentationUpload', function ($q2) {
+                      $q2->whereNull('revised_fullpaper')
+                         ->whereNull('powerpoint_file')
+                         ->whereNull('poster_file');
+                  });
+            })
+            ->latest('updated_at')
+            ->paginate(15)
+            ->withQueryString();
+
+        $subthemes = SubTheme::orderBy('full_name')->get();
+
+        return view('admin.fullpapers.completed', compact(
+            'papers', 'stats', 'subthemes',
+            'search', 'statusFilter', 'subthemeFilter', 'materialsFilter'
+        ));
     }
-
-    $papers = $papers
-        ->latest('updated_at')
-        ->paginate(15)
-        ->withQueryString();
-
-    $subthemes = SubTheme::orderBy('full_name')->get();
-
-    return view('admin.fullpapers.completed', compact(
-        'papers',
-        'stats',
-        'subthemes',
-        'search'
-    ));
-}
 
     /**
      * Admin — show all reviews for a specific paper
