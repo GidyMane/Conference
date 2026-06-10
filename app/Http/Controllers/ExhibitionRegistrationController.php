@@ -303,7 +303,6 @@ class ExhibitionRegistrationController extends Controller
             'PAYMENT_PROOF-' . $registration->reference_number
         );
     }
-}
 
     public function exportRegistrations(Request $request)
     {
@@ -311,5 +310,4 @@ class ExhibitionRegistrationController extends Controller
         $filename = 'exhibition_registrations_' . now()->format('Y-m-d_His') . '.xlsx';
         return Excel::download(new ExhibitionRegistrationsExport($filters), $filename);
     }
-
 }
