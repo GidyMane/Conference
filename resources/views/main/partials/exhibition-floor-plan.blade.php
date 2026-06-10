@@ -25,6 +25,84 @@
 .fp-sw{width:20px;height:20px;border-radius:4px;flex-shrink:0;}
 .fp-rng{font-family:monospace;font-size:.7rem;color:#94a3b8;display:block;margin-top:1px;}
 .fp-lname{font-weight:600;color:#1e293b;line-height:1.3;}
+
+/* ── Register CTA ── */
+.fp-cta-bar {
+    background: linear-gradient(135deg, #14532d 0%, #166534 100%);
+    border-radius: 0 0 18px 18px;
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.fp-cta-bar p {
+    color: rgba(255,255,255,.8);
+    font-size: .88rem;
+    margin: 0;
+}
+.fp-cta-bar strong { color: white; }
+.fp-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    color: #14532d;
+    font-weight: 700;
+    font-size: .9rem;
+    padding: 10px 24px;
+    border-radius: 24px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background .15s, transform .15s;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.fp-cta-btn:hover {
+    background: #dcfce7;
+    color: #14532d;
+    transform: translateY(-1px);
+}
+.fp-cta-btn svg { transition: transform .2s; }
+.fp-cta-btn:hover svg { transform: translateY(3px); }
+
+/* ── Floating sticky button (appears after scrolling past the plan) ── */
+.fp-sticky {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 1050;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #14532d;
+    color: white;
+    font-weight: 700;
+    font-size: .88rem;
+    padding: 12px 22px;
+    border-radius: 28px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0,0,0,.25);
+    text-decoration: none;
+    transition: background .15s, transform .15s, opacity .25s;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+}
+.fp-sticky.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+.fp-sticky:hover {
+    background: #166534;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0,0,0,.3);
+}
 </style>
 
 <div class="fp-tip" id="fpTip"></div>
@@ -288,7 +366,25 @@ $lmw=gx(8,$x0,$cw)-$lmx+$cw; $lmh=gy(21,$y0,$rh)-$lmy+$bh+4;
 </div>
 
 </div>
+
+{{-- ── REGISTER CTA BAR (bottom of card) ── --}}
+<div class="fp-cta-bar">
+    <div>
+        <strong>Ready to register your booth?</strong>
+        <p>Review the floor plan above, then fill in the registration form below.</p>
+    </div>
+    <a href="#registration-form" class="fp-cta-btn" onclick="fpScrollToForm(event)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+        Register Now
+    </a>
 </div>
+</div>
+
+{{-- ── FLOATING STICKY BUTTON ── --}}
+<a href="#registration-form" id="fpStickyBtn" class="fp-sticky" onclick="fpScrollToForm(event)">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+    Register for a Booth
+</a>
 
 <script>
 (function(){
@@ -320,6 +416,42 @@ window.fpS=function(cat){
 function rst(){
     document.querySelectorAll('.fp-booth').forEach(function(b){b.style.opacity='1';});
     document.querySelectorAll('.fp-leg').forEach(function(l){l.classList.remove('on');});
+}
+
+// Smooth scroll to registration form
+window.fpScrollToForm = function(e){
+    e.preventDefault();
+    var el = document.getElementById('registration-form');
+    if(el){ el.scrollIntoView({behavior:'smooth', block:'start'}); }
+};
+
+// Show sticky button after user has scrolled past the floor plan card
+var fpCard = document.querySelector('.fp-wrap');
+var fpBtn  = document.getElementById('fpStickyBtn');
+var regEl  = document.getElementById('registration-form');
+if(fpCard && fpBtn){
+    var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+            if(!entry.isIntersecting){
+                // Only show sticky when floor plan is scrolled out AND form not yet in view
+                var regRect = regEl ? regEl.getBoundingClientRect() : null;
+                var belowViewport = !regRect || regRect.top > window.innerHeight;
+                fpBtn.classList.toggle('visible', belowViewport);
+            } else {
+                fpBtn.classList.remove('visible');
+            }
+        });
+    }, {threshold: 0.1});
+    obs.observe(fpCard);
+}
+// Also hide sticky when registration form scrolls into view
+if(regEl && fpBtn){
+    var regObs = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+            if(entry.isIntersecting){ fpBtn.classList.remove('visible'); }
+        });
+    }, {threshold: 0.2});
+    regObs.observe(regEl);
 }
 })();
 </script>

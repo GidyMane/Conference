@@ -23,7 +23,7 @@
                 @include('main.partials.exhibition-floor-plan')
 
                 <!-- Progress Steps -->
-                <div class="progress-steps mb-5">
+                <div id="registration-form" class="progress-steps mb-5">
                     <div class="step active" data-step="1">
                         <div class="step-circle">
                             <div class="step-number">1</div>
