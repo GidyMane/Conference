@@ -167,12 +167,14 @@ Route::prefix('admin')
 
         // Conference Registrations
         Route::prefix('registrations')->name('registrations.')->group(function () {
+            // Static routes FIRST — must come before /{id} wildcard
+            Route::get('/export/individual', [AdminRegistrationController::class, 'exportRegistrations'])->name('export');
+
             Route::get('/', [AdminRegistrationController::class, 'index'])->name('index');
             Route::get('/{id}', [AdminRegistrationController::class, 'show'])->name('show');
             Route::post('/{id}/approve', [AdminRegistrationController::class, 'approve'])->name('approve');
             Route::post('/{id}/reject', [AdminRegistrationController::class, 'reject'])->name('reject');
             Route::get('/{id}/download/{type}', [AdminRegistrationController::class, 'downloadProof'])->name('downloadProof');
-            Route::get('/export/individual', [AdminRegistrationController::class, 'exportRegistrations'])->name('export');
         });
 
         // Exhibition Registrations
@@ -190,6 +192,9 @@ Route::prefix('admin')
 
                 // Group registrations
         Route::prefix('group-registrations')->name('groupRegistrations.')->group(function () {
+            // Static routes FIRST — must come before /{id} wildcard
+            Route::get('/export', [AdminRegistrationController::class, 'exportGroupRegistrations'])->name('export');
+
             Route::get('/{id}', [AdminRegistrationController::class, 'showGroup'])
                 ->name('show');
 
@@ -201,7 +206,6 @@ Route::prefix('admin')
 
             Route::get('/{id}/download-proof', [AdminRegistrationController::class, 'downloadGroupProof'])
                 ->name('downloadProof');
-            Route::get('/export', [AdminRegistrationController::class, 'exportGroupRegistrations'])->name('export');
         });
 
 });
