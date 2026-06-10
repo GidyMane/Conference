@@ -329,6 +329,8 @@ public function downloadGroupProof($id)
     $fileName = "PAYMENT-{$fullName}-{$ref}.{$extension}";
 
     return Storage::disk('public')->download($group->payment_proof_path, $fileName);
+    }
+
     public function exportRegistrations(Request $request)
     {
         $filters = $request->only(['payment_status', 'platform', 'attendance_type', 'search']);
@@ -342,6 +344,4 @@ public function downloadGroupProof($id)
         $filename = 'group_registrations_' . now()->format('Y-m-d_His') . '.xlsx';
         return Excel::download(new GroupRegistrationsExport($filters), $filename);
     }
-
-}
 }
