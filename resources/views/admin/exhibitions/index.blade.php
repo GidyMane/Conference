@@ -6,11 +6,18 @@
 @section('content')
 
 <div class="page-header mb-4">
-    <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
         <div>
             <h1>Exhibition Registrations</h1>
             <a href="{{ route('admin.dashboard') }}" class="btn btn-sm btn-secondary mt-2">
                 <i class="fas fa-arrow-left me-1"></i> Dashboard
+            </a>
+        </div>
+        {{-- Export button — passes current filters through --}}
+        <div>
+            <a href="{{ route('admin.exhibitions.export', request()->query()) }}"
+               class="btn btn-success">
+                <i class="fas fa-file-excel me-2"></i> Export to Excel (.xlsx)
             </a>
         </div>
     </div>

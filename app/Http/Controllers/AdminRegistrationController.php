@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\ConferenceRegistration;
+use App\Exports\ConferenceRegistrationsExport;
+use App\Exports\GroupRegistrationsExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Mail\RegistrationApprovedMail;
 use App\Mail\RegistrationRejectedMail;
 use App\Mail\GroupMemberApprovedMail;
@@ -326,5 +329,19 @@ public function downloadGroupProof($id)
     $fileName = "PAYMENT-{$fullName}-{$ref}.{$extension}";
 
     return Storage::disk('public')->download($group->payment_proof_path, $fileName);
+    public function exportRegistrations(Request $request)
+    {
+        $filters = $request->only(['payment_status', 'platform', 'attendance_type', 'search']);
+        $filename = 'conference_registrations_' . now()->format('Y-m-d_His') . '.xlsx';
+        return Excel::download(new ConferenceRegistrationsExport($filters), $filename);
+    }
+
+    public function exportGroupRegistrations(Request $request)
+    {
+        $filters = $request->only(['payment_status', 'search']);
+        $filename = 'group_registrations_' . now()->format('Y-m-d_His') . '.xlsx';
+        return Excel::download(new GroupRegistrationsExport($filters), $filename);
+    }
+
 }
 }

@@ -172,6 +172,7 @@ Route::prefix('admin')
             Route::post('/{id}/approve', [AdminRegistrationController::class, 'approve'])->name('approve');
             Route::post('/{id}/reject', [AdminRegistrationController::class, 'reject'])->name('reject');
             Route::get('/{id}/download/{type}', [AdminRegistrationController::class, 'downloadProof'])->name('downloadProof');
+            Route::get('/export/individual', [AdminRegistrationController::class, 'exportRegistrations'])->name('export');
         });
 
         // Exhibition Registrations
@@ -182,6 +183,7 @@ Route::prefix('admin')
             Route::post('/{id}/reject', [ExhibitionRegistrationController::class, 'reject'])->name('reject');
             Route::get('/{id}/download-proof', [ExhibitionRegistrationController::class, 'downloadProof'])->name('downloadProof');
             Route::post('/{id}/resend-email', [ExhibitionRegistrationController::class, 'resendApprovalEmail'])->name('resend-email');
+            Route::get('/export', [ExhibitionRegistrationController::class, 'exportRegistrations'])->name('export');
         });
 
 
@@ -199,6 +201,7 @@ Route::prefix('admin')
 
             Route::get('/{id}/download-proof', [AdminRegistrationController::class, 'downloadGroupProof'])
                 ->name('downloadProof');
+            Route::get('/export', [AdminRegistrationController::class, 'exportGroupRegistrations'])->name('export');
         });
 
 });

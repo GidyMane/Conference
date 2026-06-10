@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Exports\ExhibitionRegistrationsExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
@@ -301,4 +303,13 @@ class ExhibitionRegistrationController extends Controller
             'PAYMENT_PROOF-' . $registration->reference_number
         );
     }
+}
+
+    public function exportRegistrations(Request $request)
+    {
+        $filters = $request->only(['status', 'registration_type', 'search']);
+        $filename = 'exhibition_registrations_' . now()->format('Y-m-d_His') . '.xlsx';
+        return Excel::download(new ExhibitionRegistrationsExport($filters), $filename);
+    }
+
 }
