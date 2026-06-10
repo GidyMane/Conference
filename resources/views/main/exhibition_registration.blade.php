@@ -19,6 +19,9 @@
         <div class="row justify-content-center">
             <div class="col-lg-10">
 
+                {{-- Exhibition Floor Plan --}}
+                @include('main.partials.exhibition-floor-plan')
+
                 <!-- Progress Steps -->
                 <div class="progress-steps mb-5">
                     <div class="step active" data-step="1">
