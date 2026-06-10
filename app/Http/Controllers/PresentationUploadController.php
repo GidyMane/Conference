@@ -30,10 +30,10 @@ class PresentationUploadController extends Controller
         }
 
         $request->validate([
-            'revised_fullpaper' => 'required|mimes:pdf,doc,docx|max:15360',
-            'powerpoint_file'   => 'nullable|mimes:ppt,pptx|max:20480',
-            'poster_file'       => 'nullable|mimes:pdf,jpg,jpeg,png|max:10240',
-            'supporting_docs.*' => 'nullable|mimes:pdf,doc,docx,zip|max:15360'
+            'revised_fullpaper' => 'required|mimes:pdf,doc,docx|max:81920',
+            'powerpoint_file'   => 'nullable|mimes:ppt,pptx|max:81920',
+            'poster_file'       => 'nullable|mimes:pdf,jpg,jpeg,png|max:81920',
+            'supporting_docs.*' => 'nullable|mimes:pdf,doc,docx,zip|max:81920'
         ]);
 
         $uploadedFiles = [];
