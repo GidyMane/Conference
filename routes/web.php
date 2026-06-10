@@ -179,13 +179,15 @@ Route::prefix('admin')
 
         // Exhibition Registrations
         Route::prefix('exhibitions')->name('exhibitions.')->group(function () {
+            // Static routes FIRST — before /{id} wildcard
+            Route::get('/export', [ExhibitionRegistrationController::class, 'exportRegistrations'])->name('export');
+
             Route::get('/', [ExhibitionRegistrationController::class, 'index'])->name('index');
             Route::get('/{id}', [ExhibitionRegistrationController::class, 'show'])->name('show');
             Route::post('/{id}/approve', [ExhibitionRegistrationController::class, 'approve'])->name('approve');
             Route::post('/{id}/reject', [ExhibitionRegistrationController::class, 'reject'])->name('reject');
             Route::get('/{id}/download-proof', [ExhibitionRegistrationController::class, 'downloadProof'])->name('downloadProof');
             Route::post('/{id}/resend-email', [ExhibitionRegistrationController::class, 'resendApprovalEmail'])->name('resend-email');
-            Route::get('/export', [ExhibitionRegistrationController::class, 'exportRegistrations'])->name('export');
         });
 
 
