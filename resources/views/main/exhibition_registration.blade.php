@@ -19,8 +19,21 @@
         <div class="row justify-content-center">
             <div class="col-lg-10">
 
-                {{-- Exhibition Floor Plan --}}
-                @include('main.partials.exhibition-floor-plan')
+                {{-- Floor Plan Teaser Card --}}
+                <div style="background:linear-gradient(135deg,#052e16 0%,#14532d 60%,#166534 100%);border-radius:16px;padding:28px 32px;margin-bottom:32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+                    <div style="color:white;">
+                        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+                            <strong style="font-size:1.1rem;font-weight:700;">View the Exhibition Floor Plan</strong>
+                        </div>
+                        <p style="opacity:.8;margin:0;font-size:.88rem;">See all 50 booth positions, categories and venue layout before registering. Want a specific booth? Email us to reserve it.</p>
+                    </div>
+                    <a href="{{ route('exhibition.floor-plan') }}" target="_blank"
+                       style="display:inline-flex;align-items:center;gap:8px;background:white;color:#14532d;font-weight:700;font-size:.88rem;padding:11px 22px;border-radius:22px;text-decoration:none;white-space:nowrap;transition:all .15s;">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+                        View Full Floor Plan
+                    </a>
+                </div>
 
                 <!-- Progress Steps -->
                 <div id="registration-form" class="progress-steps mb-5">

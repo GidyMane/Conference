@@ -62,6 +62,10 @@ Route::get('/conference/register/partial-days', [ConferenceRegistrationControlle
 Route::post('/conference/register/partial-days', [ConferenceRegistrationController::class, 'storePartial'])
     ->name('conference.register.partial');
 
+Route::get('/exhibition/floor-plan', function() {
+    return view('main.exhibition-floor-plan');
+})->name('exhibition.floor-plan');
+
 Route::get('/exhibition/register', [ExhibitionRegistrationController::class, 'showRegistrationForm'])
     ->name('exhibition.register.form');
 

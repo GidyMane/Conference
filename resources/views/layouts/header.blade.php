@@ -226,6 +226,12 @@
                                 </a>
                             </li>
                             <li>
+                                <a class="dropdown-item {{ Request::is('exhibition/floor-plan') ? 'active' : '' }}"
+                                   href="/exhibition/floor-plan">
+                                   <i class="fas fa-map me-1"></i> Exhibition Floor Plan
+                                </a>
+                            </li>
+                            <li>
                                 <a class="dropdown-item {{ Request::is('exhibition/register') ? 'active' : '' }}"
                                    href="/exhibition/register">
                                    <i class="fas fa-handshake me-1"></i> Become an Exhibitor
