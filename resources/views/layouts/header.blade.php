@@ -218,6 +218,12 @@
                                    <i class="fas fa-tasks me-1"></i> Conference Procedure
                                 </a>
                             </li>
+                            <li>
+                                <a class="dropdown-item {{ Request::is('conference-program') ? 'active' : '' }}"
+                                   href="/conference-program">
+                                   <i class="fas fa-calendar-alt me-1"></i> Conference Program
+                                </a>
+                            </li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <a class="dropdown-item {{ Request::is('conference/register') ? 'active' : '' }}"

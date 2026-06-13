@@ -66,6 +66,10 @@ Route::get('/exhibition/floor-plan', function() {
     return view('main.exhibition-floor-plan');
 })->name('exhibition.floor-plan');
 
+Route::get('/conference-program', function() {
+    return view('main.conference-program');
+})->name('conference.program');
+
 Route::get('/exhibition/register', [ExhibitionRegistrationController::class, 'showRegistrationForm'])
     ->name('exhibition.register.form');
 
