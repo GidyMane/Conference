@@ -232,6 +232,28 @@
     </div>
 </div>
 
+{{-- ── DOWNLOAD BAR ── --}}
+<div style="background:#f0fdf4;border-bottom:1px solid #86efac;padding:14px 0;">
+    <div class="container d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div class="d-flex align-items-center gap-3">
+            {{-- QR Code --}}
+            <img src="{{ asset('program/kalro_program_qr.png') }}"
+                 alt="QR Code for Conference Program"
+                 style="width:70px;height:70px;border-radius:8px;border:2px solid #86efac;background:white;padding:3px;">
+            <div>
+                <div style="font-weight:700;color:#14532d;font-size:.95rem;">Download the Full Program</div>
+                <div style="font-size:.8rem;color:#166534;">PDF version · Scan QR or click to download</div>
+            </div>
+        </div>
+        <a href="{{ asset('program/KALRO_Conference_Program_2026.pdf') }}"
+           download="KALRO_Conference_Program_2026.pdf"
+           style="display:inline-flex;align-items:center;gap:8px;background:#14532d;color:white;font-weight:700;font-size:.88rem;padding:11px 22px;border-radius:22px;text-decoration:none;white-space:nowrap;transition:background .15s;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download PDF
+        </a>
+    </div>
+</div>
+
 {{-- ── DAY TABS ── --}}
 <div class="prog-tabs-bar">
     <div class="container">
