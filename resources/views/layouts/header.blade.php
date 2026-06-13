@@ -39,7 +39,9 @@
             color: #ffffff !important;
             position: relative;
             font-weight: 500;
-            padding: 10px 15px;
+            padding: 8px 9px;
+            font-size: .82rem;
+            white-space: nowrap;
         }
 
         /* Remove bootstrap hover background */
@@ -69,6 +71,21 @@
         /* Active underline */
         .navbar .nav-link.active::after {
             width: 100%;
+        }
+
+        /* Compact CTA buttons */
+        .navbar .btn {
+            font-size: .76rem;
+            padding: 5px 9px;
+            white-space: nowrap;
+        }
+
+        /* Keep navbar on one line */
+        .navbar-collapse {
+            flex-wrap: nowrap !important;
+        }
+        .navbar-nav {
+            flex-wrap: nowrap !important;
         }
 
         /* ================================
@@ -174,14 +191,14 @@
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
+        <div class="container-fluid px-3">
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             
             <div class="collapse navbar-collapse" id="mainNav">
-                <ul class="navbar-nav me-auto">
+                <ul class="navbar-nav me-auto flex-nowrap">
 
                     <!-- Home -->
                     <li class="nav-item">
@@ -289,7 +306,7 @@
                 </ul>
 
                 <!-- Nav CTA Buttons -->
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-1 flex-nowrap align-items-center">
                     <a href="/conference/register" class="btn btn-warning btn-sm fw-bold">
                         <i class="fas fa-user-check me-1"></i> Register Now
                     </a>
@@ -300,10 +317,10 @@
        class="btn btn-sm fw-bold" style="background:var(--gold,#f5a623); color:#1a2b1f; border:none;">
         <i class="fas fa-calendar-plus me-1"></i> Side Event
     </a>
-                    <a href="/exhibition/floor-plan" class="btn btn-outline-light btn-sm">
+                    <a href="/exhibition/floor-plan" class="btn btn-outline-light btn-sm px-2" title="Exhibition Floor Plan">
                         <i class="fas fa-map me-1"></i> Floor Plan
                     </a>
-                    <a href="/exhibition/register" class="btn btn-outline-light btn-sm">
+                    <a href="/exhibition/register" class="btn btn-outline-light btn-sm px-2" title="Become an Exhibitor">
                         <i class="fas fa-store me-1"></i> Exhibitor
                     </a>
                 </div>
