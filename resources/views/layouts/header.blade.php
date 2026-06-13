@@ -215,13 +215,13 @@
                     </li>
 
                     <!-- Program — top-level for visibility -->
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link fw-bold {{ Request::is('conference-program') ? 'active' : '' }}"
                            href="/conference-program"
                            style="{{ Request::is('conference-program') ? '' : 'color:#ffc107!important;' }}">
                             <i class="fas fa-calendar-alt me-1"></i> Program
                         </a>
-                    </li>
+                    </li> -->
 
                     <!-- Conference Dropdown -->
                     <li class="nav-item dropdown">
