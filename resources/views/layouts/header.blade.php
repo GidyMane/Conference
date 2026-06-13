@@ -197,10 +197,19 @@
                         </a>
                     </li>
 
+                    <!-- Program — top-level for visibility -->
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold {{ Request::is('conference-program') ? 'active' : '' }}"
+                           href="/conference-program"
+                           style="{{ Request::is('conference-program') ? '' : 'color:#ffc107!important;' }}">
+                            <i class="fas fa-calendar-alt me-1"></i> Program
+                        </a>
+                    </li>
+
                     <!-- Conference Dropdown -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle 
-                           {{ Request::is('conference*') || Request::is('exhibition*') ? 'active' : '' }}"
+                           {{ Request::is('conference*') || Request::is('exhibition*') || Request::is('conference-program') ? 'active' : '' }}"
                            href="#" role="button" data-bs-toggle="dropdown">
                             <i class="fas fa-bullseye me-1"></i> Conference
                         </a>
@@ -283,6 +292,9 @@
                 <div class="d-flex gap-2">
                     <a href="/conference/register" class="btn btn-warning btn-sm fw-bold">
                         <i class="fas fa-user-check me-1"></i> Register Now
+                    </a>
+                    <a href="/conference-program" class="btn btn-success btn-sm fw-bold">
+                        <i class="fas fa-calendar-alt me-1"></i> Program
                     </a>
                     <a href="https://forms.gle/UsduBgszNWhjQpJS9" target="_blank" rel="noopener noreferrer"
        class="btn btn-sm fw-bold" style="background:var(--gold,#f5a623); color:#1a2b1f; border:none;">
