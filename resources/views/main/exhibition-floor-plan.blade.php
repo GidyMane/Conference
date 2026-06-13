@@ -200,6 +200,20 @@ body { background: #f0f4f0; }
             <span class="fp-hero-badge">🏛 50 Exhibition Booths</span>
             <span class="fp-hero-badge">📍 KALRO Conference Grounds</span>
             <span class="fp-hero-badge">🗺 Hover booths to explore</span>
+            <span class="fp-hero-badge" style="background:rgba(251,191,36,.22);border-color:rgba(251,191,36,.4);color:#fef9c3;">
+                🕑 Setup begins Sunday from 2:00 PM
+            </span>
+        </div>
+    </div>
+</div>
+
+{{-- ── SETUP NOTICE BANNER ── --}}
+<div style="background:#fffbeb;border-bottom:2px solid #fde68a;padding:14px 0;">
+    <div class="container" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <div style="width:36px;height:36px;background:#fef08a;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem;">🕑</div>
+        <div>
+            <strong style="color:#92400e;font-size:.95rem;">Exhibitor Setup Notice</strong>
+            <span style="color:#78350f;font-size:.9rem;margin-left:8px;">Exhibitors can start setting up on <strong>Sunday from 2:00 PM</strong>. Please plan your arrival accordingly.</span>
         </div>
     </div>
 </div>
