@@ -307,9 +307,11 @@
         <table class="prog-table">
             <thead><tr><th>Time</th><th>Activity</th><th>Facilitator</th></tr></thead>
             <tbody>
-                <tr><td class="time-cell">7:30 – 8:30 AM</td><td>Registration</td><td>All</td></tr>
-                <tr><td class="time-cell">8:30 – 9:15 AM</td><td>Introduction of participants and setting the scene / Entertainment</td><td></td></tr>
-                <tr><td class="time-cell">9:15 – 10:00 AM</td><td>Keynote Speech</td><td><strong>DDGL</strong></td></tr>
+                <tr><td class="time-cell">7:30 – 8:15 AM</td><td>Registration</td><td>All</td></tr>
+                <tr><td class="time-cell">8:15 – 9:15 AM</td><td>Introduction of participants and setting the scene / Entertainment</td><td></td></tr>
+                <tr><td class="time-cell">9:15 – 09:45 AM</td><td>Keynote Speech</td><td><strong>Building a ResearchDriven 
+ClimateSmart, Agricultural Food Systems for 
+Kenya </strong></td></tr>
                 <tr class="break-row"><td class="time-cell">10:00 – 10:30 AM</td><td colspan="2">☕ Health Break</td></tr>
                 <tr><td class="time-cell">10:30 AM – 12:00 PM</td><td>Opening Ceremony</td><td><strong>DG</strong></td></tr>
                 <tr><td class="time-cell">12:00 – 1:00 PM</td><td>Photo Session &nbsp;·&nbsp; Tour of the Exhibition &nbsp;·&nbsp; Tree Planting &nbsp;·&nbsp; Signing of Visitors Book &nbsp;·&nbsp; Media Briefs</td><td></td></tr>
