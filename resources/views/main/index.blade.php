@@ -351,6 +351,22 @@
 .btn-warning { background-color: var(--gold); border-color: var(--gold); color: #1a2b1f; }
 .btn-warning:hover { background-color: var(--gold-dark); border-color: var(--gold-dark); }
 
+/* ===== BOOK OF ABSTRACTS SECTION ===== */
+.book-of-abstracts-section {
+    background: #f0faf3;
+    border-top: 4px solid var(--green-main);
+    border-bottom: 1px solid #c8e6c9;
+}
+.book-abstracts-btn {
+    border-radius: 50px;
+    letter-spacing: 0.3px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.book-abstracts-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(46,125,70,0.3) !important;
+}
+
 /* ===== PARTNERS SECTION ===== */
 .partners-section {
     background: #ffffff;
@@ -990,6 +1006,44 @@
             </a>
         </div>
 
+    </div>
+</section>
+
+
+{{-- ================= BOOK OF ABSTRACTS ================= --}}
+<section class="book-of-abstracts-section py-5">
+    <div class="container">
+        <div class="row align-items-center justify-content-center g-4">
+
+            <div class="col-lg-6">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+                         style="width:60px;height:60px;background:var(--green-dark);">
+                        <i class="fas fa-book-open fa-lg text-white"></i>
+                    </div>
+                    <div>
+                        <h2 class="fw-bold mb-0" style="color:var(--green-dark);">Book of Abstracts</h2>
+                        <p class="text-muted mb-0">KALRO Scientific Conference 2026</p>
+                    </div>
+                </div>
+                <p class="text-muted mb-0" style="max-width:520px;">
+                    The official Book of Abstracts for the KALRO 4th Biennial Scientific Conference 2026 is now available.
+                    Browse all submitted research papers, findings, and presentations from this year's conference.
+                </p>
+            </div>
+
+            <div class="col-lg-4 col-md-8 text-center text-lg-end">
+                <a href="/program/Book%20of%20Abstract%202026%20conference%20last%20updt%2013-6.pdf"
+                   download
+                   class="btn btn-success btn-lg px-5 py-3 fw-bold shadow-sm book-abstracts-btn">
+                    <i class="fas fa-download me-2"></i>Download Book of Abstracts
+                </a>
+                <p class="text-muted mt-2 mb-0" style="font-size:0.82rem;">
+                    <i class="fas fa-file-pdf me-1 text-danger"></i>PDF &nbsp;·&nbsp; Updated 13 June 2026
+                </p>
+            </div>
+
+        </div>
     </div>
 </section>
 
