@@ -124,7 +124,7 @@
                         <th>Status</th>
                         <th>Ticket</th>
                         <th>Date</th>
-                        <th width="80">Action</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
 
@@ -185,10 +185,11 @@
                             {{ $registration->created_at->format('M d, Y') }}
                         </td>
 
-                        <td>
+                        <td class="text-nowrap">
                             <a href="{{ route('finance.registrations.show', $registration->id) }}"
-                               class="btn btn-sm btn-outline-primary">
-                                <i class="fas fa-eye"></i>
+                               class="btn btn-sm btn-outline-primary"
+                               title="View / Review">
+                                <i class="fas fa-eye me-1"></i> View
                             </a>
                         </td>
 
@@ -232,7 +233,7 @@
                         <th>Total Fee</th>
                         <th>Status</th>
                         <th>Date</th>
-                        <th width="80">Action</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -262,10 +263,11 @@
                                 @endif
                             </td>
                             <td>{{ $group->created_at->format('M d, Y') }}</td>
-                            <td>
+                            <td class="text-nowrap">
                                 <a href="{{ route('finance.groupRegistrations.show', $group->id) }}"
-                                   class="btn btn-sm btn-outline-primary">
-                                    <i class="fas fa-eye"></i>
+                                   class="btn btn-sm btn-outline-primary"
+                                   title="View / Review">
+                                    <i class="fas fa-eye me-1"></i> View
                                 </a>
                             </td>
                         </tr>
