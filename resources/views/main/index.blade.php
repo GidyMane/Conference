@@ -273,15 +273,58 @@
     border-top: 4px solid var(--green-main);
     border-bottom: 1px solid #c8e6c9;
 }
-.side-event-card {
-    border-radius: 16px;
-    border: 1px solid rgba(46,125,70,0.25);
-    background: #ffffff;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+.side-event-day-badge {
+    background: var(--green-dark);
+    color: #fff;
+    font-size: .85rem;
+    font-weight: 700;
+    padding: .45em .9em;
+    border-radius: 50px;
+    letter-spacing: .3px;
 }
-.side-event-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(46,125,70,0.15);
+.side-event-day-block {
+    background: #fff;
+    border-radius: 14px;
+    border: 1px solid #d4edda;
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 2px 8px rgba(46,125,70,.06);
+}
+.side-event-item {
+    padding: .65rem .85rem;
+    border-radius: 8px;
+    border-left: 3px solid var(--green-main);
+    background: #f8fdf9;
+    transition: background .18s;
+}
+.side-event-item:hover { background: #edf7f0; }
+.side-event-item--tsetse {
+    border-left-color: #e6a817;
+    background: #fffbf0;
+}
+.side-event-item--tsetse:hover { background: #fff6dc; }
+.side-event-time {
+    min-width: 90px;
+    font-size: .8rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    white-space: nowrap;
+    padding-top: 2px;
+}
+.side-event-host {
+    font-size: .8rem;
+    color: #6c757d;
+    margin-top: 2px;
+}
+.side-event-mode {
+    font-size: .72rem;
+    font-weight: 600;
+    color: var(--green-dark);
+    background: var(--green-light);
+    border-radius: 50px;
+    padding: .2em .75em;
+    white-space: nowrap;
+    align-self: flex-start;
+    margin-top: 2px;
 }
 
 /* ===== MID CTA ===== */
@@ -632,103 +675,175 @@
 </section>
 
 
-{{-- ================= HOST A SIDE EVENT ================= --}}
+{{-- ================= SIDE EVENTS PROGRAMME ================= --}}
 <section class="side-event-section py-5">
     <div class="container">
 
         <div class="text-center mb-4">
             <h2 class="fw-bold" style="color:var(--green-dark);">
-                <i class="fas fa-calendar-plus me-2 text-success"></i>Host a Side Event
+                <i class="fas fa-bolt me-2 text-success"></i>Side Events Programme
             </h2>
-            <p class="text-muted mx-auto" style="max-width:680px;">
-                Propose a focused workshop, symposium, or special session alongside the main conference
-                programme. Spaces are limited and allocated on a first-come, first-served basis.
+            <p class="text-muted mx-auto" style="max-width:720px;">
+                Focused workshops, business sessions, and collaborative dialogues running alongside the main
+                conference on <strong>Wednesday 17</strong> and <strong>Thursday 18 June 2026</strong>.
+                Open to all registered delegates.
             </p>
         </div>
 
-        <div class="row g-4 justify-content-center">
+        {{-- Wednesday --}}
+        <div class="side-event-day-block mb-4">
+            <div class="side-event-day-header d-flex align-items-center gap-2 mb-3">
+                <span class="badge side-event-day-badge">Wednesday 17 June</span>
+            </div>
+            <div class="row g-3">
 
-            {{-- What is a Side Event --}}
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 side-event-card shadow-sm border-0 p-1">
-                    <div class="card-body p-4">
-                        <div class="rounded-circle d-flex align-items-center justify-content-center mb-3"
-                             style="width:52px;height:52px;background:var(--green-light);">
-                            <i class="fas fa-lightbulb fa-lg" style="color:var(--green-dark);"></i>
+                <div class="col-12">
+                    <div class="side-event-item d-flex gap-3 align-items-start">
+                        <div class="side-event-time">09:30–14:30</div>
+                        <div class="flex-grow-1">
+                            <div class="fw-semibold">Better Analytics for Reduced Impact of Extreme Weather Events</div>
+                            <div class="side-event-host"><i class="fas fa-building me-1"></i>KALRO / FAO Loss &amp; Damage Project</div>
                         </div>
-                        <h5 class="fw-bold mb-2">What is a Side Event?</h5>
-                        <p class="text-muted mb-0">
-                            A side event is an independently organised session — a workshop, panel discussion,
-                            product launch, or networking event — held at the conference venue during the
-                            15th–19th June 2026 programme.
-                        </p>
+                        <span class="side-event-mode">In Person</span>
                     </div>
                 </div>
-            </div>
 
-            {{-- Who Can Apply --}}
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 side-event-card shadow-sm border-0 p-1">
-                    <div class="card-body p-4">
-                        <div class="rounded-circle d-flex align-items-center justify-content-center mb-3"
-                             style="width:52px;height:52px;background:var(--green-light);">
-                            <i class="fas fa-users fa-lg" style="color:var(--green-dark);"></i>
+                <div class="col-12">
+                    <div class="side-event-item side-event-item--tsetse d-flex gap-3 align-items-start">
+                        <div class="side-event-time">10:00–13:00</div>
+                        <div class="flex-grow-1">
+                            <div class="fw-semibold">Tsetse Repellent Business Session &amp; Official Launch
+                                <span class="badge bg-warning text-dark ms-1" style="font-size:.7rem;">Launch</span>
+                            </div>
+                            <div class="side-event-host"><i class="fas fa-building me-1"></i>KALRO</div>
                         </div>
-                        <h5 class="fw-bold mb-2">Who Can Apply?</h5>
-                        <p class="text-muted mb-0">
-                            Research institutions, NGOs, government agencies, private sector companies,
-                            and development partners are all welcome to propose a side event aligned
-                            with the conference theme.
-                        </p>
+                        <span class="side-event-mode">Hybrid</span>
                     </div>
                 </div>
-            </div>
 
-            {{-- How to Apply --}}
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 side-event-card shadow-sm border-0 p-1">
-                    <div class="card-body p-4">
-                        <div class="rounded-circle d-flex align-items-center justify-content-center mb-3"
-                             style="width:52px;height:52px;background:var(--green-light);">
-                            <i class="fas fa-paper-plane fa-lg" style="color:var(--green-dark);"></i>
+                <div class="col-12">
+                    <div class="side-event-item d-flex gap-3 align-items-start">
+                        <div class="side-event-time">11:00–13:00</div>
+                        <div class="flex-grow-1">
+                            <div class="fw-semibold">AI in Agriculture: Opportunities, Implications &amp; Risks</div>
+                            <div class="side-event-host"><i class="fas fa-building me-1"></i>Strathmore Agri-Food Innovation Center (SAFIC)</div>
                         </div>
-                        <h5 class="fw-bold mb-2">How to Apply</h5>
-                        <p class="text-muted mb-3">
-                            Complete the online proposal form. You will need your organisation details,
-                            proposed event title, preferred date/time slot, expected audience size,
-                            and any supporting documents.
-                        </p>
-                        <a href="https://forms.gle/UsduBgszNWhjQpJS9"
-                           target="_blank" rel="noopener noreferrer"
-                           class="btn btn-success fw-bold w-100">
-                            <i class="fas fa-external-link-alt me-2"></i>Submit Your Proposal
-                        </a>
+                        <span class="side-event-mode">Hybrid</span>
                     </div>
                 </div>
-            </div>
 
+                <div class="col-12">
+                    <div class="side-event-item d-flex gap-3 align-items-start">
+                        <div class="side-event-time">11:00–13:00</div>
+                        <div class="flex-grow-1">
+                            <div class="fw-semibold">Aflasafe Distributorship Business Session</div>
+                            <div class="side-event-host"><i class="fas fa-building me-1"></i>KALRO</div>
+                        </div>
+                        <span class="side-event-mode">In Person</span>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="side-event-item d-flex gap-3 align-items-start">
+                        <div class="side-event-time">13:00–16:00</div>
+                        <div class="flex-grow-1">
+                            <div class="fw-semibold">From Research to Impact: How KALRO &amp; CIMMYT Are Advancing Agricultural Innovation</div>
+                            <div class="side-event-host"><i class="fas fa-building me-1"></i>CIMMYT in Partnership with KALRO</div>
+                        </div>
+                        <span class="side-event-mode">In Person</span>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="side-event-item d-flex gap-3 align-items-start">
+                        <div class="side-event-time">14:00–17:00</div>
+                        <div class="flex-grow-1">
+                            <div class="fw-semibold">Emerging Trends in Food Safety: Challenges, Innovations, Regulation &amp; Policy</div>
+                            <div class="side-event-host"><i class="fas fa-building me-1"></i>KALRO, Egerton University &amp; IITA</div>
+                        </div>
+                        <span class="side-event-mode">Hybrid</span>
+                    </div>
+                </div>
+
+            </div>
         </div>
 
-        {{-- Full-width CTA banner --}}
-        <div class="mt-4 p-4 rounded-3 d-flex flex-wrap align-items-center justify-content-between gap-3"
+        {{-- Thursday --}}
+        <div class="side-event-day-block mb-4">
+            <div class="side-event-day-header d-flex align-items-center gap-2 mb-3">
+                <span class="badge side-event-day-badge">Thursday 18 June</span>
+            </div>
+            <div class="row g-3">
+
+                <div class="col-12">
+                    <div class="side-event-item d-flex gap-3 align-items-start">
+                        <div class="side-event-time">09:00–11:00</div>
+                        <div class="flex-grow-1">
+                            <div class="fw-semibold">Sustainable Livestock in Kenya: Unlocking Economic, Environmental &amp; Social Benefits</div>
+                            <div class="side-event-host"><i class="fas fa-building me-1"></i>International Livestock Research Institute (ILRI)</div>
+                        </div>
+                        <span class="side-event-mode">In Person</span>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="side-event-item d-flex gap-3 align-items-start">
+                        <div class="side-event-time">10:00–12:30</div>
+                        <div class="flex-grow-1">
+                            <div class="fw-semibold">Accelerating Sustainable Production, Market Trade &amp; Consumption</div>
+                            <div class="side-event-host"><i class="fas fa-building me-1"></i>Alliance of Bioversity International &amp; CIAT (Co-hosted with KALRO)</div>
+                        </div>
+                        <span class="side-event-mode">In Person</span>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="side-event-item d-flex gap-3 align-items-start">
+                        <div class="side-event-time">11:00–13:00</div>
+                        <div class="flex-grow-1">
+                            <div class="fw-semibold">Business Session: Cassava Starch Processing — Which Way Forward?</div>
+                            <div class="side-event-host"><i class="fas fa-building me-1"></i>KALRO &amp; Agriculture and Food Authority (AFA)</div>
+                        </div>
+                        <span class="side-event-mode">Hybrid</span>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="side-event-item d-flex gap-3 align-items-start">
+                        <div class="side-event-time">14:00–16:00</div>
+                        <div class="flex-grow-1">
+                            <div class="fw-semibold">Business Session: ECF Vaccine Commercialisation</div>
+                            <div class="side-event-host"><i class="fas fa-building me-1"></i>KALRO – Veterinary Sciences Research Institute (VSRI)</div>
+                        </div>
+                        <span class="side-event-mode">Hybrid</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        {{-- Download + Program link --}}
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 p-4 rounded-3"
              style="background:var(--green-light); border:1px solid #c8e6c9;">
             <div>
                 <h5 class="fw-bold mb-1" style="color:var(--green-dark);">
-                    <i class="fas fa-clock me-2 text-success"></i>Slots are filling up fast
+                    <i class="fas fa-file-pdf me-2 text-danger"></i>Full Side Events Programme
                 </h5>
-                <p class="mb-0 text-muted" style="font-size:0.95rem;">
-                    Side event spaces are limited. Submit your proposal early to secure your preferred date and time.
-                    For questions, email
-                    <a href="mailto:kalroexpo2026@gmail.com" class="fw-semibold text-success">
-                        kalroexpo2026@gmail.com
-                    </a>
+                <p class="mb-0 text-muted" style="font-size:.9rem;">
+                    Download the detailed programme or view it within the conference schedule.
                 </p>
             </div>
-            <a href="https://forms.gle/UsduBgszNWhjQpJS9"
-               target="_blank" rel="noopener noreferrer"
-               class="btn btn-success btn-lg fw-bold flex-shrink-0">
-                <i class="fas fa-external-link-alt me-2"></i>Host a Side Event
-            </a>
+            <div class="d-flex gap-2 flex-wrap">
+                <a href="/program/Program_Side_event.pdf"
+                   download
+                   class="btn btn-success fw-bold">
+                    <i class="fas fa-download me-2"></i>Download Programme
+                </a>
+                <a href="/conference-program#side-events"
+                   class="btn btn-outline-success fw-bold">
+                    <i class="fas fa-calendar-alt me-2"></i>View in Full Programme
+                </a>
+            </div>
         </div>
 
     </div>

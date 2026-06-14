@@ -741,7 +741,7 @@
                     </ul>
                 </td><td>Moderator: Dr. Margaret Makelo</td></tr>
                 <tr><td class="time-cell">9:30 AM – 10:00 AM</td><td><strong>Keynote address: <em>Sustainable ecological innovations for crop-livestock production systems to enhance resilience and low-carbon agriculture.</em></strong><br>Dr. Boaz Waswa – CIAT</td><td></td></tr>
-                <tr><td class="time-cell">10:00 AM – 10:30 AM</td><td>Chief Guest visit to Business session &amp; <strong>Launch of KALRO Commercialization Strategy 2026–2031</strong></td><td></td></tr>
+                <tr><td class="time-cell">10:00 AM – 10:30 AM</td><td>Chief Guest visit to Business session &amp; <strong>Launch of KALRO Commercialization Strategy 2026–2031</strong> — including <a href="#side-events" style="color:var(--green-main);font-weight:600;">Tsetse Repellent Official Launch ↓</a></td><td></td></tr>
                 <tr class="break-row"><td class="time-cell">10:30 AM – 11:00 AM</td><td colspan="2">☕ Health Break</td></tr>
                 <tr><td class="time-cell">11:00 AM</td><td><strong>Session Breakouts</strong></td><td></td></tr>
             </tbody>
@@ -749,18 +749,27 @@
     </div>
 
     {{-- Side Events --}}
-    <div class="side-event-card">
+    <div class="side-event-card" id="side-events">
         <div class="side-event-head">
             <h4>⚡ Side Events — Wednesday 17 June 2026</h4>
         </div>
         <table class="prog-table">
             <thead><tr><th>Time</th><th>Session Title</th><th>Host</th></tr></thead>
             <tbody>
-                <tr><td class="time-cell">09:30–10:00 AM</td><td>Better Analytics for Reduced Impact of Extreme Weather Events</td><td><strong>KALRO/FAO</strong></td></tr>
-                <tr><td class="time-cell">10:00–10:30 AM</td><td>Digital Agriculture for Climate-Smart Farming</td><td><strong>Azuresoft Solutions</strong></td></tr>
+                <tr><td class="time-cell">09:30–14:30</td><td>Better Analytics for Reduced Impact of Extreme Weather Events</td><td><strong>KALRO/FAO</strong></td></tr>
+                <tr style="background:#fffbf0;">
+                    <td class="time-cell">10:00–13:00</td>
+                    <td>
+                        <span class="badge bg-warning text-dark me-1" style="font-size:.7rem;">Launch</span>
+                        Tsetse Repellent Business Session &amp; Official Launch
+                        <br><small class="text-muted">Chief Guest launch of KALRO Tsetse Repellent Technology for humans &amp; animals</small>
+                    </td>
+                    <td><strong>KALRO</strong></td>
+                </tr>
                 <tr><td class="time-cell">11:00–13:00</td><td>AI in Agriculture: Opportunities, Implications and Risks</td><td><strong>SAFIC</strong></td></tr>
+                <tr><td class="time-cell">11:00–13:00</td><td>Aflasafe Distributorship Business Session</td><td><strong>KALRO</strong></td></tr>
                 <tr><td class="time-cell">13:00–16:00</td><td>From Research to Impact: How KALRO &amp; CIMMYT Are Advancing Agricultural Innovation</td><td><strong>CIMMYT</strong></td></tr>
-                <tr><td class="time-cell">14:00–16:00</td><td>Emerging trends in food safety: Challenges, innovations, regulation and policy</td><td><strong>KALRO/Egerton</strong></td></tr>
+                <tr><td class="time-cell">14:00–17:00</td><td>Emerging Trends in Food Safety: Challenges, Innovations, Regulation &amp; Policy</td><td><strong>KALRO / Egerton University / IITA</strong></td></tr>
             </tbody>
         </table>
     </div>
@@ -1007,12 +1016,30 @@
         <table class="prog-table">
             <thead><tr><th>Time</th><th>Session Title</th><th>Host</th></tr></thead>
             <tbody>
-                <tr><td class="time-cell">09:00–11:00 AM</td><td>Sustainable Livestock in Kenya: Unlocking Economic, Environmental &amp; Social Benefits</td><td><strong>ILRI</strong></td></tr>
-                <tr><td class="time-cell">10:00–12:30 PM</td><td>Accelerating Sustainable Production, Market Trade &amp; Consumption</td><td><strong>Alliance Bioversity International &amp; CIAT</strong></td></tr>
-                <tr><td class="time-cell">11:00–15:00</td><td>Nanotechnology Innovations for Climate-Smart Agriculture</td><td><strong>EDDFarming</strong></td></tr>
-                <tr><td class="time-cell">14:00–16:00 PM</td><td>Cassava starch processing</td><td><strong>KALRO/AFA</strong></td></tr>
+                <tr><td class="time-cell">09:00–11:00</td><td>Sustainable Livestock in Kenya: Unlocking Economic, Environmental &amp; Social Benefits</td><td><strong>ILRI</strong></td></tr>
+                <tr><td class="time-cell">10:00–12:30</td><td>Accelerating Sustainable Production, Market Trade &amp; Consumption</td><td><strong>Alliance of Bioversity International &amp; CIAT</strong></td></tr>
+                <tr><td class="time-cell">11:00–13:00</td><td>Business Session: Cassava Starch Processing — Which Way Forward?</td><td><strong>KALRO / AFA</strong></td></tr>
+                <tr><td class="time-cell">14:00–16:00</td><td>Business Session: ECF Vaccine Commercialisation</td><td><strong>KALRO (VSRI)</strong></td></tr>
             </tbody>
         </table>
+    </div>
+
+    {{-- Side Events PDF download --}}
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 p-4 rounded-3 mb-4"
+         style="background:#f0faf3; border:1px solid #c8e6c9; border-left:5px solid #7c3aed;">
+        <div>
+            <h5 class="fw-bold mb-1" style="color:#4c1d95;">
+                <i class="fas fa-file-pdf me-2 text-danger"></i>Side Events Programme
+            </h5>
+            <p class="mb-0 text-muted" style="font-size:.88rem;">
+                Download the full Side Events brochure with detailed session descriptions, objectives, and agendas.
+            </p>
+        </div>
+        <a href="/program/Program_Side_event.pdf"
+           download
+           class="btn btn-success fw-bold flex-shrink-0">
+            <i class="fas fa-download me-2"></i>Download Side Events PDF
+        </a>
     </div>
 
     <h5 style="font-size:1rem;font-weight:700;color:#14532d;margin:28px 0 14px;display:flex;align-items:center;gap:8px;">
