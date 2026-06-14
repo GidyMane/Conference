@@ -327,6 +327,39 @@
     margin-top: 2px;
 }
 
+/* ===== CONFERENCE DOWNLOADS ===== */
+.downloads-section {
+    background: #f4faf5;
+    border-top: 4px solid var(--green-main);
+    border-bottom: 1px solid #c8e6c9;
+}
+.download-card {
+    background: #fff;
+    border-radius: 14px;
+    border: 1px solid #d4edda;
+    box-shadow: 0 2px 10px rgba(46,125,70,.07);
+    display: flex;
+    gap: 1.1rem;
+    padding: 1.4rem 1.5rem;
+    transition: box-shadow .2s, transform .2s;
+}
+.download-card:hover {
+    box-shadow: 0 8px 24px rgba(46,125,70,.13);
+    transform: translateY(-2px);
+}
+.download-card-icon {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    border-radius: 50%;
+    background: var(--green-main);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+.download-card-body { flex: 1; }
+
 /* ===== MID CTA ===== */
 .mid-cta {
     background: #f8fdf9;
@@ -393,22 +426,6 @@
 .btn-success:hover { background-color: var(--green-dark); border-color: var(--green-dark); }
 .btn-warning { background-color: var(--gold); border-color: var(--gold); color: #1a2b1f; }
 .btn-warning:hover { background-color: var(--gold-dark); border-color: var(--gold-dark); }
-
-/* ===== BOOK OF ABSTRACTS SECTION ===== */
-.book-of-abstracts-section {
-    background: #f0faf3;
-    border-top: 4px solid var(--green-main);
-    border-bottom: 1px solid #c8e6c9;
-}
-.book-abstracts-btn {
-    border-radius: 50px;
-    letter-spacing: 0.3px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.book-abstracts-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(46,125,70,0.3) !important;
-}
 
 /* ===== PARTNERS SECTION ===== */
 .partners-section {
@@ -529,22 +546,26 @@
                 </div>
             </div>
 
-            {{-- Slide 4 — Host a Side Event --}}
+            {{-- Slide 4 — Side Events --}}
             <div class="carousel-item">
                 <img src="assets/images/banner2.jpg" class="d-block w-100" alt="Side Events">
                 <div class="carousel-caption">
                     <span class="badge bg-success text-white mb-3">
-                        <i class="fas fa-calendar-plus me-1"></i> Side Events Open
+                        <i class="fas fa-bolt me-1"></i> Side Events — Wed 17 &amp; Thu 18 June
                     </span>
-                    <h2>Host a Side Event</h2>
+                    <h2>10 Focused Sessions Running Alongside the Conference</h2>
                     <p class="hero-caption-lead">
-                        Organise a workshop, symposium, or special session alongside the main conference.
-                        <strong>Submit your proposal now.</strong>
+                        Climate analytics, AI in agriculture, Tsetse launch, livestock, food safety, and more.
+                        <strong>Open to all registered delegates.</strong>
                     </p>
-                    <a href="https://forms.gle/UsduBgszNWhjQpJS9" target="_blank" rel="noopener noreferrer"
-                       class="btn btn-success btn-lg fw-bold mt-1">
-                        <i class="fas fa-external-link-alt me-2"></i>Submit Side Event Proposal
-                    </a>
+                    <div class="d-flex justify-content-center gap-3 flex-wrap mt-1">
+                        <a href="/conference-program#side-events" class="btn btn-success btn-lg fw-bold">
+                            <i class="fas fa-calendar-alt me-2"></i>View Side Events
+                        </a>
+                        <a href="/program/Program_Side_event.pdf" download class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-download me-2"></i>Download Programme
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -664,188 +685,12 @@
                 </a>
             </div>
             <div class="col-lg-3 col-md-6">
-                <a href="https://forms.gle/UsduBgszNWhjQpJS9" target="_blank" rel="noopener noreferrer"
-                   class="participate-item justify-content-center">
-                    <i class="fas fa-calendar-plus"></i>
-                    <span>Host a<br>Side Event</span>
+                <a href="/conference-program#side-events" class="participate-item justify-content-center">
+                    <i class="fas fa-bolt"></i>
+                    <span>Side Events<br>Programme</span>
                 </a>
             </div>
         </div>
-    </div>
-</section>
-
-
-{{-- ================= SIDE EVENTS PROGRAMME ================= --}}
-<section class="side-event-section py-5">
-    <div class="container">
-
-        <div class="text-center mb-4">
-            <h2 class="fw-bold" style="color:var(--green-dark);">
-                <i class="fas fa-bolt me-2 text-success"></i>Side Events Programme
-            </h2>
-            <p class="text-muted mx-auto" style="max-width:720px;">
-                Focused workshops, business sessions, and collaborative dialogues running alongside the main
-                conference on <strong>Wednesday 17</strong> and <strong>Thursday 18 June 2026</strong>.
-                Open to all registered delegates.
-            </p>
-        </div>
-
-        {{-- Wednesday --}}
-        <div class="side-event-day-block mb-4">
-            <div class="side-event-day-header d-flex align-items-center gap-2 mb-3">
-                <span class="badge side-event-day-badge">Wednesday 17 June</span>
-            </div>
-            <div class="row g-3">
-
-                <div class="col-12">
-                    <div class="side-event-item d-flex gap-3 align-items-start">
-                        <div class="side-event-time">09:30–14:30</div>
-                        <div class="flex-grow-1">
-                            <div class="fw-semibold">Better Analytics for Reduced Impact of Extreme Weather Events</div>
-                            <div class="side-event-host"><i class="fas fa-building me-1"></i>KALRO / FAO Loss &amp; Damage Project</div>
-                        </div>
-                        <span class="side-event-mode">In Person</span>
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="side-event-item side-event-item--tsetse d-flex gap-3 align-items-start">
-                        <div class="side-event-time">10:00–13:00</div>
-                        <div class="flex-grow-1">
-                            <div class="fw-semibold">Tsetse Repellent Business Session &amp; Official Launch
-                                <span class="badge bg-warning text-dark ms-1" style="font-size:.7rem;">Launch</span>
-                            </div>
-                            <div class="side-event-host"><i class="fas fa-building me-1"></i>KALRO</div>
-                        </div>
-                        <span class="side-event-mode">Hybrid</span>
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="side-event-item d-flex gap-3 align-items-start">
-                        <div class="side-event-time">11:00–13:00</div>
-                        <div class="flex-grow-1">
-                            <div class="fw-semibold">AI in Agriculture: Opportunities, Implications &amp; Risks</div>
-                            <div class="side-event-host"><i class="fas fa-building me-1"></i>Strathmore Agri-Food Innovation Center (SAFIC)</div>
-                        </div>
-                        <span class="side-event-mode">Hybrid</span>
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="side-event-item d-flex gap-3 align-items-start">
-                        <div class="side-event-time">11:00–13:00</div>
-                        <div class="flex-grow-1">
-                            <div class="fw-semibold">Aflasafe Distributorship Business Session</div>
-                            <div class="side-event-host"><i class="fas fa-building me-1"></i>KALRO</div>
-                        </div>
-                        <span class="side-event-mode">In Person</span>
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="side-event-item d-flex gap-3 align-items-start">
-                        <div class="side-event-time">13:00–16:00</div>
-                        <div class="flex-grow-1">
-                            <div class="fw-semibold">From Research to Impact: How KALRO &amp; CIMMYT Are Advancing Agricultural Innovation</div>
-                            <div class="side-event-host"><i class="fas fa-building me-1"></i>CIMMYT in Partnership with KALRO</div>
-                        </div>
-                        <span class="side-event-mode">In Person</span>
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="side-event-item d-flex gap-3 align-items-start">
-                        <div class="side-event-time">14:00–17:00</div>
-                        <div class="flex-grow-1">
-                            <div class="fw-semibold">Emerging Trends in Food Safety: Challenges, Innovations, Regulation &amp; Policy</div>
-                            <div class="side-event-host"><i class="fas fa-building me-1"></i>KALRO, Egerton University &amp; IITA</div>
-                        </div>
-                        <span class="side-event-mode">Hybrid</span>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        {{-- Thursday --}}
-        <div class="side-event-day-block mb-4">
-            <div class="side-event-day-header d-flex align-items-center gap-2 mb-3">
-                <span class="badge side-event-day-badge">Thursday 18 June</span>
-            </div>
-            <div class="row g-3">
-
-                <div class="col-12">
-                    <div class="side-event-item d-flex gap-3 align-items-start">
-                        <div class="side-event-time">09:00–11:00</div>
-                        <div class="flex-grow-1">
-                            <div class="fw-semibold">Sustainable Livestock in Kenya: Unlocking Economic, Environmental &amp; Social Benefits</div>
-                            <div class="side-event-host"><i class="fas fa-building me-1"></i>International Livestock Research Institute (ILRI)</div>
-                        </div>
-                        <span class="side-event-mode">In Person</span>
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="side-event-item d-flex gap-3 align-items-start">
-                        <div class="side-event-time">10:00–12:30</div>
-                        <div class="flex-grow-1">
-                            <div class="fw-semibold">Accelerating Sustainable Production, Market Trade &amp; Consumption</div>
-                            <div class="side-event-host"><i class="fas fa-building me-1"></i>Alliance of Bioversity International &amp; CIAT (Co-hosted with KALRO)</div>
-                        </div>
-                        <span class="side-event-mode">In Person</span>
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="side-event-item d-flex gap-3 align-items-start">
-                        <div class="side-event-time">11:00–13:00</div>
-                        <div class="flex-grow-1">
-                            <div class="fw-semibold">Business Session: Cassava Starch Processing — Which Way Forward?</div>
-                            <div class="side-event-host"><i class="fas fa-building me-1"></i>KALRO &amp; Agriculture and Food Authority (AFA)</div>
-                        </div>
-                        <span class="side-event-mode">Hybrid</span>
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="side-event-item d-flex gap-3 align-items-start">
-                        <div class="side-event-time">14:00–16:00</div>
-                        <div class="flex-grow-1">
-                            <div class="fw-semibold">Business Session: ECF Vaccine Commercialisation</div>
-                            <div class="side-event-host"><i class="fas fa-building me-1"></i>KALRO – Veterinary Sciences Research Institute (VSRI)</div>
-                        </div>
-                        <span class="side-event-mode">Hybrid</span>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        {{-- Download + Program link --}}
-        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 p-4 rounded-3"
-             style="background:var(--green-light); border:1px solid #c8e6c9;">
-            <div>
-                <h5 class="fw-bold mb-1" style="color:var(--green-dark);">
-                    <i class="fas fa-file-pdf me-2 text-danger"></i>Full Side Events Programme
-                </h5>
-                <p class="mb-0 text-muted" style="font-size:.9rem;">
-                    Download the detailed programme or view it within the conference schedule.
-                </p>
-            </div>
-            <div class="d-flex gap-2 flex-wrap">
-                <a href="/program/Program_Side_event.pdf"
-                   download
-                   class="btn btn-success fw-bold">
-                    <i class="fas fa-download me-2"></i>Download Programme
-                </a>
-                <a href="/conference-program#side-events"
-                   class="btn btn-outline-success fw-bold">
-                    <i class="fas fa-calendar-alt me-2"></i>View in Full Programme
-                </a>
-            </div>
-        </div>
-
     </div>
 </section>
 
@@ -1125,37 +970,64 @@
 </section>
 
 
-{{-- ================= BOOK OF ABSTRACTS ================= --}}
-<section class="book-of-abstracts-section py-5">
+{{-- ================= CONFERENCE DOWNLOADS ================= --}}
+<section class="downloads-section py-5">
     <div class="container">
-        <div class="row align-items-center justify-content-center g-4">
 
-            <div class="col-lg-6">
-                <div class="d-flex align-items-center gap-3 mb-3">
-                    <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
-                         style="width:60px;height:60px;background:var(--green-dark);">
-                        <i class="fas fa-book-open fa-lg text-white"></i>
+        <div class="text-center mb-4">
+            <h2 class="fw-bold mb-1" style="color:var(--green-dark);">
+                <i class="fas fa-download me-2 text-success"></i>Conference Downloads
+            </h2>
+            <p class="text-muted mb-0">Key documents for the KALRO 2nd Scientific Conference &amp; Innovation Expo 2026</p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+
+            {{-- Book of Abstracts --}}
+            <div class="col-lg-5 col-md-6">
+                <div class="download-card h-100">
+                    <div class="download-card-icon">
+                        <i class="fas fa-book-open fa-2x"></i>
                     </div>
-                    <div>
-                        <h2 class="fw-bold mb-0" style="color:var(--green-dark);">Book of Abstracts</h2>
-                        <p class="text-muted mb-0">KALRO Scientific Conference 2026</p>
+                    <div class="download-card-body">
+                        <h5 class="fw-bold mb-1">Book of Abstracts</h5>
+                        <p class="text-muted mb-3" style="font-size:.88rem;">
+                            All submitted research papers, findings, and presentations from the 2026 conference.
+                        </p>
+                        <a href="/program/Book%20of%20Abstract%202026%20conference%20last%20updt%2013-6.pdf"
+                           download
+                           class="btn btn-success fw-bold w-100">
+                            <i class="fas fa-download me-2"></i>Download &nbsp;<span class="opacity-75" style="font-size:.8rem;">PDF · Updated 13 Jun</span>
+                        </a>
                     </div>
                 </div>
-                <p class="text-muted mb-0" style="max-width:520px;">
-                    The official Book of Abstracts for the KALRO 4th Biennial Scientific Conference 2026 is now available.
-                    Browse all submitted research papers, findings, and presentations from this year's conference.
-                </p>
             </div>
 
-            <div class="col-lg-4 col-md-8 text-center text-lg-end">
-                <a href="/program/Book%20of%20Abstract%202026%20conference%20last%20updt%2013-6.pdf"
-                   download
-                   class="btn btn-success btn-lg px-5 py-3 fw-bold shadow-sm book-abstracts-btn">
-                    <i class="fas fa-download me-2"></i>Download Book of Abstracts
-                </a>
-                <p class="text-muted mt-2 mb-0" style="font-size:0.82rem;">
-                    <i class="fas fa-file-pdf me-1 text-danger"></i>PDF &nbsp;·&nbsp; Updated 13 June 2026
-                </p>
+            {{-- Side Events Programme --}}
+            <div class="col-lg-5 col-md-6">
+                <div class="download-card h-100">
+                    <div class="download-card-icon" style="background:var(--green-dark);">
+                        <i class="fas fa-bolt fa-2x"></i>
+                    </div>
+                    <div class="download-card-body">
+                        <h5 class="fw-bold mb-1">Side Events Programme</h5>
+                        <p class="text-muted mb-3" style="font-size:.88rem;">
+                            10 focused sessions on Wed 17 &amp; Thu 18 June — schedules, hosts, and session details.
+                        </p>
+                        <div class="d-flex gap-2">
+                            <a href="/program/Program_Side_event.pdf"
+                               download
+                               class="btn btn-success fw-bold flex-grow-1">
+                                <i class="fas fa-download me-2"></i>Download &nbsp;<span class="opacity-75" style="font-size:.8rem;">PDF</span>
+                            </a>
+                            <a href="/conference-program#side-events"
+                               class="btn btn-outline-success fw-bold"
+                               title="View in Full Programme">
+                                <i class="fas fa-calendar-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
