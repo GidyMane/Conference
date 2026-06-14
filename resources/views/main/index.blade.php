@@ -983,8 +983,35 @@
 
         <div class="row g-4 justify-content-center">
 
+            {{-- Conference Program --}}
+            <div class="col-lg-4 col-md-6">
+                <div class="download-card h-100">
+                    <div class="download-card-icon" style="background:#1e3a5f;">
+                        <i class="fas fa-calendar-alt fa-2x"></i>
+                    </div>
+                    <div class="download-card-body">
+                        <h5 class="fw-bold mb-1">Conference Program</h5>
+                        <p class="text-muted mb-3" style="font-size:.88rem;">
+                            Full 5-day schedule — keynotes, parallel sessions, and all programme details.
+                        </p>
+                        <div class="d-flex gap-2">
+                            <a href="/program/KALRO_Conference_Program_2026.pdf"
+                               download="KALRO_Conference_Program_2026.pdf"
+                               class="btn btn-success fw-bold flex-grow-1">
+                                <i class="fas fa-download me-2"></i>Download &nbsp;<span class="opacity-75" style="font-size:.8rem;">PDF</span>
+                            </a>
+                            <a href="/conference-program"
+                               class="btn btn-outline-success fw-bold"
+                               title="View online">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             {{-- Book of Abstracts --}}
-            <div class="col-lg-5 col-md-6">
+            <div class="col-lg-4 col-md-6">
                 <div class="download-card h-100">
                     <div class="download-card-icon">
                         <i class="fas fa-book-open fa-2x"></i>
@@ -994,7 +1021,7 @@
                         <p class="text-muted mb-3" style="font-size:.88rem;">
                             All submitted research papers, findings, and presentations from the 2026 conference.
                         </p>
-                        <a href="/program/Book%20of%20Abstract%202026%20conference.pdf"
+                       <a href="/program/Book%20of%20Abstract%202026%20conference.pdf"
    download
    class="btn btn-success fw-bold w-100">
     <i class="fas fa-download me-2"></i>Download &nbsp;<span class="opacity-75" style="font-size:.8rem;">PDF · Updated 13 Jun</span>
@@ -1004,9 +1031,9 @@
             </div>
 
             {{-- Side Events Programme --}}
-            <div class="col-lg-5 col-md-6">
+            <div class="col-lg-4 col-md-6">
                 <div class="download-card h-100">
-                    <div class="download-card-icon" style="background:var(--green-dark);">
+                    <div class="download-card-icon" style="background:#5b21b6;">
                         <i class="fas fa-bolt fa-2x"></i>
                     </div>
                     <div class="download-card-body">
