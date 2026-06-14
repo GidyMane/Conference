@@ -994,11 +994,11 @@
                         <p class="text-muted mb-3" style="font-size:.88rem;">
                             All submitted research papers, findings, and presentations from the 2026 conference.
                         </p>
-                        <a href="/program/Book%20of%20Abstract%202026%20conference%20last%20updt%2013-6.pdf"
-                           download
-                           class="btn btn-success fw-bold w-100">
-                            <i class="fas fa-download me-2"></i>Download &nbsp;<span class="opacity-75" style="font-size:.8rem;">PDF · Updated 13 Jun</span>
-                        </a>
+                        <a href="/program/Book%20of%20Abstract%202026%20conference.pdf"
+   download
+   class="btn btn-success fw-bold w-100">
+    <i class="fas fa-download me-2"></i>Download &nbsp;<span class="opacity-75" style="font-size:.8rem;">PDF · Updated 13 Jun</span>
+</a>
                     </div>
                 </div>
             </div>

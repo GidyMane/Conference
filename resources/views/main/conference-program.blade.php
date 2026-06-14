@@ -241,16 +241,30 @@
                  alt="QR Code for Conference Program"
                  style="width:70px;height:70px;border-radius:8px;border:2px solid #86efac;background:white;padding:3px;">
             <div>
-                <div style="font-weight:700;color:#14532d;font-size:.95rem;">Download the Full Program</div>
-                <div style="font-size:.8rem;color:#166534;">PDF version · Scan QR or click to download</div>
+                <div style="font-weight:700;color:#14532d;font-size:.95rem;">Conference Documents</div>
+                <div style="font-size:.8rem;color:#166534;">Scan QR for the full program · or download below</div>
             </div>
         </div>
-        <a href="{{ asset('program/KALRO_Conference_Program_2026.pdf') }}"
-           download="KALRO_Conference_Program_2026.pdf"
-           style="display:inline-flex;align-items:center;gap:8px;background:#14532d;color:white;font-weight:700;font-size:.88rem;padding:11px 22px;border-radius:22px;text-decoration:none;white-space:nowrap;transition:background .15s;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download PDF
-        </a>
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+            <a href="{{ asset('program/KALRO_Conference_Program_2026.pdf') }}"
+               download="KALRO_Conference_Program_2026.pdf"
+               style="display:inline-flex;align-items:center;gap:7px;background:#14532d;color:white;font-weight:700;font-size:.82rem;padding:9px 18px;border-radius:22px;text-decoration:none;white-space:nowrap;transition:background .15s;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Conference Program
+            </a>
+            <a href="{{ asset('program/Book of Abstract 2026 conference.pdf') }}"
+               download="Book_of_Abstracts_2026.pdf"
+               style="display:inline-flex;align-items:center;gap:7px;background:#14532d;color:white;font-weight:700;font-size:.82rem;padding:9px 18px;border-radius:22px;text-decoration:none;white-space:nowrap;transition:background .15s;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Book of Abstracts
+            </a>
+            <a href="{{ asset('program/Program_Side_event.pdf') }}"
+               download="Program_Side_event.pdf"
+               style="display:inline-flex;align-items:center;gap:7px;background:#5b21b6;color:white;font-weight:700;font-size:.82rem;padding:9px 18px;border-radius:22px;text-decoration:none;white-space:nowrap;transition:background .15s;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Side Events
+            </a>
+        </div>
     </div>
 </div>
 
@@ -750,8 +764,15 @@
 
     {{-- Side Events --}}
     <div class="side-event-card" id="side-events">
-        <div class="side-event-head">
-            <h4>⚡ Side Events — Wednesday 17 June 2026</h4>
+        <div class="side-event-head" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+            <h4 style="margin:0;">⚡ Side Events — Wednesday 17 June 2026</h4>
+            <a href="{{ asset('program/Program_Side_event.pdf') }}"
+               download="Program_Side_event.pdf"
+               style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.4);color:white;font-size:.78rem;font-weight:700;padding:6px 14px;border-radius:20px;text-decoration:none;white-space:nowrap;transition:background .15s;"
+               onmouseover="this.style.background='rgba(255,255,255,0.28)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download Side Events PDF
+            </a>
         </div>
         <table class="prog-table">
             <thead><tr><th>Time</th><th>Session Title</th><th>Host</th></tr></thead>
@@ -1010,8 +1031,15 @@
     </div>
 
     <div class="side-event-card">
-        <div class="side-event-head">
-            <h4>⚡ Side Events — Thursday 18 June 2026</h4>
+        <div class="side-event-head" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+            <h4 style="margin:0;">⚡ Side Events — Thursday 18 June 2026</h4>
+            <a href="{{ asset('program/Program_Side_event.pdf') }}"
+               download="Program_Side_event.pdf"
+               style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.4);color:white;font-size:.78rem;font-weight:700;padding:6px 14px;border-radius:20px;text-decoration:none;white-space:nowrap;transition:background .15s;"
+               onmouseover="this.style.background='rgba(255,255,255,0.28)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download Side Events PDF
+            </a>
         </div>
         <table class="prog-table">
             <thead><tr><th>Time</th><th>Session Title</th><th>Host</th></tr></thead>
@@ -1022,24 +1050,6 @@
                 <tr><td class="time-cell">14:00–16:00</td><td>Business Session: ECF Vaccine Commercialisation</td><td><strong>KALRO (VSRI)</strong></td></tr>
             </tbody>
         </table>
-    </div>
-
-    {{-- Side Events PDF download --}}
-    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 p-4 rounded-3 mb-4"
-         style="background:#f0faf3; border:1px solid #c8e6c9; border-left:5px solid #7c3aed;">
-        <div>
-            <h5 class="fw-bold mb-1" style="color:#4c1d95;">
-                <i class="fas fa-file-pdf me-2 text-danger"></i>Side Events Programme
-            </h5>
-            <p class="mb-0 text-muted" style="font-size:.88rem;">
-                Download the full Side Events brochure with detailed session descriptions, objectives, and agendas.
-            </p>
-        </div>
-        <a href="/program/Program_Side_event.pdf"
-           download
-           class="btn btn-success fw-bold flex-shrink-0">
-            <i class="fas fa-download me-2"></i>Download Side Events PDF
-        </a>
     </div>
 
     <h5 style="font-size:1rem;font-weight:700;color:#14532d;margin:28px 0 14px;display:flex;align-items:center;gap:8px;">
