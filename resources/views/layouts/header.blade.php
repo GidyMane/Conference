@@ -313,10 +313,10 @@
                     <a href="/conference-program" class="btn btn-success btn-sm fw-bold">
                         <i class="fas fa-calendar-alt me-1"></i> Program
                     </a>
-                    <a href="https://forms.gle/UsduBgszNWhjQpJS9" target="_blank" rel="noopener noreferrer"
-       class="btn btn-sm fw-bold" style="background:var(--gold,#f5a623); color:#1a2b1f; border:none;">
-        <i class="fas fa-calendar-plus me-1"></i> Side Event
-    </a>
+                    <a href="/side-events"
+                       class="btn btn-sm fw-bold" style="background:var(--gold,#f5a623); color:#1a2b1f; border:none;">
+                        <i class="fas fa-bolt me-1"></i> Side Events
+                    </a>
                     <a href="/exhibition/floor-plan" class="btn btn-outline-light btn-sm px-2" title="Exhibition Floor Plan">
                         <i class="fas fa-map me-1"></i> Floor Plan
                     </a>

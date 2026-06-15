@@ -472,6 +472,10 @@ Route::prefix('finance')
     });
 
 
+Route::get('/side-events', function () {
+    return view('main.side-events');
+})->name('side-events');
+
 Route::get('/side-event/register', function () {
     return view('side-event-register');
 })->name('side-event.register.form');
