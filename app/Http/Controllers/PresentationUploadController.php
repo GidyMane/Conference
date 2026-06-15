@@ -7,7 +7,7 @@ use App\Models\FullPaper;
 use App\Models\PresentationUpload;
 use ZipArchive;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Subtheme;
+use App\Models\SubTheme;
 
 class PresentationUploadController extends Controller
 {
@@ -313,7 +313,7 @@ public function downloadAll(Request $request)
 {
     // ── 1. Validate input ────────────────────────────────────────────────────
     $request->validate([
-        'subtheme' => 'nullable|integer|exists:subthemes,id',
+        'subtheme' => 'nullable|integer|exists:sub_themes,id',
         'types'    => 'nullable|array',
         'types.*'  => 'in:revised,powerpoint,poster,supporting',
     ]);
@@ -327,7 +327,9 @@ public function downloadAll(Request $request)
         ->whereHas('presentationUpload');
 
     if ($subthemeId) {
-        $query->whereHas('abstract', fn ($q) => $q->where('subtheme_id', $subthemeId));
+        $query->whereHas('abstract', function ($q) use ($subthemeId) {
+            $q->where('sub_theme_id', $subthemeId);
+        });
     }
 
     $papers = $query->get();
@@ -397,7 +399,7 @@ public function downloadAll(Request $request)
     $zip->close();
 
     // ── 4. Stream & delete ───────────────────────────────────────────────────
-    $label     = $subthemeId ? Subtheme::find($subthemeId)?->full_name : 'All_Subthemes';
+    $label     = $subthemeId ? SubTheme::find($subthemeId)?->full_name : 'All_Subthemes';
     $safeLabel = preg_replace('/[^A-Za-z0-9\-_]/', '_', $label ?? 'All_Subthemes');
     $filename  = "Presentations_{$safeLabel}_" . now()->format('Ymd_His') . '.zip';
 
@@ -409,13 +411,15 @@ public function downloadAll(Request $request)
 
 public function downloadCount(Request $request): \Illuminate\Http\JsonResponse
 {
-    $request->validate(['subtheme' => 'nullable|integer|exists:subthemes,id']);
+    $request->validate(['subtheme' => 'nullable|integer|exists:sub_themes,id']);
 
     $query = FullPaper::where('status', 'APPROVED')
         ->whereHas('presentationUpload');
 
     if ($subthemeId = $request->integer('subtheme')) {
-        $query->whereHas('abstract', fn ($q) => $q->where('subtheme_id', $subthemeId));
+        $query->whereHas('abstract', function ($q) use ($subthemeId) {
+            $q->where('sub_theme_id', $subthemeId);
+        });
     }
 
     return response()->json(['count' => $query->count()]);
