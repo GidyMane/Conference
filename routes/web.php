@@ -488,3 +488,14 @@ Route::post(
     '/admin/fullpapers/{id}/reset-final-decision',
     [FullPaperReviewController::class, 'resetFinalDecision']
 )->name('admin.fullpapers.resetDecision');
+
+
+Route::get(
+    'admin/fullpapers/download-materials',
+    [PresentationUploadController::class, 'downloadAll']
+)->name('admin.fullpapers.download-materials');
+
+Route::get(
+    'admin/fullpapers/download-materials/count',
+    [PresentationUploadController::class, 'downloadCount']
+)->name('admin.fullpapers.download-materials.count');

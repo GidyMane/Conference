@@ -384,6 +384,90 @@
         padding: 6px 15px;
         font-weight: 700;
     }
+
+    .download-panel {
+    background: white;
+    border-radius: 12px;
+    padding: 18px 22px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    margin-bottom: 22px;
+    border-left: 4px solid #2d8a3e;
+}
+.download-panel-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: #1e293b;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.download-panel-body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: flex-end;
+}
+.download-panel .form-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: #64748b;
+    margin-bottom: 5px;
+}
+.download-panel .form-select,
+.download-panel .form-check-label {
+    font-size: 13px;
+}
+.download-panel .types-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.download-panel .form-check {
+    margin: 0;
+}
+.btn-download-zip {
+    background: linear-gradient(135deg, #1e5a96 0%, #2563eb 100%);
+    color: white;
+    border: none;
+    padding: 9px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+    transition: opacity .2s, transform .15s;
+    white-space: nowrap;
+    text-decoration: none;
+}
+.btn-download-zip:hover {
+    opacity: .88;
+    transform: translateY(-1px);
+    color: white;
+}
+.btn-download-zip:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+    transform: none;
+}
+.download-count-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 700;
+}
 </style>
 @endsection
 
@@ -393,6 +477,7 @@
 <div class="page-hero">
     <h2><i class="fas fa-clipboard-list me-2"></i>Fully Reviewed Papers</h2>
     <p>Papers that have completed all reviews and are ready for a final decision.</p>
+
 </div>
 
 {{-- Stats — from $stats array passed by controller, not computed from $papers collection --}}
@@ -452,6 +537,81 @@
             <p>Presentations (PPT/Poster)</p>
         </div>
     </div>
+</div>
+
+<div class="download-panel">
+    <div class="download-panel-title">
+        <i class="fas fa-download text-success"></i>
+        Bulk Download Presentation Materials
+    </div>
+
+    <form method="GET"
+          action="{{ route('admin.fullpapers.download-materials') }}"
+          id="downloadForm"
+          class="download-panel-body">
+
+        {{-- Subtheme selector ------------------------------------------------}}
+        <div>
+            <div class="form-label">Filter by Sub-Theme</div>
+            <select name="subtheme" class="form-select" style="width:220px" id="dlSubtheme">
+                <option value="">All Sub-Themes</option>
+                @foreach($subthemes as $subtheme)
+                    <option value="{{ $subtheme->id }}">{{ $subtheme->full_name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        {{-- File type checkboxes --------------------------------------------}}
+        <div>
+            <div class="form-label">Include File Types</div>
+            <div class="types-group">
+                <div class="form-check">
+                    <input class="form-check-input dl-type" type="checkbox"
+                           name="types[]" value="revised" id="dlRevised" checked>
+                    <label class="form-check-label" for="dlRevised">
+                        <i class="fas fa-file-alt text-success me-1"></i> Revised Paper
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input dl-type" type="checkbox"
+                           name="types[]" value="powerpoint" id="dlPPT" checked>
+                    <label class="form-check-label" for="dlPPT">
+                        <i class="fas fa-file-powerpoint text-warning me-1"></i> PowerPoint
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input dl-type" type="checkbox"
+                           name="types[]" value="poster" id="dlPoster" checked>
+                    <label class="form-check-label" for="dlPoster">
+                        <i class="fas fa-image text-primary me-1"></i> Poster
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input dl-type" type="checkbox"
+                           name="types[]" value="supporting" id="dlSupporting" checked>
+                    <label class="form-check-label" for="dlSupporting">
+                        <i class="fas fa-paperclip text-secondary me-1"></i> Supporting Docs
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        {{-- Live count badge ------------------------------------------------}}
+        <div class="align-self-end">
+            <span class="download-count-badge" id="dlCountBadge">
+                <i class="fas fa-boxes"></i>
+                <span id="dlCount">{{ $stats['with_materials'] }}</span> packages available
+            </span>
+        </div>
+
+        {{-- Download button -------------------------------------------------}}
+        <div class="align-self-end ms-auto">
+            <button type="submit" class="btn-download-zip" id="dlBtn">
+                <i class="fas fa-file-zipper"></i>
+                Download ZIP
+            </button>
+        </div>
+    </form>
 </div>
 
 {{-- Filter Bar — server-side GET form so search works across all pages --}}
@@ -713,6 +873,52 @@
             debounceTimer = setTimeout(function () {
                 filterForm.submit();
             }, 500);
+        });
+    }
+})();
+</script>
+
+<script>
+(function () {
+    // ── Live subtheme count via AJAX ──────────────────────────────────────
+    // This calls a lightweight JSON endpoint to update the badge count when
+    // the subtheme dropdown changes.  See STEP 4 for the optional endpoint.
+    // If you skip STEP 4, the badge simply shows the global total at all times.
+
+    const dlSubtheme = document.getElementById('dlSubtheme');
+    const dlCount    = document.getElementById('dlCount');
+    const dlBtn      = document.getElementById('dlBtn');
+    const dlTypes    = document.querySelectorAll('.dl-type');
+
+    // Prevent submission when no type is checked
+    document.getElementById('downloadForm').addEventListener('submit', function (e) {
+        const anyChecked = [...dlTypes].some(cb => cb.checked);
+        if (!anyChecked) {
+            e.preventDefault();
+            alert('Please select at least one file type to download.');
+        }
+    });
+
+    // Optional: update count badge when subtheme changes
+    if (dlSubtheme) {
+        dlSubtheme.addEventListener('change', function () {
+            const subthemeId = this.value;
+
+            // Show loading state
+            dlCount.textContent = '…';
+            dlBtn.disabled = true;
+
+            fetch(`{{ route('admin.fullpapers.download-materials.count') }}?subtheme=${subthemeId}`)
+                .then(r => r.json())
+                .then(data => {
+                    dlCount.textContent = data.count ?? '?';
+                    dlBtn.disabled = (data.count === 0);
+                })
+                .catch(() => {
+                    // If endpoint doesn't exist yet, just restore
+                    dlCount.textContent = '?';
+                    dlBtn.disabled = false;
+                });
         });
     }
 })();
