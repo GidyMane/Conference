@@ -498,7 +498,7 @@
                     </ul>
                 </td><td>Moderator: Dr. David Golicha</td></tr>
                 <tr><td class="time-cell">9:30 AM – 10:00 AM</td><td><strong>Keynote Presentation: <em>Transforming Crop-based value chains through practical application of technologies, innovations and management practices</em></strong><br>Prof. Richard Mulwa, Egerton University</td><td></td></tr>
-                <tr><td class="time-cell">10:00 AM – 10:30 AM</td><td><strong>Launch of KALRO Commercialization Strategy 2026–2031</strong></td><td></td></tr>
+                <tr><td class="time-cell">10:00 AM – 10:30 AM</td><td><strong>Chief guests launches KALRO Commercialization Strategy 2026–2031</strong></td><td></td></tr>
                 <tr class="break-row"><td class="time-cell">10:30 AM – 11:00 AM</td><td colspan="2">☕ Health Break</td></tr>
             </tbody>
         </table>
