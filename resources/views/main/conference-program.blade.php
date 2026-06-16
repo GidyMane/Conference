@@ -516,7 +516,7 @@
                 <div>
                     <span class="room-tag">Conference Hall</span><br>
                     <span class="subtheme-tag mt-1">Agribusiness, Financing, Policy, Adoption &amp; Socio-Economic Dimensions</span><br>
-                    <span class="chair-info mt-1">Chair: <strong>Dr. Martins Odendo</strong> &nbsp;·&nbsp; Rapporteurs: Tabby Karanja-Lumumba &amp; Judith Mutheu Mboya</span>
+                    <span class="chair-info mt-1">Chair: <strong>Dr. Martins Odendo</strong> &nbsp;·&nbsp; Rapporteurs: Tabby Karanja-Lumumba &amp; Lucy Muthoni</span>
                 </div>
             </div>
             <table class="prog-table"><tbody>
@@ -559,7 +559,7 @@
                 <div>
                     <span class="room-tag">Big Seminar Room</span><br>
                     <span class="subtheme-tag mt-1">Food Safety, Value Addition &amp; Cottage Industries</span><br>
-                    <span class="chair-info mt-1">Chair: <strong>Dr. Samson Kamunya</strong> &nbsp;·&nbsp; Rapporteurs: Titus Ngetich &amp; Judith Mutheu Mboya</span>
+                    <span class="chair-info mt-1">Chair: <strong>Dr. Samson Kamunya</strong> &nbsp;·&nbsp; Rapporteurs: Titus Ngetich &amp; Lilian Ondabu</span>
                 </div>
             </div>
             <table class="prog-table"><tbody>
@@ -614,7 +614,7 @@
                 <div>
                     <span class="room-tag">Conference Hall</span><br>
                     <span class="subtheme-tag mt-1">Agribusiness, Financing, Policy, Adoption &amp; Socio-Economic Dimensions</span><br>
-                    <span class="chair-info mt-1">Chair: <strong>Dr. Stella Makokha</strong> &nbsp;·&nbsp; Rapporteurs: Judith Mboya &amp; Peterson Mwangi</span>
+                    <span class="chair-info mt-1">Chair: <strong>Dr. Stella Makokha</strong> &nbsp;·&nbsp; Rapporteurs: Lucy Muthoni &amp; Peterson Mwangi</span>
                 </div>
             </div>
             <table class="prog-table"><tbody>
@@ -826,7 +826,7 @@
                 <div class="parallel-num">2</div>
                 <div><span class="room-tag">Main Board Room</span><br>
                 <span class="subtheme-tag mt-1">Animal Health, Sanitary Systems &amp; Emerging Livestock Pests (11:00–12:15) → Mechanization in Agricultural Systems (12:15–1:00)</span><br>
-                <span class="chair-info mt-1">Chair: <strong>Dr. Joseph Nginyi</strong> / <strong>Wycliffe Kiprono Lang'at</strong> &nbsp;·&nbsp; Rapporteurs: Judith Mboya &amp; Joyce Addah / Gladys Chelangat &amp; Tuila Esese</span></div>
+                <span class="chair-info mt-1">Chair: <strong>Dr. Joseph Nginyi</strong> / <strong>Wycliffe Kiprono Lang'at</strong> &nbsp;·&nbsp; Rapporteurs: Lucy Muthoni &amp; Joyce Addah / Gladys Chelangat &amp; Tuila Esese</span></div>
             </div>
             <table class="prog-table"><tbody>
                 <tr><td class="time-cell">11:00–11:15 AM</td><td>Antibacterial Potential of <em>Eucalyptus globulus</em> Leaf Extracts Against Multidrug-Resistant Clinical Isolates: A Natural Alternative for AMR Management <br><span class="code-cell">KALROCONF_SUB11_019</span> &nbsp; Elsy Kendi</td></tr>
@@ -847,7 +847,7 @@
                 <div class="parallel-num">3</div>
                 <div><span class="room-tag">Big Seminar Room</span><br>
                 <span class="subtheme-tag mt-1">Livestock Breeds, Breeding Practices &amp; Emerging Livestock Species</span><br>
-                <span class="chair-info mt-1">Chair: <strong>Dr. Ruth Waineina</strong> &nbsp;·&nbsp; Rapporteurs: Gladys Cheruto &amp; Berrick Otieno</span></div>
+                <span class="chair-info mt-1">Chair: <strong>Dr. Ruth Waineina</strong> &nbsp;·&nbsp; Rapporteurs: Gladys Cheruto &amp; Lucy Muthoni</span></div>
             </div>
             <table class="prog-table"><tbody>
                 <tr><td class="time-cell">11:00–11:15 AM</td><td>Development and Application of a Bio-Economic Dairy Farm Simulation Model to Support Policy Analysis in Kenya <br><span class="code-cell">KALROCONF_SUB10_001</span> &nbsp; Samson Mwangi</td></tr>
@@ -897,7 +897,7 @@
                 <div class="parallel-num">1</div>
                 <div><span class="room-tag">Conference Hall</span><br>
                 <span class="subtheme-tag mt-1">Agribusiness, Financing, Policy, Adoption &amp; Socio-Economic Dimensions</span><br>
-                <span class="chair-info mt-1">Chair: <strong>Dr. Jessica Ndubi</strong> &nbsp;·&nbsp; Rapporteurs: Judith Mutheu Mboya &amp; Tabby Karanja-Lumumba</span></div>
+                <span class="chair-info mt-1">Chair: <strong>Dr. Jessica Ndubi</strong> &nbsp;·&nbsp; Rapporteurs: Lucy Muthoni &amp; Tabby Karanja-Lumumba</span></div>
             </div>
             <table class="prog-table"><tbody>
                 <tr><td class="time-cell">2:00–2:15 PM</td><td>Farm-Level Technical Efficiency in Smallholder Tomato Production in Kenya <br><span class="code-cell">KALROCONF_SUB17_046</span> &nbsp; Michael M Mwati</td></tr>
@@ -943,7 +943,7 @@
                 <div class="parallel-num">3</div>
                 <div><span class="room-tag">Big Seminar Room</span><br>
                 <span class="subtheme-tag mt-1">Crop Varieties, Increased Productivity &amp; Production Management</span><br>
-                <span class="chair-info mt-1">Chair: <strong>Dr. Samson Kamunya</strong> &nbsp;·&nbsp; Rapporteurs: Berrick Otieno &amp; Esther Kimani</span></div>
+                <span class="chair-info mt-1">Chair: <strong>Dr. Samson Kamunya</strong> &nbsp;·&nbsp; Rapporteurs: Lucy Muthoni &amp; Esther Kimani</span></div>
             </div>
             <table class="prog-table"><tbody>
                 <tr><td class="time-cell">2:00–2:15 PM</td><td>Optimising Cropping Systems for Enhanced Productivity in Smallholder Farming Systems <br><span class="code-cell">KALROCONF_SUB1_093</span> &nbsp; Siyabusa Mkuhlani</td></tr>
