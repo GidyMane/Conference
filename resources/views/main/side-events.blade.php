@@ -42,7 +42,13 @@
                    download="Program_Side_event.pdf"
                    class="se-btn-outline">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                    Download Programme PDF
+                    Programme PDF
+                </a>
+                <a href="{{ asset('program/Side%20Event%20booklet%20compilation%20.pdf') }}"
+                   download="Side_Event_Booklet_Compilation.pdf"
+                   class="se-btn-outline">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Booklet PDF
                 </a>
                 <a href="https://forms.gle/UsduBgszNWhjQpJS9"
                    target="_blank" rel="noopener noreferrer"
@@ -644,7 +650,13 @@
                        download="Program_Side_event.pdf"
                        class="se-cta-btn-outline">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                        Download Programme PDF
+                        Programme PDF
+                    </a>
+                    <a href="{{ asset('program/Side%20Event%20booklet%20compilation%20.pdf') }}"
+                       download="Side_Event_Booklet_Compilation.pdf"
+                       class="se-cta-btn-outline">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Booklet PDF
                     </a>
                 </div>
             </div>

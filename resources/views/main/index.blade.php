@@ -1021,11 +1021,11 @@
                         <p class="text-muted mb-3" style="font-size:.88rem;">
                             All submitted research papers, findings, and presentations from the 2026 conference.
                         </p>
-                       <a href="/program/Book%20of%20Abstract%202026%20conference.pdf"
-   download
-   class="btn btn-success fw-bold w-100">
-    <i class="fas fa-download me-2"></i>Download &nbsp;<span class="opacity-75" style="font-size:.8rem;">PDF · Updated 13 Jun</span>
-</a>
+                        <a href="/program/Book%20of%20Abstract%202026%20conference%20last%20updt%2013-6.pdf"
+                           download
+                           class="btn btn-success fw-bold w-100">
+                            <i class="fas fa-download me-2"></i>Download &nbsp;<span class="opacity-75" style="font-size:.8rem;">PDF · Updated 13 Jun</span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -1041,11 +1041,16 @@
                         <p class="text-muted mb-3" style="font-size:.88rem;">
                             10 focused sessions on Wed 17 &amp; Thu 18 June — schedules, hosts, and session details.
                         </p>
-                        <div class="d-flex gap-2">
+                        <div class="d-flex gap-2 flex-wrap">
                             <a href="/program/Program_Side_event.pdf"
                                download
                                class="btn btn-success fw-bold flex-grow-1">
-                                <i class="fas fa-download me-2"></i>Download &nbsp;<span class="opacity-75" style="font-size:.8rem;">PDF</span>
+                                <i class="fas fa-download me-2"></i>Programme <span class="opacity-75" style="font-size:.8rem;">PDF</span>
+                            </a>
+                            <a href="/program/Side%20Event%20booklet%20compilation%20.pdf"
+                               download="Side_Event_Booklet_Compilation.pdf"
+                               class="btn btn-success fw-bold flex-grow-1">
+                                <i class="fas fa-download me-2"></i>Booklet <span class="opacity-75" style="font-size:.8rem;">PDF</span>
                             </a>
                             <a href="/conference-program#side-events"
                                class="btn btn-outline-success fw-bold"
