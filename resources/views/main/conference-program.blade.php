@@ -590,7 +590,7 @@
                 <div>
                     <span class="room-tag">Big Seminar Room</span><br>
                     <span class="subtheme-tag mt-1">Food Safety, Value Addition &amp; Cottage Industries</span><br>
-                    <span class="chair-info mt-1">Chair: <strong>Dr. Samson Kamunya</strong> &nbsp;·&nbsp; Rapporteurs: Tabby Karanja &amp; Lucy Muthoni</span>
+                    <span class="chair-info mt-1">Chair: <strong>Dr. Samson Kamunya</strong> &nbsp;·&nbsp; Rapporteurs: Robert Tabu &amp; Lucy Muthoni</span>
                 </div>
             </div>
             <table class="prog-table"><tbody>
@@ -727,7 +727,7 @@
                 <div>
                     <span class="room-tag">Room 207</span><br>
                     <span class="subtheme-tag mt-1">Apiculture, Beneficial Insects &amp; Ecosystem Services (2:00–4:08) → Climate Change &amp; Land Degradation (4:08–5:46)</span><br>
-                    <span class="chair-info mt-1">Chair: <strong>Dr. Charles Bett</strong> / <strong>Dr. David Kamau</strong> &nbsp;·&nbsp; Rapporteurs: Peterson Mwangi &amp; Nicholas Kibunyi / Gladys Chelangat &amp; Tabby Karanja</span>
+                    <span class="chair-info mt-1">Chair: <strong>Dr. Charles Bett</strong> / <strong>Dr. David Kamau</strong> &nbsp;·&nbsp; Rapporteurs: Peterson Mwangi &amp; Nicholas Kibunyi / Gladys Chelangat &amp; Harun Odhiambo</span>
                 </div>
             </div>
             <table class="prog-table"><tbody>
@@ -830,7 +830,7 @@
                 <div>
                     <span class="room-tag">Big Seminar Room</span><br>
                     <span class="subtheme-tag mt-1">Food Safety, Value Addition &amp; Cottage Industries</span><br>
-                    <span class="chair-info mt-1">Chair: <strong>Dr. Samson Kamunya</strong> &nbsp;·&nbsp; Rapporteurs: Tabby Karanja &amp; Lucy Muthoni</span>
+                    <span class="chair-info mt-1">Chair: <strong>Dr. Samson Kamunya</strong> &nbsp;·&nbsp; Rapporteurs: Robert Tabu &amp; Lucy Muthoni</span>
                 </div>
             </div>
             <table class="prog-table"><tbody>
