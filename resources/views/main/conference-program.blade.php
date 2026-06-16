@@ -371,7 +371,7 @@
                     <span class="room-tag">Conference Hall</span>
                     <span class="time-tag ms-1">2:00–5:00 PM</span><br>
                     <span class="subtheme-tag mt-1">Agribusiness, Financing, Policy, Adoption &amp; Socio-Economic Dimensions</span><br>
-                    <span class="chair-info mt-1">Chair: <strong>Dr. Charles Bett</strong> &nbsp;·&nbsp; Rapporteurs: Titus Ngetich &amp; Judith Mutheu Mboya</span>
+                    <span class="chair-info mt-1">Chair: <strong>Mr. Charles Bett</strong> &nbsp;·&nbsp; Rapporteurs: Tabby Karanja &amp; Gladys Chelangat</span>
                 </div>
             </div>
             <table class="prog-table">
@@ -459,7 +459,7 @@
                     <span class="room-tag">Room 207</span>
                     <span class="time-tag ms-1">2:00–5:00 PM</span><br>
                     <span class="subtheme-tag mt-1">Technology Transfer Approaches, Knowledge Co-Creation and Scaling Pathways, ICT-Enabled Precision Systems</span><br>
-                    <span class="chair-info mt-1">Chair: <strong>Dr. Everlyne Kirwa</strong> &nbsp;·&nbsp; Rapporteurs: Nicholas Kibunyi &amp; Tuila Esese</span>
+                    <span class="chair-info mt-1">Chair: <strong>Dr. Everlyne Kirwa</strong> &nbsp;·&nbsp; Rapporteurs: Nicholas Kibunyi &amp; Lilian Kemunto</span>
                 </div>
             </div>
             <table class="prog-table">
@@ -547,7 +547,7 @@
                 <div>
                     <span class="room-tag">Conference Hall</span><br>
                     <span class="subtheme-tag mt-1">Agribusiness, Financing, Policy, Adoption &amp; Socio-Economic Dimensions</span><br>
-                    <span class="chair-info mt-1">Chair: <strong>Dr. Martins Odendo</strong> &nbsp;·&nbsp; Rapporteurs: Tabby Karanja-Lumumba &amp; Lucy Muthoni</span>
+                    <span class="chair-info mt-1">Chair: <strong>Dr. Martins Odendo</strong> &nbsp;·&nbsp; Rapporteurs: Harun Odhiambo &amp; Lucy Muthoni</span>
                 </div>
             </div>
             <table class="prog-table"><tbody>
@@ -590,7 +590,7 @@
                 <div>
                     <span class="room-tag">Big Seminar Room</span><br>
                     <span class="subtheme-tag mt-1">Food Safety, Value Addition &amp; Cottage Industries</span><br>
-                    <span class="chair-info mt-1">Chair: <strong>Dr. Samson Kamunya</strong> &nbsp;·&nbsp; Rapporteurs: Titus Ngetich &amp; Lilian Ondabu</span>
+                    <span class="chair-info mt-1">Chair: <strong>Dr. Samson Kamunya</strong> &nbsp;·&nbsp; Rapporteurs: Tabby Karanja &amp; Lucy Muthoni</span>
                 </div>
             </div>
             <table class="prog-table"><tbody>
@@ -645,7 +645,7 @@
                 <div>
                     <span class="room-tag">Conference Hall</span><br>
                     <span class="subtheme-tag mt-1">Agribusiness, Financing, Policy, Adoption &amp; Socio-Economic Dimensions</span><br>
-                    <span class="chair-info mt-1">Chair: <strong>Dr. Stella Makokha</strong> &nbsp;·&nbsp; Rapporteurs: Lucy Muthoni &amp; Peterson Mwangi</span>
+                    <span class="chair-info mt-1">Chair: <strong>Dr. Stella Makokha</strong> &nbsp;·&nbsp; Rapporteurs: Lucy Muthoni &amp; Lilian Kemunto</span>
                 </div>
             </div>
             <table class="prog-table"><tbody>
@@ -698,7 +698,7 @@
                 <div>
                     <span class="room-tag">Big Seminar Room</span><br>
                     <span class="subtheme-tag mt-1">Biotechnological Solutions to Crop, Livestock &amp; Natural Resource Management Challenges</span><br>
-                    <span class="chair-info mt-1">Chair: <strong>Dr. Henry Kariithi</strong> &nbsp;·&nbsp; Rapporteurs: Esther Kimani &amp; Harun Odhiambo</span>
+                    <span class="chair-info mt-1">Chair: <strong>Dr. Henry Kariithi</strong> &nbsp;·&nbsp; Rapporteurs: Tabby Karanja &amp; Harun Odhiambo</span>
                 </div>
             </div>
             <table class="prog-table"><tbody>
@@ -727,7 +727,7 @@
                 <div>
                     <span class="room-tag">Room 207</span><br>
                     <span class="subtheme-tag mt-1">Apiculture, Beneficial Insects &amp; Ecosystem Services (2:00–4:08) → Climate Change &amp; Land Degradation (4:08–5:46)</span><br>
-                    <span class="chair-info mt-1">Chair: <strong>Dr. Charles Bett</strong> / <strong>Dr. David Kamau</strong> &nbsp;·&nbsp; Rapporteurs: Peterson Mwangi &amp; Nicholas Kibunyi / Gladys Chelangat &amp; Titus Ngetich</span>
+                    <span class="chair-info mt-1">Chair: <strong>Dr. Charles Bett</strong> / <strong>Dr. David Kamau</strong> &nbsp;·&nbsp; Rapporteurs: Peterson Mwangi &amp; Nicholas Kibunyi / Gladys Chelangat &amp; Tabby Karanja</span>
                 </div>
             </div>
             <table class="prog-table"><tbody>
@@ -789,7 +789,7 @@
                 <div>
                     <span class="room-tag">Conference Hall</span><br>
                     <span class="subtheme-tag mt-1">Agribusiness, Financing, Policy, Adoption &amp; Socio-Economic Dimensions</span><br>
-                    <span class="chair-info mt-1">Chair: <strong>Dr. Martins Odendo</strong> &nbsp;·&nbsp; Rapporteurs: Tabby Karanja-Lumumba &amp; Lucy Muthoni</span>
+                    <span class="chair-info mt-1">Chair: <strong>Dr. Martins Odendo</strong> &nbsp;·&nbsp; Rapporteurs: Harun Odhiambo &amp; Lucy Muthoni</span>
                 </div>
             </div>
             <table class="prog-table"><tbody>
@@ -830,7 +830,7 @@
                 <div>
                     <span class="room-tag">Big Seminar Room</span><br>
                     <span class="subtheme-tag mt-1">Food Safety, Value Addition &amp; Cottage Industries</span><br>
-                    <span class="chair-info mt-1">Chair: <strong>Dr. Samson Kamunya</strong> &nbsp;·&nbsp; Rapporteurs: Titus Ngetich &amp; Lilian Ondabu</span>
+                    <span class="chair-info mt-1">Chair: <strong>Dr. Samson Kamunya</strong> &nbsp;·&nbsp; Rapporteurs: Tabby Karanja &amp; Lucy Muthoni</span>
                 </div>
             </div>
             <table class="prog-table"><tbody>
@@ -869,7 +869,7 @@
         <div class="plenary-head">
             <div>
                 <h4>Session One: Plenary Keynote Presentation</h4>
-                <div style="opacity:.75;font-size:.82rem;margin-top:4px;">Chairperson: Dr. David Kamau &nbsp;·&nbsp; Rapporteur: Gladys Cheruto</div>
+                <div style="opacity:.75;font-size:.82rem;margin-top:4px;">Chairperson: Dr. David Kamau &nbsp;·&nbsp; Rapporteurs: Gladys Cheruto &amp; Henry Wanyama</div>
             </div>
             <span class="venue-badge">📍 Main Conference Hall</span>
         </div>
@@ -988,7 +988,7 @@
                 <div class="parallel-num">3</div>
                 <div><span class="room-tag">Big Seminar Room</span><br>
                 <span class="subtheme-tag mt-1">Livestock Breeds, Breeding Practices &amp; Emerging Livestock Species</span><br>
-                <span class="chair-info mt-1">Chair: <strong>Dr. Ruth Waineina</strong> &nbsp;·&nbsp; Rapporteurs: Gladys Cheruto &amp; Lucy Muthoni</span></div>
+                <span class="chair-info mt-1">Chair: <strong>Dr. Ruth Waineina</strong> &nbsp;·&nbsp; Rapporteurs: Gladys Cheruto &amp; Berrick Otieno</span></div>
             </div>
             <table class="prog-table"><tbody>
                 <tr><td class="time-cell">11:00–11:15 AM</td><td>Development and Application of a Bio-Economic Dairy Farm Simulation Model to Support Policy Analysis in Kenya <br><span class="code-cell">KALROCONF_SUB10_001</span> &nbsp; Samson Mwangi</td></tr>
@@ -1038,7 +1038,7 @@
                 <div class="parallel-num">1</div>
                 <div><span class="room-tag">Conference Hall</span><br>
                 <span class="subtheme-tag mt-1">Agribusiness, Financing, Policy, Adoption &amp; Socio-Economic Dimensions</span><br>
-                <span class="chair-info mt-1">Chair: <strong>Dr. Jessica Ndubi</strong> &nbsp;·&nbsp; Rapporteurs: Lucy Muthoni &amp; Tabby Karanja-Lumumba</span></div>
+                <span class="chair-info mt-1">Chair: <strong>Dr. Jessica Ndubi</strong> &nbsp;·&nbsp; Rapporteurs: Lucy Muthoni &amp; Hillary Rotich</span></div>
             </div>
             <table class="prog-table"><tbody>
                 <tr><td class="time-cell">2:00–2:15 PM</td><td>Farm-Level Technical Efficiency in Smallholder Tomato Production in Kenya <br><span class="code-cell">KALROCONF_SUB17_046</span> &nbsp; Michael M Mwati</td></tr>
@@ -1061,7 +1061,7 @@
                 <div class="parallel-num">2</div>
                 <div><span class="room-tag">Main Board Room</span><br>
                 <span class="subtheme-tag mt-1">Plant Health, Emerging Crop Pests &amp; Diseases, Biosecurity &amp; Phytosanitary Systems</span><br>
-                <span class="chair-info mt-1">Chair: <strong>Dr. Victor Jaoko – KEFRI</strong> &nbsp;·&nbsp; Rapporteurs: George Mukhwana &amp; Titus Ngetich</span></div>
+                <span class="chair-info mt-1">Chair: <strong>Dr. Victor Jaoko – KEFRI</strong> &nbsp;·&nbsp; Rapporteurs: George Mukhwana &amp; Esther Kimani</span></div>
             </div>
             <table class="prog-table"><tbody>
                 <tr><td class="time-cell">2:00–2:15 PM</td><td>Effect of Application of Different Doses of Atrazine Herbicide on Weed Control, Productivity and Economics of Sugarcane <br><span class="code-cell">KALROCONF_SUB3_001</span> &nbsp; Ginson Riungu</td></tr>
@@ -1084,7 +1084,7 @@
                 <div class="parallel-num">3</div>
                 <div><span class="room-tag">Big Seminar Room</span><br>
                 <span class="subtheme-tag mt-1">Crop Varieties, Increased Productivity &amp; Production Management</span><br>
-                <span class="chair-info mt-1">Chair: <strong>Dr. Samson Kamunya</strong> &nbsp;·&nbsp; Rapporteurs: Lucy Muthoni &amp; Esther Kimani</span></div>
+                <span class="chair-info mt-1">Chair: <strong>Dr. Samson Kamunya</strong> &nbsp;·&nbsp; Rapporteurs: Berrick Otieno &amp; Lilian Kemunto</span></div>
             </div>
             <table class="prog-table"><tbody>
                 <tr><td class="time-cell">2:00–2:15 PM</td><td>Optimising Cropping Systems for Enhanced Productivity in Smallholder Farming Systems <br><span class="code-cell">KALROCONF_SUB1_093</span> &nbsp; Siyabusa Mkuhlani</td></tr>
@@ -1109,7 +1109,7 @@
                 <div class="parallel-num">4</div>
                 <div><span class="room-tag">Room 207</span><br>
                 <span class="subtheme-tag mt-1">Technology Transfer, ICT-Enabled Precision Systems (2:00–4:39) → Food Safety, Value Addition &amp; Cottage Industries (4:40–5:40)</span><br>
-                <span class="chair-info mt-1">Chair: <strong>Dr. Karl Nyabundi</strong> / <strong>Dr. Willis Adero</strong> &nbsp;·&nbsp; Rapporteurs: Nicholas Kibunyi &amp; Tuila Esese / Titus Ngetich &amp; Judith Mutheu Mboya</span></div>
+                <span class="chair-info mt-1">Chair: <strong>Dr. Karl Nyabundi</strong> / <strong>Dr. Willis Adero</strong> &nbsp;·&nbsp; Rapporteurs: Nicholas Kibunyi &amp; Tuila Esese / Titus Ngetich &amp; Lucy Muthoni</span></div>
             </div>
             <table class="prog-table"><tbody>
                 <tr><td class="time-cell">2:00–2:15 PM</td><td>Drivers of Push-Pull Integrated Pest Management Adoption among Smallholder Maize Framers in Western Kenya and Eastern Uganda: A Binary Logit Analysis <br><span class="code-cell">KALROCONF_SUB16_036</span> &nbsp; Joseph Mutungati Mugendi</td></tr>
@@ -1419,7 +1419,7 @@
         <div class="plenary-head">
             <div>
                 <h4>Session One: Plenary Keynote Presentations</h4>
-                <div style="opacity:.75;font-size:.82rem;margin-top:4px;">Chairperson: Mumina Shibia &nbsp;·&nbsp; Rapporteur: Judith Mboya</div>
+                <div style="opacity:.75;font-size:.82rem;margin-top:4px;">Chairperson: Mumina Shibia &nbsp;·&nbsp; Rapporteur: Lucy Muthoni</div>
             </div>
             <span class="venue-badge">📍 Main Conference Hall</span>
         </div>
