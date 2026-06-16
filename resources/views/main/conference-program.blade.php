@@ -498,7 +498,7 @@
                     </ul>
                 </td><td>Moderator: Dr. David Golicha</td></tr>
                 <tr><td class="time-cell">9:30 AM – 10:00 AM</td><td><strong>Keynote Presentation: <em>Transforming Crop-based value chains through practical application of technologies, innovations and management practices</em></strong><br>Prof. Richard Mulwa, Egerton University</td><td></td></tr>
-                <tr><td class="time-cell">10:00 AM – 10:30 AM</td><td>Launching of Tsetse repellant and attractants by Chief Guest</td><td></td></tr>
+                <tr><td class="time-cell">10:00 AM – 10:30 AM</td><td>Chief Guest visit to Business session &amp; <strong>Launch of KALRO Commercialization Strategy 2026–2031</strong></td><td></td></tr>
                 <tr class="break-row"><td class="time-cell">10:30 AM – 11:00 AM</td><td colspan="2">☕ Health Break</td></tr>
             </tbody>
         </table>
@@ -523,7 +523,6 @@
                 <tr><td class="time-cell">11:00–11:15 AM</td><td>Market Pathways for Bio-fortified Bean Seeds: Evidence from Agro-Dealers Survey in Kenya <br><span class="code-cell">KALROCONF_SUB17_027</span> &nbsp; Eliud Kipkosgei Rotich</td></tr>
                 <tr><td class="time-cell">11:15–11:30 AM</td><td>Seasonal Demand Dynamics and Revenue Structure of Public Agricultural Research Products: Evidence from KALRO-Njoro, Kenya <br><span class="code-cell">KALROCONF_SUB17_028</span> &nbsp; Ruth Chepngeno</td></tr>
                 <tr><td class="time-cell">11:30–11:45 AM</td><td>Gender, Scale, and Seasonality in Smallholder Tree Crop Input Markets: Insights from Coastal Kenya <br><span class="code-cell">KALROCONF_SUB17_092</span> &nbsp; Christine Kasichana</td></tr>
-                <tr><td class="time-cell">11:45–12:00 PM</td><td>Unlocking the Potential of <em>Indigofera</em> spp. in Kenya: Opportunities for Natural Dye Production, Climate-Smart Agriculture, and Smallholder Livelihoods <br><span class="code-cell">KALROCONF_SUB17_091</span> &nbsp; Christine Kasichana</td></tr>
                 <tr><td class="time-cell">12:00–12:15 PM</td><td>Towards Disability-Inclusive Agricultural Innovation Systems in Kenya: Integrating Farmers with Disabilities into Research, Digital Agriculture, and Value Chains <br><span class="code-cell">KALROCONF_SUB17_090</span> &nbsp; Peterson Mwangi</td></tr>
                 <tr><td class="time-cell">12:15–12:30 PM</td><td>Gender and Social Inclusion in Adoption of Climate-Smart Irish Potato Production in Nyeri County <br><span class="code-cell">KALROCONF_SUB17_030</span> &nbsp; Stella J. Matere</td></tr>
                 <tr><td class="time-cell">12:30–12:45 PM</td><td>Evaluating the Financial and Economic Feasibility of Maize Productivity Project in Kenya <br><span class="code-cell">KALROCONF_SUB17_031</span> &nbsp; Stella Makokha</td></tr>
@@ -756,7 +755,7 @@
                     </ul>
                 </td><td>Moderator: Dr. Margaret Makelo</td></tr>
                 <tr><td class="time-cell">9:30 AM – 10:00 AM</td><td><strong>Keynote address: <em>Sustainable ecological innovations for crop-livestock production systems to enhance resilience and low-carbon agriculture.</em></strong><br>Dr. Boaz Waswa – CIAT</td><td></td></tr>
-                <tr><td class="time-cell">10:00 AM – 10:30 AM</td><td>Chief Guest visit to Business session &amp; <strong>Launch of KALRO Commercialization Strategy 2026–2031</strong> — including <a href="#side-events" style="color:var(--green-main);font-weight:600;">Tsetse Repellent Official Launch ↓</a></td><td></td></tr>
+                <tr><td class="time-cell">10:00 AM – 10:30 AM</td><td>Chief Guest visit to Business session &amp; <strong>Official Launch of KALRO Tsetse Repellent &amp; Attractant Technology</strong> — including <a href="#side-events" style="color:var(--green-main);font-weight:600;">Tsetse Repellent Official Launch ↓</a></td><td></td></tr>
                 <tr class="break-row"><td class="time-cell">10:30 AM – 11:00 AM</td><td colspan="2">☕ Health Break</td></tr>
                 <tr><td class="time-cell">11:00 AM</td><td><strong>Session Breakouts</strong></td><td></td></tr>
             </tbody>
@@ -1219,12 +1218,13 @@
                 <tr><td class="time-cell">3:30–3:45 PM</td><td>Factors Contributing to Low Groundnut Productivity in Western Kenya Despite High Market Demand: A Review <br><span class="code-cell">KALROCONF_SUB17_086</span> &nbsp; Simon Meso Obila</td></tr>
                 <tr><td class="time-cell">3:45–4:00 PM</td><td>Agronomic and Farmer-Perceived Performance of Customized Fertilizers for Maize in 13 counties in Kenya <br><span class="code-cell">KALROCONF_SUB17_087</span> &nbsp; Mwathi Jane Wamaitha</td></tr>
                 <tr><td class="time-cell">4:00–4:15 PM</td><td>Leveraging Public Private Partnerships to Strengthen Sustainable Seed Systems: Evidence From Kilimo Biashara Expos Model <br><span class="code-cell">KALROCONF_SUB17_089</span> &nbsp; Samuel Kiiru</td></tr>
+                <tr><td class="time-cell">4:15–4:30 PM</td><td>Unlocking the Potential of <em>Indigofera</em> spp. in Kenya: Opportunities for Natural Dye Production, Climate-Smart Agriculture, and Smallholder Livelihoods <br><span class="code-cell">KALROCONF_SUB17_091</span> &nbsp; Christine Kasichana</td></tr>
                 <tr style="background:#fef2f2;"><td class="time-cell" style="color:#dc2626;font-weight:700;">Sub-theme shift →</td><td colspan="1" style="color:#dc2626;font-weight:600;font-size:.8rem;">Food Safety, Value Addition &amp; Cottage Industries (Chair: Mr. John Irungu)</td></tr>
-                <tr><td class="time-cell">4:15–4:30 PM</td><td>Efficacy of Nixtamalization On Reduction of Fumonisin Contamination in Maize <br><span class="code-cell">KALROCONF_SUB14_009</span> &nbsp; Sylviah Nekesa</td></tr>
-                <tr><td class="time-cell">4:30–4:45 PM</td><td>Practices Influencing Mycotoxin Contamination in Maize and Farmers' Perceptions on the Use of Rapid Test Kits in Aflatoxin Detection <br><span class="code-cell">KALROCONF_SUB14_011</span> &nbsp; Beatrice Nafula Tenge</td></tr>
-                <tr><td class="time-cell">4:45–5:00 PM</td><td>Occurrence of Aflatoxin and Fumonisin in Foods Consumed By Children Aged 6-59 Months in Transitional Pastoral Households in Marsabit County <br><span class="code-cell">KALROCONF_SUB14_012</span> &nbsp; Amos Otieno Adongo</td></tr>
-                <tr><td class="time-cell">5:00–5:15 PM</td><td>A Review of Epidemiological Trends, Molecular Mechanisms, and Public Health Implications of Foodborne Aflatoxin Exposure and Cancer Prevalence in Developing Countries <br><span class="code-cell">KALROCONF_SUB14_013</span> &nbsp; Kimeu Urbanus</td></tr>
-                <tr><td class="time-cell">5:15–5:30 PM</td><td>Comparative Evaluation of Physical and Cup Quality Performance of Global Coffee Varieties in Kenya <br><span class="code-cell">KALROCONF_SUB14_014</span> &nbsp; Cecilia Wagikondi Kathurima</td></tr>
+                <tr><td class="time-cell">4:30–4:45 PM</td><td>Efficacy of Nixtamalization On Reduction of Fumonisin Contamination in Maize <br><span class="code-cell">KALROCONF_SUB14_009</span> &nbsp; Sylviah Nekesa</td></tr>
+                <tr><td class="time-cell">4:45–5:00 PM</td><td>Practices Influencing Mycotoxin Contamination in Maize and Farmers' Perceptions on the Use of Rapid Test Kits in Aflatoxin Detection <br><span class="code-cell">KALROCONF_SUB14_011</span> &nbsp; Beatrice Nafula Tenge</td></tr>
+                <tr><td class="time-cell">5:00–5:15 PM</td><td>Occurrence of Aflatoxin and Fumonisin in Foods Consumed By Children Aged 6-59 Months in Transitional Pastoral Households in Marsabit County <br><span class="code-cell">KALROCONF_SUB14_012</span> &nbsp; Amos Otieno Adongo</td></tr>
+                <tr><td class="time-cell">5:15–5:30 PM</td><td>A Review of Epidemiological Trends, Molecular Mechanisms, and Public Health Implications of Foodborne Aflatoxin Exposure and Cancer Prevalence in Developing Countries <br><span class="code-cell">KALROCONF_SUB14_013</span> &nbsp; Kimeu Urbanus</td></tr>
+                <tr><td class="time-cell">5:30–5:45 PM</td><td>Comparative Evaluation of Physical and Cup Quality Performance of Global Coffee Varieties in Kenya <br><span class="code-cell">KALROCONF_SUB14_014</span> &nbsp; Cecilia Wagikondi Kathurima</td></tr>
             </tbody></table>
         </div>
 
