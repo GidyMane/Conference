@@ -264,6 +264,12 @@
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 Side Events
             </a>
+            <a href="{{ asset('program/Side%20Event%20booklet%20compilation%20.pdf') }}"
+               download="Side_Event_Booklet_Compilation.pdf"
+               style="display:inline-flex;align-items:center;gap:7px;background:#5b21b6;color:white;font-weight:700;font-size:.82rem;padding:9px 18px;border-radius:22px;text-decoration:none;white-space:nowrap;transition:background .15s;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Side Events Booklet
+            </a>
         </div>
     </div>
 </div>
@@ -883,13 +889,22 @@
     <div class="side-event-card" id="side-events">
         <div class="side-event-head" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
             <h4 style="margin:0;">⚡ Side Events — Wednesday 17 June 2026</h4>
-            <a href="{{ asset('program/Program_Side_event.pdf') }}"
-               download="Program_Side_event.pdf"
-               style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.4);color:white;font-size:.78rem;font-weight:700;padding:6px 14px;border-radius:20px;text-decoration:none;white-space:nowrap;transition:background .15s;"
-               onmouseover="this.style.background='rgba(255,255,255,0.28)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                Download Side Events PDF
-            </a>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <a href="{{ asset('program/Program_Side_event.pdf') }}"
+                   download="Program_Side_event.pdf"
+                   style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.4);color:white;font-size:.78rem;font-weight:700;padding:6px 14px;border-radius:20px;text-decoration:none;white-space:nowrap;transition:background .15s;"
+                   onmouseover="this.style.background='rgba(255,255,255,0.28)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Programme PDF
+                </a>
+                <a href="{{ asset('program/Side%20Event%20booklet%20compilation%20.pdf') }}"
+                   download="Side_Event_Booklet_Compilation.pdf"
+                   style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.4);color:white;font-size:.78rem;font-weight:700;padding:6px 14px;border-radius:20px;text-decoration:none;white-space:nowrap;transition:background .15s;"
+                   onmouseover="this.style.background='rgba(255,255,255,0.28)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Booklet PDF
+                </a>
+            </div>
         </div>
         <table class="prog-table">
             <thead><tr><th>Time</th><th>Session Title</th><th>Host</th></tr></thead>
@@ -1150,13 +1165,22 @@
     <div class="side-event-card">
         <div class="side-event-head" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
             <h4 style="margin:0;">⚡ Side Events — Thursday 18 June 2026</h4>
-            <a href="{{ asset('program/Program_Side_event.pdf') }}"
-               download="Program_Side_event.pdf"
-               style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.4);color:white;font-size:.78rem;font-weight:700;padding:6px 14px;border-radius:20px;text-decoration:none;white-space:nowrap;transition:background .15s;"
-               onmouseover="this.style.background='rgba(255,255,255,0.28)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                Download Side Events PDF
-            </a>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <a href="{{ asset('program/Program_Side_event.pdf') }}"
+                   download="Program_Side_event.pdf"
+                   style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.4);color:white;font-size:.78rem;font-weight:700;padding:6px 14px;border-radius:20px;text-decoration:none;white-space:nowrap;transition:background .15s;"
+                   onmouseover="this.style.background='rgba(255,255,255,0.28)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Programme PDF
+                </a>
+                <a href="{{ asset('program/Side%20Event%20booklet%20compilation%20.pdf') }}"
+                   download="Side_Event_Booklet_Compilation.pdf"
+                   style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.4);color:white;font-size:.78rem;font-weight:700;padding:6px 14px;border-radius:20px;text-decoration:none;white-space:nowrap;transition:background .15s;"
+                   onmouseover="this.style.background='rgba(255,255,255,0.28)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Booklet PDF
+                </a>
+            </div>
         </div>
         <table class="prog-table">
             <thead><tr><th>Time</th><th>Session Title</th><th>Host</th></tr></thead>
