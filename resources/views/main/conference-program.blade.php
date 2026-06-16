@@ -498,7 +498,7 @@
                     </ul>
                 </td><td>Moderator: Dr. David Golicha</td></tr>
                 <tr><td class="time-cell">9:30 AM – 10:00 AM</td><td><strong>Keynote Presentation: <em>Transforming Crop-based value chains through practical application of technologies, innovations and management practices</em></strong><br>Prof. Richard Mulwa, Egerton University</td><td></td></tr>
-                <tr><td class="time-cell">10:00 AM – 10:30 AM</td><td><strong>Chief guests launches KALRO Commercialization Strategy 2026–2031</strong></td><td></td></tr>
+                <tr><td class="time-cell">10:00 AM – 10:30 AM</td><td>Chief Guest visit to Business session &amp; <strong>Launch of KALRO Commercialization Strategy 2026–2031</strong></td><td></td></tr>
                 <tr class="break-row"><td class="time-cell">10:30 AM – 11:00 AM</td><td colspan="2">☕ Health Break</td></tr>
             </tbody>
         </table>
@@ -507,8 +507,25 @@
     <h5 style="font-size:1rem;font-weight:700;color:#14532d;margin:28px 0 14px;display:flex;align-items:center;gap:8px;">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#14532d" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
         Parallel Sessions — 11:00 AM – 1:00 PM
+        <span style="margin-left:10px;background:#dc2626;color:#fff;font-size:.72rem;font-weight:800;padding:.25em .8em;border-radius:20px;letter-spacing:.05em;">RESCHEDULED</span>
     </h5>
-    <div class="sessions-grid">
+
+    {{-- Rescheduled notice --}}
+    <div style="background:#fef2f2;border:2px solid #dc2626;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:flex-start;gap:.75rem;">
+        <span style="font-size:1.4rem;flex-shrink:0;">⚠️</span>
+        <div>
+            <div style="font-weight:800;color:#b91c1c;font-size:.95rem;margin-bottom:.3rem;">Sessions Rescheduled — Not Taking Place Today</div>
+            <div style="color:#7f1d1d;font-size:.875rem;line-height:1.6;">
+                Due to delays in commencing the plenary sessions, the <strong>11:00 AM – 1:30 PM parallel sessions have been rescheduled to Wednesday 17 June 2026, 7:30 AM – 9:30 AM</strong>.
+                Afternoon sessions remain unchanged. We apologise for any inconvenience caused and appreciate your understanding.
+            </div>
+        </div>
+    </div>
+
+    <div class="sessions-grid" style="opacity:.4;pointer-events:none;position:relative;">
+        <div style="position:absolute;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+            <div style="background:rgba(220,38,38,.12);border:3px dashed #dc2626;border-radius:16px;padding:.65rem 2.5rem;font-weight:800;color:#dc2626;font-size:1.1rem;letter-spacing:.05em;transform:rotate(-1.5deg);white-space:nowrap;box-shadow:0 2px 16px rgba(220,38,38,.15);">⛔ CANCELLED — MOVED TO WEDNESDAY 7:30 AM</div>
+        </div>
 
         <div class="parallel-card">
             <div class="parallel-subhead">
@@ -733,6 +750,106 @@
      DAY 3 — Wednesday 17 June 2026
 ══════════════════════════════════════════════ --}}
 <div class="prog-day" id="day3">
+
+    {{-- ══ RESCHEDULED FROM TUESDAY: Sessions originally 11:00 AM – 1:00 PM ══ --}}
+    <div style="background:#fffbeb;border:2px solid #f59e0b;border-radius:14px;padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:flex-start;gap:.75rem;">
+        <span style="font-size:1.4rem;flex-shrink:0;">📢</span>
+        <div>
+            <div style="font-weight:800;color:#92400e;font-size:.95rem;margin-bottom:.3rem;">Rescheduled Sessions — Originally Scheduled Tuesday 16 June, 11:00 AM – 1:00 PM</div>
+            <div style="color:#78350f;font-size:.875rem;line-height:1.6;">
+                These sessions were moved from Tuesday due to delays in the plenary programme. They now take place <strong>today, Wednesday 17 June 2026, 7:30 AM – 9:30 AM</strong>, before the morning plenary.
+            </div>
+        </div>
+    </div>
+
+    <h5 style="font-size:1rem;font-weight:700;color:#92400e;margin:0 0 14px;display:flex;align-items:center;gap:8px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#92400e" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Rescheduled Parallel Sessions — 7:30 AM – 9:30 AM
+        <span style="margin-left:10px;background:#f59e0b;color:#fff;font-size:.72rem;font-weight:800;padding:.25em .8em;border-radius:20px;letter-spacing:.05em;">RESCHEDULED FROM TUESDAY</span>
+    </h5>
+    <div class="sessions-grid">
+
+        <div class="parallel-card">
+            <div class="parallel-subhead">
+                <div class="parallel-num">1</div>
+                <div>
+                    <span class="room-tag">Conference Hall</span><br>
+                    <span class="subtheme-tag mt-1">Agribusiness, Financing, Policy, Adoption &amp; Socio-Economic Dimensions</span><br>
+                    <span class="chair-info mt-1">Chair: <strong>Dr. Martins Odendo</strong> &nbsp;·&nbsp; Rapporteurs: Tabby Karanja-Lumumba &amp; Lucy Muthoni</span>
+                </div>
+            </div>
+            <table class="prog-table"><tbody>
+                <tr><td class="time-cell">7:30–7:45 AM</td><td>Market Pathways for Bio-fortified Bean Seeds: Evidence from Agro-Dealers Survey in Kenya <br><span class="code-cell">KALROCONF_SUB17_027</span> &nbsp; Eliud Kipkosgei Rotich</td></tr>
+                <tr><td class="time-cell">7:45–8:00 AM</td><td>Seasonal Demand Dynamics and Revenue Structure of Public Agricultural Research Products: Evidence from KALRO-Njoro, Kenya <br><span class="code-cell">KALROCONF_SUB17_028</span> &nbsp; Ruth Chepngeno</td></tr>
+                <tr><td class="time-cell">8:00–8:15 AM</td><td>Gender, Scale, and Seasonality in Smallholder Tree Crop Input Markets: Insights from Coastal Kenya <br><span class="code-cell">KALROCONF_SUB17_092</span> &nbsp; Christine Kasichana</td></tr>
+                <tr><td class="time-cell">8:30–8:45 AM</td><td>Towards Disability-Inclusive Agricultural Innovation Systems in Kenya: Integrating Farmers with Disabilities into Research, Digital Agriculture, and Value Chains <br><span class="code-cell">KALROCONF_SUB17_090</span> &nbsp; Peterson Mwangi</td></tr>
+                <tr><td class="time-cell">8:45–9:00 AM</td><td>Gender and Social Inclusion in Adoption of Climate-Smart Irish Potato Production in Nyeri County <br><span class="code-cell">KALROCONF_SUB17_030</span> &nbsp; Stella J. Matere</td></tr>
+                <tr><td class="time-cell">9:00–9:15 AM</td><td>Evaluating the Financial and Economic Feasibility of Maize Productivity Project in Kenya <br><span class="code-cell">KALROCONF_SUB17_031</span> &nbsp; Stella Makokha</td></tr>
+                <tr><td class="time-cell">9:15–9:30 AM</td><td>Unlocking the Potential and Optimizing Available Land Resources for Market-Oriented Production, Revenue Generation, and Enhancing Livestock Feed Production <br><span class="code-cell">KALROCONF_SUB17_034</span> &nbsp; Mercy Kaimenyi Bett</td></tr>
+            </tbody></table>
+        </div>
+
+        <div class="parallel-card">
+            <div class="parallel-subhead">
+                <div class="parallel-num">2</div>
+                <div>
+                    <span class="room-tag">Main Board Room</span><br>
+                    <span class="subtheme-tag mt-1">Plant Nutrition, Soil Health &amp; Conservation Agriculture</span><br>
+                    <span class="chair-info mt-1">Chair: <strong>Dr. Golicha Duba</strong> &nbsp;·&nbsp; Rapporteurs: Priscila Kanza Mwangangi &amp; Robert Tabu</span>
+                </div>
+            </div>
+            <table class="prog-table"><tbody>
+                <tr><td class="time-cell">7:30–7:45 AM</td><td>Linking Specific Nutrient Elements and Lime to Irish Potatoes (<em>Solanum tuberosum</em>. L) Yield Parameters in Acidic Soils of Uasin Gishu County <br><span class="code-cell">KALROCONF_SUB4_001</span> &nbsp; Mary Koech</td></tr>
+                <tr><td class="time-cell">7:45–8:00 AM</td><td>Effect of pH and Organic Amendments on Phosphorus Sorption in Acidic Soils of Kiambu County, Kenya <br><span class="code-cell">KALROCONF_SUB4_004</span> &nbsp; Priscila Mwangangi</td></tr>
+                <tr><td class="time-cell">8:00–8:15 AM</td><td>Maize Yield Variability in Kabete Long-Term Soil Fertility Experiment: A Comparison of 2015, 2020 And 2025 Long Rains Seasons <br><span class="code-cell">KALROCONF_SUB4_005</span> &nbsp; Joyce Addah Omwakwe</td></tr>
+                <tr><td class="time-cell">8:15–8:30 AM</td><td>Identifying Soil Fertility Constraints to Maize Production in Kenya Using Nutrient Omission Trials <br><span class="code-cell">KALROCONF_SUB4_007</span> &nbsp; Joyce Addah Omwakwe</td></tr>
+                <tr><td class="time-cell">8:30–8:45 AM</td><td>Assessment of Blended and Conventional Formulations for Enhanced Maize Production in Western Kenya <br><span class="code-cell">KALROCONF_SUB4_008</span> &nbsp; Kelele Faida John</td></tr>
+                <tr><td class="time-cell">8:45–9:00 AM</td><td>Application of blended fertilizers for improved maize production in semi-arid eastern Kenya <br><span class="code-cell">KALROCONF_SUB4_011</span> &nbsp; Emerita Njiru</td></tr>
+                <tr><td class="time-cell">9:00–9:15 AM</td><td>Maize growth and yield response to separate fertilizer application in Uasin Gishu and Trans Nzoia counties of Kenya <br><span class="code-cell">KALROCONF_SUB4_013</span> &nbsp; Mary Koech</td></tr>
+                <tr><td class="time-cell">9:15–9:30 AM</td><td>Influence of CBX Bio-stimulant and Soil Conditioner on Coffee Growth and Yield <br><span class="code-cell">KALROCONF_SUB4_014</span> &nbsp; Danstan Odeny</td></tr>
+            </tbody></table>
+        </div>
+
+        <div class="parallel-card">
+            <div class="parallel-subhead">
+                <div class="parallel-num">3</div>
+                <div>
+                    <span class="room-tag">Big Seminar Room</span><br>
+                    <span class="subtheme-tag mt-1">Food Safety, Value Addition &amp; Cottage Industries</span><br>
+                    <span class="chair-info mt-1">Chair: <strong>Dr. Samson Kamunya</strong> &nbsp;·&nbsp; Rapporteurs: Titus Ngetich &amp; Lilian Ondabu</span>
+                </div>
+            </div>
+            <table class="prog-table"><tbody>
+                <tr><td class="time-cell">7:30–7:45 AM</td><td>Pesticide Residues in <em>Catha edulis</em> (Muguka): A Multidimensional Threat to Health, Livelihoods, and Environmental Sustainability in Kenya <br><span class="code-cell">KALROCONF_SUB14_015</span> &nbsp; Richard Mwaniki Njue</td></tr>
+                <tr><td class="time-cell">7:45–8:00 AM</td><td>Occurrence and Distribution of Soil-Borne Mycotoxigenic Fungi in Maize Farms of Makueni County, Kenya <br><span class="code-cell">KALROCONF_SUB14_016</span> &nbsp; Nicholas Odhiambo Owiro</td></tr>
+                <tr><td class="time-cell">8:00–8:15 AM</td><td>Food Safety Assessment of Fungal and Aflatoxin Contamination in Black CTC Teas from Selected KTDA Tea Factories in the East and West of Rift Valley, Kenya <br><span class="code-cell">KALROCONF_SUB14_019</span> &nbsp; Mercy Cherotich</td></tr>
+                <tr><td class="time-cell">8:15–8:30 AM</td><td>Integrating soil management practices and screening maize varieties to reduce aflatoxin contamination in Makueni County, Kenya <br><span class="code-cell">KALROCONF_SUB14_021</span> &nbsp; Fatuma Sharamo Fora</td></tr>
+                <tr><td class="time-cell">8:30–8:45 AM</td><td>Optimisation of harvesting and post-harvest handling of cashew apple in coastal Kenya <br><span class="code-cell">KALROCONF_SUB14_022</span> &nbsp; Francis Muniu</td></tr>
+                <tr><td class="time-cell">8:45–9:00 AM</td><td>Consumption of Sweetpotato Leaves Improve Iron Status Among Women of Reproductive Age in Bomet County, Kenya <br><span class="code-cell">KALROCONF_SUB14_023</span> &nbsp; Rosemary Jepkosgei Cheboswony</td></tr>
+                <tr><td class="time-cell">9:00–9:15 AM</td><td>Total Monomeric Anthocyanin (TMA) in Purple Tea Infusions: Influence of Water Source Composition <br><span class="code-cell">KALROCONF_SUB14_005</span> &nbsp; Simon Oduor Ochanda</td></tr>
+                <tr><td class="time-cell">9:15–9:30 AM</td><td>Determination of Tomato Post-Harvest Losses and Packaging Effects on Fruit Quality in Rombo, Kajiado County, Kenya <br><span class="code-cell">KALROCONF_SUB14_007</span> &nbsp; Robert Tabu</td></tr>
+            </tbody></table>
+        </div>
+
+        <div class="parallel-card">
+            <div class="parallel-subhead">
+                <div class="parallel-num">4</div>
+                <div>
+                    <span class="room-tag">Room 207</span><br>
+                    <span class="subtheme-tag mt-1">Plant Health, Emerging Crop Pests &amp; Diseases, Biosecurity &amp; Phytosanitary Systems</span><br>
+                    <span class="chair-info mt-1">Chair: <strong>Dr. Harun Muriithi, IITA</strong> &nbsp;·&nbsp; Rapporteurs: Hillary Rotich &amp; Miriam Mbiyu</span>
+                </div>
+            </div>
+            <table class="prog-table"><tbody>
+                <tr><td class="time-cell">7:30–7:45 AM</td><td>Bridging the Last Mile: A Farmer-Trainer Mediated Remote Diagnosis and Documentation Model for Smallholder Crop Health — Pilot Cases from Kenya <br><span class="code-cell">KALROCONF_SUB3_010</span> &nbsp; Rong Coco Feng</td></tr>
+                <tr><td class="time-cell">7:45–8:00 AM</td><td>Knowledge Gaps in Mango Pathology in Kenya: A Review with Focus on The South-Eastern Production Zone <br><span class="code-cell">KALROCONF_SUB3_011</span> &nbsp; Barbra Nyakowa Khainga</td></tr>
+                <tr><td class="time-cell">8:00–8:15 AM</td><td>Surveillance of Wheat Diseases and Characterization of Stem Rust Isolates in Kenya <br><span class="code-cell">KALROCONF_SUB3_012</span> &nbsp; Zennah Kosgey</td></tr>
+                <tr><td class="time-cell">8:15–8:23 AM</td><td>Documentation Of Cashew Pests and Diseases and their Economic Importance in Kenya <span class="poster-tag">POSTER</span><br><span class="code-cell">KALROCONF_SUB3_017</span> &nbsp; Naomi Mburu</td></tr>
+            </tbody></table>
+        </div>
+
+    </div><!-- /rescheduled sessions grid -->
+
 
     <div class="plenary-block">
         <div class="plenary-head">
