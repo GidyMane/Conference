@@ -190,6 +190,14 @@
 }
 .side-event-head h4 { margin:0; font-size:1rem; font-weight:700; }
 
+/* Mode badges for side event tables */
+.se-mode-badge {
+    display:inline-block; font-size:.7rem; font-weight:700;
+    padding:.2em .65em; border-radius:20px; white-space:nowrap; vertical-align:middle;
+}
+.se-mode-inperson { background:#dcfce7; color:#14532d; }
+.se-mode-hybrid   { background:#dbeafe; color:#1e40af; }
+
 /* ── Poster badge ── */
 .poster-tag {
     background:#fef3c7; color:#92400e;
@@ -907,9 +915,9 @@
             </div>
         </div>
         <table class="prog-table">
-            <thead><tr><th>Time</th><th>Session Title</th><th>Host</th></tr></thead>
+            <thead><tr><th>Time</th><th>Session Title</th><th>Host</th><th>Mode</th></tr></thead>
             <tbody>
-                <tr><td class="time-cell">09:30–14:30</td><td>Better Analytics for Reduced Impact of Extreme Weather Events</td><td><strong>KALRO/FAO</strong></td></tr>
+                <tr><td class="time-cell">09:30–14:30</td><td>Better Analytics for Reduced Impact of Extreme Weather Events</td><td><strong>KALRO/FAO</strong></td><td><span class="se-mode-badge se-mode-inperson">In Person</span></td></tr>
                 <tr style="background:#fffbf0;">
                     <td class="time-cell">10:00–13:00</td>
                     <td>
@@ -918,11 +926,12 @@
                         <br><small class="text-muted">Chief Guest launch of KALRO Tsetse Repellent Technology for humans &amp; animals</small>
                     </td>
                     <td><strong>KALRO</strong></td>
+                    <td><span class="se-mode-badge se-mode-hybrid">Hybrid</span></td>
                 </tr>
-                <tr><td class="time-cell">11:00–13:00</td><td>AI in Agriculture: Opportunities, Implications and Risks</td><td><strong>SAFIC</strong></td></tr>
-                <tr><td class="time-cell">11:00–13:00</td><td>Aflasafe Distributorship Business Session</td><td><strong>KALRO</strong></td></tr>
-                <tr><td class="time-cell">13:00–16:00</td><td>From Research to Impact: How KALRO &amp; CIMMYT Are Advancing Agricultural Innovation</td><td><strong>CIMMYT</strong></td></tr>
-                <tr><td class="time-cell">14:00–17:00</td><td>Emerging Trends in Food Safety: Challenges, Innovations, Regulation &amp; Policy</td><td><strong>KALRO / Egerton University / IITA</strong></td></tr>
+                <tr><td class="time-cell">11:00–13:00</td><td>AI in Agriculture: Opportunities, Implications and Risks</td><td><strong>SAFIC</strong></td><td><span class="se-mode-badge se-mode-hybrid">Hybrid</span></td></tr>
+                <tr><td class="time-cell">11:00–13:00</td><td>Aflasafe Distributorship Business Session</td><td><strong>KALRO</strong></td><td><span class="se-mode-badge se-mode-inperson">In Person</span></td></tr>
+                <tr><td class="time-cell">13:00–16:00</td><td>From Research to Impact: How KALRO &amp; CIMMYT Are Advancing Agricultural Innovation</td><td><strong>CIMMYT</strong></td><td><span class="se-mode-badge se-mode-inperson">In Person</span></td></tr>
+                <tr><td class="time-cell">14:00–17:00</td><td>Emerging Trends in Food Safety: Challenges, Innovations, Regulation &amp; Policy</td><td><strong>KALRO / Egerton University / IITA</strong></td><td><span class="se-mode-badge se-mode-hybrid">Hybrid</span></td></tr>
             </tbody>
         </table>
     </div>
@@ -1183,12 +1192,13 @@
             </div>
         </div>
         <table class="prog-table">
-            <thead><tr><th>Time</th><th>Session Title</th><th>Host</th></tr></thead>
+            <thead><tr><th>Time</th><th>Session Title</th><th>Host</th><th>Mode</th></tr></thead>
             <tbody>
-                <tr><td class="time-cell">09:00–11:00</td><td>Sustainable Livestock in Kenya: Unlocking Economic, Environmental &amp; Social Benefits</td><td><strong>ILRI</strong></td></tr>
-                <tr><td class="time-cell">10:00–12:30</td><td>Accelerating Sustainable Production, Market Trade &amp; Consumption</td><td><strong>Alliance of Bioversity International &amp; CIAT</strong></td></tr>
-                <tr><td class="time-cell">11:00–13:00</td><td>Business Session: Cassava Starch Processing — Which Way Forward?</td><td><strong>KALRO / AFA</strong></td></tr>
-                <tr><td class="time-cell">14:00–16:00</td><td>Business Session: ECF Vaccine Commercialisation</td><td><strong>KALRO (VSRI)</strong></td></tr>
+                <tr><td class="time-cell">09:00–11:00</td><td>Sustainable Livestock in Kenya: Unlocking Economic, Environmental &amp; Social Benefits</td><td><strong>ILRI</strong></td><td><span class="se-mode-badge se-mode-inperson">In Person</span></td></tr>
+                <tr><td class="time-cell">10:00–12:30</td><td>Accelerating Sustainable Production, Market Trade &amp; Consumption</td><td><strong>Alliance of Bioversity International &amp; CIAT</strong></td><td><span class="se-mode-badge se-mode-inperson">In Person</span></td></tr>
+                <tr><td class="time-cell">11:00–13:00</td><td>Business Session: Cassava Starch Processing — Which Way Forward?</td><td><strong>KALRO / AFA</strong></td><td><span class="se-mode-badge se-mode-hybrid">Hybrid</span></td></tr>
+                <tr><td class="time-cell">14:00–16:00</td><td>Business Session: ECF Vaccine Commercialisation</td><td><strong>KALRO (VSRI)</strong></td><td><span class="se-mode-badge se-mode-hybrid">Hybrid</span></td></tr>
+                <tr><td class="time-cell">TBC</td><td>Delivering Biotechnology in Kenya: Delivery, Products &amp; Future Prospects</td><td><strong>KALRO BioRI &amp; AATF</strong></td><td><span class="se-mode-badge se-mode-hybrid">Hybrid</span></td></tr>
             </tbody>
         </table>
     </div>
