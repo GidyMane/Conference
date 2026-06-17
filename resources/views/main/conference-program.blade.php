@@ -430,7 +430,7 @@
                     <span class="room-tag">Big Seminar Room</span>
                     <span class="time-tag ms-1">2:00–5:00 PM</span><br>
                     <span class="subtheme-tag mt-1">Animal Health, Sanitary Systems &amp; Emerging Livestock Pests and Diseases</span><br>
-                    <span class="chair-info mt-1">Chair: <strong>Dr. Monicah Maichomo</strong> &nbsp;·&nbsp; Rapporteurs: Peterson Mwangi &amp; Esther Kimani</span>
+                    <span class="chair-info mt-1">Chair: <strong>Dr. Monicah Maichomo</strong> &nbsp;·&nbsp; Rapporteurs: Lilian Ondabu &amp; Esther Kimani</span>
                 </div>
             </div>
             <table class="prog-table">
@@ -859,6 +859,8 @@
                 <tr><td class="time-cell">7:45–8:00 AM</td><td>Knowledge Gaps in Mango Pathology in Kenya: A Review with Focus on The South-Eastern Production Zone <br><span class="code-cell">KALROCONF_SUB3_011</span> &nbsp; Barbra Nyakowa Khainga</td></tr>
                 <tr><td class="time-cell">8:00–8:15 AM</td><td>Surveillance of Wheat Diseases and Characterization of Stem Rust Isolates in Kenya <br><span class="code-cell">KALROCONF_SUB3_012</span> &nbsp; Zennah Kosgey</td></tr>
                 <tr><td class="time-cell">8:15–8:23 AM</td><td>Documentation Of Cashew Pests and Diseases and their Economic Importance in Kenya <span class="poster-tag">POSTER</span><br><span class="code-cell">KALROCONF_SUB3_017</span> &nbsp; Naomi Mburu</td></tr>
+                <tr><td class="time-cell">8:23–8:31 AM</td><td>Emerging Insect Pests Threatening Indigenous Vegetables in Kenya <span class="poster-tag">POSTER</span><br><span class="code-cell">KALROCONF_SUB3_018</span> &nbsp; Denis Mwiti Prichard</td></tr>
+                <tr><td class="time-cell">8:31–8:39 AM</td><td>Incidences of <em>Phytophthora cinnamomi</em>, the Causal Agent of Avocado Root Rot, in Soils Analyzed at KALRO Kabete in 2023–2025 <span class="poster-tag">POSTER</span><br><span class="code-cell">KALROCONF_SUB3_013</span> &nbsp; Mercyline Orayo</td></tr>
             </tbody></table>
         </div>
 
