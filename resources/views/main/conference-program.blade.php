@@ -260,7 +260,7 @@
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 Conference Program
             </a>
-            <a href="{{ asset('program/Book of Abstract 2026 conference last updt 13-6.pdf') }}"
+            <a href="{{ asset('program/Book of Abstract 2026 conference.pdf') }}"
                download="Book_of_Abstracts_2026.pdf"
                style="display:inline-flex;align-items:center;gap:7px;background:#14532d;color:white;font-weight:700;font-size:.82rem;padding:9px 18px;border-radius:22px;text-decoration:none;white-space:nowrap;transition:background .15s;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
