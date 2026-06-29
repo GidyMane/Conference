@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\LeaderFullPapersExport;
+use App\Exports\MaterialsSubmissionExport;
 
 class FullPaperReviewController extends Controller
 {
@@ -754,6 +755,27 @@ class FullPaperReviewController extends Controller
             'papers', 'stats', 'subthemes',
             'search', 'statusFilter', 'subthemeFilter', 'materialsFilter'
         ));
+    }
+
+    /**
+     * Admin — download an Excel report of approved papers split into
+     * "Submitted Materials" and "Not Submitted" sheets, including the
+     * author/institution/contact details for each paper.
+     *
+     * Respects the same search & sub-theme filters as the completed-reviews
+     * screen so the export matches whatever the admin is currently viewing.
+     */
+    public function downloadMaterialsReport(Request $request)
+    {
+        $search         = trim($request->input('search', ''));
+        $subthemeFilter = $request->input('subtheme', '');
+
+        $filename = 'materials-submission-report-' . now()->format('Y-m-d_His') . '.xlsx';
+
+        return Excel::download(
+            new MaterialsSubmissionExport($search, $subthemeFilter),
+            $filename
+        );
     }
 
     /**

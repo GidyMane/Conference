@@ -13,7 +13,6 @@
         --red: #dc2626;
     }
 
-    /* ── Header ── */
     .page-hero {
         background: linear-gradient(135deg, var(--dark-green) 0%, #2d8a3e 60%, #16a34a 100%);
         border-radius: 16px;
@@ -36,7 +35,6 @@
     .page-hero h2 { font-weight: 700; font-size: 26px; margin-bottom: 6px; }
     .page-hero p  { opacity: .85; margin: 0; font-size: 14px; }
 
-    /* ── Stats ── */
     .stats-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -97,7 +95,6 @@
     .stat-info p  { font-size: 12px; color: #64748b; text-transform: uppercase;
                     letter-spacing: .06em; margin: 2px 0 0; }
 
-    /* ── Filters ── */
     .filter-bar {
         background: white;
         border-radius: 12px;
@@ -120,7 +117,6 @@
         box-shadow: 0 0 0 3px rgba(45,138,62,.12);
     }
 
-    /* ── Table Card ── */
     .table-card {
         background: white;
         border-radius: 12px;
@@ -155,7 +151,6 @@
         border-bottom: 1px solid #f1f5f9;
     }
 
-    /* ── Paper ID ── */
     .paper-id {
         font-family: monospace;
         font-size: 13px;
@@ -167,7 +162,6 @@
         white-space: nowrap;
     }
 
-    /* ── Review Progress Dots ── */
     .review-dots { display: flex; gap: 6px; align-items: center; }
     .rdot {
         width: 28px; height: 28px;
@@ -195,7 +189,6 @@
     }
     .rdot:hover .rtip { display: block; }
 
-    /* ── Status Badge ── */
     .sbadge {
         padding: 4px 12px;
         border-radius: 20px;
@@ -209,7 +202,6 @@
     .sbadge-rejected     { background: #fee2e2; color: #991b1b; }
     .sbadge-under-review { background: var(--green); color: white; }
 
-    /* ── Action Buttons ── */
     .btn-view-reviews {
         background: linear-gradient(135deg, var(--green) 0%, #16a34a 100%);
         color: white;
@@ -259,7 +251,6 @@
     }
     .btn-view-material:hover { background: #1e5a96; color: white; }
 
-    /* ── Score Pill ── */
     .score-pill {
         display: inline-flex;
         align-items: center;
@@ -275,7 +266,6 @@
     .score-pill.mid { background: #fefce8; color: #713f12; border-color: #fde68a; }
     .score-pill.low { background: #fff1f2; color: #9f1239; border-color: #fca5a5; }
 
-    /* ── Sub-theme tag ── */
     .subtheme-tag {
         font-size: 11px;
         background: var(--light-green);
@@ -285,7 +275,6 @@
         font-weight: 600;
     }
 
-    /* ── Materials badge ── */
     .mat-badge {
         display: inline-flex; align-items: center; gap: 5px;
         padding: 3px 10px; border-radius: 20px;
@@ -297,7 +286,6 @@
     .mat-detail { font-size: 11px; color: #64748b; margin-top: 3px; }
     .mat-detail i { margin-right: 3px; }
 
-    /* ── Empty state ── */
     .empty-state {
         text-align: center;
         padding: 70px 20px;
@@ -306,9 +294,6 @@
     .empty-state i { font-size: 64px; margin-bottom: 18px; display: block; opacity: .35; }
     .empty-state h4 { color: #475569; font-size: 20px; margin-bottom: 8px; }
 
-    /* ══════════════════════════════════
-       PAGINATION
-    ══════════════════════════════════ */
     .pagination-wrapper {
         display: flex;
         justify-content: space-between;
@@ -319,23 +304,9 @@
         flex-wrap: wrap;
         gap: 12px;
     }
-
-    .pagination-info {
-        font-size: 13px;
-        color: #64748b;
-    }
-
-    .pagination-info strong {
-        color: #1e293b;
-    }
-
-    .pagination {
-        margin: 0;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 4px;
-    }
-
+    .pagination-info { font-size: 13px; color: #64748b; }
+    .pagination-info strong { color: #1e293b; }
+    .pagination { margin: 0; display: flex; flex-wrap: wrap; gap: 4px; }
     .pagination .page-item .page-link {
         color: var(--green);
         border: 1px solid #e2e8f0;
@@ -348,7 +319,6 @@
         margin: 0 2px;
         transition: all 0.2s ease;
     }
-
     .pagination .page-item .page-link:hover {
         background-color: var(--light-green);
         border-color: var(--green);
@@ -356,20 +326,17 @@
         box-shadow: 0 2px 6px rgba(45, 138, 62, 0.18);
         text-decoration: none;
     }
-
     .pagination .page-item.active .page-link {
         background-color: var(--green);
         border-color: var(--green);
         color: white;
         box-shadow: 0 2px 8px rgba(45, 138, 62, 0.35);
     }
-
     .pagination .page-item.active .page-link:hover {
         background-color: var(--dark-green);
         border-color: var(--dark-green);
         color: white;
     }
-
     .pagination .page-item.disabled .page-link {
         color: #cbd5e1;
         background-color: #f8fafc;
@@ -377,8 +344,6 @@
         cursor: not-allowed;
         pointer-events: none;
     }
-
-    /* Prev / Next slightly wider */
     .pagination .page-item:first-child .page-link,
     .pagination .page-item:last-child .page-link {
         padding: 6px 15px;
@@ -386,101 +351,127 @@
     }
 
     .download-panel {
-    background: white;
-    border-radius: 12px;
-    padding: 18px 22px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.06);
-    margin-bottom: 22px;
-    border-left: 4px solid #2d8a3e;
-}
-.download-panel-title {
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .06em;
-    color: #1e293b;
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.download-panel-body {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    align-items: flex-end;
-}
-.download-panel .form-label {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .06em;
-    color: #64748b;
-    margin-bottom: 5px;
-}
-.download-panel .form-select,
-.download-panel .form-check-label {
-    font-size: 13px;
-}
-.download-panel .types-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-.download-panel .form-check {
-    margin: 0;
-}
-.btn-download-zip {
-    background: linear-gradient(135deg, #1e5a96 0%, #2563eb 100%);
-    color: white;
-    border: none;
-    padding: 9px 20px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 700;
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    cursor: pointer;
-    transition: opacity .2s, transform .15s;
-    white-space: nowrap;
-    text-decoration: none;
-}
-.btn-download-zip:hover {
-    opacity: .88;
-    transform: translateY(-1px);
-    color: white;
-}
-.btn-download-zip:disabled {
-    opacity: .55;
-    cursor: not-allowed;
-    transform: none;
-}
-.download-count-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: #eff6ff;
-    color: #1d4ed8;
-    border: 1px solid #bfdbfe;
-    border-radius: 20px;
-    padding: 4px 12px;
-    font-size: 12px;
-    font-weight: 700;
-}
+        background: white;
+        border-radius: 12px;
+        padding: 18px 22px;
+        box-shadow: 0 2px 8px rgba(0,0,0,.06);
+        margin-bottom: 22px;
+        border-left: 4px solid #2d8a3e;
+    }
+    .download-panel-title {
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .06em;
+        color: #1e293b;
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .download-panel-body {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        align-items: flex-end;
+    }
+    .download-panel .form-label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .06em;
+        color: #64748b;
+        margin-bottom: 5px;
+    }
+    .download-panel .form-select,
+    .download-panel .form-check-label { font-size: 13px; }
+    .download-panel .types-group { display: flex; flex-wrap: wrap; gap: 10px; }
+    .download-panel .form-check { margin: 0; }
+    .btn-download-zip {
+        background: linear-gradient(135deg, #1e5a96 0%, #2563eb 100%);
+        color: white;
+        border: none;
+        padding: 9px 20px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        cursor: pointer;
+        transition: opacity .2s, transform .15s;
+        white-space: nowrap;
+        text-decoration: none;
+    }
+    .btn-download-zip:hover { opacity: .88; transform: translateY(-1px); color: white; }
+    .btn-download-zip:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+    .download-count-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #eff6ff;
+        color: #1d4ed8;
+        border: 1px solid #bfdbfe;
+        border-radius: 20px;
+        padding: 4px 12px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    /* ── Excel materials report panel (new) ── */
+    .report-panel {
+        background: white;
+        border-radius: 12px;
+        padding: 18px 22px;
+        box-shadow: 0 2px 8px rgba(0,0,0,.06);
+        margin-bottom: 22px;
+        border-left: 4px solid #16a34a;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+    }
+    .report-panel-text h6 {
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .06em;
+        color: #1e293b;
+        margin: 0 0 4px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .report-panel-text p { font-size: 13px; color: #64748b; margin: 0; }
+    .btn-download-excel {
+        background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+        color: white;
+        border: none;
+        padding: 10px 22px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: opacity .2s, transform .15s;
+        white-space: nowrap;
+        text-decoration: none;
+        flex-shrink: 0;
+    }
+    .btn-download-excel:hover { opacity: .88; transform: translateY(-1px); color: white; }
 </style>
 @endsection
 
 @section('content')
 
-{{-- Page Hero --}}
 <div class="page-hero">
     <h2><i class="fas fa-clipboard-list me-2"></i>Fully Reviewed Papers</h2>
     <p>Papers that have completed all reviews and are ready for a final decision.</p>
-
 </div>
 
-{{-- Stats — from $stats array passed by controller, not computed from $papers collection --}}
 <div class="stats-grid">
     <div class="stat-tile t-total">
         <div class="stat-icon"><i class="fas fa-layer-group"></i></div>
@@ -500,7 +491,6 @@
     </div>
 </div>
 
-{{-- Materials tracking row (approved papers only) --}}
 <p class="text-muted mb-2" style="font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;">
     <i class="fas fa-file-upload me-1 text-success"></i> Materials Submission — Approved Papers
 </p>
@@ -539,6 +529,25 @@
     </div>
 </div>
 
+{{-- ════════════════ NEW: Excel Materials Report ════════════════ --}}
+<div class="report-panel">
+    <div class="report-panel-text">
+        <h6><i class="fas fa-file-excel text-success"></i> Materials Submission Report (Excel)</h6>
+        <p>
+            Download a spreadsheet listing every approved paper — who submitted materials and who hasn't —
+            with full author, contact, and institution details on two separate sheets.
+            @if($search || $subthemeFilter)
+                Respects your current search / sub-theme filter.
+            @endif
+        </p>
+    </div>
+    <a href="{{ route('admin.fullpapers.materials-report', request()->only('search', 'subtheme')) }}"
+       class="btn-download-excel">
+        <i class="fas fa-file-excel"></i>
+        Download Excel Report
+    </a>
+</div>
+
 <div class="download-panel">
     <div class="download-panel-title">
         <i class="fas fa-download text-success"></i>
@@ -550,7 +559,6 @@
           id="downloadForm"
           class="download-panel-body">
 
-        {{-- Subtheme selector ------------------------------------------------}}
         <div>
             <div class="form-label">Filter by Sub-Theme</div>
             <select name="subtheme" class="form-select" style="width:220px" id="dlSubtheme">
@@ -561,7 +569,6 @@
             </select>
         </div>
 
-        {{-- File type checkboxes --------------------------------------------}}
         <div>
             <div class="form-label">Include File Types</div>
             <div class="types-group">
@@ -596,7 +603,6 @@
             </div>
         </div>
 
-        {{-- Live count badge ------------------------------------------------}}
         <div class="align-self-end">
             <span class="download-count-badge" id="dlCountBadge">
                 <i class="fas fa-boxes"></i>
@@ -604,7 +610,6 @@
             </span>
         </div>
 
-        {{-- Download button -------------------------------------------------}}
         <div class="align-self-end ms-auto">
             <button type="submit" class="btn-download-zip" id="dlBtn">
                 <i class="fas fa-file-zipper"></i>
@@ -614,7 +619,6 @@
     </form>
 </div>
 
-{{-- Filter Bar — server-side GET form so search works across all pages --}}
 <form method="GET" action="{{ route('admin.fullpapers.completed') }}" class="filter-bar" id="filterForm">
     <div class="flex-grow-1" style="min-width:220px">
         <div class="input-group">
@@ -645,7 +649,6 @@
         <option value="submitted" {{ $materialsFilter === 'submitted' ? 'selected' : '' }}>✅ Materials Submitted</option>
         <option value="missing"   {{ $materialsFilter === 'missing'   ? 'selected' : '' }}>⚠️ No Materials Yet</option>
     </select>
-    {{-- Single hidden input that carries the materials filter value --}}
     <input type="hidden" name="materials" id="materialsFilterInput" value="{{ $materialsFilter }}">
     <button type="submit" class="btn btn-success btn-sm px-3">
         <i class="fas fa-search me-1"></i> Search
@@ -657,7 +660,6 @@
     @endif
 </form>
 
-{{-- Papers Table --}}
 <div class="table-card">
     <div class="table-card-header">
         <h5><i class="fas fa-table me-2 text-success"></i>
@@ -741,7 +743,6 @@
                         @endphp
                         <span class="sbadge {{ $statusClass }}">{{ ucfirst($paper->status) }}</span>
                     </td>
-                    {{-- Materials column --}}
                     <td>
                         @php
                             $pu = $paper->presentationUpload;
@@ -751,7 +752,6 @@
                         @endphp
 
                         @if(!$pu || !$hasAny)
-                            {{-- No upload at all --}}
                             @if(in_array(strtoupper($paper->status), ['APPROVED']))
                                 <span class="mat-badge mat-no">
                                     <i class="fas fa-exclamation-circle"></i> None
@@ -760,7 +760,6 @@
                                 <span class="text-muted" style="font-size:12px;">N/A</span>
                             @endif
                         @elseif($hasRevised && $hasPPT)
-                            {{-- Both submitted --}}
                             <span class="mat-badge mat-yes">
                                 <i class="fas fa-check-circle"></i> Complete
                             </span>
@@ -771,7 +770,6 @@
                                 {{ $pu->powerpoint_file ? 'PPT' : 'Poster' }}
                             </div>
                         @else
-                            {{-- Partial --}}
                             <span class="mat-badge mat-part">
                                 <i class="fas fa-exclamation-triangle"></i> Partial
                             </span>
@@ -819,7 +817,6 @@
         </table>
     </div>
 
-    {{-- ════════════════ PAGINATION ════════════════ --}}
     @if($papers->hasPages())
         <div class="pagination-wrapper">
             <div class="pagination-info">
@@ -837,12 +834,9 @@
             </div>
         </div>
     @endif
-    {{-- ══════════════ END PAGINATION ══════════════ --}}
-
 
 </div>
 
-{{-- Tip --}}
 <div class="alert alert-success d-flex gap-3 align-items-start mt-4"
      style="border-radius:12px; border-left: 4px solid #2d8a3e;">
     <i class="fas fa-lightbulb fa-lg mt-1 flex-shrink-0 text-success"></i>
@@ -862,7 +856,6 @@
 @section('scripts')
 <script>
 (function () {
-    // Debounce search input so the form submits 500ms after the user stops typing
     const searchInput = document.getElementById('searchInput');
     const filterForm  = document.getElementById('filterForm');
     let debounceTimer;
@@ -880,17 +873,11 @@
 
 <script>
 (function () {
-    // ── Live subtheme count via AJAX ──────────────────────────────────────
-    // This calls a lightweight JSON endpoint to update the badge count when
-    // the subtheme dropdown changes.  See STEP 4 for the optional endpoint.
-    // If you skip STEP 4, the badge simply shows the global total at all times.
-
     const dlSubtheme = document.getElementById('dlSubtheme');
     const dlCount    = document.getElementById('dlCount');
     const dlBtn      = document.getElementById('dlBtn');
     const dlTypes    = document.querySelectorAll('.dl-type');
 
-    // Prevent submission when no type is checked
     document.getElementById('downloadForm').addEventListener('submit', function (e) {
         const anyChecked = [...dlTypes].some(cb => cb.checked);
         if (!anyChecked) {
@@ -899,12 +886,10 @@
         }
     });
 
-    // Optional: update count badge when subtheme changes
     if (dlSubtheme) {
         dlSubtheme.addEventListener('change', function () {
             const subthemeId = this.value;
 
-            // Show loading state
             dlCount.textContent = '…';
             dlBtn.disabled = true;
 
@@ -915,7 +900,6 @@
                     dlBtn.disabled = (data.count === 0);
                 })
                 .catch(() => {
-                    // If endpoint doesn't exist yet, just restore
                     dlCount.textContent = '?';
                     dlBtn.disabled = false;
                 });
