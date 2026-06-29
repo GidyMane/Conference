@@ -143,6 +143,8 @@ Route::prefix('admin')
         Route::get('/fullpapers', [FullPaperController::class, 'index'])->name('fullpapers.index');
         Route::get('/fullpapers/completed', [FullPaperReviewController::class, 'adminCompletedReviews'])->name('fullpapers.completed');
         Route::get('/fullpapers/materials-report', [FullPaperReviewController::class, 'downloadMaterialsReport'])->name('fullpapers.materials-report');
+        Route::get('/fullpapers/download-materials', [PresentationUploadController::class, 'downloadMaterialsZip'])->name('fullpapers.download-materials');
+        Route::get('/fullpapers/download-materials/count', [PresentationUploadController::class, 'downloadMaterialsCount'])->name('fullpapers.download-materials.count');
         
         Route::get('/fullpapers/{id}/all-reviews', [FullPaperReviewController::class, 'adminAllReviews'])->name('fullpapers.all-reviews');
         Route::get('/fullpapers/{id}/materials',   [PresentationUploadController::class, 'adminViewMaterials'])->name('fullpapers.materials');

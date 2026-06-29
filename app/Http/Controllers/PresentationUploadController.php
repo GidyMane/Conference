@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\FullPaper;
 use App\Models\PresentationUpload;
-use ZipArchive;
 use Illuminate\Support\Facades\Storage;
-use App\Models\SubTheme;
+use ZipArchive;
 
 class PresentationUploadController extends Controller
 {
@@ -309,120 +308,122 @@ class PresentationUploadController extends Controller
     ));
 }
 
-public function downloadAll(Request $request)
-{
-    // ── 1. Validate input ────────────────────────────────────────────────────
-    $request->validate([
-        'subtheme' => 'nullable|integer|exists:sub_themes,id',
-        'types'    => 'nullable|array',
-        'types.*'  => 'in:revised,powerpoint,poster,supporting',
-    ]);
+    /**
+     * Admin — bulk download presentation materials as a ZIP archive.
+     *
+     * Filters:
+     *   subtheme  (optional)  — restrict to one sub-theme id
+     *   types[]   (optional)  — which file types to include:
+     *                           revised | powerpoint | poster | supporting
+     *                           Defaults to all four if not supplied.
+     *
+     * Only approved papers that have at least one uploaded file of the
+     * requested type(s) are included. Files are grouped inside the ZIP
+     * under a folder named after the paper's submission code.
+     */
+    public function downloadMaterialsZip(Request $request)
+    {
+        $subtheme = $request->input('subtheme');
+        $types    = $request->input('types', ['revised', 'powerpoint', 'poster', 'supporting']);
 
-    $subthemeId    = $request->input('subtheme');
-    $selectedTypes = $request->input('types', ['revised', 'powerpoint', 'poster', 'supporting']);
+        $query = FullPaper::with(['abstract.subTheme', 'presentationUpload'])
+            ->whereIn('status', ['approved', 'APPROVED'])
+            ->whereHas('presentationUpload');
 
-    // ── 2. Fetch approved papers that have a presentationUpload ─────────────
-    $query = FullPaper::with(['abstract.subtheme', 'presentationUpload'])
-        ->where('status', 'APPROVED')
-        ->whereHas('presentationUpload');
-
-    if ($subthemeId) {
-        $query->whereHas('abstract', function ($q) use ($subthemeId) {
-            $q->where('sub_theme_id', $subthemeId);
-        });
-    }
-
-    $papers = $query->get();
-
-    if ($papers->isEmpty()) {
-        return back()->with('error', 'No materials found for the selected filter.');
-    }
-
-    // ── 3. Build the ZIP in a temp file ─────────────────────────────────────
-    $tmpPath = tempnam(sys_get_temp_dir(), 'presentations_') . '.zip';
-
-    $zip = new ZipArchive();
-    if ($zip->open($tmpPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
-        return back()->with('error', 'Could not create ZIP archive.');
-    }
-
-    foreach ($papers as $paper) {
-        $upload = $paper->presentationUpload;
-        if (!$upload) {
-            continue;
+        if (!empty($subtheme)) {
+            $query->whereHas('abstract.subTheme', function ($q) use ($subtheme) {
+                $q->where('id', $subtheme);
+            });
         }
 
-        // Folder name inside ZIP: "<SubthemeName>/<SubmissionCode>"
-        $subthemeName  = $paper->abstract->subtheme->full_name ?? 'Unknown Subtheme';
-        $submissionCode = $paper->abstract->submission_code    ?? ('paper_' . $paper->id);
+        $papers = $query->get();
 
-        // Sanitise for use as a file-system path component
-        $safeSubtheme = preg_replace('/[^A-Za-z0-9\-_ ]/', '', $subthemeName);
-        $safeCode     = preg_replace('/[^A-Za-z0-9\-_]/', '_', $submissionCode);
-        $folder       = "{$safeSubtheme}/{$safeCode}";
+        // Build the list of (zip-internal-path => absolute-disk-path) entries
+        $entries = [];
 
-        // Helper: add a single file to the ZIP if it exists on disk
-        $addFile = function (string $storagePath, string $zipName) use ($zip, $folder) {
-            $absolutePath = Storage::disk('public')->path($storagePath);
-            if (file_exists($absolutePath)) {
-                $zip->addFile($absolutePath, "{$folder}/{$zipName}");
+        foreach ($papers as $paper) {
+            $upload = $paper->presentationUpload;
+            if (!$upload) {
+                continue;
             }
-        };
 
-        // ── Revised full paper ───────────────────────────────────────────────
-        if (in_array('revised', $selectedTypes) && $upload->revised_fullpaper) {
-            $ext = pathinfo($upload->revised_fullpaper, PATHINFO_EXTENSION);
-            $addFile($upload->revised_fullpaper, "revised_paper.{$ext}");
-        }
+            $code   = $paper->abstract->submission_code ?? ('paper_' . $paper->id);
+            $folder = preg_replace('/[^A-Za-z0-9_\-]/', '_', $code);
 
-        // ── PowerPoint ───────────────────────────────────────────────────────
-        if (in_array('powerpoint', $selectedTypes) && $upload->powerpoint_file) {
-            $ext = pathinfo($upload->powerpoint_file, PATHINFO_EXTENSION);
-            $addFile($upload->powerpoint_file, "presentation.{$ext}");
-        }
+            if (in_array('revised', $types) && $upload->revised_fullpaper
+                && Storage::disk('public')->exists($upload->revised_fullpaper)) {
+                $entries[$folder . '/' . basename($upload->revised_fullpaper)] =
+                    Storage::disk('public')->path($upload->revised_fullpaper);
+            }
 
-        // ── Poster ───────────────────────────────────────────────────────────
-        if (in_array('poster', $selectedTypes) && $upload->poster_file) {
-            $ext = pathinfo($upload->poster_file, PATHINFO_EXTENSION);
-            $addFile($upload->poster_file, "poster.{$ext}");
-        }
+            if (in_array('powerpoint', $types) && $upload->powerpoint_file
+                && Storage::disk('public')->exists($upload->powerpoint_file)) {
+                $entries[$folder . '/' . basename($upload->powerpoint_file)] =
+                    Storage::disk('public')->path($upload->powerpoint_file);
+            }
 
-        // ── Supporting documents ─────────────────────────────────────────────
-        if (in_array('supporting', $selectedTypes) && !empty($upload->supporting_documents)) {
-            foreach ($upload->supporting_documents as $i => $doc) {
-                $ext = pathinfo($doc, PATHINFO_EXTENSION);
-                $addFile($doc, "supporting_" . ($i + 1) . ".{$ext}");
+            if (in_array('poster', $types) && $upload->poster_file
+                && Storage::disk('public')->exists($upload->poster_file)) {
+                $entries[$folder . '/' . basename($upload->poster_file)] =
+                    Storage::disk('public')->path($upload->poster_file);
+            }
+
+            if (in_array('supporting', $types) && $upload->supporting_documents) {
+                foreach ($upload->supporting_documents as $doc) {
+                    if ($doc && Storage::disk('public')->exists($doc)) {
+                        $entries[$folder . '/' . basename($doc)] =
+                            Storage::disk('public')->path($doc);
+                    }
+                }
             }
         }
+
+        if (empty($entries)) {
+            return back()->with('error', 'No materials match the selected filters.');
+        }
+
+        // Build the ZIP in a temp file, then stream it for download
+        $zipFileName = 'presentation-materials-' . now()->format('Y-m-d_His') . '.zip';
+        $zipPath     = storage_path('app/tmp_' . $zipFileName);
+
+        $zip = new ZipArchive();
+        $zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE);
+
+        foreach ($entries as $zipInternalPath => $absolutePath) {
+            $zip->addFile($absolutePath, $zipInternalPath);
+        }
+
+        $zip->close();
+
+        return response()->download($zipPath, $zipFileName)->deleteFileAfterSend(true);
     }
 
-    $zip->close();
+    /**
+     * Admin — lightweight JSON endpoint used by the live count badge on the
+     * "Fully Reviewed Papers" download panel. Returns how many approved
+     * papers currently have at least one uploaded material, optionally
+     * filtered by sub-theme.
+     */
+    public function downloadMaterialsCount(Request $request)
+    {
+        $subtheme = $request->input('subtheme');
 
-    // ── 4. Stream & delete ───────────────────────────────────────────────────
-    $label     = $subthemeId ? SubTheme::find($subthemeId)?->full_name : 'All_Subthemes';
-    $safeLabel = preg_replace('/[^A-Za-z0-9\-_]/', '_', $label ?? 'All_Subthemes');
-    $filename  = "Presentations_{$safeLabel}_" . now()->format('Ymd_His') . '.zip';
+        $query = FullPaper::whereIn('status', ['approved', 'APPROVED'])
+            ->whereHas('presentationUpload', function ($q) {
+                $q->where(function ($q2) {
+                    $q2->whereNotNull('revised_fullpaper')
+                       ->orWhereNotNull('powerpoint_file')
+                       ->orWhereNotNull('poster_file');
+                });
+            });
 
-    return response()->download($tmpPath, $filename, [
-        'Content-Type'        => 'application/zip',
-        'Content-Disposition' => "attachment; filename=\"{$filename}\"",
-    ])->deleteFileAfterSend(true);
-}
+        if (!empty($subtheme)) {
+            $query->whereHas('abstract.subTheme', function ($q) use ($subtheme) {
+                $q->where('id', $subtheme);
+            });
+        }
 
-public function downloadCount(Request $request): \Illuminate\Http\JsonResponse
-{
-    $request->validate(['subtheme' => 'nullable|integer|exists:sub_themes,id']);
-
-    $query = FullPaper::where('status', 'APPROVED')
-        ->whereHas('presentationUpload');
-
-    if ($subthemeId = $request->integer('subtheme')) {
-        $query->whereHas('abstract', function ($q) use ($subthemeId) {
-            $q->where('sub_theme_id', $subthemeId);
-        });
+        return response()->json(['count' => $query->count()]);
     }
-
-    return response()->json(['count' => $query->count()]);
-}
 
 }
