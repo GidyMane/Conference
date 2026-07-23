@@ -1,0 +1,564 @@
+[08-Jan-2026 04:09:35 America/Chicago] === SAVE ABSTRACT STARTED ===
+[08-Jan-2026 04:09:35 America/Chicago] POST data received: Array
+(
+    [submission_id] => KALRO_695f82591d7a1
+    [corresponding_name] => Hettie Daniel
+    [corresponding_email] => your.email+fakedata79076@gmail.com
+    [corresponding_phone] => 0728463410
+    [organization] => Architecto explicabo officiis ad sit modi assumenda ducimus quis praesentium.
+    [department] => Accusantium nihil aspernatur impedit.
+    [position] => Corporate Creative Director
+    [submission_type] => abstract
+    [sub_theme] => cropVarieties
+    [paper_title] => Forward Tactics Facilitator
+    [abstract] => 620 Ansley Neck
+    [keywords] => quos animi excepturi
+    [authors] => Array
+        (
+            [1] => Array
+                (
+                    [name] => Hettie Daniel
+                    [institution] => Architecto explicabo officiis ad sit modi assumenda ducimus quis praesentium.
+                )
+
+        )
+
+    [presentation_preference] => oral
+    [attendance_mode] => in_person
+    [special_requirements] => Laudantium magni alias.cdcs
+    [terms] => on
+)
+
+[08-Jan-2026 04:10:15 America/Chicago] === SAVE ABSTRACT STARTED ===
+[08-Jan-2026 04:10:15 America/Chicago] POST data received: Array
+(
+    [submission_id] => KALRO_695f825fd7d87
+    [corresponding_name] => Valentina Block
+    [corresponding_email] => your.email+fakedata78261@gmail.com
+    [corresponding_phone] => 0728463410
+    [organization] => Cumque quos aliquam amet deserunt beatae provident voluptatum praesentium.
+    [department] => Qui sapiente magni nulla sunt aperiam sit molestiae dolorum architecto.
+    [position] => Regional Mobility Agent
+    [submission_type] => abstract
+    [sub_theme] => animalFeeds
+    [paper_title] => Legacy Marketing Representative
+    [abstract] => 7657 Evan Gateway 7657 Evan Gateway7657 Evan Gateway7657 Evan Gateway7657 Evan Gateway7657 Evan Gateway7657 Evan Gateway
+    [keywords] => id tenetur voluptatibus
+    [authors] => Array
+        (
+            [1] => Array
+                (
+                    [name] => Valentina Block
+                    [institution] => Cumque quos aliquam amet deserunt beatae provident voluptatum praesentium.
+                )
+
+        )
+
+    [presentation_preference] => oral
+    [attendance_mode] => virtual
+    [special_requirements] => Sapiente exercitationem delectus magni magnam.
+    [terms] => on
+)
+
+[08-Jan-2026 04:10:15 America/Chicago] Generated submission code: KALROCONF_SUB7
+[08-Jan-2026 04:10:15 America/Chicago] Collected data - Name: Valentina Block, Email: your.email+fakedata78261@gmail.com, Org: Cumque quos aliquam amet deserunt beatae provident voluptatum praesentium.
+[08-Jan-2026 04:10:15 America/Chicago] Main submission saved with ID: 7
+[08-Jan-2026 04:10:15 America/Chicago] Total authors to save: 1
+[08-Jan-2026 04:10:15 America/Chicago] Author 1 is marked as corresponding
+[08-Jan-2026 04:10:15 America/Chicago] Saved author 1: Valentina Block from Cumque quos aliquam amet deserunt beatae provident voluptatum praesentium. (corresponding: 1)
+[08-Jan-2026 04:10:15 America/Chicago] Successfully saved 1 authors
+[08-Jan-2026 04:10:15 America/Chicago] === SAVE ABSTRACT COMPLETED SUCCESSFULLY ===
+[08-Jan-2026 04:10:15 America/Chicago] Redirecting to success page with code: KALROCONF_SUB7
+[08-Jan-2026 04:17:39 America/Chicago] === SAVE ABSTRACT STARTED ===
+[08-Jan-2026 04:17:39 America/Chicago] Authors POST data: Array
+(
+    [1] => Array
+        (
+            [name] => Faustino Hettinger-Rolfson
+            [institution] => Architecto itaque voluptatem et sapiente quidem in animi libero minima.
+            [corresponding] => on
+        )
+
+    [2] => Array
+        (
+            [name] => dcdf
+            [institution] => dfd
+        )
+
+    [3] => Array
+        (
+            [name] => Morris
+            [institution] => KALRO
+        )
+
+)
+
+[08-Jan-2026 04:17:39 America/Chicago] Generated submission code: KALROCONF_SUB8
+[08-Jan-2026 04:17:39 America/Chicago] Main submission saved with ID: 8
+[08-Jan-2026 04:17:39 America/Chicago] Added corresponding author: Faustino Hettinger-Rolfson
+[08-Jan-2026 04:17:39 America/Chicago] Added additional author 2: dcdf (corresponding: no)
+[08-Jan-2026 04:17:39 America/Chicago] Added additional author 3: Morris (corresponding: no)
+[08-Jan-2026 04:17:39 America/Chicago] No additional author marked as corresponding, author 1 remains corresponding
+[08-Jan-2026 04:17:39 America/Chicago] Saved author 1: Faustino Hettinger-Rolfson from Architecto itaque voluptatem et sapiente quidem in animi libero minima. (corresponding: 1)
+[08-Jan-2026 04:17:39 America/Chicago] Saved author 2: dcdf from dfd (corresponding: 0)
+[08-Jan-2026 04:17:39 America/Chicago] Saved author 3: Morris from KALRO (corresponding: 0)
+[08-Jan-2026 04:17:39 America/Chicago] Successfully saved 3 authors
+[08-Jan-2026 04:17:39 America/Chicago] === SAVE ABSTRACT COMPLETED SUCCESSFULLY ===
+[08-Jan-2026 04:17:39 America/Chicago] Redirecting to success page with code: KALROCONF_SUB8
+[08-Jan-2026 05:24:33 America/Chicago] === SAVE ABSTRACT STARTED ===
+[08-Jan-2026 05:24:33 America/Chicago] Authors POST data: Array
+(
+    [1] => Array
+        (
+            [name] => Eulalia MacGyver
+            [institution] => Non sequi repellat.
+            [corresponding] => on
+        )
+
+    [2] => Array
+        (
+            [name] => New One
+            [institution] => ILRI
+        )
+
+)
+
+[08-Jan-2026 05:24:33 America/Chicago] Generated submission code: KALROCONF_SUB9
+[08-Jan-2026 05:24:33 America/Chicago] Main submission saved with ID: 9
+[08-Jan-2026 05:24:33 America/Chicago] Added corresponding author: Eulalia MacGyver
+[08-Jan-2026 05:24:33 America/Chicago] Added additional author 2: New One (corresponding: no)
+[08-Jan-2026 05:24:33 America/Chicago] No additional author marked as corresponding, author 1 remains corresponding
+[08-Jan-2026 05:24:33 America/Chicago] Saved author 1: Eulalia MacGyver from Non sequi repellat. (corresponding: 1)
+[08-Jan-2026 05:24:33 America/Chicago] Saved author 2: New One from ILRI (corresponding: 0)
+[08-Jan-2026 05:24:33 America/Chicago] Successfully saved 2 authors
+[08-Jan-2026 05:24:33 America/Chicago] === SAVE ABSTRACT COMPLETED SUCCESSFULLY ===
+[08-Jan-2026 05:24:33 America/Chicago] Redirecting to success page with code: KALROCONF_SUB9
+[08-Jan-2026 05:27:22 America/Chicago] PHP Warning:  require_once(/home1/nrfvqate/kalro.org/conf/config/config.php): Failed to open stream: No such file or directory in /home1/nrfvqate/kalro.org/conference/pages/abstract_success.php on line 4
+[08-Jan-2026 05:27:22 America/Chicago] PHP Fatal error:  Uncaught Error: Failed opening required '/home1/nrfvqate/kalro.org/conf/config/config.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home1/nrfvqate/kalro.org/conference/pages/abstract_success.php:4
+Stack trace:
+#0 {main}
+  thrown in /home1/nrfvqate/kalro.org/conference/pages/abstract_success.php on line 4
+[08-Jan-2026 05:28:10 America/Chicago] === SAVE ABSTRACT STARTED ===
+[08-Jan-2026 05:28:10 America/Chicago] Authors POST data: Array
+(
+    [1] => Array
+        (
+            [name] => Royce Tillman
+            [institution] => Eius maiores dignissimos praesentium aliquam pariatur perferendis hic sit minima.
+            [corresponding] => on
+        )
+
+)
+
+[08-Jan-2026 05:30:26 America/Chicago] === SAVE ABSTRACT STARTED ===
+[08-Jan-2026 05:30:26 America/Chicago] Authors POST data: Array
+(
+    [1] => Array
+        (
+            [name] => Christop Morissette
+            [institution] => KALRO
+            [corresponding] => on
+        )
+
+    [2] => Array
+        (
+            [name] => New Two
+            [institution] => ILRI
+        )
+
+    [3] => Array
+        (
+            [name] => Morris
+            [institution] => KALRO
+        )
+
+    [4] => Array
+        (
+            [name] => David Messi
+            [institution] => KALRO
+        )
+
+)
+
+[08-Jan-2026 05:30:26 America/Chicago] Generated submission code: KALROCONF_SUB10
+[08-Jan-2026 05:30:26 America/Chicago] Main submission saved with ID: 10
+[08-Jan-2026 05:30:26 America/Chicago] Added corresponding author: Christop Morissette
+[08-Jan-2026 05:30:26 America/Chicago] Added additional author 2: New Two (corresponding: no)
+[08-Jan-2026 05:30:26 America/Chicago] Added additional author 3: Morris (corresponding: no)
+[08-Jan-2026 05:30:26 America/Chicago] Added additional author 4: David Messi (corresponding: no)
+[08-Jan-2026 05:30:26 America/Chicago] No additional author marked as corresponding, author 1 remains corresponding
+[08-Jan-2026 05:30:26 America/Chicago] Saved author 1: Christop Morissette from KALRO (corresponding: 1)
+[08-Jan-2026 05:30:26 America/Chicago] Saved author 2: New Two from ILRI (corresponding: 0)
+[08-Jan-2026 05:30:26 America/Chicago] Saved author 3: Morris from KALRO (corresponding: 0)
+[08-Jan-2026 05:30:26 America/Chicago] Saved author 4: David Messi from KALRO (corresponding: 0)
+[08-Jan-2026 05:30:26 America/Chicago] Successfully saved 4 authors
+[08-Jan-2026 05:30:26 America/Chicago] === SAVE ABSTRACT COMPLETED SUCCESSFULLY ===
+[08-Jan-2026 05:30:26 America/Chicago] Redirecting to success page with code: KALROCONF_SUB10
+[08-Jan-2026 05:30:26 America/Chicago] PHP Warning:  require_once(/home1/nrfvqate/kalro.org/conf/config/config.php): Failed to open stream: No such file or directory in /home1/nrfvqate/kalro.org/conference/pages/abstract_success.php on line 4
+[08-Jan-2026 05:30:26 America/Chicago] PHP Fatal error:  Uncaught Error: Failed opening required '/home1/nrfvqate/kalro.org/conf/config/config.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home1/nrfvqate/kalro.org/conference/pages/abstract_success.php:4
+Stack trace:
+#0 {main}
+  thrown in /home1/nrfvqate/kalro.org/conference/pages/abstract_success.php on line 4
+[08-Jan-2026 05:49:51 America/Chicago] === SAVE ABSTRACT STARTED ===
+[08-Jan-2026 05:49:51 America/Chicago] Authors POST data: Array
+(
+    [1] => Array
+        (
+            [name] => Kathleen Fritsch
+            [institution] => Esse modi et eos facilis doloribus maiores.
+        )
+
+)
+
+[08-Jan-2026 05:49:51 America/Chicago] Generated submission code: KALROCONF_SUB11
+[08-Jan-2026 05:49:51 America/Chicago] Main submission saved with ID: 11
+[08-Jan-2026 05:49:51 America/Chicago] Added corresponding author: Kathleen Fritsch
+[08-Jan-2026 05:49:51 America/Chicago] No additional author marked as corresponding, author 1 remains corresponding
+[08-Jan-2026 05:49:51 America/Chicago] Saved author 1: Kathleen Fritsch from Esse modi et eos facilis doloribus maiores. (corresponding: 1)
+[08-Jan-2026 05:49:51 America/Chicago] Successfully saved 1 authors
+[08-Jan-2026 05:49:51 America/Chicago] === SAVE ABSTRACT COMPLETED SUCCESSFULLY ===
+[08-Jan-2026 05:49:51 America/Chicago] Redirecting to success page with code: KALROCONF_SUB11
+[08-Jan-2026 06:08:59 America/Chicago] === SAVE ABSTRACT STARTED ===
+[08-Jan-2026 06:08:59 America/Chicago] Authors POST data: Array
+(
+    [1] => Array
+        (
+            [name] => Alva Metz
+            [institution] => Dolore odit veritatis repellat consequatur.
+            [corresponding] => on
+        )
+
+    [2] => Array
+        (
+            [name] => Gatheru
+            [institution] => ILRI
+        )
+
+)
+
+[08-Jan-2026 06:08:59 America/Chicago] Generated submission code: KALROCONF_SUB12
+[08-Jan-2026 06:08:59 America/Chicago] Main submission saved with ID: 12
+[08-Jan-2026 06:08:59 America/Chicago] Added corresponding author: Alva Metz
+[08-Jan-2026 06:08:59 America/Chicago] Added additional author 2: Gatheru (corresponding: no)
+[08-Jan-2026 06:08:59 America/Chicago] No additional author marked as corresponding, author 1 remains corresponding
+[08-Jan-2026 06:08:59 America/Chicago] Saved author 1: Alva Metz from Dolore odit veritatis repellat consequatur. (corresponding: 1)
+[08-Jan-2026 06:08:59 America/Chicago] Saved author 2: Gatheru from ILRI (corresponding: 0)
+[08-Jan-2026 06:08:59 America/Chicago] Successfully saved 2 authors
+[08-Jan-2026 06:08:59 America/Chicago] === SAVE ABSTRACT COMPLETED SUCCESSFULLY ===
+[08-Jan-2026 06:08:59 America/Chicago] Redirecting to success page with code: KALROCONF_SUB12
+[08-Jan-2026 06:31:33 America/Chicago] === SAVE ABSTRACT STARTED ===
+[08-Jan-2026 06:31:33 America/Chicago] Authors POST data: Array
+(
+    [1] => Array
+        (
+            [name] => Lilian Zboncak
+            [institution] => Ab hic quae ducimus voluptatum id.
+        )
+
+    [2] => Array
+        (
+            [name] => dcdf
+            [institution] => dfd
+        )
+
+)
+
+[08-Jan-2026 06:31:33 America/Chicago] Generated submission code: KALROCONF_SUB13
+[08-Jan-2026 06:31:33 America/Chicago] Main submission saved with ID: 13
+[08-Jan-2026 06:31:33 America/Chicago] Added corresponding author: Lilian Zboncak
+[08-Jan-2026 06:31:33 America/Chicago] Added additional author 2: dcdf (corresponding: no)
+[08-Jan-2026 06:31:33 America/Chicago] No additional author marked as corresponding, author 1 remains corresponding
+[08-Jan-2026 06:31:33 America/Chicago] Saved author 1: Lilian Zboncak from Ab hic quae ducimus voluptatum id. (corresponding: 1)
+[08-Jan-2026 06:31:33 America/Chicago] Saved author 2: dcdf from dfd (corresponding: 0)
+[08-Jan-2026 06:31:33 America/Chicago] Successfully saved 2 authors
+[08-Jan-2026 06:31:33 America/Chicago] === SAVE ABSTRACT COMPLETED SUCCESSFULLY ===
+[08-Jan-2026 06:31:33 America/Chicago] Redirecting to success page with code: KALROCONF_SUB13
+[08-Jan-2026 07:01:20 America/Chicago] === SAVE ABSTRACT STARTED ===
+[08-Jan-2026 07:01:20 America/Chicago] Authors POST data: Array
+(
+    [1] => Array
+        (
+            [name] => Buster Kuhic
+            [institution] => Incidunt quam aspernatur veritatis esse excepturi assumenda.
+        )
+
+    [2] => Array
+        (
+            [name] => dcdf
+            [institution] => dfd
+        )
+
+)
+
+[08-Jan-2026 07:01:20 America/Chicago] Generated submission code: KALROCONF_SUB14
+[08-Jan-2026 07:01:20 America/Chicago] Main submission saved with ID: 14
+[08-Jan-2026 07:01:20 America/Chicago] Added corresponding author: Buster Kuhic
+[08-Jan-2026 07:01:20 America/Chicago] Added additional author 2: dcdf (corresponding: no)
+[08-Jan-2026 07:01:20 America/Chicago] No additional author marked as corresponding, author 1 remains corresponding
+[08-Jan-2026 07:01:20 America/Chicago] Saved author 1: Buster Kuhic from Incidunt quam aspernatur veritatis esse excepturi assumenda. (corresponding: 1)
+[08-Jan-2026 07:01:20 America/Chicago] Saved author 2: dcdf from dfd (corresponding: 0)
+[08-Jan-2026 07:01:20 America/Chicago] Successfully saved 2 authors
+[08-Jan-2026 07:02:29 America/Chicago] === SAVE ABSTRACT STARTED ===
+[08-Jan-2026 07:02:29 America/Chicago] Authors POST data: Array
+(
+    [1] => Array
+        (
+            [name] => Buster Kuhic
+            [institution] => Incidunt quam aspernatur veritatis esse excepturi assumenda.
+        )
+
+    [2] => Array
+        (
+            [name] => dcdf
+            [institution] => dfd
+        )
+
+)
+
+[08-Jan-2026 07:02:29 America/Chicago] Generated submission code: KALROCONF_SUB15
+[08-Jan-2026 07:02:29 America/Chicago] Main submission saved with ID: 15
+[08-Jan-2026 07:02:29 America/Chicago] Added corresponding author: Buster Kuhic
+[08-Jan-2026 07:02:29 America/Chicago] Added additional author 2: dcdf (corresponding: no)
+[08-Jan-2026 07:02:29 America/Chicago] No additional author marked as corresponding, author 1 remains corresponding
+[08-Jan-2026 07:02:29 America/Chicago] Saved author 1: Buster Kuhic from Incidunt quam aspernatur veritatis esse excepturi assumenda. (corresponding: 1)
+[08-Jan-2026 07:02:29 America/Chicago] Saved author 2: dcdf from dfd (corresponding: 0)
+[08-Jan-2026 07:02:29 America/Chicago] Successfully saved 2 authors
+[08-Jan-2026 07:02:30 America/Chicago] Confirmation email sent successfully to: Morrisoh@gmail.com
+[08-Jan-2026 07:02:30 America/Chicago] === SAVE ABSTRACT COMPLETED SUCCESSFULLY ===
+[08-Jan-2026 07:02:30 America/Chicago] Email sent: Yes
+[08-Jan-2026 07:02:30 America/Chicago] Redirecting to success page with code: KALROCONF_SUB15
+[08-Jan-2026 07:15:33 America/Chicago] === SAVE ABSTRACT STARTED ===
+[08-Jan-2026 07:15:33 America/Chicago] Authors POST data: Array
+(
+    [1] => Array
+        (
+            [name] => Priscila Kanza
+            [institution] => KALRO
+            [corresponding] => on
+        )
+
+    [2] => Array
+        (
+            [name] => Morris Gatheru
+            [institution] => KALRO
+        )
+
+)
+
+[08-Jan-2026 07:15:33 America/Chicago] Generated submission code: KALROCONF_SUB16
+[08-Jan-2026 07:15:33 America/Chicago] Main submission saved with ID: 16
+[08-Jan-2026 07:15:33 America/Chicago] Added corresponding author: Priscila Kanza
+[08-Jan-2026 07:15:33 America/Chicago] Added additional author 2: Morris Gatheru (corresponding: no)
+[08-Jan-2026 07:15:33 America/Chicago] No additional author marked as corresponding, author 1 remains corresponding
+[08-Jan-2026 07:15:33 America/Chicago] Saved author 1: Priscila Kanza from KALRO (corresponding: 1)
+[08-Jan-2026 07:15:33 America/Chicago] Saved author 2: Morris Gatheru from KALRO (corresponding: 0)
+[08-Jan-2026 07:15:33 America/Chicago] Successfully saved 2 authors
+[08-Jan-2026 07:15:34 America/Chicago] Confirmation email sent successfully to: pricilakanza@gmail.com
+[08-Jan-2026 07:15:34 America/Chicago] === SAVE ABSTRACT COMPLETED SUCCESSFULLY ===
+[08-Jan-2026 07:15:34 America/Chicago] Email sent: Yes
+[08-Jan-2026 07:15:34 America/Chicago] Redirecting to success page with code: KALROCONF_SUB16
+[08-Jan-2026 07:20:01 America/Chicago] === SAVE ABSTRACT STARTED ===
+[08-Jan-2026 07:20:01 America/Chicago] Authors POST data: Array
+(
+    [1] => Array
+        (
+            [name] => Morris Gatheru
+            [institution] => KALRO
+            [corresponding] => on
+        )
+
+)
+
+[08-Jan-2026 07:20:01 America/Chicago] Generated submission code: KALROCONF_SUB17
+[08-Jan-2026 07:20:01 America/Chicago] Main submission saved with ID: 17
+[08-Jan-2026 07:20:01 America/Chicago] Added corresponding author: Morris Gatheru
+[08-Jan-2026 07:20:01 America/Chicago] No additional author marked as corresponding, author 1 remains corresponding
+[08-Jan-2026 07:20:01 America/Chicago] Saved author 1: Morris Gatheru from KALRO (corresponding: 1)
+[08-Jan-2026 07:20:01 America/Chicago] Successfully saved 1 authors
+[08-Jan-2026 07:20:02 America/Chicago] Confirmation email sent successfully to: Morrisoh@gmail.com
+[08-Jan-2026 07:20:02 America/Chicago] === SAVE ABSTRACT COMPLETED SUCCESSFULLY ===
+[08-Jan-2026 07:20:02 America/Chicago] Email sent: Yes
+[08-Jan-2026 07:20:02 America/Chicago] Redirecting to success page with code: KALROCONF_SUB17
+[16-Jan-2026 13:23:39 America/Chicago] === SAVE ABSTRACT STARTED ===
+[16-Jan-2026 13:23:39 America/Chicago] Authors POST data: Array
+(
+    [1] => Array
+        (
+            [name] => Imani Schmidt
+            [institution] => Ex temporibus quibusdam provident possimus.
+            [corresponding] => on
+        )
+
+    [2] => Array
+        (
+            [name] => vvdfvdf
+            [institution] => vfdvdfvd
+        )
+
+)
+
+[16-Jan-2026 13:23:39 America/Chicago] Generated submission code: KALROCONF_SUB1
+[16-Jan-2026 13:23:39 America/Chicago] Main submission saved with ID: 18
+[16-Jan-2026 13:23:39 America/Chicago] Added corresponding author: Imani Schmidt
+[16-Jan-2026 13:23:39 America/Chicago] Added additional author 2: vvdfvdf (corresponding: no)
+[16-Jan-2026 13:23:39 America/Chicago] No additional author marked as corresponding, author 1 remains corresponding
+[16-Jan-2026 13:23:39 America/Chicago] Saved author 1: Imani Schmidt from Ex temporibus quibusdam provident possimus. (corresponding: 1)
+[16-Jan-2026 13:23:39 America/Chicago] Saved author 2: vvdfvdf from vfdvdfvd (corresponding: 0)
+[16-Jan-2026 13:23:39 America/Chicago] Successfully saved 2 authors
+[16-Jan-2026 13:23:40 America/Chicago] Confirmation email sent successfully to: your.email+fakedata78466@gmail.com
+[16-Jan-2026 13:23:40 America/Chicago] === SAVE ABSTRACT COMPLETED SUCCESSFULLY ===
+[16-Jan-2026 13:23:40 America/Chicago] Email sent: Yes
+[16-Jan-2026 13:23:40 America/Chicago] Redirecting to success page with code: KALROCONF_SUB1
+[16-Jan-2026 13:35:32 America/Chicago] === SAVE ABSTRACT STARTED ===
+[16-Jan-2026 13:35:32 America/Chicago] Authors POST data: Array
+(
+    [1] => Array
+        (
+            [name] => Leif Gibson
+            [institution] => In labore voluptatum fugiat nobis ratione ipsam mollitia rerum.
+            [corresponding] => on
+        )
+
+)
+
+[16-Jan-2026 13:38:40 America/Chicago] === SAVE ABSTRACT STARTED ===
+[16-Jan-2026 13:38:40 America/Chicago] Authors POST data: Array
+(
+    [1] => Array
+        (
+            [name] => Natalia Simonis
+            [institution] => Accusantium consequatur beatae reprehenderit impedit quis iure.
+            [corresponding] => on
+        )
+
+)
+
+[16-Jan-2026 13:39:43 America/Chicago] === SAVE ABSTRACT STARTED ===
+[16-Jan-2026 13:39:43 America/Chicago] Authors POST data: Array
+(
+    [1] => Array
+        (
+            [name] => Kaelyn Fay
+            [institution] => A impedit libero quo optio occaecati distinctio reprehenderit.
+        )
+
+)
+
+[16-Jan-2026 13:39:43 America/Chicago] Generated submission code: KALROCONF_SUB2
+[16-Jan-2026 13:39:43 America/Chicago] Main submission saved with ID: 19
+[16-Jan-2026 13:39:43 America/Chicago] Added corresponding author: Kaelyn Fay
+[16-Jan-2026 13:39:43 America/Chicago] No additional author marked as corresponding, author 1 remains corresponding
+[16-Jan-2026 13:39:43 America/Chicago] Saved author 1: Kaelyn Fay from A impedit libero quo optio occaecati distinctio reprehenderit. (corresponding: 1)
+[16-Jan-2026 13:39:43 America/Chicago] Successfully saved 1 authors
+[16-Jan-2026 13:39:44 America/Chicago] Confirmation email sent successfully to: your.email+fakedata11310@gmail.com
+[16-Jan-2026 13:39:44 America/Chicago] === SAVE ABSTRACT COMPLETED SUCCESSFULLY ===
+[16-Jan-2026 13:39:44 America/Chicago] Email sent: Yes
+[16-Jan-2026 13:39:44 America/Chicago] Redirecting to success page with code: KALROCONF_SUB2
+[21-Jan-2026 07:33:41 America/Chicago] === SAVE ABSTRACT STARTED ===
+[21-Jan-2026 07:33:41 America/Chicago] Authors POST data: Array
+(
+    [1] => Array
+        (
+            [name] => Lacy Gerhold
+            [institution] => Illum odio dignissimos iusto ab rem.
+            [corresponding] => on
+        )
+
+    [2] => Array
+        (
+            [name] => scafcweVG
+            [institution] => BFBSDBSDFDS
+        )
+
+)
+
+[21-Jan-2026 07:33:41 America/Chicago] Generated submission code: KALROCONF_SUB3
+[21-Jan-2026 07:33:41 America/Chicago] Main submission saved with ID: 20
+[21-Jan-2026 07:33:41 America/Chicago] Added corresponding author: Lacy Gerhold
+[21-Jan-2026 07:33:41 America/Chicago] Added additional author 2: scafcweVG (corresponding: no)
+[21-Jan-2026 07:33:41 America/Chicago] No additional author marked as corresponding, author 1 remains corresponding
+[21-Jan-2026 07:33:41 America/Chicago] Saved author 1: Lacy Gerhold from Illum odio dignissimos iusto ab rem. (corresponding: 1)
+[21-Jan-2026 07:33:41 America/Chicago] Saved author 2: scafcweVG from BFBSDBSDFDS (corresponding: 0)
+[21-Jan-2026 07:33:41 America/Chicago] Successfully saved 2 authors
+[21-Jan-2026 07:33:43 America/Chicago] Confirmation email sent successfully to: your.email+fakedata47649@gmail.com
+[21-Jan-2026 07:33:43 America/Chicago] === SAVE ABSTRACT COMPLETED SUCCESSFULLY ===
+[21-Jan-2026 07:33:43 America/Chicago] Email sent: Yes
+[21-Jan-2026 07:33:43 America/Chicago] Redirecting to success page with code: KALROCONF_SUB3
+[22-Jan-2026 07:21:56 America/Chicago] === SAVE ABSTRACT STARTED ===
+[22-Jan-2026 07:21:56 America/Chicago] Authors POST data: Array
+(
+    [1] => Array
+        (
+            [name] => John Doe
+            [institution] => Kenya Agricultural & Livestock Research Organization (KALRO)
+        )
+
+    [2] => Array
+        (
+            [name] => Jane Doe
+            [institution] => Kenya Agricultural & Livestock Research Organization (KALRO)
+            [corresponding] => on
+        )
+
+)
+
+[22-Jan-2026 07:24:16 America/Chicago] === SAVE ABSTRACT STARTED ===
+[22-Jan-2026 07:24:16 America/Chicago] Authors POST data: Array
+(
+    [1] => Array
+        (
+            [name] => John Doe
+            [institution] => Kenya Agricultural & Livestock Research Organization (KALRO)
+            [corresponding] => on
+        )
+
+    [2] => Array
+        (
+            [name] => Jane Doe
+            [institution] => Kenya Agricultural & Livestock Research Organization (KALRO)
+        )
+
+)
+
+[22-Jan-2026 07:24:16 America/Chicago] Generated submission code: KALROCONF_SUB4
+[22-Jan-2026 07:24:16 America/Chicago] Main submission saved with ID: 21
+[22-Jan-2026 07:24:16 America/Chicago] Added corresponding author: John Doe
+[22-Jan-2026 07:24:16 America/Chicago] Added additional author 2: Jane Doe (corresponding: no)
+[22-Jan-2026 07:24:16 America/Chicago] No additional author marked as corresponding, author 1 remains corresponding
+[22-Jan-2026 07:24:16 America/Chicago] Saved author 1: John Doe from Kenya Agricultural & Livestock Research Organization (KALRO) (corresponding: 1)
+[22-Jan-2026 07:24:16 America/Chicago] Saved author 2: Jane Doe from Kenya Agricultural & Livestock Research Organization (KALRO) (corresponding: 0)
+[22-Jan-2026 07:24:16 America/Chicago] Successfully saved 2 authors
+[22-Jan-2026 07:24:17 America/Chicago] Confirmation email sent successfully to: john.doe@gmail.com
+[22-Jan-2026 07:24:17 America/Chicago] === SAVE ABSTRACT COMPLETED SUCCESSFULLY ===
+[22-Jan-2026 07:24:17 America/Chicago] Email sent: Yes
+[22-Jan-2026 07:24:17 America/Chicago] Redirecting to success page with code: KALROCONF_SUB4
+[22-Jan-2026 09:05:25 America/Chicago] === SAVE ABSTRACT STARTED ===
+[22-Jan-2026 09:05:25 America/Chicago] Authors POST data: Array
+(
+    [1] => Array
+        (
+            [name] => Morris Gatheru
+            [institution] => KALRO
+            [corresponding] => on
+        )
+
+    [2] => Array
+        (
+            [name] => Dennis
+            [institution] => Nyamawamu
+        )
+
+)
+
+[22-Jan-2026 09:05:25 America/Chicago] Generated submission code: KALROCONF_SUB5
+[22-Jan-2026 09:05:25 America/Chicago] Main submission saved with ID: 22
+[22-Jan-2026 09:05:25 America/Chicago] Added corresponding author: Morris Gatheru
+[22-Jan-2026 09:05:25 America/Chicago] Added additional author 2: Dennis (corresponding: no)
+[22-Jan-2026 09:05:25 America/Chicago] No additional author marked as corresponding, author 1 remains corresponding
+[22-Jan-2026 09:05:25 America/Chicago] Saved author 1: Morris Gatheru from KALRO (corresponding: 1)
+[22-Jan-2026 09:05:25 America/Chicago] Saved author 2: Dennis from Nyamawamu (corresponding: 0)
+[22-Jan-2026 09:05:25 America/Chicago] Successfully saved 2 authors
+[22-Jan-2026 09:05:26 America/Chicago] Confirmation email sent successfully to: morrisoh@gmail.com
+[22-Jan-2026 09:05:26 America/Chicago] === SAVE ABSTRACT COMPLETED SUCCESSFULLY ===
+[22-Jan-2026 09:05:26 America/Chicago] Email sent: Yes
+[22-Jan-2026 09:05:26 America/Chicago] Redirecting to success page with code: KALROCONF_SUB5
